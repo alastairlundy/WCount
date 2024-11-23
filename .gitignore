@@ -397,3 +397,4 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 /WCount/.idea
+/WCount.Logic/.idea
