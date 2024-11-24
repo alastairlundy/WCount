@@ -27,6 +27,7 @@ using WCountLib.Abstractions;
 
 using AlastairLundy.Extensions.System.Strings.SpecialCharacters;
 using System.Linq;
+
 namespace WCountLib
 {
     public class WordCounter : IWordCounter
