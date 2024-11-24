@@ -39,6 +39,9 @@
         </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="AlastairLundy.Extensions.System" Version="[5.4.0-preview.2, 6.0.0)" />
+    </ItemGroup>
 
     <ItemGroup>
       <EmbeddedResource Update="localizations\Resources.resx">

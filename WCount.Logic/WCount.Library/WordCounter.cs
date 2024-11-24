@@ -20,10 +20,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-using WCount.Library.Interfaces;
-using WCount.Library.Localizations;
+using WCountLib.Localizations;
 
-namespace WCount.Library
+using WCountLib.Abstractions;
+
+
+using AlastairLundy.Extensions.System.Strings.SpecialCharacters;
+using System.Linq;
+namespace WCountLib
 {
     public class WordCounter : IWordCounter
     {
@@ -35,17 +39,17 @@ namespace WCount.Library
         public async Task<ulong> CountWordsAsync(string s)
         {
             ulong totalCount = 0;
-        
+
             if (s.Contains(Environment.NewLine))
             {
                 string[] splitStrings = s.Split(Environment.NewLine);
                 int taskCount = splitStrings.Length;
-            
+
                 Task[] tasks = new Task[taskCount];
-            
+
                 for (int index = 0; index < taskCount; index++)
                 {
-                    tasks[index] = new Task(()=> totalCount += CountWords(splitStrings[index]));
+                    tasks[index] = new Task(() => totalCount += CountWords(splitStrings[index]));
                     tasks[index].Start();
                 }
 
@@ -53,7 +57,7 @@ namespace WCount.Library
             }
             else
             {
-                Task task = new Task(()=> totalCount = CountWords(s));
+                Task task = new Task(() => totalCount = CountWords(s));
                 task.Start();
 
                 await task;
@@ -70,28 +74,24 @@ namespace WCount.Library
         public ulong CountWords(string s)
         {
             ulong totalCount = 0;
-        
+
             string[] words = s.Split(' ');
 
-            if (words.Length > 0)
+            if(words.Length == 0)
             {
-                foreach (string word in words)
+                words = new string[1];
+                words[0] = s;
+            }
+
+            foreach (string word in words)
+            {
+                if (string.IsNullOrWhiteSpace(word) == false)
                 {
-                    if (string.IsNullOrWhiteSpace(word) == false)
+                    if (word.Length > 1 && word.ToCharArray().All(c => c.IsSpecialCharacter() == false) ||
+                        (word.Length == 1 && word[0].IsSpecialCharacter() == false))
                     {
                         totalCount += 1;
                     }
-                }
-            }
-            else
-            {
-                if (s.Length > 0 && string.IsNullOrWhiteSpace(s) == false)
-                {
-                    totalCount = 1;
-                }
-                else
-                {
-                    totalCount = 0;
                 }
             }
 
@@ -129,7 +129,7 @@ namespace WCount.Library
             if (File.Exists(filePath))
             {
                 ulong wordCount = 0;
-            
+
                 string[] lines = File.ReadAllLines(filePath);
 
                 foreach (string line in lines)
@@ -153,7 +153,7 @@ namespace WCount.Library
         public async Task<ulong> CountWordsAsync(IEnumerable<string> enumerable)
         {
             ulong totalCount = 0;
-        
+
             foreach (string s in enumerable)
             {
                 totalCount += await CountWordsAsync(s);
@@ -171,7 +171,7 @@ namespace WCount.Library
         {
             Task<ulong> task = CountWordsAsync(enumerable);
             task.RunSynchronously();
-        
+
             Task.WaitAll(task);
             return task.Result;
         }
