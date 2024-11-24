@@ -19,12 +19,12 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WCount.Library.Interfaces
+namespace WCountLib.Abstractions
 {
     public interface IByteCounter
     {
         public int CountBytes(string s, Encoding encoding);
-        
+
         public ulong CountBytesInFile(string filePath, Encoding encoding);
         public Task<ulong> CountBytesInFileAsync(string filePath, Encoding encoding);
 

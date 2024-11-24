@@ -6,7 +6,8 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageLicenseFile>COPYING.LESSER.txt</PackageLicenseFile>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <Title>WCount.Library</Title>
+		<AssemblyName>WCountLib</AssemblyName>
+        <Title>WCountLib</Title>
         <Authors>AlastairLundy</Authors>
         <Copyright>Copyright (c) Alastair Lundy 2024</Copyright>
         <RepositoryUrl>https://github.com/alastairlundy/BasisBox</RepositoryUrl>
@@ -37,6 +38,7 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
+
 
     <ItemGroup>
       <EmbeddedResource Update="localizations\Resources.resx">

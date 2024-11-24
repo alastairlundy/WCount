@@ -22,10 +22,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using WCount.Library.Interfaces;
-using WCount.Library.Localizations;
+using WCountLib.Localizations;
 
-namespace WCount.Library
+using WCountLib.Abstractions;
+
+namespace WCountLib
 {
     public class CharCounter : ICharCounter
     {
@@ -48,16 +49,16 @@ namespace WCount.Library
         public int CountCharacters(string s, Encoding textEncodingType)
         {
             int totalChars;
-            
+
             byte[] bytes = textEncodingType.GetBytes(s.ToCharArray());
-            
+
             if (Equals(textEncodingType, Encoding.Unicode))
             {
                 totalChars = Encoding.Unicode.GetCharCount(bytes);
             }
             else if (Equals(textEncodingType, Encoding.UTF32))
             {
-                totalChars =  Encoding.UTF32.GetCharCount(bytes);
+                totalChars = Encoding.UTF32.GetCharCount(bytes);
             }
             else if (Equals(textEncodingType, Encoding.UTF8))
             {
@@ -82,7 +83,7 @@ namespace WCount.Library
                 totalChars = Encoding.Default.GetCharCount(bytes);
             }
 
-            return totalChars;        
+            return totalChars;
         }
 
         /// <summary>
@@ -96,7 +97,7 @@ namespace WCount.Library
             if (File.Exists(filePath))
             {
                 string[] lines = File.ReadAllLines(filePath);
-            
+
                 return CountCharacters(lines);
             }
             else
@@ -115,7 +116,7 @@ namespace WCount.Library
             if (File.Exists(filePath))
             {
                 string[] lines = await File.ReadAllLinesAsync(filePath);
-            
+
                 return await CountCharactersAsync(lines);
             }
             else
@@ -158,7 +159,7 @@ namespace WCount.Library
                 tasks[taskNumber] = new Task<ulong>(() => totalChars += CountCharacters(array[taskNumber]));
                 tasks[taskNumber].Start();
             }
-            
+
             await Task.WhenAll(tasks);
 
             return totalChars;

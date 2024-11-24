@@ -18,7 +18,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace WCount.Library.Interfaces
+namespace WCountLib.Abstractions
 {
     public interface IWordCounter
     {

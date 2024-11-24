@@ -20,10 +20,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-using WCount.Library.Interfaces;
-using WCount.Library.Localizations;
+using WCountLib.Localizations;
 
-namespace WCount.Library
+using WCountLib.Abstractions;
+
+namespace WCountLib
 {
     public class LineCounter : ILineCounter
     {
@@ -57,7 +58,7 @@ namespace WCount.Library
             if (File.Exists(filePath))
             {
                 string[] contents = await File.ReadAllLinesAsync(filePath);
-            
+
                 return CountLines(contents);
             }
             else
@@ -74,7 +75,7 @@ namespace WCount.Library
         public int CountLines(string s)
         {
             int totalCount = 0;
-        
+
             foreach (char c in s)
             {
                 if (c.Equals('\n') || c.Equals(char.Parse("\r\n")) || c.ToString().Equals(Environment.NewLine))
@@ -94,7 +95,7 @@ namespace WCount.Library
         public int CountLines(IEnumerable<string> enumerable)
         {
             int totalCount = 0;
-        
+
             foreach (string s in enumerable)
             {
                 totalCount += CountLines(s);

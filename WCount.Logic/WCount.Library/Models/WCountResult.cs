@@ -17,7 +17,7 @@
 
 using System;
 
-namespace WCount.Library.Models
+namespace WCountLib.Models
 {
     public class WCountResult
     {

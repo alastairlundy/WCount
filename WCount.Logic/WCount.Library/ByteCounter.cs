@@ -22,10 +22,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using WCount.Library.Interfaces;
-using WCount.Library.Localizations;
+using WCountLib.Localizations;
 
-namespace WCount.Library
+using WCountLib.Abstractions;
+
+namespace WCountLib
 {
     public class ByteCounter : IByteCounter
     {
@@ -38,14 +39,14 @@ namespace WCount.Library
         public int CountBytes(string s, Encoding textEncodingType)
         {
             int byteCount;
-            
+
             if (Equals(textEncodingType, Encoding.Unicode))
             {
                 byteCount = Encoding.Unicode.GetByteCount(s);
             }
             else if (Equals(textEncodingType, Encoding.UTF32))
             {
-                byteCount =  Encoding.UTF32.GetByteCount(s);
+                byteCount = Encoding.UTF32.GetByteCount(s);
             }
             else if (Equals(textEncodingType, Encoding.UTF8))
             {
@@ -104,7 +105,7 @@ namespace WCount.Library
             if (File.Exists(filePath))
             {
                 string[] fileContents = await File.ReadAllLinesAsync(filePath);
-            
+
                 return await CountBytesAsync(fileContents, textEncodingType);
             }
             else
@@ -141,7 +142,7 @@ namespace WCount.Library
         {
             string[] stringArray = enumerable.ToArray();
             ulong totalBytes = 0;
-            
+
             Task[] tasks = new Task[stringArray.Length];
 
             for (int index = 0; index < stringArray.Length; index++)
