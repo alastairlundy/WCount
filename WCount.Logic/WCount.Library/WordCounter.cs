@@ -24,14 +24,22 @@ using WCountLib.Localizations;
 
 using WCountLib.Abstractions;
 
-
-using AlastairLundy.Extensions.System.Strings.SpecialCharacters;
-using System.Linq;
-
 namespace WCountLib
 {
     public class WordCounter : IWordCounter
     {
+        private readonly IWordDetector _wordDetector;
+
+        public WordCounter()
+        {
+            _wordDetector = new WordDetector();
+        }
+
+        public WordCounter(IWordDetector wordDetector)
+        {
+            _wordDetector = wordDetector;
+        }
+        
         /// <summary>
         /// 
         /// </summary>
@@ -48,9 +56,13 @@ namespace WCountLib
 
                 Task[] tasks = new Task[taskCount];
 
+                
                 for (int index = 0; index < taskCount; index++)
                 {
-                    tasks[index] = new Task(() => totalCount += CountWords(splitStrings[index]));
+                    // Keep Rider happy
+                    string str = splitStrings[index];
+                    
+                    tasks[index] = new Task(() => totalCount += CountWords(str));
                     tasks[index].Start();
                 }
 
@@ -86,13 +98,9 @@ namespace WCountLib
 
             foreach (string word in words)
             {
-                if (string.IsNullOrWhiteSpace(word) == false)
+                if (_wordDetector.IsStringAWord(word))
                 {
-                    if (word.Length > 1 && word.ToCharArray().All(c => c.IsSpecialCharacter() == false) ||
-                        (word.Length == 1 && word[0].IsSpecialCharacter() == false))
-                    {
-                        totalCount += 1;
-                    }
+                    totalCount += 1;
                 }
             }
 
