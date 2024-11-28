@@ -1,5 +1,5 @@
 ﻿/*
-    BasisBox - WCount Library
+    WCountLib
     Copyright (C) 2024 Alastair Lundy
 
     This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 using WCountLib.Localizations;
 
 using WCountLib.Abstractions;
+// ReSharper disable RedundantIfElseBlock
 
 namespace WCountLib
 {
