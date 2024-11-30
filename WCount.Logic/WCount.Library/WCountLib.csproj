@@ -24,9 +24,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Content Include="COPYING.LESSER.txt">
-            <Link>COPYING.LESSER.txt</Link>
-            <PackagePath>COPYING.LESSER.txt</PackagePath>
+        <Content Include="LICENSE.txt">
+            <Link>LICENSE.txt</Link>
+            <PackagePath>LICENSE.txt</PackagePath>
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
     </ItemGroup>

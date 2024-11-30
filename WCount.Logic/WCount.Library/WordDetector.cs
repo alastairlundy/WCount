@@ -2,17 +2,9 @@
     WCountLib
     Copyright (C) 2024 Alastair Lundy
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Lesser General Public License as published by
-    the Free Software Foundation, version 3 of the License.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Lesser General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    This Source Code Form is subject to the terms of the Mozilla Public
+    License, v. 2.0. If a copy of the MPL was not distributed with this
+    file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
 using System.Collections.Generic;
@@ -94,18 +86,19 @@ namespace WCountLib
         {
             bool output = false;
             
+            if (string.IsNullOrWhiteSpace(s) == false)
+            {
+                output = false;    
+            }
+            
             if (s.Split(' ').Length > 0 && excludeStringsWithSpaces == true)
             {
                 return false;
             }
             
-            if (string.IsNullOrWhiteSpace(s) == false)
+            if (s.ToCharArray().All(c => c.ContainsAnyOf(delimitersToExclude) == false))
             {
-                if (s.ToCharArray().All(c => c.ContainsAnyOf(delimitersToExclude) == false)
-                    || (s.Length == 1 && s[0].IsSpecialCharacter() == false))
-                {
-                    output = true;
-                }
+                output = IsStringAWord(s, excludeStringsWithSpaces);
             }
 
             return output;
