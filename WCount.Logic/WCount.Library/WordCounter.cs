@@ -109,7 +109,7 @@ namespace WCountLib
         {
             if (File.Exists(filePath))
             {
-                string text = await File.ReadAllTextAsync(filePath);
+                string[] text = await File.ReadAllLinesAsync(filePath);
 
                 return await CountWordsAsync(text);
             }
