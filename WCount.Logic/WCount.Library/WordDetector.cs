@@ -28,20 +28,9 @@ namespace WCountLib
         /// Results may not be 100% accurate.
         /// </summary>
         /// <param name="s">The string to be searched.</param>
-        /// <returns>true if the string is not a special character and doesn't contain a space; false otherwise.</returns>
-        public bool IsStringAWord(string s)
-        {
-            return IsStringAWord(s, true);
-        }
-
-        /// <summary>
-        /// Checks to see if a string looks like a word.
-        /// Results may not be 100% accurate.
-        /// </summary>
-        /// <param name="s">The string to be searched.</param>
-        /// <param name="excludeStringsWithSpaces">Whether to exclude strings that contain 1 or more spaces within them.</param>
+        /// <param name="excludeStringsWithSpaces">Whether to exclude strings that contain 1 or more spaces within them. Set to true by default.</param>
         /// <returns>true if the string is not a special character and doesn't contain a space character if spaces are excluded; false otherwise.</returns>
-        public bool IsStringAWord(string s, bool excludeStringsWithSpaces)
+        public bool IsStringAWord(string s, bool excludeStringsWithSpaces = true)
         {
             bool output = false;
 
@@ -67,22 +56,10 @@ namespace WCountLib
         /// Results may not be 100% accurate.
         /// </summary>
         /// <param name="s">The string to be searched.</param>
-        /// <param name="delimitersToExclude">The delimiters to be used to exclude non-words.</param>
-        /// <returns>true if the string does not contain any delimiters to exclude or is not a special character and doesn't contain a space character; false otherwise.</returns>
-        public bool IsStringAWord(string s, IEnumerable<char> delimitersToExclude)
-        {
-            return IsStringAWord(s, delimitersToExclude, true);
-        }
-
-        /// <summary>
-        /// Checks to see if a string looks like a word and doesn't contain the specified delimiters.
-        /// Results may not be 100% accurate.
-        /// </summary>
-        /// <param name="s">The string to be searched.</param>
         /// <param name="delimitersToExclude"></param>
-        /// <param name="excludeStringsWithSpaces"></param>
+        /// <param name="excludeStringsWithSpaces">Whether to exclude strings that contain 1 or more spaces within them. Set to true by default.</param>
         /// <returns>true if the string does not contain any delimiters to exclude or is not a special character and doesn't contain a space character if space characters are excluded; false otherwise.</returns>
-        public bool IsStringAWord(string s, IEnumerable<char> delimitersToExclude, bool excludeStringsWithSpaces)
+        public bool IsStringAWord(string s, IEnumerable<char> delimitersToExclude, bool excludeStringsWithSpaces = true)
         {
             bool output = false;
             

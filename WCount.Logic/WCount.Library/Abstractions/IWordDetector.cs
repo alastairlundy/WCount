@@ -15,11 +15,8 @@ namespace WCountLib.Abstractions
 {
     public interface IWordDetector
     {
-        bool IsStringAWord(string s);
-        bool IsStringAWord(string s, bool excludeStringsWithSpaces);
-        
-        bool IsStringAWord(string s, IEnumerable<char> delimitersToExclude);
-        bool IsStringAWord(string s, IEnumerable<char> delimitersToExclude, bool excludeStringsWithSpaces);
+        bool IsStringAWord(string s, bool excludeStringsWithSpaces = true);
+        bool IsStringAWord(string s, IEnumerable<char> delimitersToExclude, bool excludeStringsWithSpaces = true);
 
     }
 }
