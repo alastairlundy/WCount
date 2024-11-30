@@ -18,8 +18,8 @@ namespace WCountLib.Abstractions
         bool IsStringAWord(string s);
         bool IsStringAWord(string s, bool excludeStringsWithSpaces);
         
-        bool IsStringAWord(string s, IEnumerable<char> delimiters);
-        bool IsStringAWord(string s, IEnumerable<char> delimiters, bool excludeStringsWithSpaces);
+        bool IsStringAWord(string s, IEnumerable<char> delimitersToExclude);
+        bool IsStringAWord(string s, IEnumerable<char> delimitersToExclude, bool excludeStringsWithSpaces);
 
     }
 }
