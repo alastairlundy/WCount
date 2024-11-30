@@ -4,21 +4,25 @@
         <ImplicitUsings>disable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageLicenseFile>COPYING.LESSER.txt</PackageLicenseFile>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
         <PackageReadmeFile>README.md</PackageReadmeFile>
 		<AssemblyName>WCountLib</AssemblyName>
         <Title>WCountLib</Title>
         <Authors>AlastairLundy</Authors>
+        <Description>Count the number of lines, words, characters, and/or bytes in specified files, strings, or IEnumerables of strings.</Description>
         <Copyright>Copyright (c) Alastair Lundy 2024</Copyright>
         <RepositoryUrl>https://github.com/alastairlundy/BasisBox</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <PackageReleaseNotes>### Changes since 2.0.0 
 * Added new async methods
 * Improved detection of ByteCounter and CharCounter
 * Added .NET Standard 2.1 TFM and support
 * Removed .NET 6 explicit TFM</PackageReleaseNotes>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-        <Description>Count the number of lines, words, characters, and/or bytes in specified files, strings, or IEnumerables of strings.</Description>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <Version>2.1.0</Version>
         <TargetFrameworks>net8.0;netstandard2.1</TargetFrameworks>
     </PropertyGroup>
@@ -40,8 +44,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="AlastairLundy.Extensions.System" Version="[5.4.0-preview.2, 6.0.0)" />
+      <PackageReference Include="AlastairLundy.Extensions.System" Version="[5.4.0, 6.0.0)" />
     </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
+    </ItemGroup>
+
 
     <ItemGroup>
       <EmbeddedResource Update="localizations\Resources.resx">
