@@ -82,12 +82,6 @@ namespace WCountLib
 
             string[] words = s.Split(' ');
 
-            if(words.Length == 0)
-            {
-                words = new string[1];
-                words[0] = s;
-            }
-
             foreach (string word in words)
             {
                 if (_wordDetector.IsStringAWord(word))
