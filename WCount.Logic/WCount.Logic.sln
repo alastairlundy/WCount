@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35514.174 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCountLib", "WCount.Library\WCountLib.csproj", "{55E19C3A-3F48-48A7-A5C0-339006042D9E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCountLib.ML", "WCountLib.ML\WCountLib.ML.csproj", "{18F76BD3-9617-4984-B527-56CB2911E043}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCountLib", "WCountLib\WCountLib.csproj", "{F9960782-FB70-4251-A241-BB4795C1A4BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{55E19C3A-3F48-48A7-A5C0-339006042D9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{55E19C3A-3F48-48A7-A5C0-339006042D9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{55E19C3A-3F48-48A7-A5C0-339006042D9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{55E19C3A-3F48-48A7-A5C0-339006042D9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18F76BD3-9617-4984-B527-56CB2911E043}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18F76BD3-9617-4984-B527-56CB2911E043}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18F76BD3-9617-4984-B527-56CB2911E043}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18F76BD3-9617-4984-B527-56CB2911E043}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9960782-FB70-4251-A241-BB4795C1A4BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9960782-FB70-4251-A241-BB4795C1A4BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9960782-FB70-4251-A241-BB4795C1A4BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9960782-FB70-4251-A241-BB4795C1A4BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
