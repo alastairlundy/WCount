@@ -398,3 +398,4 @@ FodyWeavers.xsd
 *.sln.iml
 /WCount/.idea
 /WCount.Logic/.idea
+/WCountWeb/.idea
