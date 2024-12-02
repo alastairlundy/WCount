@@ -41,11 +41,16 @@ namespace WCountLib
             
             if (string.IsNullOrWhiteSpace(s) == false)
             {
-                if (s.Length > 1 && s.ToCharArray().All(c => c.IsSpecialCharacter() == false) ||
+                if (s.Length > 1 ||
                     (s.Length == 1 && s[0].IsSpecialCharacter() == false))
                 {
                     output = true;
                 }
+            }
+
+            if(s.ToCharArray().All(c => c.IsSpecialCharacter() == true))
+            {
+                output = false;
             }
 
             return output;
@@ -68,10 +73,11 @@ namespace WCountLib
                 output = false;    
             }
             
-            if (s.Split(' ').Length > 0 && excludeStringsWithSpaces == true)
+            if (s.Split(' ').Length > 1 && excludeStringsWithSpaces == true)
             {
                 return false;
             }
+            
             
             if (s.ToCharArray().All(c => c.ContainsAnyOf(delimitersToExclude) == false))
             {
