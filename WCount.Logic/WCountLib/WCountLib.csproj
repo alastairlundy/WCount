@@ -14,19 +14,13 @@
         <RepositoryUrl>https://github.com/alastairlundy/BasisBox</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <PackageReleaseNotes>### Changes since WCount 2.1.0
-* Initial release under new WCountLib namespace
-* Added Word Detector class and interface
-* Updated WordCounter to use WordDetector with option to use IWordDetector Interface
-* Added new async methods
-* Improved detection of ByteCounter and CharCounter
-* Added .NET Standard 2.1 TFM and support
-* Removed .NET 6 explicit TFM</PackageReleaseNotes>
+        <PackageReleaseNotes>### Changes since 2.2.0
+		</PackageReleaseNotes>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <Version>2.2.0</Version>
+        <Version>2.2.1</Version>
         <TargetFrameworks>net8.0;netstandard2.1</TargetFrameworks>
     </PropertyGroup>
 
