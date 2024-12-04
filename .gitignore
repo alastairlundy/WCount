@@ -400,3 +400,4 @@ FodyWeavers.xsd
 /WCount.Logic/.idea
 /WCountWeb/.idea
 WCountWeb/WCountAPI/appsettings.Development.json
+/.idea
