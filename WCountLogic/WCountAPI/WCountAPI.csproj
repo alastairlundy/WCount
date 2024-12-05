@@ -14,12 +14,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\WCount.Logic\WCountLib\WCountLib.csproj" />
+    <Folder Include="Models\" />
+    <Folder Include="Uploads\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Uploads\" />
+    <ProjectReference Include="..\WCountLib\WCountLib.csproj" />
   </ItemGroup>
 
 </Project>

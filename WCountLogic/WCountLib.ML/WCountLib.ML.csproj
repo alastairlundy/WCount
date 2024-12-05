@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AlastairLundy.Extensions.System" Version="[5.4.0, 6.0.0)"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\WCountLib\WCountLib.csproj" />
+    </ItemGroup>
+    
+</Project>
