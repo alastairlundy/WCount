@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using WCountAPI.Logic;
 
-using WCountLib.Abstractions;
+using WCountLib.Abstractions.Counters;
 
 namespace WCountAPI.Controllers
 {

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-using WCountLib.Abstractions;
+using WCountLib.Abstractions.Counters;
 
 namespace WCountAPI.Controllers
 {
