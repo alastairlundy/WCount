@@ -11,14 +11,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WCountLib.Abstractions
+namespace WCountLib.Abstractions.Counters
 {
     public interface ICharCounter
     {
         public ulong CountCharacters(string s);
         public int CountCharacters(string s, Encoding textEncodingType);
-        public ulong CountCharactersInFile(string filePath);
-        public Task<ulong> CountCharactersInFileAsync(string filePath);
+        
         public ulong CountCharacters(IEnumerable<string> enumerable);
         public Task<ulong> CountCharactersAsync(IEnumerable<string> enumerable);
 

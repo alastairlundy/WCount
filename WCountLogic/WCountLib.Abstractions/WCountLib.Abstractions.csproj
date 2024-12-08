@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <TargetFrameworks>net8.0;netstandard2.1</TargetFrameworks>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Title>WCountLib.Abstractions</Title>
+        <Authors>AlastairLundy</Authors>
+        <Copyright>Copyright (c) Alastair Lundy 2024</Copyright>
+        <RepositoryUrl>https://github.com/alastairlundy/WCount</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageReleaseNotes>Initial release as separate library</PackageReleaseNotes>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <Description>Abstractions to enable class implementations that allow for counting the number of lines, words, characters, and/or bytes in specified files, strings, or IEnumerables of strings.</Description>
+        <Version>2.3.0</Version>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\README.md">
+                  <Link>README.md</Link>
+                  <PackagePath>README.md</PackagePath>
+                  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+    <ItemGroup>
+      <Content Include="..\WCountLib\LICENSE.txt">
+          <Link>LICENSE.txt</Link>
+          <PackagePath>LICENSE.txt</PackagePath>
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+</Project>

@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCountLib", "WCountLib\WCou
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCountLib.ML", "WCountLib.ML\WCountLib.ML.csproj", "{7E4DEE9E-C5EE-4D77-B3A6-18ACED558762}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCountLib.Abstractions", "WCountLib.Abstractions\WCountLib.Abstractions.csproj", "{52CF3158-8AC1-4701-8AA7-6DE9D9309AE2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{7E4DEE9E-C5EE-4D77-B3A6-18ACED558762}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E4DEE9E-C5EE-4D77-B3A6-18ACED558762}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E4DEE9E-C5EE-4D77-B3A6-18ACED558762}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52CF3158-8AC1-4701-8AA7-6DE9D9309AE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52CF3158-8AC1-4701-8AA7-6DE9D9309AE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52CF3158-8AC1-4701-8AA7-6DE9D9309AE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52CF3158-8AC1-4701-8AA7-6DE9D9309AE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

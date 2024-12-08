@@ -7,19 +7,13 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace WCountLib.Abstractions
+namespace WCountLib.Abstractions.Counters.IO
 {
-    public interface ILineCounter
+    public interface IFileLineCounter
     {
         public int CountLinesInFile(string filePath);
         public Task<int> CountLinesInFileAsync(string filePath);
-
-        public int CountLines(string s);
-
-        public int CountLines(IEnumerable<string> enumerable);
-
     }
 }
