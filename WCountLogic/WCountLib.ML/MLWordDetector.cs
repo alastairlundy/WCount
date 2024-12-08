@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using AlastairLundy.Extensions.System.Strings.Contains;
 
-using WCountLib.Abstractions;
+using WCountLib.Abstractions.Detectors;
+
 // ReSharper disable RedundantBoolCompare
 
 namespace WCountLib.ML;
@@ -12,7 +14,7 @@ public class MLWordDetector : IWordDetector
     
     public bool IsStringAWord(string s, bool excludeStringsWithSpaces = true)
     {
-        return
+        throw new NotImplementedException();
     }
 
     /// <summary>

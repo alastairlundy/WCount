@@ -8,10 +8,7 @@
 
     <ItemGroup>
         <PackageReference Include="AlastairLundy.Extensions.System" Version="[5.4.0, 6.0.0)"/>
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\WCountLib\WCountLib.csproj" />
+        <PackageReference Include="WCountLib.Abstractions" Version="[2.3.0, 3.0.0)"/>
     </ItemGroup>
     
 </Project>
