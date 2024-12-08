@@ -10,13 +10,14 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using AlastairLundy.Extensions.System.Generics;
+using AlastairLundy.Extensions.System.Strings.Contains;
 using AlastairLundy.Extensions.System.Strings.SpecialCharacters;
 
-using WCountLib.Abstractions;
+using WCountLib.Abstractions.Detectors;
+
 // ReSharper disable RedundantBoolCompare
 
-namespace WCountLib
+namespace WCountLib.Detectors
 {
     /// <summary>
     /// A class to detect if strings that looks like words are words.
@@ -34,20 +35,18 @@ namespace WCountLib
         {
             bool output = false;
 
-            if (s.Split(' ').Length > 0 && excludeStringsWithSpaces == true)
+            if (string.IsNullOrWhiteSpace(s) == true || 
+                s.Split(' ').Length > 0 && excludeStringsWithSpaces == true)
             {
                 return false;
             }
             
-            if (string.IsNullOrWhiteSpace(s) == false)
+            if (s.Length > 1 ||
+                (s.Length == 1 && s[0].IsSpecialCharacter() == false))
             {
-                if (s.Length > 1 ||
-                    (s.Length == 1 && s[0].IsSpecialCharacter() == false))
-                {
-                    output = true;
-                }
+                output = true;
             }
-
+                
             if(s.ToCharArray().All(c => c.IsSpecialCharacter() == true))
             {
                 output = false;
@@ -61,25 +60,24 @@ namespace WCountLib
         /// Results may not be 100% accurate.
         /// </summary>
         /// <param name="s">The string to be searched.</param>
-        /// <param name="delimitersToExclude"></param>
+        /// <param name="delimitersToExclude">Deli</param>
         /// <param name="excludeStringsWithSpaces">Whether to exclude strings that contain 1 or more spaces within them. Set to true by default.</param>
         /// <returns>true if the string does not contain any delimiters to exclude or is not a special character and doesn't contain a space character if space characters are excluded; false otherwise.</returns>
         public bool IsStringAWord(string s, IEnumerable<char> delimitersToExclude, bool excludeStringsWithSpaces = true)
         {
             bool output = false;
             
-            if (string.IsNullOrWhiteSpace(s) == false)
+            if (string.IsNullOrWhiteSpace(s) == false ||
+                s.Split(' ').Length > 1 && excludeStringsWithSpaces == true)
             {
-                output = false;    
+                return false;    
             }
-            
-            if (s.Split(' ').Length > 1 && excludeStringsWithSpaces == true)
+
+            if (s.ContainsAnyOf(delimitersToExclude) == true)
             {
-                return false;
+                output = false;
             }
-            
-            
-            if (s.ToCharArray().All(c => c.ContainsAnyOf(delimitersToExclude) == false))
+            else
             {
                 output = IsStringAWord(s, excludeStringsWithSpaces);
             }

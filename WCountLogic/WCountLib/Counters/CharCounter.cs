@@ -14,12 +14,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using WCountLib.Abstractions.Counters;
 using WCountLib.Localizations;
 
-using WCountLib.Abstractions;
 // ReSharper disable RedundantIfElseBlock
 
-namespace WCountLib
+namespace WCountLib.Counters
 {
     public class CharCounter : ICharCounter
     {
@@ -77,45 +77,6 @@ namespace WCountLib
             }
 
             return totalChars;
-        }
-
-        /// <summary>
-        /// Gets the number of characters in a file.
-        /// </summary>
-        /// <param name="filePath">The file path of the file to be searched.</param>
-        /// <returns>the number of characters in the file specified.</returns>
-        /// <exception cref="FileNotFoundException">Thrown if the file specified could not be found.</exception>
-        public ulong CountCharactersInFile(string filePath)
-        {
-            if (File.Exists(filePath))
-            {
-                string[] lines = File.ReadAllLines(filePath);
-
-                return CountCharacters(lines);
-            }
-            else
-            {
-                throw new FileNotFoundException(Resources.Exceptions_FileNotFound_Message, filePath);
-            }
-        }
-
-        /// <summary>
-        /// Gets the number of characters in a file asynchronously.
-        /// </summary>
-        /// <param name="filePath">The file path of the file to be searched.</param>
-        /// <returns>the number of characters in the file specified.</returns>
-        public async Task<ulong> CountCharactersInFileAsync(string filePath)
-        {
-            if (File.Exists(filePath))
-            {
-                string[] lines = await File.ReadAllLinesAsync(filePath);
-
-                return await CountCharactersAsync(lines);
-            }
-            else
-            {
-                throw new FileNotFoundException(Resources.Exceptions_FileNotFound_Message, filePath);
-            }
         }
 
         /// <summary>

@@ -9,14 +9,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 
+using WCountLib.Abstractions.Counters;
+using WCountLib.Abstractions.Detectors;
+
+using WCountLib.Detectors;
 using WCountLib.Localizations;
 
-using WCountLib.Abstractions;
-
-namespace WCountLib
+namespace WCountLib.Counters
 {
     public class WordCounter : IWordCounter
     {
@@ -91,53 +92,6 @@ namespace WCountLib
             }
 
             return totalCount;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="filePath"></param>
-        /// <returns></returns>
-        /// <exception cref="FileNotFoundException"></exception>
-        public async Task<ulong> CountWordsInFileAsync(string filePath)
-        {
-            if (File.Exists(filePath))
-            {
-                string[] text = await File.ReadAllLinesAsync(filePath);
-
-                return await CountWordsAsync(text);
-            }
-            else
-            {
-                throw new FileNotFoundException(Resources.Exceptions_FileNotFound_Message, filePath);
-            }
-        }
-
-        /// <summary>
-        /// Gets the number of words in a file.
-        /// </summary>
-        /// <param name="filePath">The file path of the file to be searched.</param>
-        /// <returns>The number of words in the file.</returns>
-        /// <exception cref="FileNotFoundException">Thrown if the file could not be found.</exception>
-        public ulong CountWordsInFile(string filePath)
-        {
-            if (File.Exists(filePath))
-            {
-                ulong wordCount = 0;
-
-                string[] lines = File.ReadAllLines(filePath);
-
-                foreach (string line in lines)
-                {
-                    wordCount += CountWords(line);
-                }
-
-                return wordCount;
-            }
-            else
-            {
-                throw new FileNotFoundException(Resources.Exceptions_FileNotFound_Message, filePath);
-            }
         }
 
         /// <summary>

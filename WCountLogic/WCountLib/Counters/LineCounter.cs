@@ -12,53 +12,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
+using WCountLib.Abstractions.Counters;
 using WCountLib.Localizations;
 
-using WCountLib.Abstractions;
 // ReSharper disable RedundantIfElseBlock
 
-namespace WCountLib
+namespace WCountLib.Counters
 {
     public class LineCounter : ILineCounter
     {
-        /// <summary>
-        /// Gets the number of lines in a file.
-        /// </summary>
-        /// <param name="filePath">The file path of the file to be searched.</param>
-        /// <returns>the number of lines in a file.</returns>
-        /// <exception cref="FileNotFoundException">Thrown if the file could not be located.</exception>
-        public int CountLinesInFile(string filePath)
-        {
-            if (File.Exists(filePath))
-            {
-                string[] contents = File.ReadAllLines(filePath);
-                return CountLines(contents);
-            }
-            else
-            {
-                throw new FileNotFoundException(Resources.Exceptions_FileNotFound_Message, filePath);
-            }
-        }
-
-        /// <summary>
-        /// Gets the number of lines in a file asynchronously.
-        /// </summary>
-        /// <param name="filePath">The file path of the file to be searched.</param>
-        /// <returns>the number of lines in a file.</returns>
-        /// <exception cref="FileNotFoundException">Thrown if the file could not be located.</exception>
-        public async Task<int> CountLinesInFileAsync(string filePath)
-        {
-            if (File.Exists(filePath))
-            {
-                string[] contents = await File.ReadAllLinesAsync(filePath);
-
-                return CountLines(contents);
-            }
-            else
-            {
-                throw new FileNotFoundException(Resources.Exceptions_FileNotFound_Message, filePath);
-            }
-        }
 
         /// <summary>
         /// Gets the number of lines in a string.

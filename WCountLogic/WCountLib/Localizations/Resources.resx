@@ -24,4 +24,7 @@
     <data name="Exceptions.EncodingNotSupported" xml:space="preserve">
         <value>The encoding scheme provided is not supported. Please try again with a different encoding scheme.</value>
     </data>
+    <data name="Exceptions.TextFileArgument.NotATextFile" xml:space="preserve">
+        <value>File provided with name of {x} is not a text file</value>
+    </data>
 </root>

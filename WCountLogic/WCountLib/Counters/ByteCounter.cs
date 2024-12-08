@@ -9,17 +9,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using WCountLib.Localizations;
+using WCountLib.Abstractions.Counters;
 
-using WCountLib.Abstractions;
 // ReSharper disable RedundantIfElseBlock
 
-namespace WCountLib
+namespace WCountLib.Counters
 {
     public class ByteCounter : IByteCounter
     {
@@ -65,46 +63,6 @@ namespace WCountLib
             }
 
             return byteCount;
-        }
-
-        /// <summary>
-        /// Gets the number of bytes in a file.
-        /// </summary>
-        /// <param name="filePath">The file path of the file to be searched.</param>
-        /// <param name="textEncodingType">The type of encoding to use to decode the bytes.</param>
-        /// <returns>the number of bytes in a file.</returns>
-        /// <exception cref="FileNotFoundException">Thrown if the file could not be located.</exception>
-        public ulong CountBytesInFile(string filePath, Encoding textEncodingType)
-        {
-            if (File.Exists(filePath))
-            {
-                return CountBytes(File.ReadAllLines(filePath), textEncodingType);
-            }
-            else
-            {
-                throw new FileNotFoundException(Resources.Exceptions_FileNotFound_Message, filePath);
-            }
-        }
-
-        /// <summary>
-        /// Gets the number of bytes in a file asynchronously.
-        /// </summary>
-        /// <param name="filePath">The file path of the file to be searched.</param>
-        /// <param name="textEncodingType">The type of encoding to use to decode the bytes.</param>
-        /// <returns>the number of bytes in a file.</returns>
-        /// <exception cref="FileNotFoundException">Thrown if the file could not be located.</exception>
-        public async Task<ulong> CountBytesInFileAsync(string filePath, Encoding textEncodingType)
-        {
-            if (File.Exists(filePath))
-            {
-                string[] fileContents = await File.ReadAllLinesAsync(filePath);
-
-                return await CountBytesAsync(fileContents, textEncodingType);
-            }
-            else
-            {
-                throw new FileNotFoundException(Resources.Exceptions_FileNotFound_Message, filePath);
-            }
         }
 
         /// <summary>

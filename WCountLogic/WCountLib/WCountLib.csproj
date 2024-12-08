@@ -14,13 +14,15 @@
         <RepositoryUrl>https://github.com/alastairlundy/BasisBox</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <PackageReleaseNotes>### Changes since 2.2.0
-		</PackageReleaseNotes>
+        <PackageReleaseNotes>### Changes since 2.2
+* Move file related code from Counter classes to TextFileCounter
+* Fix word detecting issues
+* Improved word detection</PackageReleaseNotes>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <Version>2.2.1</Version>
+        <Version>2.3.0</Version>
         <TargetFrameworks>net8.0;netstandard2.1</TargetFrameworks>
     </PropertyGroup>
 
@@ -39,9 +41,10 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
-
+    
     <ItemGroup>
       <PackageReference Include="AlastairLundy.Extensions.System" Version="[5.4.0, 6.0.0)" />
+        <PackageReference Include="WCountLib.Abstractions" Version="[2.3.0, 3.0.0)"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -62,10 +65,6 @@
         <AutoGen>True</AutoGen>
         <DependentUpon>Resources.resx</DependentUpon>
       </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Abstractions\" />
     </ItemGroup>
 
 </Project>
