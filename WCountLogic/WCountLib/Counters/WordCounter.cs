@@ -48,7 +48,6 @@ namespace WCountLib.Counters
                 int taskCount = splitStrings.Length;
 
                 Task[] tasks = new Task[taskCount];
-
                 
                 for (int index = 0; index < taskCount; index++)
                 {
@@ -63,7 +62,7 @@ namespace WCountLib.Counters
             }
             else
             {
-                Task task = new Task(() => totalCount = CountWords(s));
+                Task task = new Task(() => totalCount += CountWords(s));
                 task.Start();
 
                 await task;
@@ -81,11 +80,11 @@ namespace WCountLib.Counters
         {
             ulong totalCount = 0;
 
-            string[] words = s.Split(' ');
+            string[] potentialWords = s.Split(' ');
 
-            foreach (string word in words)
+            foreach (string potentialWord in potentialWords)
             {
-                if (_wordDetector.IsStringAWord(word))
+                if (_wordDetector.IsStringAWord(potentialWord, true))
                 {
                     totalCount += 1;
                 }
@@ -119,7 +118,7 @@ namespace WCountLib.Counters
         public ulong CountWords(IEnumerable<string> enumerable)
         {
             Task<ulong> task = CountWordsAsync(enumerable);
-            task.RunSynchronously();
+            task.Start();
 
             Task.WaitAll(task);
             return task.Result;
