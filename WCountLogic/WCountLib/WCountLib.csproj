@@ -14,15 +14,13 @@
         <RepositoryUrl>https://github.com/alastairlundy/BasisBox</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <PackageReleaseNotes>### Changes since 2.2
-* Move file related code from Counter classes to TextFileCounter
-* Fix word detecting issues
-* Improved word detection</PackageReleaseNotes>
+        <PackageReleaseNotes>### Changes since 2.3.0
+* Fixed some word counting issues</PackageReleaseNotes>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <Version>2.3.0</Version>
+        <Version>2.3.1</Version>
         <TargetFrameworks>net8.0;netstandard2.1</TargetFrameworks>
     </PropertyGroup>
 
