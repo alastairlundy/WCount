@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-using WCountAPI.Logic;
-
 using WCountLib.Abstractions.Counters;
 
 namespace WCountAPI.Controllers
@@ -82,6 +80,7 @@ namespace WCountAPI.Controllers
 
         //    return result; 
         // }
+        //
 
     }
 }
