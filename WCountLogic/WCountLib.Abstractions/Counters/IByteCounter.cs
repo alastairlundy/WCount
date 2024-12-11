@@ -15,9 +15,9 @@ namespace WCountLib.Abstractions.Counters
 {
     public interface IByteCounter
     {
-        public int CountBytes(string s, Encoding encoding);
+        public int CountBytes(string s, Encoding textEncodingType);
         
-        public ulong CountBytes(IEnumerable<string> strings, Encoding encoding);
-        public Task<ulong> CountBytesAsync(IEnumerable<string> strings, Encoding encoding);
+        public ulong CountBytes(IEnumerable<string> strings, Encoding textEncodingType);
+        public Task<ulong> CountBytesAsync(IEnumerable<string> strings, Encoding textEncodingType);
     }
 }
