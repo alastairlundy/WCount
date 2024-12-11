@@ -12,13 +12,16 @@
         <Copyright>Copyright (c) Alastair Lundy 2024</Copyright>
         <RepositoryUrl>https://github.com/alastairlundy/WCount</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <PackageReleaseNotes>Initial release as separate library</PackageReleaseNotes>
+        <PackageReleaseNotes>### Changes since 2.3.0
+* Removed ``int CountCharacters(string)`` method return from CharCounter
+* Re-added WCountResult model
+* Added Encoding parameter in ICharCounter methods</PackageReleaseNotes>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <Description>Abstractions to enable class implementations that allow for counting the number of lines, words, characters, and/or bytes in specified files, strings, or IEnumerables of strings.</Description>
-        <Version>2.3.0</Version>
+        <Version>2.4.0</Version>
     </PropertyGroup>
 
     <ItemGroup>
