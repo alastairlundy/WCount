@@ -9,9 +9,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-
+using System.Linq;
 using WCountLib.Abstractions.Counters;
 using WCountLib.Localizations;
 
@@ -30,7 +28,6 @@ namespace WCountLib.Counters
         public int CountLines(string s)
         {
             int totalCount = 0;
-
             foreach (char c in s)
             {
                 if (c.Equals('\n') || c.Equals(char.Parse("\r\n")) || c.ToString().Equals(Environment.NewLine))
