@@ -17,8 +17,8 @@ namespace WCountLib.Abstractions.Counters
     {
         public int CountCharacters(string s, Encoding textEncodingType);
         
-        public ulong CountCharacters(IEnumerable<string> enumerable);
-        public Task<ulong> CountCharactersAsync(IEnumerable<string> enumerable);
+        public ulong CountCharacters(IEnumerable<string> enumerable, Encoding textEncodingType);
+        public Task<ulong> CountCharactersAsync(IEnumerable<string> enumerable, Encoding textEncodingType);
 
     }
 }
