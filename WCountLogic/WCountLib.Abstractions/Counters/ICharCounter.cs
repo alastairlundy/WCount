@@ -15,7 +15,6 @@ namespace WCountLib.Abstractions.Counters
 {
     public interface ICharCounter
     {
-        public ulong CountCharacters(string s);
         public int CountCharacters(string s, Encoding textEncodingType);
         
         public ulong CountCharacters(IEnumerable<string> enumerable);
