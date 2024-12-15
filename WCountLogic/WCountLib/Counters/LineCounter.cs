@@ -9,7 +9,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
+
 using WCountLib.Abstractions.Counters;
 using WCountLib.Localizations;
 

@@ -27,17 +27,7 @@ namespace WCountLib.Counters
         /// Get the number of characters in a string.
         /// </summary>
         /// <param name="s">The string to be searched.</param>
-        /// <returns>the number of characters in a string.</returns>
-        public ulong CountCharacters(string s)
-        {
-            return Convert.ToUInt64(CountCharacters(s, Encoding.Default));
-        }
-
-        /// <summary>
-        /// Get the number of characters in a string.
-        /// </summary>
-        /// <param name="s">The string to be searched.</param>
-        /// <param name="textEncodingType"></param>
+        /// <param name="textEncodingType">The encoding type to use to count characters.</param>
         /// <returns>the number of characters in a string.</returns>
         public int CountCharacters(string s, Encoding textEncodingType)
         {
@@ -83,14 +73,15 @@ namespace WCountLib.Counters
         /// Gets the number of characters in an IEnumerable of strings.
         /// </summary>
         /// <param name="enumerable">The IEnumerable to be searched.</param>
+        /// <param name="textEncodingType">The encoding type to use to count characters.</param>
         /// <returns>the number of characters in the specified IEnumerable.</returns>
-        public ulong CountCharacters(IEnumerable<string> enumerable)
+        public ulong CountCharacters(IEnumerable<string> enumerable, Encoding textEncodingType)
         {
             ulong totalChars = 0;
 
             foreach (string s in enumerable)
             {
-                totalChars += CountCharacters(s);
+                totalChars += Convert.ToUInt64(CountCharacters(s, textEncodingType));
             }
 
             return totalChars;
@@ -100,8 +91,9 @@ namespace WCountLib.Counters
         /// Gets the number of characters in an IEnumerable of strings asynchronously.
         /// </summary>
         /// <param name="enumerable">The IEnumerable to be searched.</param>
+        /// <param name="textEncodingType">The encoding type to use to count characters.</param>
         /// <returns>the number of characters in the specified IEnumerable.</returns>
-        public async Task<ulong> CountCharactersAsync(IEnumerable<string> enumerable)
+        public async Task<ulong> CountCharactersAsync(IEnumerable<string> enumerable, Encoding textEncodingType)
         {
             ulong totalChars = 0;
             string[] array = enumerable.ToArray();
@@ -111,7 +103,7 @@ namespace WCountLib.Counters
             for (int index = 0; index < array.Length; index++)
             {
                 int taskNumber = index;
-                tasks[taskNumber] = new Task<ulong>(() => totalChars += CountCharacters(array[taskNumber]));
+                tasks[taskNumber] = new Task<ulong>(() => totalChars += Convert.ToUInt64(CountCharacters(array[taskNumber], textEncodingType)));
                 tasks[taskNumber].Start();
             }
 

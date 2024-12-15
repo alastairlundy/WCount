@@ -23,14 +23,7 @@
         <Description>Abstractions to enable class implementations that allow for counting the number of lines, words, characters, and/or bytes in specified files, strings, or IEnumerables of strings.</Description>
         <Version>2.4.0</Version>
     </PropertyGroup>
-
-    <ItemGroup>
-      <Content Include="..\..\README.md">
-                  <Link>README.md</Link>
-                  <PackagePath>README.md</PackagePath>
-                  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
-    </ItemGroup>
+    
     <ItemGroup>
       <Content Include="..\WCountLib\LICENSE.txt">
           <Link>LICENSE.txt</Link>

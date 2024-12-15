@@ -172,7 +172,7 @@ namespace WCountLib.Counters.IO
             {
                 string[] lines = File.ReadAllLines(filePath);
 
-                return _charCounter.CountCharacters(lines);
+                return _charCounter.CountCharacters(lines, Encoding.Default);
             }
             else if (IsATextFile(filePath) == false)
             {
@@ -183,11 +183,13 @@ namespace WCountLib.Counters.IO
                 throw new FileNotFoundException(Resources.Exceptions_FileNotFound_Message, filePath);
             }
         }
+        
 
         /// <summary>
         /// Gets the number of characters in a file asynchronously.
         /// </summary>
         /// <param name="filePath">The file path of the file to be searched.</param>
+        /// <param name="textEncoding"></param>
         /// <returns>the number of characters in the file specified.</returns>
         public async Task<ulong> CountCharactersInFileAsync(string filePath)
         {
@@ -195,7 +197,7 @@ namespace WCountLib.Counters.IO
             {
                 string[] lines = await File.ReadAllLinesAsync(filePath);
 
-                return await _charCounter.CountCharactersAsync(lines);
+                return await _charCounter.CountCharactersAsync(lines, Encoding.Default);
             }
             else if (IsATextFile(filePath) == false)
             {

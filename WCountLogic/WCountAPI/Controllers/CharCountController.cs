@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
@@ -21,16 +22,16 @@ namespace WCountAPI.Controllers
 
         [Route("/string")]
         [HttpPost]
-        public ulong PostString([FromBody] string s)
+        public int PostString([FromBody] string s)
         {
-            return _charCounter.CountCharacters(s);
+            return _charCounter.CountCharacters(s, Encoding.Default);
         }
 
         [Route("/strings")]
         [HttpPost]
         public async Task<ulong> PostStrings([FromBody] IEnumerable<string> strings)
         {
-            return await _charCounter.CountCharactersAsync(strings);
+            return await _charCounter.CountCharactersAsync(strings, Encoding.Default);
         }
 
         //[Route("/file")]

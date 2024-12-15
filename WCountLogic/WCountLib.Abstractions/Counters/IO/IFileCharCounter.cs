@@ -7,13 +7,14 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+using System.Text;
 using System.Threading.Tasks;
 
 namespace WCountLib.Abstractions.Counters.IO
 {
     public interface IFileCharCounter
     {
-        public ulong CountCharactersInFile(string filePath);
-        public Task<ulong> CountCharactersInFileAsync(string filePath);
+        public ulong CountCharactersInFile(string filePath, Encoding textEncoding);
+        public Task<ulong> CountCharactersInFileAsync(string filePath, Encoding textEncoding);
     }
 }
