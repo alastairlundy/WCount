@@ -42,7 +42,6 @@
     
     <ItemGroup>
       <PackageReference Include="AlastairLundy.Extensions.System" Version="[5.4.0, 6.0.0)" />
-      <PackageReference Include="WCountLib.Abstractions" Version="2.4.0" />
     </ItemGroup>
 
     <ItemGroup>
