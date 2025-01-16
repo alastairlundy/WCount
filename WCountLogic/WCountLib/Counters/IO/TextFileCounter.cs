@@ -159,20 +159,21 @@ namespace WCountLib.Counters.IO
                 throw new FileNotFoundException(Resources.Exceptions_FileNotFound_Message, filePath);
             }
         }
-        
+
         /// <summary>
         /// Gets the number of characters in a file.
         /// </summary>
         /// <param name="filePath">The file path of the file to be searched.</param>
+        /// <param name="encoding"></param>
         /// <returns>the number of characters in the file specified.</returns>
         /// <exception cref="FileNotFoundException">Thrown if the file specified could not be found.</exception>
-        public ulong CountCharactersInFile(string filePath)
+        public ulong CountCharactersInFile(string filePath, Encoding encoding)
         {
             if (File.Exists(filePath) && IsATextFile(filePath) == true)
             {
                 string[] lines = File.ReadAllLines(filePath);
 
-                return _charCounter.CountCharacters(lines, Encoding.Default);
+                return _charCounter.CountCharacters(lines, encoding);
             }
             else if (IsATextFile(filePath) == false)
             {
@@ -183,21 +184,21 @@ namespace WCountLib.Counters.IO
                 throw new FileNotFoundException(Resources.Exceptions_FileNotFound_Message, filePath);
             }
         }
-        
+
 
         /// <summary>
         /// Gets the number of characters in a file asynchronously.
         /// </summary>
         /// <param name="filePath">The file path of the file to be searched.</param>
-        /// <param name="textEncoding"></param>
+        /// <param name="encoding"></param>
         /// <returns>the number of characters in the file specified.</returns>
-        public async Task<ulong> CountCharactersInFileAsync(string filePath)
+        public async Task<ulong> CountCharactersInFileAsync(string filePath, Encoding encoding)
         {
             if (File.Exists(filePath) && IsATextFile(filePath) == true)
             {
                 string[] lines = await File.ReadAllLinesAsync(filePath);
 
-                return await _charCounter.CountCharactersAsync(lines, Encoding.Default);
+                return await _charCounter.CountCharactersAsync(lines, encoding);
             }
             else if (IsATextFile(filePath) == false)
             {
