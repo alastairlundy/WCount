@@ -10,7 +10,7 @@
         <Title>WCountLib</Title>
         <Authors>AlastairLundy</Authors>
         <Description>Count the number of lines, words, characters, and/or bytes in specified files, strings, or IEnumerables of strings.</Description>
-        <Copyright>Copyright (c) Alastair Lundy 2024</Copyright>
+        <Copyright>Copyright (c) Alastair Lundy 2024-2025</Copyright>
         <RepositoryUrl>https://github.com/alastairlundy/BasisBox</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
@@ -41,7 +41,8 @@
     </ItemGroup>
     
     <ItemGroup>
-      <PackageReference Include="AlastairLundy.Extensions.Strings" Version="[5.5.0, 6.0.0)" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="[9.0.1, 10.0.0)" />
+        <PackageReference Include="AlastairLundy.Extensions.Strings" Version="[5.5.0, 6.0.0)" />
     </ItemGroup>
 
     <ItemGroup>
@@ -62,10 +63,6 @@
         <AutoGen>True</AutoGen>
         <DependentUpon>Resources.resx</DependentUpon>
       </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Abstractions\" />
     </ItemGroup>
 
 </Project>

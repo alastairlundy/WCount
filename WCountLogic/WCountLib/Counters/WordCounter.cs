@@ -1,6 +1,6 @@
 ﻿/*
     WCountLib
-    Copyright (C) 2024 Alastair Lundy
+    Copyright (C) 2024-2025 Alastair Lundy
 
     This Source Code Form is subject to the terms of the Mozilla Public
     License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,11 +10,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
-using WCountLib.Abstractions.Counters;
-using WCountLib.Abstractions.Detectors;
-
+using WCountLib.Counters.Abstractions;
 using WCountLib.Detectors;
+using WCountLib.Detectors.Abstractions;
 using WCountLib.Localizations;
 
 namespace WCountLib.Counters
@@ -22,11 +20,6 @@ namespace WCountLib.Counters
     public class WordCounter : IWordCounter
     {
         private readonly IWordDetector _wordDetector;
-
-        public WordCounter()
-        {
-            _wordDetector = new WordDetector();
-        }
 
         public WordCounter(IWordDetector wordDetector)
         {

@@ -1,6 +1,6 @@
 ﻿/*
     WCountLib
-    Copyright (C) 2024 Alastair Lundy
+    Copyright (C) 2024-2025 Alastair Lundy
 
     This Source Code Form is subject to the terms of the Mozilla Public
     License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,10 +11,9 @@ using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using WCountLib.Counters.Abstractions;
 
-using WCountLib.Abstractions.Counters;
-using WCountLib.Abstractions.Counters.IO;
-
+using WCountLib.Counters.Abstractions.IO.Specializations;
 using WCountLib.Localizations;
 // ReSharper disable RedundantBoolCompare
 
@@ -23,20 +22,12 @@ namespace WCountLib.Counters.IO
     /// <summary>
     /// A class to enable line counting, byte counting, char counting, and word counting for Text Files.
     /// </summary>
-    public class TextFileCounter : IFileLineCounter, IFileByteCounter, IFileCharCounter, IFileWordCounter
+    public class TextFileCounter : ITextFileCounter
     {
         private readonly IWordCounter _wordCounter;
         private readonly ICharCounter _charCounter;
         private readonly IByteCounter _byteCounter;
         private readonly ILineCounter _lineCounter;
-
-        public TextFileCounter()
-        {
-            _wordCounter = new WordCounter();
-            _charCounter = new CharCounter();
-            _byteCounter = new ByteCounter();
-            _lineCounter = new LineCounter();
-        }
 
         public TextFileCounter(IByteCounter byteCounter, ICharCounter charCounter,
             IWordCounter wordCounter, ILineCounter lineCounter)

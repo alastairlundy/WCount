@@ -1,6 +1,6 @@
 ﻿/*
     WCountLib
-    Copyright (C) 2024 Alastair Lundy
+    Copyright (C) 2024-2025 Alastair Lundy
 
     This Source Code Form is subject to the terms of the Mozilla Public
     License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,8 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using WCountLib.Abstractions.Counters;
+using WCountLib.Counters.Abstractions;
 using WCountLib.Localizations;
 
 // ReSharper disable RedundantIfElseBlock
