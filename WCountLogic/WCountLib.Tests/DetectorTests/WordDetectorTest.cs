@@ -10,7 +10,7 @@ public class WordDetectorTest
     [Theory]
     public void BasicIsStringAWordTest(string s)
     {
-           
+        
     }
 
     [Theory]

@@ -11,11 +11,15 @@
         <Authors>AlastairLundy</Authors>
         <Description>Count the number of lines, words, characters, and/or bytes in specified files, strings, or IEnumerables of strings.</Description>
         <Copyright>Copyright (c) Alastair Lundy 2024-2025</Copyright>
-        <RepositoryUrl>https://github.com/alastairlundy/BasisBox</RepositoryUrl>
+        <RepositoryUrl>https://github.com/alastairlundy/WCount</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <PackageReleaseNotes>### Changes since 2.3.0
-* Fixed some word counting issues</PackageReleaseNotes>
+        <PackageReleaseNotes>### Changes since 2.3.1
+* Merged abstractions back into main library.
+* Removed text file counters
+* Moved abstraction namespaces
+* Added .NET 9 TFM
+* Added ``UseWCount`` Dependency Injection extensions to simplify Dependency Injection setup for WCount.</PackageReleaseNotes>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
