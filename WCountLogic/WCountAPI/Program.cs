@@ -2,17 +2,15 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using WCountLib.Abstractions.Counters;
-using WCountLib.Counters;
+using WCountLib.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddSingleton<IByteCounter>(new ByteCounter());
-builder.Services.AddSingleton<ICharCounter>(new CharCounter());
-builder.Services.AddSingleton<IWordCounter>(new WordCounter());
+
+builder.Services.UseWCount();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
