@@ -11,8 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using WCountLib.Counters;
 using WCountLib.Counters.Abstractions;
-using WCountLib.Counters.Abstractions.IO.Specializations;
-using WCountLib.Counters.IO;
+
 using WCountLib.Detectors;
 using WCountLib.Detectors.Abstractions;
 // ReSharper disable UnusedMember.Global
@@ -34,9 +33,7 @@ namespace WCountLib.Extensions
             services.AddSingleton<IByteCounter, ByteCounter>();
             services.AddSingleton<ICharCounter, CharCounter>();
             services.AddSingleton<IWordCounter, WordCounter>();
-
-            services.AddTransient<ITextFileCounter, TextFileCounter>();
-
+            
             return services;
         }
     }
