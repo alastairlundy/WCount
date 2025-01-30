@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCountLib", "WCountLib\WCountLib.csproj", "{9C2EE52B-B36D-4F43-B747-8BF051078377}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCountUI.Wasm", "WCountUI.Wasm\WCountUI.Wasm.csproj", "{4E998E59-7B3D-45C8-83FF-0F87C1E3C96B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9C2EE52B-B36D-4F43-B747-8BF051078377}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C2EE52B-B36D-4F43-B747-8BF051078377}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C2EE52B-B36D-4F43-B747-8BF051078377}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C2EE52B-B36D-4F43-B747-8BF051078377}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E998E59-7B3D-45C8-83FF-0F87C1E3C96B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E998E59-7B3D-45C8-83FF-0F87C1E3C96B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E998E59-7B3D-45C8-83FF-0F87C1E3C96B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E998E59-7B3D-45C8-83FF-0F87C1E3C96B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
