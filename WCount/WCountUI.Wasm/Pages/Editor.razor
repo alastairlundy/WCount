@@ -1,0 +1,54 @@
+﻿@page "/editor"
+
+<PageTitle>Editor</PageTitle>
+
+@using WCountUI.Wasm.Localizations
+
+<div class="container verticalcontainer">
+    <FluentLabel Weight="FontWeight.Bold" Typo="Typography.Header" Class="info-label">
+        @WordCount
+
+        <span style="font-weight:normal">
+            @if (@WordCount == 1)
+            {
+                @Resources.Labels_Words_Singular;
+            }
+            else
+            {
+                @Resources.Labels_Words_Plural;
+            }
+        </span>
+        
+        @CharCount
+
+        <span style="font-weight:normal">
+            @if (@WordCount == 1)
+            {
+                @Resources.Labels_Chars_Singular;
+            }
+            else
+            {
+                @Resources.Labels_Chars_Plural;
+            }
+        </span>
+    </FluentLabel>
+
+    <FluentToolbar Orientation="Orientation.Horizontal">
+        <FluentNumberField Step="1" TValue="double" Value="@editorFontSize" ValueChanged="EditorFontSizeChanged" Min="8" Max="100" >
+            <FluentIcon Value="@(new Icons.Regular.Size20.TextFont())" Slot="start" />
+        </FluentNumberField>
+
+        <FluentButton BackgroundColor="#b23310" Color="White" OnClick="ClearEditor">@Resources.Labels_Buttons_Clear</FluentButton>
+
+        <FluentButton Appearance="Appearance.Stealth" OnClick="PasteClipboard">
+            <FluentIcon Value="@(new Icons.Regular.Size24.ClipboardPaste())" />
+        </FluentButton>
+    </FluentToolbar>
+
+    <FluentTextArea Id="text-editor" Style="width: 70%; height: 60%;" Rows="1000" Placeholder="@Resources.Placeholders_TextArea"
+    Spellcheck="true" Autofocus="true" Immediate="true"               
+    Appearance="FluentInputAppearance.Outline"
+                    @bind-Value="@_editorText" @oninput="PerformCount">
+        <!--   !-->
+    </FluentTextArea>
+</div> 

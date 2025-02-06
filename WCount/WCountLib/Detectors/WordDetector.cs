@@ -10,8 +10,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using AlastairLundy.Extensions.Strings.Contains;
-using AlastairLundy.Extensions.Strings.SpecialCharacters;
+using AlastairLundy.Extensions.System.Strings;
+
 using WCountLib.Detectors.Abstractions;
 
 // ReSharper disable RedundantBoolCompare
@@ -32,20 +32,14 @@ namespace WCountLib.Detectors
         /// <returns>true if the string is not a special character and doesn't contain a space character if spaces are excluded; false otherwise.</returns>
         public bool IsStringAWord(string s, bool excludeStringsWithSpaces = true)
         {
-            bool output = false;
+            bool output = s.ContainsSpaceSeparatedSubStrings() == false;
 
             if (string.IsNullOrWhiteSpace(s) == true || 
-                s.Split(' ').Length > 0 && excludeStringsWithSpaces == true)
+                s.ContainsSpaceSeparatedSubStrings() && excludeStringsWithSpaces == true)
             {
-                return false;
+                output = false;
             }
             
-            if (s.Length > 1 ||
-                (s.Length == 1 && s[0].IsSpecialCharacter() == false))
-            {
-                output = true;
-            }
-                
             if(s.ToCharArray().All(c => c.IsSpecialCharacter() == true))
             {
                 output = false;
@@ -67,18 +61,14 @@ namespace WCountLib.Detectors
             bool output = false;
             
             if (string.IsNullOrWhiteSpace(s) == false ||
-                s.Split(' ').Length > 1 && excludeStringsWithSpaces == true)
+                s.ContainsSpaceSeparatedSubStrings() && excludeStringsWithSpaces == true)
             {
-                return false;    
+                output = false;    
             }
 
             if (s.ContainsAnyOf(delimitersToExclude) == true)
             {
                 output = false;
-            }
-            else
-            {
-                output = IsStringAWord(s, excludeStringsWithSpaces);
             }
 
             return output;

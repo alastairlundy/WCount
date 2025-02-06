@@ -10,8 +10,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using WCountLib.Counters.Abstractions;
-using WCountLib.Detectors;
 using WCountLib.Detectors.Abstractions;
 using WCountLib.Localizations;
 
@@ -110,11 +110,14 @@ namespace WCountLib.Counters
         /// <returns>the number of words in an IEnumerable of strings.</returns>
         public ulong CountWords(IEnumerable<string> enumerable)
         {
-            Task<ulong> task = CountWordsAsync(enumerable);
-            task.Start();
+            ulong totalCount = 0;
 
-            Task.WaitAll(task);
-            return task.Result;
+            foreach (string s in enumerable)
+            {
+                totalCount += CountWords(s);
+            }
+
+            return totalCount;
         }
     }
 }
