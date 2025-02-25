@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FluentUI.AspNetCore.Components;
 
-using WCountLib.Extensions;
+using WCountLib.Extensions.DependencyInjection;
 
 using WCountUI.Wasm;
 

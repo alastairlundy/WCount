@@ -9,11 +9,11 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
-using WCountLib.Abstractions.Counters;
-using WCountLib.Abstractions.Detectors;
 
 using WCountLib.Counters;
+using WCountLib.Counters.Abstractions;
 using WCountLib.Detectors;
+using WCountLib.Detectors.Abstractions;
 
 
 // ReSharper disable UnusedMember.Global

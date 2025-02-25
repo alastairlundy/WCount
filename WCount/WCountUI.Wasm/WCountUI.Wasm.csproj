@@ -20,6 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\WCountLib.Extensions.DependencyInjection\WCountLib.Extensions.csproj" />
       <ProjectReference Include="..\WCountLib.Privacy\WCountLib.Privacy.csproj" />
       <ProjectReference Include="..\WCountLib\WCountLib.csproj" />
     </ItemGroup>
