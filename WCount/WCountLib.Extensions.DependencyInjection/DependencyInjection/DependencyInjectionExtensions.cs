@@ -1,5 +1,5 @@
 ﻿/*
-    WCountLib
+    WCountLib.Extensions
     Copyright (C) 2024-2025 Alastair Lundy
 
     This Source Code Form is subject to the terms of the Mozilla Public
@@ -9,11 +9,13 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
-using WCountLib.Counters;
-using WCountLib.Counters.Abstractions;
+using WCountLib.Abstractions.Counters;
+using WCountLib.Abstractions.Detectors;
 
+using WCountLib.Counters;
 using WCountLib.Detectors;
-using WCountLib.Detectors.Abstractions;
+
+
 // ReSharper disable UnusedMember.Global
 
 namespace WCountLib.Extensions.DependencyInjection
