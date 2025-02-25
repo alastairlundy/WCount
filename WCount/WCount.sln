@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCountLib.Testing", "WCount
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCountLib.Privacy", "WCountLib.Privacy\WCountLib.Privacy.csproj", "{9B0978FD-84F6-4E7D-BA48-87D5617A7AD8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCountLib.Extensions", "WCountLib.Extensions.DependencyInjection\WCountLib.Extensions.csproj", "{03D00D8B-BC46-40A2-B7A4-5261681E6931}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
