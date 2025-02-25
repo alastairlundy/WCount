@@ -19,7 +19,8 @@
 * Removed text file counters
 * Moved abstraction namespaces
 * Added .NET 9 TFM
-* Added ``UseWCount`` Dependency Injection extensions to simplify Dependency Injection setup for WCount.</PackageReleaseNotes>
+* Updated SystemExtensions to 6.0.0 from 5.4.1
+		</PackageReleaseNotes>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
