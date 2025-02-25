@@ -16,7 +16,7 @@ using WCountLib.Detectors;
 using WCountLib.Detectors.Abstractions;
 // ReSharper disable UnusedMember.Global
 
-namespace WCountLib.Extensions
+namespace WCountLib.Extensions.DependencyInjection
 {
     public static class DependencyInjectionExtensions
     {
