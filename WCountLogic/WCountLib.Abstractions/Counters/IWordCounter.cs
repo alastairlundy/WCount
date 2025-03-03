@@ -8,16 +8,16 @@
  */
 
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace WCountLib.Counters.Abstractions
+namespace WCountLib.Abstractions.Counters
 {
-    public interface IByteCounter
+    public interface IWordCounter
     {
-        public int CountBytes(string s, Encoding textEncodingType);
+         Task<ulong> CountWordsAsync(string s);
+         ulong CountWords(string s);
         
-        public ulong CountBytes(IEnumerable<string> strings, Encoding textEncodingType);
-        public Task<ulong> CountBytesAsync(IEnumerable<string> strings, Encoding textEncodingType);
+         Task<ulong> CountWordsAsync(IEnumerable<string> enumerable);
+         ulong CountWords(IEnumerable<string> enumerable);
     }
 }

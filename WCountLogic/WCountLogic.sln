@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35825.156 d17.13
+VisualStudioVersion = 17.13.35825.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCountLib", "WCountLib\WCountLib.csproj", "{B6D16657-021B-43A0-0E72-7E1B339C2B66}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCountLib.Testing", "WCountLib.Testing\WCountLib.Testing.csproj", "{13397CB2-1458-9E18-3765-63C21FCBD9E4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCountLib.Privacy", "WCountLib.Privacy\WCountLib.Privacy.csproj", "{837EAD97-A6A0-848D-639F-929D1A3CC598}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCountLib.Abstractions", "WCountLib.Abstractions\WCountLib.Abstractions.csproj", "{24F4FCE1-E4D3-49AB-A5F5-7F408385848E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{837EAD97-A6A0-848D-639F-929D1A3CC598}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{837EAD97-A6A0-848D-639F-929D1A3CC598}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{837EAD97-A6A0-848D-639F-929D1A3CC598}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24F4FCE1-E4D3-49AB-A5F5-7F408385848E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24F4FCE1-E4D3-49AB-A5F5-7F408385848E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24F4FCE1-E4D3-49AB-A5F5-7F408385848E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24F4FCE1-E4D3-49AB-A5F5-7F408385848E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

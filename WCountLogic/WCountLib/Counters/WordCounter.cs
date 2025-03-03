@@ -11,8 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using WCountLib.Counters.Abstractions;
-using WCountLib.Detectors.Abstractions;
 using WCountLib.Localizations;
 
 namespace WCountLib.Counters

@@ -7,15 +7,16 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+// ReSharper disable InconsistentNaming
+
 using System.Collections.Generic;
 
-namespace WCountLib.Counters.Abstractions
+namespace WCountLib.Abstractions.Detectors
 {
-    public interface ILineCounter
+    public interface IWordDetector
     {
-        public int CountLines(string s);
-
-        public int CountLines(IEnumerable<string> enumerable);
+        bool IsStringAWord(string s, bool excludeStringsWithSpaces = true);
+        bool IsStringAWord(string s, IEnumerable<char> delimitersToExclude, bool excludeStringsWithSpaces = true);
 
     }
 }

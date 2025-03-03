@@ -9,7 +9,6 @@
 
 using System;
 using System.Collections.Generic;
-using WCountLib.Counters.Abstractions;
 using WCountLib.Localizations;
 
 // ReSharper disable RedundantIfElseBlock

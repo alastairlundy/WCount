@@ -8,16 +8,17 @@
  */
 
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace WCountLib.Counters.Abstractions
+namespace WCountLib.Abstractions.Counters
 {
-    public interface IWordCounter
+    public interface ICharCounter
     {
-        public Task<ulong> CountWordsAsync(string s);
-        public ulong CountWords(string s);
+        int CountCharacters(string s, Encoding textEncodingType);
         
-        public Task<ulong> CountWordsAsync(IEnumerable<string> enumerable);
-        public ulong CountWords(IEnumerable<string> enumerable);
+        ulong CountCharacters(IEnumerable<string> enumerable, Encoding textEncodingType);
+        Task<ulong> CountCharactersAsync(IEnumerable<string> enumerable, Encoding textEncodingType);
+
     }
 }
