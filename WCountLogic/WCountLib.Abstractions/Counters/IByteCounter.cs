@@ -13,22 +13,28 @@ using System.Threading.Tasks;
 
 namespace AlastairLundy.WCountLib.Abstractions.Counters
 {
+    /// <summary>
+    /// Represents a service that counts the number of bytes in TextReaders.
+    /// </summary>
+    /// <remarks>
+    /// <para>Implementing classes should be stateless and avoid containing any properties or fields that aren't related to configurations or settings for byte counting.</para>
+    /// </remarks>
     public interface IByteCounter
     {
         /// <summary>
-        /// 
+        /// Synchronously reads from the provided TextReader and counts total the number of bytes in the specified Encoding.
         /// </summary>
-        /// <param name="textReader"></param>
-        /// <param name="textEncodingType"></param>
-        /// <returns></returns>
+        /// <param name="textReader">The TextReader from which to count bytes.</param>
+        /// <param name="textEncodingType">The Encoding type of the bytes to count.</param>
+        /// <returns>The total number of bytes counted.</returns>
         int CountBytes(TextReader textReader, Encoding textEncodingType);
         
         /// <summary>
-        /// 
+        /// Asynchronously reads from the provided TextReader and counts the total number of bytes in the specified Encoding.
         /// </summary>
-        /// <param name="textReader"></param>
-        /// <param name="textEncodingType"></param>
-        /// <returns></returns>
+        /// <param name="textReader">The TextReader from which to count bytes.</param>
+        /// <param name="textEncodingType">The Encoding type of the bytes to count.</param>
+        /// <returns>The total number of bytes counted.</returns>
         Task<ulong> CountBytesAsync(TextReader textReader, Encoding textEncodingType);
     }
 }
