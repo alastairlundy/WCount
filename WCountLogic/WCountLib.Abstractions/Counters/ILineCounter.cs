@@ -9,7 +9,7 @@
 
 using System.Collections.Generic;
 
-namespace WCountLib.Abstractions.Counters
+namespace AlastairLundy.WCountLib.Abstractions.Counters
 {
     public interface ILineCounter
     {

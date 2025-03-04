@@ -10,7 +10,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace WCountLib.Abstractions.Counters
+namespace AlastairLundy.WCountLib.Abstractions.Counters
 {
     public interface IWordCounter
     {

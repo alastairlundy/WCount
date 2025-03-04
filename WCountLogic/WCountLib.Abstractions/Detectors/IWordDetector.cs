@@ -11,7 +11,7 @@
 
 using System.Collections.Generic;
 
-namespace WCountLib.Abstractions.Detectors
+namespace AlastairLundy.WCountLib.Abstractions.Detectors
 {
     public interface IWordDetector
     {

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 using WCountLib.Localizations;
 
-namespace WCountLib.Counters
+namespace AlastairLundy.WCountLib.Counters
 {
     public class WordCounter : IWordCounter
     {

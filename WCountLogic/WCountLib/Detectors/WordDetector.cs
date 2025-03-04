@@ -16,7 +16,7 @@ using WCountLib.Detectors.Abstractions;
 
 // ReSharper disable RedundantBoolCompare
 
-namespace WCountLib.Detectors
+namespace AlastairLundy.WCountLib.Detectors
 {
     /// <summary>
     /// A class to detect if strings that looks like words are words.

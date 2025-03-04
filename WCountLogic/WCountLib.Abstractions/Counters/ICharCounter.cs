@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WCountLib.Abstractions.Counters
+namespace AlastairLundy.WCountLib.Abstractions.Counters
 {
     public interface ICharCounter
     {
