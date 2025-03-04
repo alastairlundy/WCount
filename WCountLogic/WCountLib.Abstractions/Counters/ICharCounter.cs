@@ -8,6 +8,7 @@
  */
 
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,10 +16,21 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
 {
     public interface ICharCounter
     {
-        int CountCharacters(string s, Encoding textEncodingType);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="textReader"></param>
+        /// <param name="textEncodingType"></param>
+        /// <returns></returns>
+        int CountCharacters(TextReader textReader, Encoding textEncodingType);
         
-        ulong CountCharacters(IEnumerable<string> enumerable, Encoding textEncodingType);
-        Task<ulong> CountCharactersAsync(IEnumerable<string> enumerable, Encoding textEncodingType);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="textReader"></param>
+        /// <param name="textEncodingType"></param>
+        /// <returns></returns>
+        Task<ulong> CountCharactersAsync(TextReader textReader, Encoding textEncodingType);
 
     }
 }

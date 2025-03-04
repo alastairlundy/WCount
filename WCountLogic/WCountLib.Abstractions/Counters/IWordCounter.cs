@@ -7,17 +7,26 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace AlastairLundy.WCountLib.Abstractions.Counters
 {
     public interface IWordCounter
     {
-         Task<ulong> CountWordsAsync(string s);
-         ulong CountWords(string s);
-        
-         Task<ulong> CountWordsAsync(IEnumerable<string> enumerable);
-         ulong CountWords(IEnumerable<string> enumerable);
-    }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="textReader"></param>
+        /// <returns></returns>
+         ulong CountWords(TextReader textReader);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="textReader"></param>
+		/// <returns></returns>
+		Task<ulong> CountWordsAsync(TextReader textReader);
+	}
 }

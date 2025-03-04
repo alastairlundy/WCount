@@ -7,7 +7,7 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,9 +15,20 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
 {
     public interface IByteCounter
     {
-        public int CountBytes(string s, Encoding textEncodingType);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="textReader"></param>
+        /// <param name="textEncodingType"></param>
+        /// <returns></returns>
+        int CountBytes(TextReader textReader, Encoding textEncodingType);
         
-        public ulong CountBytes(IEnumerable<string> strings, Encoding textEncodingType);
-        public Task<ulong> CountBytesAsync(IEnumerable<string> strings, Encoding textEncodingType);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="textReader"></param>
+        /// <param name="textEncodingType"></param>
+        /// <returns></returns>
+        Task<ulong> CountBytesAsync(TextReader textReader, Encoding textEncodingType);
     }
 }

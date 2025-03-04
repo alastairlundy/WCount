@@ -7,14 +7,25 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace AlastairLundy.WCountLib.Abstractions.Counters
 {
     public interface ILineCounter
     {
-        int CountLines(string s);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="textReader"></param>
+        /// <returns></returns>
+        int CountLines(TextReader textReader);
 
-        int CountLines(IEnumerable<string> enumerable);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="textReader"></param>
+        /// <returns></returns>
+        Task<int> CountLinesAsync(TextReader textReader);
     }
 }
