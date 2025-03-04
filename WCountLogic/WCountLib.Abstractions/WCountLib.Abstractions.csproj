@@ -15,6 +15,22 @@
 	  <IncludeSymbols>true</IncludeSymbols>
 	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	  <EmbedUntrackedSources>true</EmbedUntrackedSources>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
+	  <Version>3.1.0</Version>
+	  <Title>WCountLib.Abstractions</Title>
+	  <Copyright>Copyright (c) Alastair Lundy 2024-2025</Copyright>
+	  <PackageTags>wordcount, word-count, word count,  wc, charcount, bytecount, linecount,</PackageTags>
+	  <Description>This package adds interfaces to enable counting the number of lines, words, characters, and/or bytes in TextReader streams.
+</Description>
+	  <PackageReleaseNotes>Re-released under new package ID, updated interfaces, and namespaces</PackageReleaseNotes>
   </PropertyGroup>
+
+	<ItemGroup>
+		<Content Include="README.md">
+			<Link>README.md</Link>
+			<PackagePath>README.md</PackagePath>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
 </Project>
