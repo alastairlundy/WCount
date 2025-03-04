@@ -19,13 +19,14 @@
 * Removed text file counters
 * Moved abstraction namespaces
 * Added .NET 9 TFM
-* Added ``UseWCount`` Dependency Injection extensions to simplify Dependency Injection setup for WCount.</PackageReleaseNotes>
+* Updated SystemExtensions to 6.0.0 from 5.4.1
+		</PackageReleaseNotes>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <Version>3.0.0</Version>
-        <TargetFrameworks>net8.0;netstandard2.1;net9.0</TargetFrameworks>
+        <TargetFrameworks>net8.0;netstandard2.0;netstandard2.1;net9.0</TargetFrameworks>
         <PackageTags>word counter, wc, word count, count</PackageTags>
         <RootNamespace>AlastairLundy.WCountLib</RootNamespace>
     </PropertyGroup>
@@ -49,6 +50,11 @@
     <ItemGroup>
         <PackageReference Include="AlastairLundy.Extensions.System" Version="[6.0.0, 7.0.0)" />
     </ItemGroup>
+
+
+	<ItemGroup >
+		<PackageReference Include="PolyFill" Version="[7.18.0, 8.0.0)" Condition="'$(TargetFramework)' == 'netstandard2.0'"/>
+	</ItemGroup>
 
 
     <ItemGroup>
