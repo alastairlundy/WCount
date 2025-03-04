@@ -1,5 +1,9 @@
-## WCount.Abstraction Library
-Interfaces to enable counting the number of lines, words, characters, and/or bytes in TextReader streams.
+## WCountLib Abstractions Library
+This package adds interfaces to enable counting the number of lines, words, characters, and/or bytes in TextReader streams.
+
+There is also an interface for determining what is a word, that can be used to assist in counting words.
+
+No implementations are provided in this package - this is by design.
 
 ### Compatibility
 This project should work with any .NET Standard 2.0, .NET Standard 2.1, .NET 8, or newer .NET project but support for edge cases or niche use cases is not guaranteed.
