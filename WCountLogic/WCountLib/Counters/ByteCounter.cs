@@ -12,11 +12,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using WCountLib.Counters.Abstractions;
 
 // ReSharper disable RedundantIfElseBlock
 
-namespace WCountLib.Counters
+namespace AlastairLundy.WCountLib.Counters
 {
     public class ByteCounter : IByteCounter
     {

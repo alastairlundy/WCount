@@ -13,12 +13,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WCountLib.Counters.Abstractions;
+
 using WCountLib.Localizations;
 
 // ReSharper disable RedundantIfElseBlock
 
-namespace WCountLib.Counters
+namespace AlastairLundy.WCountLib.Counters
 {
     public class CharCounter : ICharCounter
     {

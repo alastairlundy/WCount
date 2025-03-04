@@ -9,12 +9,12 @@
 
 using System;
 using System.Collections.Generic;
-using WCountLib.Counters.Abstractions;
+
 using WCountLib.Localizations;
 
 // ReSharper disable RedundantIfElseBlock
 
-namespace WCountLib.Counters
+namespace AlastairLundy.WCountLib.Counters
 {
     public class LineCounter : ILineCounter
     {
