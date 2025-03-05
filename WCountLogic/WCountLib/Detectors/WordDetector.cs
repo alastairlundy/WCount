@@ -11,8 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using AlastairLundy.Extensions.System.Strings;
-
-using WCountLib.Detectors.Abstractions;
+using AlastairLundy.WCountLib.Abstractions.Detectors;
 
 // ReSharper disable RedundantBoolCompare
 
@@ -27,22 +26,27 @@ namespace AlastairLundy.WCountLib.Detectors
         /// Checks to see if a string looks like a word.
         /// Results may not be 100% accurate.
         /// </summary>
-        /// <param name="s">The string to be searched.</param>
-        /// <param name="excludeStringsWithSpaces">Whether to exclude strings that contain 1 or more spaces within them. Set to true by default.</param>
+        /// <param name="input">The string to be searched.</param>
+        /// <param name="countStringsWithSpacesAsWords">Whether to count strings that contain 1 or more spaces within them as a word. Set to false by default.</param>
         /// <returns>true if the string is not a special character and doesn't contain a space character if spaces are excluded; false otherwise.</returns>
-        public bool IsStringAWord(string s, bool excludeStringsWithSpaces = true)
+        public bool IsStringAWord(string input, bool countStringsWithSpacesAsWords = false)
         {
-            bool output = s.ContainsSpaceSeparatedSubStrings() == false;
+            bool output = input.ContainsSpaceSeparatedSubStrings() == false;
 
-            if (string.IsNullOrWhiteSpace(s) == true || 
-                s.ContainsSpaceSeparatedSubStrings() && excludeStringsWithSpaces == true)
+            if (string.IsNullOrWhiteSpace(input) == true || 
+                input.ContainsSpaceSeparatedSubStrings() && countStringsWithSpacesAsWords == false)
             {
                 output = false;
             }
             
-            if(s.ToCharArray().All(c => c.IsSpecialCharacter() == true))
+            if(input.ToCharArray().All(c => c.IsSpecialCharacter() == true))
             {
                 output = false;
+            }
+
+            if (input.Split(' ').Length == 1 && countStringsWithSpacesAsWords == false)
+            {
+                output = true;
             }
 
             return output;
@@ -54,14 +58,14 @@ namespace AlastairLundy.WCountLib.Detectors
         /// </summary>
         /// <param name="s">The string to be searched.</param>
         /// <param name="delimitersToExclude">Deli</param>
-        /// <param name="excludeStringsWithSpaces">Whether to exclude strings that contain 1 or more spaces within them. Set to true by default.</param>
+        /// <param name="countStringsWithSpacesAsWords">Whether to count strings that contain 1 or more spaces within them as a word. Set to false by default.</param>
         /// <returns>true if the string does not contain any delimiters to exclude or is not a special character and doesn't contain a space character if space characters are excluded; false otherwise.</returns>
-        public bool IsStringAWord(string s, IEnumerable<char> delimitersToExclude, bool excludeStringsWithSpaces = true)
+        public bool IsStringAWord(string s, IEnumerable<char> delimitersToExclude, bool countStringsWithSpacesAsWords = false)
         {
             bool output = false;
             
             if (string.IsNullOrWhiteSpace(s) == false ||
-                s.ContainsSpaceSeparatedSubStrings() && excludeStringsWithSpaces == true)
+                s.ContainsSpaceSeparatedSubStrings() && countStringsWithSpacesAsWords == false)
             {
                 output = false;    
             }
