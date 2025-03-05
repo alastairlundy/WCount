@@ -29,6 +29,10 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
         /// <returns>The total number of characters counted.</returns>
         int CountCharacters(TextReader textReader, Encoding textEncodingType);
         
+        // TODO: Add ulong non-async interface method in v4
+
+        // TODO: Add int async interface method in v4
+
         /// <summary>
         /// Asynchronously reads from the provided TextReader and counts the total number of characters in the specified Encoding.
         /// </summary>
