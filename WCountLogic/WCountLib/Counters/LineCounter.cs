@@ -8,9 +8,17 @@
  */
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
-using WCountLib.Localizations;
+using AlastairLundy.WCountLib.Abstractions.Counters;
+
+using Microsoft.Extensions.Primitives;
+
 
 // ReSharper disable RedundantIfElseBlock
 
@@ -19,17 +27,17 @@ namespace AlastairLundy.WCountLib.Counters
     public class LineCounter : ILineCounter
     {
 
-        /// <summary>
-        /// Gets the number of lines in a string.
-        /// </summary>
-        /// <param name="s">The string to be searched.</param>
-        /// <returns>the number of lines in a string.</returns>
-        public int CountLines(string s)
+		/// <summary>
+		/// Gets the number of lines in a string.
+		/// </summary>
+		/// <param name="s">The string to be searched.</param>
+		/// <returns>the number of lines in a string.</returns>
+		public int CountLines(string s)
         {
             int totalCount = 0;
             foreach (char c in s)
             {
-                if (c.Equals('\n') || c.Equals(char.Parse("\r\n")) || c.ToString().Equals(Environment.NewLine))
+                if (c.ToString().Equals(Environment.NewLine))
                 {
                     totalCount++;
                 }
@@ -38,21 +46,47 @@ namespace AlastairLundy.WCountLib.Counters
             return totalCount;
         }
 
-        /// <summary>
-        /// Gets the number of lines in an IEnumerable of strings.
-        /// </summary>
-        /// <param name="enumerable">The IEnumerable to be searched.</param>
-        /// <returns>the number of lines in the specified IEnumerable.</returns>
-        public int CountLines(IEnumerable<string> enumerable)
-        {
-            int totalCount = 0;
 
-            foreach (string s in enumerable)
-            {
-                totalCount += CountLines(s);
-            }
+		public int CountLines(TextReader textReader)
+		{
+			int newLines = 0;
+			
+			string? latestLine = string.Empty;
 
-            return totalCount;
-        }
-    }
+			do
+			{
+				latestLine = textReader.ReadLine();
+
+				if(latestLine != null)
+				{
+					Interlocked.Increment(ref newLines);
+				}
+			}
+			while (latestLine != null);
+
+
+			return newLines;
+		}
+
+		public async Task<int> CountLinesAsync(TextReader textReader)
+		{
+			int newLines = 0;
+
+			string? latestLine = string.Empty;
+
+			do
+			{
+				latestLine = await textReader.ReadLineAsync();
+
+				if (latestLine != null)
+				{
+					Interlocked.Increment(ref newLines);
+				}
+			}
+			while (latestLine != null);
+
+
+			return await new ValueTask<int>(newLines);
+		}
+	}
 }

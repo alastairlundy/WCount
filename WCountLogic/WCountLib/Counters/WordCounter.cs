@@ -7,11 +7,19 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
-using WCountLib.Localizations;
+using AlastairLundy.WCountLib.Abstractions.Counters;
+using AlastairLundy.WCountLib.Abstractions.Detectors;
+using Microsoft.Extensions.Primitives;
+
 
 namespace AlastairLundy.WCountLib.Counters
 {
@@ -23,99 +31,87 @@ namespace AlastairLundy.WCountLib.Counters
         {
             _wordDetector = wordDetector;
         }
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
-        public async Task<ulong> CountWordsAsync(string s)
+
+        protected ulong CountWordsWorker(string input)
         {
-            ulong totalCount = 0;
+#if NET5_0_OR_GREATER
+            ulong totalWords = 0;
+#else
+            long totalWords = 0;
+#endif
+            
+            StringTokenizer stringTokenizer = new StringTokenizer(input, new[] { ' ' });
+            
+            IEnumerable<StringSegment> segments = stringTokenizer;
+            int segmentCount = segments.Count();
 
-            if (s.Contains(Environment.NewLine))
+            if (segmentCount < 100)
             {
-                string[] splitStrings = s.Split(Environment.NewLine);
-                int taskCount = splitStrings.Length;
-
-                Task[] tasks = new Task[taskCount];
-                
-                for (int index = 0; index < taskCount; index++)
+                Parallel.ForEach(segments, segment =>
                 {
-                    // Keep Rider happy
-                    string str = splitStrings[index];
-                    
-                    tasks[index] = new Task(() => totalCount += CountWords(str));
-                    tasks[index].Start();
-                }
-
-                await Task.WhenAll(tasks);
+                    if (_wordDetector.IsStringAWord(segment.Value, false))
+                    {
+                        Interlocked.Increment(ref totalWords);
+                    }
+                });
             }
             else
             {
-                Task task = new Task(() => totalCount += CountWords(s));
-                task.Start();
-
-                await task;
-            }
-
-            return totalCount;
-        }
-
-        /// <summary>
-        /// Gets the number of words in a string.
-        /// </summary>
-        /// <param name="s">The string to be searched.</param>
-        /// <returns>The number of words in the provided string.</returns>
-        public ulong CountWords(string s)
-        {
-            ulong totalCount = 0;
-
-            string[] potentialWords = s.Split(' ');
-
-            foreach (string potentialWord in potentialWords)
-            {
-                if (_wordDetector.IsStringAWord(potentialWord, true))
+                OrderablePartitioner<StringSegment> partitioner = Partitioner.Create(segments, EnumerablePartitionerOptions.NoBuffering);
+                
+                Parallel.ForEach(partitioner, segment =>
                 {
-                    totalCount += 1;
-                }
+                    if (_wordDetector.IsStringAWord(segment.Value, false))
+                    {
+                        Interlocked.Increment(ref totalWords);
+                    }
+                });
             }
-
-            return totalCount;
+            
+#if NET5_0_OR_GREATER
+            return totalWords;
+#else
+            return Convert.ToUInt64(totalWords);            
+#endif
         }
 
         /// <summary>
-        /// Gets the number of words in an IEnumerable of strings asynchronously.
+        /// 
         /// </summary>
-        /// <param name="enumerable">The IEnumerable of strings to be searched.</param>
-        /// <returns>the number of words in an IEnumerable of strings.</returns>
-        public async Task<ulong> CountWordsAsync(IEnumerable<string> enumerable)
-        {
-            ulong totalCount = 0;
-
-            foreach (string s in enumerable)
-            {
-                totalCount += await CountWordsAsync(s);
-            }
-
-            return totalCount;
+        /// <param name="textReader"></param>
+        /// <returns></returns>
+        public ulong CountWords(TextReader textReader)
+        { 
+           string input = textReader.ReadToEnd();
+           
+            ulong totalWords = CountWordsWorker(input);
+          
+          textReader.Dispose();
+          
+          return totalWords;
         }
 
         /// <summary>
-        /// Gets the number of words in an IEnumerable of strings.
+        /// 
         /// </summary>
-        /// <param name="enumerable">The IEnumerable of strings to be searched.</param>
-        /// <returns>the number of words in an IEnumerable of strings.</returns>
-        public ulong CountWords(IEnumerable<string> enumerable)
+        /// <param name="textReader"></param>
+        /// <returns></returns>
+        public async Task<ulong> CountWordsAsync(TextReader textReader)
         {
-            ulong totalCount = 0;
+            string input = await textReader.ReadToEndAsync();
 
-            foreach (string s in enumerable)
+            ulong totalWords = 0;
+            
+            Task wordCountingTask = Task.Run(() =>
             {
-                totalCount += CountWords(s);
-            }
-
-            return totalCount;
+                totalWords = CountWordsWorker(input);
+            });
+            
+            await wordCountingTask;
+          
+            textReader.Dispose();
+          
+            return totalWords;
         }
     }
 }

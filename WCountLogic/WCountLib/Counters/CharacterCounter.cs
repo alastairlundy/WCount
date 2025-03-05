@@ -9,18 +9,20 @@
 
 using System;
 using System.Collections.Generic;
-
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
-using WCountLib.Localizations;
+using AlastairLundy.WCountLib.Abstractions.Counters;
+
 
 // ReSharper disable RedundantIfElseBlock
 
 namespace AlastairLundy.WCountLib.Counters
 {
-    public class CharCounter : ICharCounter
+    public class CharacterCounter : ICharacterCounter
     {
         /// <summary>
         /// Get the number of characters in a string.
@@ -28,7 +30,7 @@ namespace AlastairLundy.WCountLib.Counters
         /// <param name="s">The string to be searched.</param>
         /// <param name="textEncodingType">The encoding type to use to count characters.</param>
         /// <returns>the number of characters in a string.</returns>
-        public int CountCharacters(string s, Encoding textEncodingType)
+        protected int CountCharactersWorker(string s, Encoding textEncodingType)
         {
             int totalChars;
 
@@ -69,46 +71,57 @@ namespace AlastairLundy.WCountLib.Counters
         }
 
         /// <summary>
-        /// Gets the number of characters in an IEnumerable of strings.
+        /// 
         /// </summary>
-        /// <param name="enumerable">The IEnumerable to be searched.</param>
-        /// <param name="textEncodingType">The encoding type to use to count characters.</param>
-        /// <returns>the number of characters in the specified IEnumerable.</returns>
-        public ulong CountCharacters(IEnumerable<string> enumerable, Encoding textEncodingType)
-        {
-            ulong totalChars = 0;
+        /// <param name="textReader"></param>
+        /// <param name="textEncodingType"></param>
+        /// <returns></returns>
+		public int CountCharacters(TextReader textReader, Encoding textEncodingType)
+		{
+            int newChars = 0;
 
-            foreach (string s in enumerable)
-            {
-                totalChars += Convert.ToUInt64(CountCharacters(s, textEncodingType));
-            }
+			string? latestLine = string.Empty;
 
-            return totalChars;
-        }
+			do
+			{
+				latestLine = textReader.ReadLine();
+
+				if (latestLine != null)
+				{
+					newChars += Convert.ToUInt64(CountCharactersWorker(latestLine, textEncodingType);
+				}
+			}
+			while (latestLine != null);
+
+
+			return newChars;
+		}
 
         /// <summary>
-        /// Gets the number of characters in an IEnumerable of strings asynchronously.
+        /// 
         /// </summary>
-        /// <param name="enumerable">The IEnumerable to be searched.</param>
-        /// <param name="textEncodingType">The encoding type to use to count characters.</param>
-        /// <returns>the number of characters in the specified IEnumerable.</returns>
-        public async Task<ulong> CountCharactersAsync(IEnumerable<string> enumerable, Encoding textEncodingType)
-        {
-            ulong totalChars = 0;
-            string[] array = enumerable.ToArray();
-            
-            Task[] tasks = new Task[array.Length];
+        /// <param name="textReader"></param>
+        /// <param name="textEncodingType"></param>
+        /// <returns></returns>
+		public async Task<ulong> CountCharactersAsync(TextReader textReader, Encoding textEncodingType)
+		{
+			ulong newChars = 0;
 
-            for (int index = 0; index < array.Length; index++)
-            {
-                int taskNumber = index;
-                tasks[taskNumber] = new Task<ulong>(() => totalChars += Convert.ToUInt64(CountCharacters(array[taskNumber], textEncodingType)));
-                tasks[taskNumber].Start();
-            }
+			string? latestLine = string.Empty;
 
-            await Task.WhenAll(tasks);
+			do
+			{
+				latestLine = await textReader.ReadLineAsync();
 
-            return totalChars;
-        }
-    }
+				if (latestLine != null)
+				{
+                    newChars += Convert.ToUInt64(CountCharactersWorker(latestLine, textEncodingType);
+				}
+			}
+			while (latestLine != null);
+
+
+			return await new ValueTask<ulong>(newChars);
+		}
+	}
 }
