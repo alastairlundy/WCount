@@ -13,8 +13,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using WCountLib.Counters.Abstractions;
-
 // ReSharper disable RedundantIfElseBlock
 
 namespace AlastairLundy.WCountLib.Counters
