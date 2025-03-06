@@ -8,7 +8,10 @@
  */
 
 
+#if NETSTANDARD2_0 || NETSTANDARD2_1
 using System;
+#endif
+
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -18,7 +21,10 @@ using System.Threading.Tasks;
 
 using AlastairLundy.WCountLib.Abstractions.Counters;
 using AlastairLundy.WCountLib.Abstractions.Detectors;
+
 using Microsoft.Extensions.Primitives;
+// ReSharper disable UseCollectionExpression
+// ReSharper disable RedundantArgumentDefaultValue
 
 
 namespace AlastairLundy.WCountLib.Counters
@@ -76,10 +82,10 @@ namespace AlastairLundy.WCountLib.Counters
         }
 
         /// <summary>
-        /// 
+        /// Synchronously reads from the provided TextReader and counts total the number of words.
         /// </summary>
-        /// <param name="textReader"></param>
-        /// <returns></returns>
+        /// <param name="textReader">The TextReader from which to count words.</param>
+        /// <returns>The total number of words counted.</returns>
         public ulong CountWords(TextReader textReader)
         { 
            string input = textReader.ReadToEnd();
@@ -92,10 +98,10 @@ namespace AlastairLundy.WCountLib.Counters
         }
 
         /// <summary>
-        /// 
+        /// Asynchronously reads from the provided TextReader and counts the total number of words.
         /// </summary>
-        /// <param name="textReader"></param>
-        /// <returns></returns>
+        /// <param name="textReader">The TextReader from which to count words.</param>
+        /// <returns>The total number of words counted.</returns>
         public async Task<ulong> CountWordsAsync(TextReader textReader)
         {
             string input = await textReader.ReadToEndAsync();
