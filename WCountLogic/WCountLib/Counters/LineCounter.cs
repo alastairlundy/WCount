@@ -7,17 +7,11 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 using AlastairLundy.WCountLib.Abstractions.Counters;
-
-using Microsoft.Extensions.Primitives;
 
 
 // ReSharper disable RedundantIfElseBlock
@@ -27,31 +21,11 @@ namespace AlastairLundy.WCountLib.Counters
     public class LineCounter : ILineCounter
     {
 
-		/// <summary>
-		/// Gets the number of lines in a string.
-		/// </summary>
-		/// <param name="s">The string to be searched.</param>
-		/// <returns>the number of lines in a string.</returns>
-		public int CountLines(string s)
-        {
-            int totalCount = 0;
-            foreach (char c in s)
-            {
-                if (c.ToString().Equals(Environment.NewLine))
-                {
-                    totalCount++;
-                }
-            }
-
-            return totalCount;
-        }
-
-
 		public int CountLines(TextReader textReader)
 		{
-			int newLines = 0;
+			int lineCount = 0;
 			
-			string? latestLine = string.Empty;
+			string? latestLine;
 
 			do
 			{
@@ -59,20 +33,20 @@ namespace AlastairLundy.WCountLib.Counters
 
 				if(latestLine != null)
 				{
-					Interlocked.Increment(ref newLines);
+					Interlocked.Increment(ref lineCount);
 				}
 			}
 			while (latestLine != null);
 
 
-			return newLines;
+			return lineCount;
 		}
 
 		public async Task<int> CountLinesAsync(TextReader textReader)
 		{
-			int newLines = 0;
+			int lineCount = 0;
 
-			string? latestLine = string.Empty;
+			string? latestLine;
 
 			do
 			{
@@ -80,13 +54,13 @@ namespace AlastairLundy.WCountLib.Counters
 
 				if (latestLine != null)
 				{
-					Interlocked.Increment(ref newLines);
+					Interlocked.Increment(ref lineCount);
 				}
 			}
 			while (latestLine != null);
 
 
-			return await new ValueTask<int>(newLines);
+			return await new ValueTask<int>(lineCount);
 		}
 	}
 }

@@ -75,7 +75,7 @@ namespace AlastairLundy.WCountLib.Counters
         /// <returns></returns>
 		public int CountCharacters(TextReader textReader, Encoding textEncodingType)
 		{
-            int newChars = 0;
+            int charCount = 0;
 
 			string? latestLine;
 
@@ -85,13 +85,13 @@ namespace AlastairLundy.WCountLib.Counters
 
 				if (latestLine != null)
 				{
-					newChars += CountCharactersWorker(latestLine, textEncodingType);
+					charCount += CountCharactersWorker(latestLine, textEncodingType);
 				}
 			}
 			while (latestLine != null);
 
 
-			return newChars;
+			return charCount;
 		}
 
         /// <summary>
@@ -102,9 +102,9 @@ namespace AlastairLundy.WCountLib.Counters
         /// <returns></returns>
 		public async Task<ulong> CountCharactersAsync(TextReader textReader, Encoding textEncodingType)
 		{
-			ulong newChars = 0;
+			ulong charCount = 0;
 
-			string? latestLine = string.Empty;
+			string? latestLine;
 
 			do
 			{
@@ -112,13 +112,13 @@ namespace AlastairLundy.WCountLib.Counters
 
 				if (latestLine != null)
 				{
-                    newChars += Convert.ToUInt64(CountCharactersWorker(latestLine, textEncodingType));
+                    charCount += Convert.ToUInt64(CountCharactersWorker(latestLine, textEncodingType));
 				}
 			}
 			while (latestLine != null);
 
 
-			return await new ValueTask<ulong>(newChars);
+			return await new ValueTask<ulong>(charCount);
 		}
 	}
 }
