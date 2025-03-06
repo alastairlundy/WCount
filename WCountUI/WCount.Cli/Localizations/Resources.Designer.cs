@@ -58,5 +58,140 @@ namespace WCount.Cli.Localizations {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Exceptions_NoFileProvided {
+            get {
+                return ResourceManager.GetString("Exceptions.NoFileProvided", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string WCount_App_Bytes_Description {
+            get {
+                return ResourceManager.GetString("WCount.App.Bytes.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string WCount_App_Chars_Description {
+            get {
+                return ResourceManager.GetString("WCount.App.Chars.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string WCount_App_Description {
+            get {
+                return ResourceManager.GetString("WCount.App.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bytes.
+        /// </summary>
+        internal static string WCount_App_Labels_Bytes_Plural {
+            get {
+                return ResourceManager.GetString("WCount.App.Labels.Bytes.Plural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Byte.
+        /// </summary>
+        internal static string WCount_App_Labels_Bytes_Singular {
+            get {
+                return ResourceManager.GetString("WCount.App.Labels.Bytes.Singular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Characters.
+        /// </summary>
+        internal static string WCount_App_Labels_Characters_Plural {
+            get {
+                return ResourceManager.GetString("WCount.App.Labels.Characters.Plural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Character.
+        /// </summary>
+        internal static string WCount_App_Labels_Characters_Singular {
+            get {
+                return ResourceManager.GetString("WCount.App.Labels.Characters.Singular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lines.
+        /// </summary>
+        internal static string WCount_App_Labels_Lines_Plural {
+            get {
+                return ResourceManager.GetString("WCount.App.Labels.Lines.Plural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Line.
+        /// </summary>
+        internal static string WCount_App_Labels_Lines_Singular {
+            get {
+                return ResourceManager.GetString("WCount.App.Labels.Lines.Singular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total.
+        /// </summary>
+        internal static string WCount_App_Labels_Total {
+            get {
+                return ResourceManager.GetString("WCount.App.Labels.Total", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Words.
+        /// </summary>
+        internal static string WCount_App_Labels_Words_Plural {
+            get {
+                return ResourceManager.GetString("WCount.App.Labels.Words.Plural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Word.
+        /// </summary>
+        internal static string WCount_App_Labels_Words_Singular {
+            get {
+                return ResourceManager.GetString("WCount.App.Labels.Words.Singular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string WCount_App_Lines_Description {
+            get {
+                return ResourceManager.GetString("WCount.App.Lines.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string WCount_App_Words_Description {
+            get {
+                return ResourceManager.GetString("WCount.App.Words.Description", resourceCulture);
+            }
+        }
     }
 }

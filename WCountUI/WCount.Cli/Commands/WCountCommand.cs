@@ -3,22 +3,25 @@ using System.ComponentModel;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+
 using AlastairLundy.WCountLib.Abstractions.Counters;
+
 using Spectre.Console;
 using Spectre.Console.Cli;
+
 using WCount.Cli.Helpers;
 using WCount.Cli.Localizations;
 using WCount.Cli.Models;
-using WCountLib.Counters.Abstractions;
+// ReSharper disable ClassNeverInstantiated.Global
 
 namespace WCount.Cli.Commands;
 
 public class WCountCommand : AsyncCommand<WCountCommand.Settings>
 {
-    private IWordCounter _wordCounter;
-    private ICharacterCounter _charCounter;
-    private IByteCounter _byteCounter;
-    private ILineCounter _lineCounter;
+    private readonly IWordCounter _wordCounter;
+    private readonly ICharacterCounter _charCounter;
+    private readonly IByteCounter _byteCounter;
+    private readonly ILineCounter _lineCounter;
 
     public WCountCommand(IWordCounter wordCounter, IByteCounter byteCounter, ICharacterCounter charCounter, ILineCounter lineCounter)
     {
@@ -84,15 +87,15 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
                         {
 						    string fileContents = await File.ReadAllTextAsync(file);
 
-						    int lineCount = _lineCounter.CountLines(fileContents);
+						    int lineCount = await _lineCounter.CountLinesAsync(new StringReader(fileContents));
 
 						    totalLines += lineCount;
 						    
-                            grid.AddRow(new string[] { lineCount.ToString(), new TextPath(file).ToString()! });
+                            grid.AddRow(new[] { lineCount.ToString(), new TextPath(file).ToString()! });
 					    }
                     }
 
-                    grid.AddRow(new string[] { totalLines.ToString() , Resources.WCount_App_Labels_Total});
+                    grid.AddRow(new[] { totalLines.ToString() , Resources.WCount_App_Labels_Total});
                     
                     AnsiConsole.Write(grid);
                     return 0;
@@ -107,12 +110,14 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
                     
                     foreach (string file in settings.Files!)
                     {
-                        ulong wordCount = _wordCounter.CountWordsInFile(file);
+                        string fileContents = await File.ReadAllTextAsync(file);
+                        
+                        ulong wordCount = await _wordCounter.CountWordsAsync(new StringReader(fileContents));
                         totalWords += wordCount;
-                        grid.AddRow(new string[] { wordCount.ToString(), file});
+                        grid.AddRow(new[] { wordCount.ToString(), file});
                     }
 
-                    grid.AddRow(new string[] { totalWords.ToString(), Resources.WCount_App_Labels_Total});
+                    grid.AddRow(new[] { totalWords.ToString(), Resources.WCount_App_Labels_Total});
                     
                     AnsiConsole.Write(grid);
                     return 0;
@@ -124,14 +129,17 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
                     grid.AddColumn();
 
                     ulong totalChars = 0;
+                    
                     foreach (string file in settings.Files!)
                     {
-                        ulong charCount = _charCounter.CountCharactersInFile(file);
+                        string fileContents = await File.ReadAllTextAsync(file);
+                        
+                        ulong charCount = await _charCounter.CountCharactersAsync(new StringReader(fileContents), Encoding.Default);
                         totalChars += charCount;
-                        grid.AddRow(new string[] { charCount.ToString(), file });
+                        grid.AddRow(new[] { charCount.ToString(), file });
                     }
 
-                    grid.AddRow(new string[] {totalChars.ToString(), Resources.WCount_App_Labels_Total});
+                    grid.AddRow(totalChars.ToString(), Resources.WCount_App_Labels_Total);
                     
                     AnsiConsole.Write(grid);
                     return 0;
@@ -146,12 +154,14 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
                     
                     foreach (string file in settings.Files!)
                     {
-                        ulong byteCount = _byteCounter.CountBytesInFile(file, Encoding.UTF8);
+                        string fileContents = await File.ReadAllTextAsync(file);
+                        
+                        ulong byteCount = await _byteCounter.CountBytesAsync(new StringReader(fileContents), Encoding.Default);
                         totalBytes += byteCount;
-                        grid.AddRow(new string[] { byteCount.ToString(), file});
+                        grid.AddRow(new[] { byteCount.ToString(), file});
                     }
 
-                    grid.AddRow(new string[] { totalBytes.ToString(), Resources.WCount_App_Labels_Total});
+                    grid.AddRow(new[] { totalBytes.ToString(), Resources.WCount_App_Labels_Total});
 
                     AnsiConsole.Write(grid);
                     return 0;
@@ -165,9 +175,13 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
 
                     foreach (string file in settings.Files!)
                     {
-                        totalLineCount += _lineCounter.CountLinesInFile(file);
-                        totalWordCount += _wordCounter.CountWordsInFile(file);
-                        totalCharCount += _charCounter.CountCharactersInFile(file);
+                        string fileContents = await File.ReadAllTextAsync(file);
+                        
+                        StringReader reader = new StringReader(fileContents);
+                        
+                        totalLineCount += await _lineCounter.CountLinesAsync(reader);
+                        totalWordCount += await _wordCounter.CountWordsAsync(reader);
+                        totalCharCount += await _charCounter.CountCharactersAsync(reader, Encoding.Default);
                     }
                     
                     grid.AddColumn();
@@ -176,10 +190,17 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
                     
                     foreach (string file in settings.Files!)
                     {
-                        grid.AddRow(new string[] { _lineCounter.CountLinesInFile(file).ToString(), _wordCounter.CountWordsInFile(file).ToString(), charCounter.CountCharactersInFile(file).ToString(), file});
+                        string fileContents = await File.ReadAllTextAsync(file);
+                        StringReader reader = new StringReader(fileContents);
+                        
+                        int lineCount = await _lineCounter.CountLinesAsync(reader);
+                        ulong wordCount = await _wordCounter.CountWordsAsync(reader);
+                        ulong charCount = await _charCounter.CountCharactersAsync(reader, Encoding.Default);
+                        
+                        grid.AddRow(new[] { lineCount.ToString(), wordCount.ToString(), charCount.ToString(), file});
                     }
 
-                    grid.AddRow(new string[] { totalLineCount.ToString(), totalWordCount.ToString(), totalCharCount.ToString(), Resources.WCount_App_Labels_Total});
+                    grid.AddRow(new[] { totalLineCount.ToString(), totalWordCount.ToString(), totalCharCount.ToString(), Resources.WCount_App_Labels_Total});
                     
                     AnsiConsole.Write(grid);
                     return 0;

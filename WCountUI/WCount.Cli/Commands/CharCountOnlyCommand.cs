@@ -1,16 +1,20 @@
 ﻿using System;
+using System.IO;
+using System.Text;
+using System.Threading.Tasks;
 
 using AlastairLundy.WCountLib.Abstractions.Counters;
 
 using Spectre.Console;
 using Spectre.Console.Cli;
+
 using WCount.Cli.Helpers;
 using WCount.Cli.Localizations;
 using WCount.Cli.Models;
 
 namespace WCount.Cli.Commands
 {
-    public class CharCountOnlyCommand : Command<CharCountOnlyCommand.Settings>
+    public class CharCountOnlyCommand : AsyncCommand<CharCountOnlyCommand.Settings>
     {
         private readonly ICharacterCounter _charCounter;
 
@@ -23,7 +27,7 @@ namespace WCount.Cli.Commands
         {
 
         }
-        public override int Execute(CommandContext context, Settings settings)
+        public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
         {
             ExceptionFormats exceptionFormats;
 
@@ -50,7 +54,9 @@ namespace WCount.Cli.Commands
 
                 foreach (string file in settings.Files!)
                 {
-                    ulong charCount = +_charCounter.CountCharactersInFile(file);
+                    string fileContents = await File.ReadAllTextAsync(file);
+                    
+                    ulong charCount =  await _charCounter.CountCharactersAsync(new StringReader(fileContents), Encoding.Default);
                     totalChars += charCount;
 
                     string label = "";

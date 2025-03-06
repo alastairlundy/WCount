@@ -1,15 +1,20 @@
 ﻿using System;
+using System.IO;
 using System.Text;
+using System.Threading.Tasks;
+
 using AlastairLundy.WCountLib.Abstractions.Counters;
+
 using Spectre.Console;
 using Spectre.Console.Cli;
+
 using WCount.Cli.Helpers;
+using WCount.Cli.Localizations;
 using WCount.Cli.Models;
-using WCountLib.Counters.Abstractions;
 
 namespace WCount.Cli.Commands
 {
-    public class BytesCountOnlyCommand : Command<BytesCountOnlyCommand.Settings>
+    public class BytesCountOnlyCommand : AsyncCommand<BytesCountOnlyCommand.Settings>
     {
         private readonly IByteCounter _byteCounter;
 
@@ -23,7 +28,7 @@ namespace WCount.Cli.Commands
 
         }
 
-        public override int Execute(CommandContext context, Settings settings)
+        public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
         {
             ExceptionFormats exceptionFormats;
 
@@ -51,14 +56,18 @@ namespace WCount.Cli.Commands
 
                 foreach (string file in settings.Files!)
                 {
-                    ulong byteCount = _byteCounter.CountBytesInFile(file, Encoding.Default);
+                    string fileContents = await File.ReadAllTextAsync(file);
+                    
+                    ulong byteCount =
+                        await _byteCounter.CountBytesAsync(new StringReader(fileContents), Encoding.Default);
+                    
                     totalBytes += byteCount;
 
                     string label = "";
 
                     if (byteCount == 1)
                     {
-                        label = Resources.Wcount_App_Labels_Bytes_Singular;
+                        label = Resources.WCount_App_Labels_Bytes_Singular;
                     }
                     else
                     {
@@ -76,7 +85,7 @@ namespace WCount.Cli.Commands
                     }
                     else
                     {
-                        AnsiConsole.WriteLine($"{Resources.WCount_App_Labels_Total} {totalBytes} {Resources.Wcount_App_Labels_Bytes_Singular}");
+                        AnsiConsole.WriteLine($"{Resources.WCount_App_Labels_Total} {totalBytes} {Resources.WCount_App_Labels_Bytes_Singular}");
                     }
                 }
 

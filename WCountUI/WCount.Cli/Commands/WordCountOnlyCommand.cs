@@ -1,12 +1,16 @@
 ﻿using System;
+using System.IO;
+using System.Threading.Tasks;
+using AlastairLundy.WCountLib.Abstractions.Counters;
 using Spectre.Console;
 using Spectre.Console.Cli;
+using WCount.Cli.Helpers;
+using WCount.Cli.Localizations;
 using WCount.Cli.Models;
-using WCountLib.Counters.Abstractions;
 
 namespace WCount.Cli.Commands
 {
-    public class WordCountOnlyCommand : Command<WordCountOnlyCommand.Settings>
+    public class WordCountOnlyCommand : AsyncCommand<WordCountOnlyCommand.Settings>
     {
         private readonly IWordCounter _wordCounter;
 
@@ -20,7 +24,7 @@ namespace WCount.Cli.Commands
 
         }
 
-        public override int Execute(CommandContext context, Settings settings)
+        public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
         {
             ExceptionFormats exceptionFormats;
 
@@ -47,7 +51,9 @@ namespace WCount.Cli.Commands
 
                 foreach (string file in settings.Files!)
                 {
-                    ulong wordCount = _wordCounter.CountWordsInFile(file);
+                    string fileContents = await File.ReadAllTextAsync(file);
+                    
+                    ulong wordCount = await _wordCounter.CountWordsAsync(new StringReader(fileContents));
                     totalWords += wordCount;
 
                     string wordLabel = "";

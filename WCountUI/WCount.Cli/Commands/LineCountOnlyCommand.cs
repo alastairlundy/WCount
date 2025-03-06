@@ -1,12 +1,19 @@
 ﻿using System;
+using System.IO;
+using System.Threading.Tasks;
+
+using AlastairLundy.WCountLib.Abstractions.Counters;
+
 using Spectre.Console;
 using Spectre.Console.Cli;
+
+using WCount.Cli.Helpers;
+using WCount.Cli.Localizations;
 using WCount.Cli.Models;
-using WCountLib.Counters.Abstractions;
 
 namespace WCount.Cli.Commands
 {
-    public class LineCountOnlyCommand : Command<LineCountOnlyCommand.Settings>
+    public class LineCountOnlyCommand : AsyncCommand<LineCountOnlyCommand.Settings>
     {
         private readonly ILineCounter _lineCounter;
 
@@ -20,7 +27,7 @@ namespace WCount.Cli.Commands
 
         }
 
-        public override int Execute(CommandContext context, Settings settings)
+        public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
         {
             ExceptionFormats exceptionFormats;
 
@@ -47,10 +54,12 @@ namespace WCount.Cli.Commands
 
                 foreach (string file in settings.Files!)
                 {
-                    int lineCount = _lineCounter.CountLinesInFile(file);
+                    string fileContents = await File.ReadAllTextAsync(file);
+                    
+                    int lineCount = await _lineCounter.CountLinesAsync(new StringReader(fileContents));
                     totalLines += lineCount;
 
-                    string label = "";
+                    string label;
 
                     if (lineCount == 1)
                     {
