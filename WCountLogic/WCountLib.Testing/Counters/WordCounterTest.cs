@@ -1,5 +1,7 @@
-﻿using WCountLib.Counters;
-using WCountLib.Detectors;
+﻿using System.IO;
+using AlastairLundy.WCountLib.Counters;
+using AlastairLundy.WCountLib.Detectors;
+
 
 using WCountLib.Testing.TestData;
 
@@ -11,9 +13,9 @@ public class WordCounterTest
 
     [Theory]
     [ClassData(typeof(RealWordsTestData))]
-    public void CountWords(string[] words, ulong expected)
+    public void CountWords(string words, ulong expected)
     {
-        ulong actual = _counter.CountWords(words);
+        ulong actual = _counter.CountWords(new StringReader(words));
         
         Assert.Equal(expected, actual);
     }
@@ -22,7 +24,7 @@ public class WordCounterTest
     [ClassData(typeof(FakeWordsTestData))]
     public void DontCountFakeWords(string words)
     {
-        ulong actual = _counter.CountWords(words);
+        ulong actual = _counter.CountWords(new StringReader(words));
         
         Assert.Equal(ulong.Parse("0"), actual);
     }   
