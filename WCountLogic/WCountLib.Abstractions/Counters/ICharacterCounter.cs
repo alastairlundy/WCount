@@ -25,9 +25,9 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
         /// Synchronously reads from the provided TextReader and counts total the number of characters in the specified Encoding.
         /// </summary>
         /// <param name="textReader">The TextReader from which to count characters.</param>
-        /// <param name="textEncodingType">The Encoding type of the characters to count.</param>
-        /// <returns>The total number of characters counted.</returns>
-        int CountCharacters(TextReader textReader, Encoding textEncodingType);
+        /// <param name="encoding">The Encoding type of the characters to count.</param>
+        /// <returns>The total number of characters counted as a 32-bit integer.</returns>
+        int CountCharactersInt32(TextReader textReader, Encoding encoding);
         
         // TODO: Add ulong non-async interface method in v4
 
@@ -37,9 +37,9 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
         /// Asynchronously reads from the provided TextReader and counts the total number of characters in the specified Encoding.
         /// </summary>
         /// <param name="textReader">The TextReader from which to count characters.</param>
-        /// <param name="textEncodingType">The Encoding type of the characters to count.</param>
-        /// <returns>The total number of characters counted.</returns>
-        Task<ulong> CountCharactersAsync(TextReader textReader, Encoding textEncodingType);
+        /// <param name="encoding">The Encoding type of the characters to count.</param>
+        /// <returns>The total number of characters counted as a 64-bit unsigned integer.</returns>
+        Task<ulong> CountCharactersUInt64Async(TextReader textReader, Encoding encoding);
 
     }
 }
