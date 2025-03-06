@@ -8,11 +8,8 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 using AlastairLundy.WCountLib.Abstractions.Counters;
@@ -80,7 +77,7 @@ namespace AlastairLundy.WCountLib.Counters
 		{
             int newChars = 0;
 
-			string? latestLine = string.Empty;
+			string? latestLine;
 
 			do
 			{
@@ -88,7 +85,7 @@ namespace AlastairLundy.WCountLib.Counters
 
 				if (latestLine != null)
 				{
-					newChars += Convert.ToUInt64(CountCharactersWorker(latestLine, textEncodingType);
+					newChars += CountCharactersWorker(latestLine, textEncodingType);
 				}
 			}
 			while (latestLine != null);
@@ -115,7 +112,7 @@ namespace AlastairLundy.WCountLib.Counters
 
 				if (latestLine != null)
 				{
-                    newChars += Convert.ToUInt64(CountCharactersWorker(latestLine, textEncodingType);
+                    newChars += Convert.ToUInt64(CountCharactersWorker(latestLine, textEncodingType));
 				}
 			}
 			while (latestLine != null);
