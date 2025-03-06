@@ -87,7 +87,9 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
                         {
 						    string fileContents = await File.ReadAllTextAsync(file);
 
-						    int lineCount = await _lineCounter.CountLinesAsync(new StringReader(fileContents));
+                            using StringReader reader = new StringReader(fileContents);
+                            
+						    int lineCount = await _lineCounter.CountLinesAsync(reader);
 
 						    totalLines += lineCount;
 						    
@@ -112,7 +114,9 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
                     {
                         string fileContents = await File.ReadAllTextAsync(file);
                         
-                        ulong wordCount = await _wordCounter.CountWordsAsync(new StringReader(fileContents));
+                        using StringReader reader = new StringReader(fileContents);
+                        
+                        ulong wordCount = await _wordCounter.CountWordsAsync(reader);
                         totalWords += wordCount;
                         grid.AddRow(new[] { wordCount.ToString(), file});
                     }
@@ -134,7 +138,9 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
                     {
                         string fileContents = await File.ReadAllTextAsync(file);
                         
-                        ulong charCount = await _charCounter.CountCharactersAsync(new StringReader(fileContents), Encoding.Default);
+                        using StringReader reader = new StringReader(fileContents);
+                        
+                        ulong charCount = await _charCounter.CountCharactersAsync(reader, Encoding.Default);
                         totalChars += charCount;
                         grid.AddRow(new[] { charCount.ToString(), file });
                     }
@@ -156,7 +162,9 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
                     {
                         string fileContents = await File.ReadAllTextAsync(file);
                         
-                        ulong byteCount = await _byteCounter.CountBytesAsync(new StringReader(fileContents), Encoding.Default);
+                        using StringReader reader = new StringReader(fileContents);
+                        
+                        ulong byteCount = await _byteCounter.CountBytesAsync(reader, Encoding.Default);
                         totalBytes += byteCount;
                         grid.AddRow(new[] { byteCount.ToString(), file});
                     }
@@ -177,7 +185,7 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
                     {
                         string fileContents = await File.ReadAllTextAsync(file);
                         
-                        StringReader reader = new StringReader(fileContents);
+                        using StringReader reader = new StringReader(fileContents);
                         
                         totalLineCount += await _lineCounter.CountLinesAsync(reader);
                         totalWordCount += await _wordCounter.CountWordsAsync(reader);
@@ -191,7 +199,8 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
                     foreach (string file in settings.Files!)
                     {
                         string fileContents = await File.ReadAllTextAsync(file);
-                        StringReader reader = new StringReader(fileContents);
+                        
+                        using StringReader reader = new StringReader(fileContents);
                         
                         int lineCount = await _lineCounter.CountLinesAsync(reader);
                         ulong wordCount = await _wordCounter.CountWordsAsync(reader);

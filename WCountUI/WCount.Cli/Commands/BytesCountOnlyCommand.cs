@@ -58,8 +58,10 @@ namespace WCount.Cli.Commands
                 {
                     string fileContents = await File.ReadAllTextAsync(file);
                     
+                    using StringReader reader = new StringReader(fileContents);
+                    
                     ulong byteCount =
-                        await _byteCounter.CountBytesAsync(new StringReader(fileContents), Encoding.Default);
+                        await _byteCounter.CountBytesAsync(reader, Encoding.Default);
                     
                     totalBytes += byteCount;
 

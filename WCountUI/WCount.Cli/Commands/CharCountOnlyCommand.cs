@@ -56,7 +56,9 @@ namespace WCount.Cli.Commands
                 {
                     string fileContents = await File.ReadAllTextAsync(file);
                     
-                    ulong charCount =  await _charCounter.CountCharactersAsync(new StringReader(fileContents), Encoding.Default);
+                    using StringReader reader = new StringReader(fileContents);
+                    
+                    ulong charCount =  await _charCounter.CountCharactersAsync(reader, Encoding.Default);
                     totalChars += charCount;
 
                     string label = "";

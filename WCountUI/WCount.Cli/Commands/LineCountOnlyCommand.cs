@@ -56,7 +56,9 @@ namespace WCount.Cli.Commands
                 {
                     string fileContents = await File.ReadAllTextAsync(file);
                     
-                    int lineCount = await _lineCounter.CountLinesAsync(new StringReader(fileContents));
+                    using StringReader reader = new StringReader(fileContents);
+                    
+                    int lineCount = await _lineCounter.CountLinesAsync(reader);
                     totalLines += lineCount;
 
                     string label;

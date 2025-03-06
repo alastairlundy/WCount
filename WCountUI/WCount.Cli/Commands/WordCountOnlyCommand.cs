@@ -53,7 +53,9 @@ namespace WCount.Cli.Commands
                 {
                     string fileContents = await File.ReadAllTextAsync(file);
                     
-                    ulong wordCount = await _wordCounter.CountWordsAsync(new StringReader(fileContents));
+                    using StringReader reader = new StringReader(fileContents);
+                    
+                    ulong wordCount = await _wordCounter.CountWordsAsync(reader);
                     totalWords += wordCount;
 
                     string wordLabel = "";
