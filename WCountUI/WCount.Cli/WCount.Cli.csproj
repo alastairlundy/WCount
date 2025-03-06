@@ -7,6 +7,13 @@
     <Nullable>enable</Nullable>
     <PublishAot>true</PublishAot>
     <InvariantGlobalization>true</InvariantGlobalization>
+    <AssemblyName>wcount</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <Title>WCount.Cli</Title>
+    <Authors>AlastairLundy</Authors>
+    <Copyright>Copyright (c) Alastair Lundy 2025</Copyright>
+    <RepositoryUrl>https://github.com/alastairlundy/wcount</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
