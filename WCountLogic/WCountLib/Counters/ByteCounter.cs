@@ -8,10 +8,11 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+
+using AlastairLundy.WCountLib.Abstractions.Counters;
 
 // ReSharper disable RedundantIfElseBlock
 
@@ -25,7 +26,7 @@ namespace AlastairLundy.WCountLib.Counters
         /// <param name="s">The string to be searched.</param>
         /// <param name="textEncodingType">The type of encoding to use to decode the bytes.</param>
         /// <returns>the number of bytes in the string.</returns>
-        public int CountBytes(string s, Encoding textEncodingType)
+        protected int CountBytesWorker(string s, Encoding textEncodingType)
         {
             int byteCount;
 
@@ -63,50 +64,46 @@ namespace AlastairLundy.WCountLib.Counters
             return byteCount;
         }
 
-        /// <summary>
-        /// Gets the number of bytes in an IEnumerable of strings.
-        /// </summary>
-        /// <param name="enumerable">The IEnumerable to be searched.</param>
-        /// <param name="textEncodingType">The type of encoding to use to decode the bytes.</param>
-        /// <returns>the number of bytes in a specified IEnumerable.</returns>
-        public ulong CountBytes(IEnumerable<string> enumerable, Encoding textEncodingType)
+        public int CountBytes(TextReader textReader, Encoding textEncodingType)
         {
-            ulong totalBytes = 0;
+            int byteCount = 0;
 
-            foreach (string s in enumerable)
+            string? latestLine;
+
+            do
             {
-                totalBytes += Convert.ToUInt64(CountBytes(s, textEncodingType));
-            }
+                latestLine = textReader.ReadLine();
 
-            return totalBytes;
+                if (latestLine != null)
+                {
+                    byteCount += CountBytesWorker(latestLine, textEncodingType);
+                }
+            }
+            while (latestLine != null);
+
+
+            return byteCount;
         }
 
-        /// <summary>
-        /// Gets the number of bytes in an IEnumerable of strings asynchronously.
-        /// </summary>
-        /// <param name="enumerable">The IEnumerable to be searched.</param>
-        /// <param name="textEncodingType">The type of encoding to use to decode the bytes.</param>
-        /// <returns>the number of bytes in a specified IEnumerable.</returns>
-        public async Task<ulong> CountBytesAsync(IEnumerable<string> enumerable, Encoding textEncodingType)
+        public async Task<ulong> CountBytesAsync(TextReader textReader, Encoding textEncodingType)
         {
-            string[] stringArray = enumerable.ToArray();
-            ulong totalBytes = 0;
+            ulong byteCount = 0;
 
-            Task[] tasks = new Task[stringArray.Length];
+            string? latestLine;
 
-            for (int index = 0; index < stringArray.Length; index++)
+            do
             {
-                tasks[index] = new Task(() =>
+                latestLine = await textReader.ReadLineAsync();
+
+                if (latestLine != null)
                 {
-                    totalBytes += Convert.ToUInt64(CountBytes(stringArray, textEncodingType));
-                });
-
-                tasks[index].Start();
+                    byteCount += Convert.ToUInt64(CountBytesWorker(latestLine, textEncodingType));
+                }
             }
+            while (latestLine != null);
 
-            await Task.WhenAll(tasks);
 
-            return totalBytes;
+            return await new ValueTask<ulong>(byteCount);
         }
     }
 }
