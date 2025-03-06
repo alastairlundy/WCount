@@ -1,18 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using BasisBox.Cli.Tools.WCount.Settings;
-
 using Spectre.Console;
 using Spectre.Console.Cli;
-
-using WCountLib;
+using WCount.Cli.Models;
 using WCountLib.Counters.Abstractions;
 
-namespace BasisBox.Cli.Tools.WCount.Commands
+namespace WCount.Cli.Commands
 {
     public class LineCountOnlyCommand : Command<LineCountOnlyCommand.Settings>
     {

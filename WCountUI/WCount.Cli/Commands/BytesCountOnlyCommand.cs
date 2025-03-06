@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Text;
-
-using BasisBox.Cli.Tools.WCount.Settings;
-
+using AlastairLundy.WCountLib.Abstractions.Counters;
 using Spectre.Console;
 using Spectre.Console.Cli;
-
-using WCountLib;
+using WCount.Cli.Helpers;
+using WCount.Cli.Models;
 using WCountLib.Counters.Abstractions;
 
-namespace BasisBox.Cli.Tools.WCount.Commands
+namespace WCount.Cli.Commands
 {
     public class BytesCountOnlyCommand : Command<BytesCountOnlyCommand.Settings>
     {

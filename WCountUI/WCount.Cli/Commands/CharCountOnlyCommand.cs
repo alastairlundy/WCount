@@ -1,24 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-using BasisBox.Cli.Tools.WCount.Settings;
+using AlastairLundy.WCountLib.Abstractions.Counters;
 
 using Spectre.Console;
 using Spectre.Console.Cli;
+using WCount.Cli.Helpers;
+using WCount.Cli.Localizations;
+using WCount.Cli.Models;
 
-using WCountLib;
-using WCountLib.Counters.Abstractions;
-
-namespace BasisBox.Cli.Tools.WCount.Commands
+namespace WCount.Cli.Commands
 {
     public class CharCountOnlyCommand : Command<CharCountOnlyCommand.Settings>
     {
-        private readonly ICharCounter _charCounter;
+        private readonly ICharacterCounter _charCounter;
 
-        public CharCountOnlyCommand(ICharCounter charCounter)
+        public CharCountOnlyCommand(ICharacterCounter charCounter)
         {
             _charCounter = charCounter;
         }

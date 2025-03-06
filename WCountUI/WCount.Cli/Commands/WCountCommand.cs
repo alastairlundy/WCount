@@ -1,31 +1,28 @@
-﻿
-
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.IO;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-
-using AlastairLundy.Extensions.System;
-
-using BasisBox.Cli.Tools.WCount.Settings;
-
+using AlastairLundy.WCountLib.Abstractions.Counters;
 using Spectre.Console;
 using Spectre.Console.Cli;
-
+using WCount.Cli.Helpers;
+using WCount.Cli.Localizations;
+using WCount.Cli.Models;
 using WCountLib.Counters.Abstractions;
 
-namespace BasisBox.Cli.Tools.WCount.Commands;
+namespace WCount.Cli.Commands;
 
 public class WCountCommand : AsyncCommand<WCountCommand.Settings>
 {
     private IWordCounter _wordCounter;
-    private ICharCounter _charCounter;
+    private ICharacterCounter _charCounter;
+    private IByteCounter _byteCounter;
     private ILineCounter _lineCounter;
 
-    public WCountCommand(IWordCounter wordCounter, ICharCounter charCounter, ILineCounter lineCounter, IByteCounter byteCounter)
+    public WCountCommand(IWordCounter wordCounter, IByteCounter byteCounter, ICharacterCounter charCounter, ILineCounter lineCounter)
     {
+        _byteCounter = byteCounter;
         _wordCounter = wordCounter;
         _charCounter = charCounter;
         _lineCounter = lineCounter;

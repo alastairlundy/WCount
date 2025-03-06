@@ -1,10 +1,13 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System;
 using System.Resources;
-
-using BasisBox.Cli.Tools.WCount.Commands;
-
 using Spectre.Console.Cli;
+using WCount.Cli.Commands;
+
+using WCount.Cli.Localizations;
+
+
+
 
 CommandApp commandApp = new CommandApp();
 
@@ -13,10 +16,9 @@ commandApp.Configure(config =>
 	//
 	// WCount: 
 	//
-	config.AddBranch("wcount", conf =>
+	config.AddBranch("", conf =>
 	{
 		conf.AddCommand<WCountCommand>("")
-		.WithAlias("wc")
 		.WithDescription(Resources.WCount_App_Description)
 		.WithExample("/path/to/example.txt")
 		.WithExample("-l /path/to/foo.txt")
