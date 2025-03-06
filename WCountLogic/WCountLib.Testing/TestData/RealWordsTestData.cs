@@ -13,7 +13,7 @@ public class RealWordsTestData : IEnumerable<object[]>
     {
         for (int i = 0; i < 10; i++)
         {
-            string[] words = _lorem.Words(Random.Shared.Next(2, 50));
+            string words = string.Join(' ', _lorem.Words(Random.Shared.Next(2, 50)));
             
             yield return new object[] {words, Convert.ToUInt64(words.Length)};
         }
