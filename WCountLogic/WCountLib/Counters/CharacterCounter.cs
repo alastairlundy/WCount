@@ -73,7 +73,7 @@ namespace AlastairLundy.WCountLib.Counters
         /// <param name="textReader"></param>
         /// <param name="textEncodingType"></param>
         /// <returns></returns>
-		public int CountCharactersInt32(TextReader textReader, Encoding textEncodingType)
+		public int CountCharacters(TextReader textReader, Encoding textEncodingType)
 		{
             int charCount = 0;
 
@@ -100,7 +100,7 @@ namespace AlastairLundy.WCountLib.Counters
         /// <param name="textReader"></param>
         /// <param name="textEncodingType"></param>
         /// <returns></returns>
-		public async Task<ulong> CountCharactersAsyncUInt64(TextReader textReader, Encoding textEncodingType)
+		public async Task<ulong> CountCharactersAsync(TextReader textReader, Encoding textEncodingType)
 		{
 			ulong charCount = 0;
 
