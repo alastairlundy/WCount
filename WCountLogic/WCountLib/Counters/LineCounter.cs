@@ -7,10 +7,12 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-using System;
-using System.Collections.Generic;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
-using WCountLib.Localizations;
+using AlastairLundy.WCountLib.Abstractions.Counters;
+
 
 // ReSharper disable RedundantIfElseBlock
 
@@ -19,40 +21,56 @@ namespace AlastairLundy.WCountLib.Counters
     public class LineCounter : ILineCounter
     {
 
-        /// <summary>
-        /// Gets the number of lines in a string.
-        /// </summary>
-        /// <param name="s">The string to be searched.</param>
-        /// <returns>the number of lines in a string.</returns>
-        public int CountLines(string s)
-        {
-            int totalCount = 0;
-            foreach (char c in s)
-            {
-                if (c.Equals('\n') || c.Equals(char.Parse("\r\n")) || c.ToString().Equals(Environment.NewLine))
-                {
-                    totalCount++;
-                }
-            }
+	    /// <summary>
+	    /// Synchronously reads from the provided TextReader and counts total the number of lines.
+	    /// </summary>
+	    /// <param name="textReader">The TextReader from which to count lines.</param>
+	    /// <returns>The total number of lines counted.</returns>
+		public int CountLines(TextReader textReader)
+		{
+			int lineCount = 0;
+			
+			string? latestLine;
 
-            return totalCount;
-        }
+			do
+			{
+				latestLine = textReader.ReadLine();
 
-        /// <summary>
-        /// Gets the number of lines in an IEnumerable of strings.
-        /// </summary>
-        /// <param name="enumerable">The IEnumerable to be searched.</param>
-        /// <returns>the number of lines in the specified IEnumerable.</returns>
-        public int CountLines(IEnumerable<string> enumerable)
-        {
-            int totalCount = 0;
+				if(latestLine != null)
+				{
+					Interlocked.Increment(ref lineCount);
+				}
+			}
+			while (latestLine != null);
 
-            foreach (string s in enumerable)
-            {
-                totalCount += CountLines(s);
-            }
 
-            return totalCount;
-        }
-    }
+			return lineCount;
+		}
+
+	    /// <summary>
+	    /// Asynchronously reads from the provided TextReader and counts the total number of lines.
+	    /// </summary>
+	    /// <param name="textReader">The TextReader from which to count lines.</param>
+	    /// <returns>The total number of lines counted.</returns>
+		public async Task<int> CountLinesAsync(TextReader textReader)
+		{
+			int lineCount = 0;
+
+			string? latestLine;
+
+			do
+			{
+				latestLine = await textReader.ReadLineAsync();
+
+				if (latestLine != null)
+				{
+					Interlocked.Increment(ref lineCount);
+				}
+			}
+			while (latestLine != null);
+
+
+			return await new ValueTask<int>(lineCount);
+		}
+	}
 }
