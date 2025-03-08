@@ -1,11 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>13</LangVersion>
+    <PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>AlastairLundy.WCountLib.Providers.wc</PackageId>
+    <Title>WCountLib.Providers.wc</Title>
+    <Authors>AlastairLundy</Authors>
+    <Copyright>Copyright (c) Alastair Lundy 2024-2025</Copyright>
+    <RepositoryUrl>https://github.com/alastairlundy/WCount</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <TargetFrameworks>netstandard2.0;net8.0;net9.0;netstandard2.1</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AlastairLundy.CliInvoke" Version="1.0.0" />
+    <PackageReference Include="AlastairLundy.CliInvoke" Version="[1.0.0, 2.0.0)" />
   </ItemGroup>
 
 	<ItemGroup >
@@ -14,6 +25,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WCountLib.Abstractions\WCountLib.Abstractions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\WCountLib\LICENSE.txt">
+      <Link>LICENSE.txt</Link>
+    </Content>
   </ItemGroup>
 
 </Project>
