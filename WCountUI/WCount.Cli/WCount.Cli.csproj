@@ -3,20 +3,55 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net9.0</TargetFramework>
+    <RollForward>LatestPatch</RollForward>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <PublishAot>true</PublishAot>
+    <PublishAot>false</PublishAot>
+    <PublishSingleFile>true</PublishSingleFile>
     <InvariantGlobalization>true</InvariantGlobalization>
+    <AssemblyName>wcount</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <Title>WCount.Cli</Title>
+    <Authors>AlastairLundy</Authors>
+    <Copyright>Copyright (c) Alastair Lundy 2025</Copyright>
+    <RepositoryUrl>https://github.com/alastairlundy/wcount</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Version>3.1.0</Version>
+    <AssemblyVersion>3.1.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="[9.0.2, 10.0.0)" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="[9.0.2, 10.0.0)" />
+    <PackageReference Include="Pathological.Globbing" Version="[9.0.0, 10.0.0)" />
     <PackageReference Include="Spectre.Console.Cli" Version="0.49.1" />
-    <PackageReference Include="WCountLib" Version="3.0.0" />
+    <PackageReference Include="AlastairLundy.WCountLib.Abstractions" Version="[3.1.0, 4.0.0)" />
+    <PackageReference Include="AlastairLundy.WCountLib" Version="[3.1.1, 4.0.0)" />
+    <PackageReference Include="Spectre.Console.Cli.Extensions.DependencyInjection" Version="[0.5.0, 1.0.0)" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Helpers\" />
+    <EmbeddedResource Update="Localizations\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Localizations\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="LICENSE.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
