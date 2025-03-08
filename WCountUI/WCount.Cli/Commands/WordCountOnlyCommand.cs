@@ -1,23 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
+﻿/*
+	WCount CLI
+	Copyright (c) Alastair Lundy 2024-2025
+ 
+  This Source Code Form is subject to the terms of the Mozilla Public
+  License, v. 2.0. If a copy of the MPL was not distributed with this
+  file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+using System;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-using BasisBox.Cli.Helpers;
-using BasisBox.Cli.Localizations;
-using BasisBox.Cli.Tools.WCount.Settings;
+using AlastairLundy.WCountLib.Abstractions.Counters;
 
 using Spectre.Console;
 using Spectre.Console.Cli;
 
-using WCountLib.Counters.Abstractions;
+using WCount.Cli.Helpers;
+using WCount.Cli.Localizations;
+using WCount.Cli.Models;
 
-namespace BasisBox.Cli.Tools.WCount.Commands
+namespace WCount.Cli.Commands
 {
-    public class WordCountOnlyCommand : Command<WordCountOnlyCommand.Settings>
+    public class WordCountOnlyCommand : AsyncCommand<WordCountOnlyCommand.Settings>
     {
         private readonly IWordCounter _wordCounter;
 
@@ -31,51 +36,36 @@ namespace BasisBox.Cli.Tools.WCount.Commands
 
         }
 
-        public override int Execute(CommandContext context, Settings settings)
+        public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
         {
-            ExceptionFormats exceptionFormats;
-
-            if (settings.Verbose)
-            {
-                exceptionFormats = ExceptionFormats.Default;
-            }
-            else
-            {
-                exceptionFormats = ExceptionFormats.NoStackTrace;
-            }
-
-            int fileResult = FileArgumentHelpers.HandleFileArgument(settings.Files, exceptionFormats);
+            int fileResult = FileArgumentHelpers.HandleFileArgument(settings.Files, settings.Verbose);
 
             if(fileResult == -1)
             {
                 return -1;
             }
 
+            string[] files = FileArgumentHelpers.ResolveFilePaths(settings.Files!, settings.Verbose);
 
             try
             {
                 ulong totalWords = 0;
 
-                foreach (string file in settings.Files!)
+                foreach (string file in files)
                 {
-                    ulong wordCount = _wordCounter.CountWordsInFile(file);
+                    string fileContents = await File.ReadAllTextAsync(file);
+                    
+                    using StringReader reader = new StringReader(fileContents);
+                    
+                    ulong wordCount = await _wordCounter.CountWordsAsync(reader);
                     totalWords += wordCount;
 
-                    string wordLabel = "";
-
-                    if (wordCount == 1)
-                    {
-                        wordLabel = Resources.WCount_App_Labels_Words_Singular;
-                    }
-                    else
-                    {
-                        wordLabel = Resources.WCount_App_Labels_Words_Plural;
-                    }
+                    string wordLabel = wordCount == 1 ? Resources.WCount_App_Labels_Words_Singular : Resources.WCount_App_Labels_Words_Plural;
 
                     AnsiConsole.WriteLine($"{file} {wordCount} {wordLabel}");
                 }
 
-                if (settings.Files.Length > 1)
+                if (files.Length > 1)
                 {
                     if (totalWords == 0 || totalWords > 1)
                     {
@@ -91,7 +81,7 @@ namespace BasisBox.Cli.Tools.WCount.Commands
             }
             catch(Exception ex) 
             {
-                AnsiConsole.WriteException(ex, exceptionFormats);
+                ExceptionHelper.PrintException(ex, settings.Verbose);
                 return -1;
             }
         }

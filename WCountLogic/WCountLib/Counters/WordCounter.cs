@@ -91,9 +91,7 @@ namespace AlastairLundy.WCountLib.Counters
            string input = textReader.ReadToEnd();
            
             ulong totalWords = CountWordsWorker(input);
-          
-          textReader.Dispose();
-          
+            
           return totalWords;
         }
 
@@ -114,9 +112,7 @@ namespace AlastairLundy.WCountLib.Counters
             });
             
             await wordCountingTask;
-          
-            textReader.Dispose();
-          
+            
             return totalWords;
         }
     }

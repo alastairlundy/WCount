@@ -1,31 +1,40 @@
-﻿
+﻿/*
+	WCount CLI
+	Copyright (c) Alastair Lundy 2024-2025
+ 
+  This Source Code Form is subject to the terms of the Mozilla Public
+  License, v. 2.0. If a copy of the MPL was not distributed with this
+  file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 
 using System;
 using System.ComponentModel;
 using System.IO;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-using AlastairLundy.Extensions.System;
-
-using BasisBox.Cli.Tools.WCount.Settings;
+using AlastairLundy.WCountLib.Abstractions.Counters;
 
 using Spectre.Console;
 using Spectre.Console.Cli;
 
-using WCountLib.Counters.Abstractions;
+using WCount.Cli.Helpers;
+using WCount.Cli.Localizations;
+using WCount.Cli.Models;
+// ReSharper disable ClassNeverInstantiated.Global
 
-namespace BasisBox.Cli.Tools.WCount.Commands;
+namespace WCount.Cli.Commands;
 
 public class WCountCommand : AsyncCommand<WCountCommand.Settings>
 {
-    private IWordCounter _wordCounter;
-    private ICharCounter _charCounter;
-    private ILineCounter _lineCounter;
+    private readonly IWordCounter _wordCounter;
+    private readonly ICharacterCounter _charCounter;
+    private readonly IByteCounter _byteCounter;
+    private readonly ILineCounter _lineCounter;
 
-    public WCountCommand(IWordCounter wordCounter, ICharCounter charCounter, ILineCounter lineCounter, IByteCounter byteCounter)
+    public WCountCommand(IWordCounter wordCounter, IByteCounter byteCounter, ICharacterCounter charCounter, ILineCounter lineCounter)
     {
+        _byteCounter = byteCounter;
         _wordCounter = wordCounter;
         _charCounter = charCounter;
         _lineCounter = lineCounter;
@@ -35,154 +44,184 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
     {
         [CommandOption("-l|--line-count")]
         [DefaultValue(false)]
-        public bool LineCount { get; init; }
+        public bool OnlyLineCount { get; init; }
         
         [CommandOption("-w|--word-count")]
         [DefaultValue(false)]
-        public bool WordCount { get; init; }
+        public bool OnlyWordCount { get; init; }
         
         [CommandOption("-m|--character-count")]
         [DefaultValue(false)]
-        public bool CharacterCount { get; init; }
+        public bool OnlyCharacterCount { get; init; }
         
         [CommandOption("-c|--byte-count")]
         [DefaultValue(false)]
-        public bool ByteCount { get; init; }
+        public bool OnlyByteCount { get; init; }
     }
 
     public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
     {
-        ExceptionFormats exceptionFormats;
-
-        if (settings.Verbose)
-        {
-            exceptionFormats = ExceptionFormats.Default;
-        }
-        else
-        {
-            exceptionFormats = ExceptionFormats.NoStackTrace;
-        }
-
-        int fileResult = FileArgumentHelpers.HandleFileArgument(settings.Files, exceptionFormats);
+        int fileResult = FileArgumentHelpers.HandleFileArgument(settings.Files, settings.Verbose);
 
         if (fileResult == -1)
         {
             return -1;
         }
 
+        string[] files = FileArgumentHelpers.ResolveFilePaths(settings.Files!, settings.Verbose);
+        
         try
         {
             Grid grid = new();
 
-                if (settings.LineCount)
+                if (settings.OnlyLineCount)
                 {                    
                     grid.AddColumn();
                     grid.AddColumn();
 
                     int totalLines = 0;
                     
-                    foreach (string file in settings.Files!)
+                    foreach (string file in files)
                     {
                        if(Path.IsPathFullyQualified(file) && File.Exists(file))
                         {
 						    string fileContents = await File.ReadAllTextAsync(file);
 
-						    int lineCount = _lineCounter.CountLines(fileContents);
+                            using StringReader reader = new StringReader(fileContents);
+                            
+						    int lineCount = await _lineCounter.CountLinesAsync(reader);
 
 						    totalLines += lineCount;
 						    
-                            grid.AddRow(new string[] { lineCount.ToString(), new TextPath(file).ToString()! });
+                            grid.AddRow(new[] { lineCount.ToString(), new TextPath(file).ToString()! });
 					    }
                     }
 
-                    grid.AddRow(new string[] { totalLines.ToString() , Resources.WCount_App_Labels_Total});
+                    grid.AddRow(new[] { totalLines.ToString() , Resources.WCount_App_Labels_Total});
                     
                     AnsiConsole.Write(grid);
                     return 0;
                 }
 
-                if (settings.WordCount)
+                if (settings.OnlyWordCount)
                 {                    
                     grid.AddColumn();
                     grid.AddColumn();
 
                     ulong totalWords = 0;
                     
-                    foreach (string file in settings.Files!)
+                    foreach (string file in files)
                     {
-                        ulong wordCount = _wordCounter.CountWordsInFile(file);
+                        string fileContents = await File.ReadAllTextAsync(file);
+                        
+                        using StringReader reader = new StringReader(fileContents);
+                        
+                        ulong wordCount = await _wordCounter.CountWordsAsync(reader);
                         totalWords += wordCount;
-                        grid.AddRow(new string[] { wordCount.ToString(), file});
+                        grid.AddRow(new[] { wordCount.ToString(), file});
                     }
 
-                    grid.AddRow(new string[] { totalWords.ToString(), Resources.WCount_App_Labels_Total});
+                    grid.AddRow(new[] { totalWords.ToString(), Resources.WCount_App_Labels_Total});
                     
                     AnsiConsole.Write(grid);
                     return 0;
                 }
 
-                if (settings.CharacterCount)
+                if (settings.OnlyCharacterCount)
                 {                    
                     grid.AddColumn();
                     grid.AddColumn();
 
                     ulong totalChars = 0;
-                    foreach (string file in settings.Files!)
+                    
+                    foreach (string file in files)
                     {
-                        ulong charCount = _charCounter.CountCharactersInFile(file);
+                        string fileContents = await File.ReadAllTextAsync(file);
+                        
+                        using StringReader reader = new StringReader(fileContents);
+                        
+                        ulong charCount = await _charCounter.CountCharactersAsync(reader, Encoding.Default);
                         totalChars += charCount;
-                        grid.AddRow(new string[] { charCount.ToString(), file });
+                        
+                        grid.AddRow(new[] { charCount.ToString(), file });
                     }
 
-                    grid.AddRow(new string[] {totalChars.ToString(), Resources.WCount_App_Labels_Total});
+                    grid.AddRow(totalChars.ToString(), Resources.WCount_App_Labels_Total);
                     
                     AnsiConsole.Write(grid);
                     return 0;
                 }
                 
-                if (settings.ByteCount)
+                if (settings.OnlyByteCount)
                 {
                     grid.AddColumn();
                     grid.AddColumn();
 
                     ulong totalBytes = 0;
                     
-                    foreach (string file in settings.Files!)
+                    foreach (string file in files)
                     {
-                        ulong byteCount = _byteCounter.CountBytesInFile(file, Encoding.UTF8);
+                        string fileContents = await File.ReadAllTextAsync(file);
+                        
+                        using StringReader reader = new StringReader(fileContents);
+                        
+                        ulong byteCount = await _byteCounter.CountBytesAsync(reader, Encoding.Default);
                         totalBytes += byteCount;
-                        grid.AddRow(new string[] { byteCount.ToString(), file});
+                        
+                        grid.AddRow(new[] { byteCount.ToString(), file});
                     }
 
-                    grid.AddRow(new string[] { totalBytes.ToString(), Resources.WCount_App_Labels_Total});
+                    grid.AddRow(new[] { totalBytes.ToString(), Resources.WCount_App_Labels_Total});
 
                     AnsiConsole.Write(grid);
                     return 0;
                 }
 
-                if (!settings.WordCount && !settings.LineCount && !settings.ByteCount && !settings.CharacterCount)
+                if (!settings.OnlyWordCount &&
+                    !settings.OnlyLineCount &&
+                    !settings.OnlyByteCount &&
+                    !settings.OnlyCharacterCount)
                 {
                     int totalLineCount = 0;
                     ulong totalWordCount = 0;
                     ulong totalCharCount = 0;
-
-                    foreach (string file in settings.Files!)
-                    {
-                        totalLineCount += _lineCounter.CountLinesInFile(file);
-                        totalWordCount += _wordCounter.CountWordsInFile(file);
-                        totalCharCount += _charCounter.CountCharactersInFile(file);
-                    }
                     
                     grid.AddColumn();
                     grid.AddColumn();
                     grid.AddColumn();
+                    grid.AddColumn();
                     
-                    foreach (string file in settings.Files!)
+                    foreach (string file in files)
                     {
-                        grid.AddRow(new string[] { _lineCounter.CountLinesInFile(file).ToString(), _wordCounter.CountWordsInFile(file).ToString(), charCounter.CountCharactersInFile(file).ToString(), file});
+                        string fileContents = await File.ReadAllTextAsync(file);
+
+                        ulong wordCount = 0;
+                        ulong charCount = 0;
+                        int lineCount = 0;
+                        
+                        using (StringReader wordCountReader = new StringReader(fileContents))
+                        {
+                            wordCount = await _wordCounter.CountWordsAsync(wordCountReader);
+                        }
+
+                        using (StringReader charCountReader = new StringReader(fileContents))
+                        {
+                           charCount = await _charCounter.CountCharactersAsync(charCountReader, Encoding.Default);
+                        }
+
+                        using (StringReader lineCountReader = new StringReader(fileContents))
+                        {
+                            lineCount = await _lineCounter.CountLinesAsync(lineCountReader);
+                        }
+                        
+                        totalLineCount += lineCount;
+                        totalWordCount += wordCount;
+                        totalCharCount += charCount;
+                        
+                        grid.AddRow($"{lineCount}", $"{wordCount}", $"{charCount}", file);
                     }
 
-                    grid.AddRow(new string[] { totalLineCount.ToString(), totalWordCount.ToString(), totalCharCount.ToString(), Resources.WCount_App_Labels_Total});
+                    grid.AddRow($"{totalLineCount}", $"{totalWordCount}", $"{totalCharCount}", Resources.WCount_App_Labels_Total);
                     
                     AnsiConsole.Write(grid);
                     return 0;
@@ -190,7 +229,7 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
         }
         catch(Exception exception)
         {
-            AnsiConsole.WriteException(exception);
+            ExceptionHelper.PrintException(exception, settings.Verbose);
             return -1;
         }
 
