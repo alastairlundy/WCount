@@ -1,11 +1,60 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
+
+using Pathological.Globbing;
 using Spectre.Console;
+
 using WCount.Cli.Localizations;
 
 namespace WCount.Cli.Helpers
 {
-    class FileArgumentHelpers
+    internal static class FileArgumentHelpers
     {
+        private static bool IsGlobbedPath(string filePath)
+        {
+            return Regex.IsMatch(filePath, @"[\*\?$$$$\{\}]");
+        }
+        
+        public static string[] ResolveFilePaths(string[] files)
+        {
+            List<string> output = new List<string>();
+            
+            for (int i = 0; i < files.Length; i++)
+            {
+                string file = files[i];
+
+                if (Path.IsPathFullyQualified(file) == false)
+                {
+                    if (IsGlobbedPath(file))
+                    {
+                        Glob glob = new Glob();
+
+                        string[] actualFiles = glob.GetMatches(file).ToArray();
+
+                        if (actualFiles.Any())
+                        {
+                            output.AddRange(actualFiles);
+                        }
+                        else
+                        {
+                            AnsiConsole.WriteException(new FileNotFoundException(Resources.Exceptions_FileNotFound, file));
+                        }
+                    }
+                    else
+                    {
+                        file = Path.GetFullPath(file);
+                        
+                        output.Add(file);
+                    }
+                }
+            }
+            
+            return output.ToArray();
+        }
+        
         public static int HandleFileArgument(string? file, ExceptionFormats exceptionFormats)
         {
             if(file == null)
