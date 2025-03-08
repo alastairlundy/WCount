@@ -41,7 +41,7 @@ namespace WCount.Cli.Helpers
                         Glob glob = new Glob();
 
                         string[] actualFiles = glob.GetMatches(file).ToArray();
-
+                        
                         if (actualFiles.Any())
                         {
                             output.AddRange(actualFiles);
@@ -53,10 +53,19 @@ namespace WCount.Cli.Helpers
                     }
                     else
                     {
-                        file = Path.GetFullPath(file);
+                        string newFile = Path.GetFullPath(file);
+
+                        #if DEBUG
+                        Console.WriteLine($"Old was {file}");
+                        Console.WriteLine($"New is {newFile}");
+                        #endif
                         
                         output.Add(file);
                     }
+                }
+                else
+                {
+                    output.Add(file);
                 }
             }
             
