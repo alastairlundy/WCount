@@ -14,7 +14,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 
 using Pathological.Globbing;
-using Spectre.Console;
 
 using WCount.Cli.Localizations;
 
@@ -27,7 +26,7 @@ namespace WCount.Cli.Helpers
             return Regex.IsMatch(filePath, @"[\*\?$$$$\{\}]");
         }
         
-        public static string[] ResolveFilePaths(string[] files)
+        public static string[] ResolveFilePaths(string[] files, bool isVerbose)
         {
             List<string> output = new List<string>();
             
@@ -49,7 +48,7 @@ namespace WCount.Cli.Helpers
                         }
                         else
                         {
-                            AnsiConsole.WriteException(new FileNotFoundException(Resources.Exceptions_FileNotFound, file));
+                            ExceptionHelper.PrintException(new FileNotFoundException(Resources.Exceptions_FileNotFound, file), isVerbose);
                         }
                     }
                     else
@@ -64,27 +63,16 @@ namespace WCount.Cli.Helpers
             return output.ToArray();
         }
         
-        public static int HandleFileArgument(string? file, ExceptionFormats exceptionFormats)
-        {
-            if(file == null)
-            {
-                AnsiConsole.WriteException(new ArgumentException(Resources.Exceptions_NoFileProvided), exceptionFormats);
-                return -1;
-            }
-
-            return 0;
-        }
-        
-        internal static int HandleFileArgument(string[]? files, ExceptionFormats formats)
+        internal static int HandleFileArgument(string[]? files, bool isVerbose)
         {
             if(files == null)
             {
-                AnsiConsole.WriteException(new NullReferenceException(Resources.Exceptions_NoFileProvided), formats);
+                ExceptionHelper.PrintException(new NullReferenceException(Resources.Exceptions_NoFileProvided), isVerbose);
                 return -1;
             }
             else if(files.Length == 0)
             {
-                AnsiConsole.WriteException(new ArgumentException(Resources.Exceptions_NoFileProvided));
+                ExceptionHelper.PrintException(new ArgumentException(Resources.Exceptions_NoFileProvided), isVerbose);
                 return -1;
             }
 

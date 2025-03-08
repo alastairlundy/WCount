@@ -61,18 +61,7 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
 
     public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
     {
-        ExceptionFormats exceptionFormats;
-
-        if (settings.Verbose)
-        {
-            exceptionFormats = ExceptionFormats.Default;
-        }
-        else
-        {
-            exceptionFormats = ExceptionFormats.NoStackTrace;
-        }
-
-        int fileResult = FileArgumentHelpers.HandleFileArgument(settings.Files, exceptionFormats);
+        int fileResult = FileArgumentHelpers.HandleFileArgument(settings.Files, settings.Verbose);
 
         if (fileResult == -1)
         {
@@ -226,7 +215,7 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
         }
         catch(Exception exception)
         {
-            AnsiConsole.WriteException(exception);
+            ExceptionHelper.PrintException(exception, settings.Verbose);
             return -1;
         }
 

@@ -38,18 +38,7 @@ namespace WCount.Cli.Commands
 
         public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
         {
-            ExceptionFormats exceptionFormats;
-
-            if (settings.Verbose)
-            {
-                exceptionFormats = ExceptionFormats.Default;
-            }
-            else
-            {
-                exceptionFormats = ExceptionFormats.NoStackTrace;
-            }
-
-            int fileResult = FileArgumentHelpers.HandleFileArgument(settings.Files, exceptionFormats);
+            int fileResult = FileArgumentHelpers.HandleFileArgument(settings.Files, settings.Verbose);
 
             if (fileResult == -1)
             {
@@ -100,7 +89,7 @@ namespace WCount.Cli.Commands
             }
             catch (Exception ex)
             {
-                AnsiConsole.WriteException(ex, exceptionFormats);
+                ExceptionHelper.PrintException(ex, settings.Verbose);
                 return -1;
             }
         }

@@ -70,7 +70,7 @@
         <value>WCount</value>
     </data>
     <data name="Exceptions.BugReport.Request" xml:space="preserve">
-        <value>If this was unintended or unexpected, it would really help if you file a Bug Report.</value>
+        <value>If this was a bug or unintended/unexpected, it would really help if you file a Bug Report.</value>
     </data>
     <data name="Exceptions.BugReport.FileIssue" xml:space="preserve">
         <value>You can file a Bug Report at https://github.com/alastairlundy/WCount</value>

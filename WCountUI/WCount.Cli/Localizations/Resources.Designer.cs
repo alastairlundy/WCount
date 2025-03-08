@@ -69,7 +69,7 @@ namespace WCount.Cli.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If this was unintended or unexpected, it would really help if you file a Bug Report..
+        ///   Looks up a localized string similar to If this was a bug or unintended/unexpected, it would really help if you file a Bug Report..
         /// </summary>
         internal static string Exceptions_BugReport_Request {
             get {
