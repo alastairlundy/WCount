@@ -198,6 +198,7 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
                     grid.AddColumn();
                     grid.AddColumn();
                     grid.AddColumn();
+                    grid.AddColumn();
                     
                     foreach (string file in files)
                     {
