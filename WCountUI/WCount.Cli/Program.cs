@@ -10,33 +10,25 @@ using AlastairLundy.WCountLib.Counters;
 using AlastairLundy.WCountLib.Detectors;
 
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 using Spectre.Console.Cli;
-
+using Spectre.Console.Cli.Extensions.DependencyInjection;
 using WCount.Cli.Commands;
-using WCount.Cli.DependencyInjection;
 using WCount.Cli.Localizations;
 
-using IHost host = CreateHostBuilder(args).Build();
+//IHostBuilder hostBuilder = CreateHostBuilder(args);
 
-IHostBuilder CreateHostBuilder(string[] args)
-{
-	return Host.CreateDefaultBuilder(args)
-		.ConfigureServices(services =>
-		{
-			services.AddTransient<IWordDetector, WordDetector>();
-			services.AddTransient<IWordCounter, WordCounter>();
-			services.AddTransient<IByteCounter, ByteCounter>();
-			services.AddTransient<ICharacterCounter, CharacterCounter>();
-			services.AddTransient<ILineCounter, LineCounter>();
-		});
-}
+IServiceCollection services = new ServiceCollection();
 
-using IServiceScope serviceScope = host.Services.CreateScope();
+services.AddTransient<IWordDetector, WordDetector>();
+services.AddTransient<IWordCounter, WordCounter>();
+services.AddTransient<IByteCounter, ByteCounter>();
+services.AddTransient<ICharacterCounter, CharacterCounter>();
+services.AddTransient<ILineCounter, LineCounter>();
 
+using DependencyInjectionRegistrar registrar = new DependencyInjectionRegistrar(services);
 	
-CommandApp commandApp = new CommandApp(new TypeRegistrar(host.Services));
+CommandApp commandApp = new CommandApp(registrar);
 
 commandApp.Configure(config =>
 {
