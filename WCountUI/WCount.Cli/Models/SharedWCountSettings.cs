@@ -5,6 +5,10 @@ namespace WCount.Cli.Models
 {
     public class SharedWCountSettings : CommandSettings
     {
+        [CommandOption("--locale <locale_code>")]
+        [DefaultValue("")]
+        public string? Locale { get; init; }
+
         [CommandArgument(1, "<files>")]
         public string[]? Files { get; init; }
 
