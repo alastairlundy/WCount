@@ -142,6 +142,7 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
                         
                         ulong charCount = await _charCounter.CountCharactersAsync(reader, Encoding.Default);
                         totalChars += charCount;
+                        
                         grid.AddRow(new[] { charCount.ToString(), file });
                     }
 
@@ -166,6 +167,7 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
                         
                         ulong byteCount = await _byteCounter.CountBytesAsync(reader, Encoding.Default);
                         totalBytes += byteCount;
+                        
                         grid.AddRow(new[] { byteCount.ToString(), file});
                     }
 
@@ -183,17 +185,6 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
                     int totalLineCount = 0;
                     ulong totalWordCount = 0;
                     ulong totalCharCount = 0;
-
-                    foreach (string file in files)
-                    {
-                        string fileContents = await File.ReadAllTextAsync(file);
-                        
-                        using StringReader reader = new StringReader(fileContents);
-                        
-                        totalLineCount += await _lineCounter.CountLinesAsync(reader);
-                        totalWordCount += await _wordCounter.CountWordsAsync(reader);
-                        totalCharCount += await _charCounter.CountCharactersAsync(reader, Encoding.Default);
-                    }
                     
                     grid.AddColumn();
                     grid.AddColumn();
@@ -203,17 +194,34 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
                     foreach (string file in files)
                     {
                         string fileContents = await File.ReadAllTextAsync(file);
+
+                        ulong wordCount = 0;
+                        ulong charCount = 0;
+                        int lineCount = 0;
                         
-                        using StringReader reader = new StringReader(fileContents);
+                        using (StringReader wordCountReader = new StringReader(fileContents))
+                        {
+                            wordCount = await _wordCounter.CountWordsAsync(wordCountReader);
+                        }
+
+                        using (StringReader charCountReader = new StringReader(fileContents))
+                        {
+                           charCount = await _charCounter.CountCharactersAsync(charCountReader, Encoding.Default);
+                        }
+
+                        using (StringReader lineCountReader = new StringReader(fileContents))
+                        {
+                            lineCount = await _lineCounter.CountLinesAsync(lineCountReader);
+                        }
                         
-                        int lineCount = await _lineCounter.CountLinesAsync(reader);
-                        ulong wordCount = await _wordCounter.CountWordsAsync(reader);
-                        ulong charCount = await _charCounter.CountCharactersAsync(reader, Encoding.Default);
+                        totalLineCount += lineCount;
+                        totalWordCount += wordCount;
+                        totalLineCount += lineCount;
                         
-                        grid.AddRow(new[] { lineCount.ToString(), wordCount.ToString(), charCount.ToString(), file});
+                        grid.AddRow($"{lineCount}", $"{wordCount}", $"{charCount}", file);
                     }
 
-                    grid.AddRow(new[] { totalLineCount.ToString(), totalWordCount.ToString(), totalCharCount.ToString(), Resources.WCount_App_Labels_Total});
+                    grid.AddRow($"{totalLineCount}", $"{totalWordCount}", $"{totalCharCount}", Resources.WCount_App_Labels_Total);
                     
                     AnsiConsole.Write(grid);
                     return 0;

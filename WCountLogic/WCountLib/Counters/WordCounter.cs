@@ -112,9 +112,7 @@ namespace AlastairLundy.WCountLib.Counters
             });
             
             await wordCountingTask;
-          
             
-          
             return totalWords;
         }
     }
