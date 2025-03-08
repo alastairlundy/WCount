@@ -216,7 +216,7 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
                         
                         totalLineCount += lineCount;
                         totalWordCount += wordCount;
-                        totalLineCount += lineCount;
+                        totalCharCount += charCount;
                         
                         grid.AddRow($"{lineCount}", $"{wordCount}", $"{charCount}", file);
                     }
