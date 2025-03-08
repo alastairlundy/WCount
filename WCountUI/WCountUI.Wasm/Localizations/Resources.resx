@@ -138,4 +138,7 @@
   <data name="Titles.About.WCount" xml:space="preserve">
     <value>About WCount</value>
   </data>
+  <data name="Editor_PasteClipboard_Exception" xml:space="preserve">
+    <value>Pasting clipboard failed. Here's the exception in case you need it:</value>
+  </data>
 </root>

@@ -8,19 +8,18 @@
  */
 
 using System;
-using System.Collections.Generic;
-
-using System.Linq;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-using WCountLib.Localizations;
+using AlastairLundy.WCountLib.Abstractions.Counters;
+
 
 // ReSharper disable RedundantIfElseBlock
 
 namespace AlastairLundy.WCountLib.Counters
 {
-    public class CharCounter : ICharCounter
+    public class CharacterCounter : ICharacterCounter
     {
         /// <summary>
         /// Get the number of characters in a string.
@@ -28,7 +27,7 @@ namespace AlastairLundy.WCountLib.Counters
         /// <param name="s">The string to be searched.</param>
         /// <param name="textEncodingType">The encoding type to use to count characters.</param>
         /// <returns>the number of characters in a string.</returns>
-        public int CountCharacters(string s, Encoding textEncodingType)
+        protected int CountCharactersWorker(string s, Encoding textEncodingType)
         {
             int totalChars;
 
@@ -69,46 +68,57 @@ namespace AlastairLundy.WCountLib.Counters
         }
 
         /// <summary>
-        /// Gets the number of characters in an IEnumerable of strings.
+        /// Synchronously reads from the provided TextReader and counts total the number of characters in the specified Encoding.
         /// </summary>
-        /// <param name="enumerable">The IEnumerable to be searched.</param>
-        /// <param name="textEncodingType">The encoding type to use to count characters.</param>
-        /// <returns>the number of characters in the specified IEnumerable.</returns>
-        public ulong CountCharacters(IEnumerable<string> enumerable, Encoding textEncodingType)
-        {
-            ulong totalChars = 0;
+        /// <param name="textReader">The TextReader from which to count characters.</param>
+        /// <param name="textEncodingType">The Encoding type of the characters to count.</param>
+        /// <returns>The total number of characters counted.</returns>
+		public int CountCharacters(TextReader textReader, Encoding textEncodingType)
+		{
+            int charCount = 0;
 
-            foreach (string s in enumerable)
-            {
-                totalChars += Convert.ToUInt64(CountCharacters(s, textEncodingType));
-            }
+			string? latestLine;
 
-            return totalChars;
-        }
+			do
+			{
+				latestLine = textReader.ReadLine();
 
-        /// <summary>
-        /// Gets the number of characters in an IEnumerable of strings asynchronously.
-        /// </summary>
-        /// <param name="enumerable">The IEnumerable to be searched.</param>
-        /// <param name="textEncodingType">The encoding type to use to count characters.</param>
-        /// <returns>the number of characters in the specified IEnumerable.</returns>
-        public async Task<ulong> CountCharactersAsync(IEnumerable<string> enumerable, Encoding textEncodingType)
-        {
-            ulong totalChars = 0;
-            string[] array = enumerable.ToArray();
-            
-            Task[] tasks = new Task[array.Length];
+				if (latestLine != null)
+				{
+					charCount += CountCharactersWorker(latestLine, textEncodingType);
+				}
+			}
+			while (latestLine != null);
 
-            for (int index = 0; index < array.Length; index++)
-            {
-                int taskNumber = index;
-                tasks[taskNumber] = new Task<ulong>(() => totalChars += Convert.ToUInt64(CountCharacters(array[taskNumber], textEncodingType)));
-                tasks[taskNumber].Start();
-            }
 
-            await Task.WhenAll(tasks);
+			return charCount;
+		}
 
-            return totalChars;
-        }
-    }
+		/// <summary>
+		/// Asynchronously reads from the provided TextReader and counts the total number of characters in the specified Encoding.
+		/// </summary>
+		/// <param name="textReader">The TextReader from which to count characters.</param>
+		/// <param name="textEncodingType">The Encoding type of the characters to count.</param>
+		/// <returns>The total number of characters counted.</returns>
+		public async Task<ulong> CountCharactersAsync(TextReader textReader, Encoding textEncodingType)
+		{
+			ulong charCount = 0;
+
+			string? latestLine;
+
+			do
+			{
+				latestLine = await textReader.ReadLineAsync();
+
+				if (latestLine != null)
+				{
+                    charCount += Convert.ToUInt64(CountCharactersWorker(latestLine, textEncodingType));
+				}
+			}
+			while (latestLine != null);
+
+
+			return await new ValueTask<ulong>(charCount);
+		}
+	}
 }

@@ -2,11 +2,10 @@
 using System.Linq;
 
 using AlastairLundy.Extensions.System.Strings;
-
+using AlastairLundy.WCountLib.Detectors;
 using Bogus;
 using Bogus.DataSets;
 
-using WCountLib.Detectors;
 using WCountLib.Testing.TestData;
 
 namespace WCountLib.Testing.Detectors;

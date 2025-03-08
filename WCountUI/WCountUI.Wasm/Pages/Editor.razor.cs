@@ -1,13 +1,16 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+	
+using AlastairLundy.WCountLib.Abstractions.Counters;
 
 using Microsoft.AspNetCore.Components;
 
 using Microsoft.JSInterop;
+using WCountUI.Wasm.Localizations;
 
-using WCountLib.Counters.Abstractions;
 
 namespace WCountUI.Wasm.Pages;
 
@@ -16,20 +19,20 @@ public partial class Editor
     private const string TextEditorId = "text-editor";
 
     private readonly IWordCounter _wordCounter;
-    private readonly ICharCounter _charCounter;
+    private readonly ICharacterCounter _charCounter;
 
 	private string _editorText;
-	private double editorFontSize;
+	private double _editorFontSize;
 
-    private IJSRuntime jsRuntime;
+    private readonly IJSRuntime jsRuntime;
 
-    private int editorIndex;
+    private readonly int editorIndex;
 
 	public ulong WordCount { get; private set; }
 	public int CharCount { get; private set; }
 
 
-	public Editor(IWordCounter wordCounter, ICharCounter charCounter, IJSRuntime jsRuntime)
+	public Editor(IWordCounter wordCounter, ICharacterCounter charCounter, IJSRuntime jsRuntime)
     {
         editorIndex = 0;
 
@@ -40,8 +43,8 @@ public partial class Editor
         WordCount = 0;
         this.jsRuntime = jsRuntime;
 
-		editorFontSize = 11.0;
-		EditorFontSizeChanged(editorFontSize);
+		_editorFontSize = 11.0;
+		EditorFontSizeChanged(_editorFontSize);
 
         Timer automaticCountTimer = new Timer(TimeSpan.FromMinutes(1));
 		automaticCountTimer.Elapsed += AutomaticCountTimer_Elapsed;
@@ -70,9 +73,9 @@ public partial class Editor
     {
         try
         {
-			editorFontSize = fontSize;
+			_editorFontSize = fontSize;
 
-			await jsRuntime.InvokeVoidAsync("setEditorFontSize", [TextEditorId, editorFontSize]);
+			await jsRuntime.InvokeVoidAsync("setEditorFontSize", [TextEditorId, _editorFontSize]);
 		}
         catch (Exception ex)
         {
@@ -96,8 +99,10 @@ public partial class Editor
     {
         _editorText = e.Value!.ToString()!;
 
-        WordCount = await _wordCounter.CountWordsAsync(_editorText);
-        CharCount = await Task.FromResult(_charCounter.CountCharacters(_editorText, Encoding.Default));
+        using StringReader reader = new StringReader(_editorText);
+        
+        WordCount = await _wordCounter.CountWordsAsync(reader);
+        CharCount = await Task.FromResult(_charCounter.CountCharacters(reader, Encoding.Default));
     }
 
     private void ClearEditor()
@@ -133,7 +138,7 @@ public partial class Editor
 		}
         catch(Exception ex)
         {
-            Console.WriteLine("Pasting clipboard failed. Here's the exception in case you need it:");
+            Console.WriteLine(Resources.Editor_PasteClipboard_Exception);
             Console.WriteLine(ex.Message);
         }
 	}
