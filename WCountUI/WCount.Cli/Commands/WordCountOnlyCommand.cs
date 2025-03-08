@@ -10,9 +10,12 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+
 using AlastairLundy.WCountLib.Abstractions.Counters;
+
 using Spectre.Console;
 using Spectre.Console.Cli;
+
 using WCount.Cli.Helpers;
 using WCount.Cli.Localizations;
 using WCount.Cli.Models;
@@ -57,16 +60,7 @@ namespace WCount.Cli.Commands
                     ulong wordCount = await _wordCounter.CountWordsAsync(reader);
                     totalWords += wordCount;
 
-                    string wordLabel = "";
-
-                    if (wordCount == 1)
-                    {
-                        wordLabel = Resources.WCount_App_Labels_Words_Singular;
-                    }
-                    else
-                    {
-                        wordLabel = Resources.WCount_App_Labels_Words_Plural;
-                    }
+                    string wordLabel = wordCount == 1 ? Resources.WCount_App_Labels_Words_Singular : Resources.WCount_App_Labels_Words_Plural;
 
                     AnsiConsole.WriteLine($"{file} {wordCount} {wordLabel}");
                 }

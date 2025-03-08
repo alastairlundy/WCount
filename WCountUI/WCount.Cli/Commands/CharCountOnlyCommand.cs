@@ -60,16 +60,7 @@ namespace WCount.Cli.Commands
                     ulong charCount =  await _charCounter.CountCharactersAsync(reader, Encoding.Default);
                     totalChars += charCount;
 
-                    string label = "";
-
-                    if (charCount == 1)
-                    {
-                        label = Resources.WCount_App_Labels_Characters_Singular;
-                    }
-                    else
-                    {
-                        label = Resources.WCount_App_Labels_Characters_Plural;
-                    }
+                    string label = charCount == 1 ? Resources.WCount_App_Labels_Characters_Singular : Resources.WCount_App_Labels_Characters_Plural;
 
                     AnsiConsole.WriteLine($"{file} {charCount} {label}");
                 }

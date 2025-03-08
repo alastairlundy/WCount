@@ -60,16 +60,7 @@ namespace WCount.Cli.Commands
                     int lineCount = await _lineCounter.CountLinesAsync(reader);
                     totalLines += lineCount;
 
-                    string label;
-
-                    if (lineCount == 1)
-                    {
-                        label = Resources.WCount_App_Labels_Lines_Singular;
-                    }
-                    else
-                    {
-                        label = Resources.WCount_App_Labels_Lines_Plural;
-                    }
+                    string label = lineCount == 1 ? Resources.WCount_App_Labels_Lines_Singular : Resources.WCount_App_Labels_Lines_Plural;
 
                     AnsiConsole.WriteLine($"{file} {lineCount} {label}");
                 }

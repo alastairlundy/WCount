@@ -64,16 +64,7 @@ namespace WCount.Cli.Commands
                     
                     totalBytes += byteCount;
 
-                    string label = "";
-
-                    if (byteCount == 1)
-                    {
-                        label = Resources.WCount_App_Labels_Bytes_Singular;
-                    }
-                    else
-                    {
-                        label = Resources.WCount_App_Labels_Bytes_Plural;
-                    }
+                    string label = byteCount == 1 ? Resources.WCount_App_Labels_Bytes_Singular : Resources.WCount_App_Labels_Bytes_Plural;
 
                     AnsiConsole.WriteLine($"{file} {byteCount} {label}");
                 }
