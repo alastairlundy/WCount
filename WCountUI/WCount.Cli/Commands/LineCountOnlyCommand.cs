@@ -45,12 +45,13 @@ namespace WCount.Cli.Commands
                 return -1;
             }
 
+            string[] files = FileArgumentHelpers.ResolveFilePaths(settings.Files!, settings.Verbose);
 
             try
             {
                 int totalLines = 0;
 
-                foreach (string file in settings.Files!)
+                foreach (string file in files)
                 {
                     string fileContents = await File.ReadAllTextAsync(file);
                     
@@ -73,7 +74,7 @@ namespace WCount.Cli.Commands
                     AnsiConsole.WriteLine($"{file} {lineCount} {label}");
                 }
 
-                if (settings.Files.Length > 1)
+                if (files.Length > 1)
                 {
                     if (totalLines == 0 || totalLines > 1)
                     {

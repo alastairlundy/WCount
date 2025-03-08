@@ -48,7 +48,7 @@ namespace WCount.Cli.Commands
             {
                 ulong totalWords = 0;
 
-                foreach (string file in settings.Files!)
+                foreach (string file in files)
                 {
                     string fileContents = await File.ReadAllTextAsync(file);
                     
@@ -71,7 +71,7 @@ namespace WCount.Cli.Commands
                     AnsiConsole.WriteLine($"{file} {wordCount} {wordLabel}");
                 }
 
-                if (settings.Files.Length > 1)
+                if (files.Length > 1)
                 {
                     if (totalWords == 0 || totalWords > 1)
                     {

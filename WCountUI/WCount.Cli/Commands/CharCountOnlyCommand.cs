@@ -45,12 +45,13 @@ namespace WCount.Cli.Commands
                 return -1;
             }
 
+            string[] files = FileArgumentHelpers.ResolveFilePaths(settings.Files!, settings.Verbose);
 
             try
             {
                 ulong totalChars = 0;
 
-                foreach (string file in settings.Files!)
+                foreach (string file in files)
                 {
                     string fileContents = await File.ReadAllTextAsync(file);
                     
@@ -73,7 +74,7 @@ namespace WCount.Cli.Commands
                     AnsiConsole.WriteLine($"{file} {charCount} {label}");
                 }
 
-                if (settings.Files.Length > 1)
+                if (files.Length > 1)
                 {
                     if (totalChars == 0 || totalChars > 1)
                     {

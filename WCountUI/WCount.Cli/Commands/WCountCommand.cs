@@ -68,6 +68,8 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
             return -1;
         }
 
+        string[] files = FileArgumentHelpers.ResolveFilePaths(settings.Files!, settings.Verbose);
+        
         try
         {
             Grid grid = new();
@@ -79,7 +81,7 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
 
                     int totalLines = 0;
                     
-                    foreach (string file in settings.Files!)
+                    foreach (string file in files)
                     {
                        if(Path.IsPathFullyQualified(file) && File.Exists(file))
                         {
@@ -108,7 +110,7 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
 
                     ulong totalWords = 0;
                     
-                    foreach (string file in settings.Files!)
+                    foreach (string file in files)
                     {
                         string fileContents = await File.ReadAllTextAsync(file);
                         
@@ -132,7 +134,7 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
 
                     ulong totalChars = 0;
                     
-                    foreach (string file in settings.Files!)
+                    foreach (string file in files)
                     {
                         string fileContents = await File.ReadAllTextAsync(file);
                         
@@ -156,7 +158,7 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
 
                     ulong totalBytes = 0;
                     
-                    foreach (string file in settings.Files!)
+                    foreach (string file in files)
                     {
                         string fileContents = await File.ReadAllTextAsync(file);
                         
@@ -179,7 +181,7 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
                     ulong totalWordCount = 0;
                     ulong totalCharCount = 0;
 
-                    foreach (string file in settings.Files!)
+                    foreach (string file in files)
                     {
                         string fileContents = await File.ReadAllTextAsync(file);
                         
@@ -194,7 +196,7 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
                     grid.AddColumn();
                     grid.AddColumn();
                     
-                    foreach (string file in settings.Files!)
+                    foreach (string file in files)
                     {
                         string fileContents = await File.ReadAllTextAsync(file);
                         
