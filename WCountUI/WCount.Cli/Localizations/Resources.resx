@@ -46,21 +46,33 @@
         <value>Total</value>
     </data>
     <data name="WCount.App.Description" xml:space="preserve">
-        <value />
+        <value>Count the number of lines, words, characters, and/or bytes in one or more specified files.</value>
     </data>
     <data name="WCount.App.Words.Description" xml:space="preserve">
-        <value />
+        <value>Count the number of words in one or more specified files.</value>
     </data>
     <data name="WCount.App.Chars.Description" xml:space="preserve">
-        <value />
+        <value>Count the number of characters in one or more specified files.</value>
     </data>
     <data name="WCount.App.Bytes.Description" xml:space="preserve">
-        <value />
+        <value>Count the number of bytes in one or more specified files.</value>
     </data>
     <data name="WCount.App.Lines.Description" xml:space="preserve">
-        <value />
+        <value>Count the number of lines in one or more specified files.</value>
     </data>
     <data name="Exceptions.NoFileProvided" xml:space="preserve">
-        <value />
+        <value>No file was provided as an argument to be used.</value>
+    </data>
+    <data name="Exceptions.FileNotFound" xml:space="preserve">
+        <value>The program was unable to find the specified file. If the file exists, consider checking your input for typos or mistakes.</value>
+    </data>
+    <data name="WCount.App.Name" xml:space="preserve">
+        <value>WCount</value>
+    </data>
+    <data name="Exceptions.BugReport.Request" xml:space="preserve">
+        <value>If this was unintended or unexpected, it would really help us out if you could file a Bug Report.</value>
+    </data>
+    <data name="Exceptions.BugReport.FileIssue" xml:space="preserve">
+        <value>You can file a Bug Report at https://github.com/alastairlundy/WCount</value>
     </data>
 </root>

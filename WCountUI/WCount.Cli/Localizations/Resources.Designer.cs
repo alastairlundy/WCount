@@ -60,7 +60,34 @@ namespace WCount.Cli.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to You can file a Bug Report at https://github.com/alastairlundy/WCount.
+        /// </summary>
+        internal static string Exceptions_BugReport_FileIssue {
+            get {
+                return ResourceManager.GetString("Exceptions.BugReport.FileIssue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If this was unintended or unexpected, it would really help us out if you could file a Bug Report..
+        /// </summary>
+        internal static string Exceptions_BugReport_Request {
+            get {
+                return ResourceManager.GetString("Exceptions.BugReport.Request", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The program was unable to find the specified file. If the file exists, consider checking your input for typos or mistakes..
+        /// </summary>
+        internal static string Exceptions_FileNotFound {
+            get {
+                return ResourceManager.GetString("Exceptions.FileNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No file was provided as an argument to be used..
         /// </summary>
         internal static string Exceptions_NoFileProvided {
             get {
@@ -69,7 +96,7 @@ namespace WCount.Cli.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Count the number of bytes in one or more specified files..
         /// </summary>
         internal static string WCount_App_Bytes_Description {
             get {
@@ -78,7 +105,7 @@ namespace WCount.Cli.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Count the number of characters in one or more specified files..
         /// </summary>
         internal static string WCount_App_Chars_Description {
             get {
@@ -87,7 +114,7 @@ namespace WCount.Cli.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Count the number of lines, words, characters, and/or bytes in one or more specified files..
         /// </summary>
         internal static string WCount_App_Description {
             get {
@@ -177,7 +204,7 @@ namespace WCount.Cli.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Count the number of lines in one or more specified files..
         /// </summary>
         internal static string WCount_App_Lines_Description {
             get {
@@ -186,7 +213,16 @@ namespace WCount.Cli.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to WCount.
+        /// </summary>
+        internal static string WCount_App_Name {
+            get {
+                return ResourceManager.GetString("WCount.App.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Count the number of words in one or more specified files..
         /// </summary>
         internal static string WCount_App_Words_Description {
             get {
