@@ -10,20 +10,37 @@ using OperatingSystem = Polyfills.OperatingSystemPolyfill;
 
 namespace WCountLib.Providers.wc.Counters;
 
+/// <summary>
+/// 
+/// </summary>
 public class WcLineCounter : ILineCounter
 {
     private readonly WcCommandExecutionHelper _wcCommandExecutionHelper;
     
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="commandInvoker"></param>
     public WcLineCounter(ICliCommandInvoker commandInvoker)
     {
         _wcCommandExecutionHelper = new WcCommandExecutionHelper(commandInvoker);
     }
     
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="textReader"></param>
+    /// <returns></returns>
     public int CountLines(TextReader textReader)
     {
         return _wcCommandExecutionHelper.RunInt32("-l", textReader);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="textReader"></param>
+    /// <returns></returns>
     public async Task<int> CountLinesAsync(TextReader textReader)
     {
        return await _wcCommandExecutionHelper.RunInt32Async("-l", textReader);

@@ -11,20 +11,39 @@ using OperatingSystem = Polyfills.OperatingSystemPolyfill;
 
 namespace WCountLib.Providers.wc.Counters;
 
+/// <summary>
+/// 
+/// </summary>
 public class WcCharacterCounter : ICharacterCounter
 {
     private readonly WcCommandExecutionHelper _wcCommandExecutionHelper;
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="cliCommandInvoker"></param>
     public WcCharacterCounter(ICliCommandInvoker cliCommandInvoker)
     {
         _wcCommandExecutionHelper = new WcCommandExecutionHelper(cliCommandInvoker);
     }
     
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="textReader"></param>
+    /// <param name="textEncodingType"></param>
+    /// <returns></returns>
     public int CountCharacters(TextReader textReader, Encoding textEncodingType)
     {
         return _wcCommandExecutionHelper.RunInt32("-m", textReader);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="textReader"></param>
+    /// <param name="textEncodingType"></param>
+    /// <returns></returns>
     public async Task<ulong> CountCharactersAsync(TextReader textReader, Encoding textEncodingType)
     {
        return await _wcCommandExecutionHelper.RunUInt64Async("-m", textReader);

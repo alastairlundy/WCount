@@ -12,38 +12,40 @@ using WCountLib.Providers.wc.Helpers;
 using OperatingSystem = Polyfills.OperatingSystemPolyfill;
 #endif
 
-namespace WCountLib.Providers.wc.Counters
+namespace WCountLib.Providers.wc.Counters;
+
+/// <summary>
+/// 
+/// </summary>
+public class WcWordCounter : IWordCounter
 {
-	public class WcWordCounter : IWordCounter
-	{
-		private readonly WcCommandExecutionHelper _wcCommandExecutionHelper;
+	private readonly WcCommandExecutionHelper _wcCommandExecutionHelper;
 		
-		public WcWordCounter(ICliCommandInvoker cliCommandInvoker)
-		{
-			_wcCommandExecutionHelper = new WcCommandExecutionHelper(cliCommandInvoker);
-		}
+	public WcWordCounter(ICliCommandInvoker cliCommandInvoker)
+	{
+		_wcCommandExecutionHelper = new WcCommandExecutionHelper(cliCommandInvoker);
+	}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="textReader"></param>
-		/// <returns></returns>
-		/// <exception cref="PlatformNotSupportedException">Thrown if run on Windows</exception>
-		public ulong CountWords(TextReader textReader)
-		{
-			return _wcCommandExecutionHelper.RunUInt64("-w", textReader);
-		}
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="textReader"></param>
+	/// <returns></returns>
+	/// <exception cref="PlatformNotSupportedException">Thrown if run on Windows</exception>
+	public ulong CountWords(TextReader textReader)
+	{
+		return _wcCommandExecutionHelper.RunUInt64("-w", textReader);
+	}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="textReader"></param>
-		/// <returns></returns>
-		/// <exception cref="PlatformNotSupportedException"></exception>
-		/// <exception cref="CliCommandNotSuccessfulException"></exception>
-		public async Task<ulong> CountWordsAsync(TextReader textReader)
-		{
-			return await _wcCommandExecutionHelper.RunUInt64Async("-w", textReader);
-		}
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="textReader"></param>
+	/// <returns></returns>
+	/// <exception cref="PlatformNotSupportedException"></exception>
+	/// <exception cref="CliCommandNotSuccessfulException"></exception>
+	public async Task<ulong> CountWordsAsync(TextReader textReader)
+	{
+		return await _wcCommandExecutionHelper.RunUInt64Async("-w", textReader);
 	}
 }
