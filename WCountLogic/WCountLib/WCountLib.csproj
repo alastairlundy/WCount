@@ -15,14 +15,12 @@
         <RepositoryUrl>https://github.com/alastairlundy/WCount</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <PackageReleaseNotes>### Changes since 3.0.0
-* Moved abstractions back out of main library.
-* Updated implementations to work with Abstractions library version 3.1</PackageReleaseNotes>
+        <PackageReleaseNotes>* Fixed an issue where a TextReader would be inadvertently disposed of after use.</PackageReleaseNotes>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <Version>3.1.0</Version>
+        <Version>3.1.1</Version>
         <TargetFrameworks>net8.0;netstandard2.0;netstandard2.1;net9.0</TargetFrameworks>
         <PackageTags>word counter, wc, word count, count</PackageTags>
         <RootNamespace>AlastairLundy.WCountLib</RootNamespace>

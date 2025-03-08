@@ -44,19 +44,19 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
     {
         [CommandOption("-l|--line-count")]
         [DefaultValue(false)]
-        public bool LineCount { get; init; }
+        public bool OnlyLineCount { get; init; }
         
         [CommandOption("-w|--word-count")]
         [DefaultValue(false)]
-        public bool WordCount { get; init; }
+        public bool OnlyWordCount { get; init; }
         
         [CommandOption("-m|--character-count")]
         [DefaultValue(false)]
-        public bool CharacterCount { get; init; }
+        public bool OnlyCharacterCount { get; init; }
         
         [CommandOption("-c|--byte-count")]
         [DefaultValue(false)]
-        public bool ByteCount { get; init; }
+        public bool OnlyByteCount { get; init; }
     }
 
     public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
@@ -74,7 +74,7 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
         {
             Grid grid = new();
 
-                if (settings.LineCount)
+                if (settings.OnlyLineCount)
                 {                    
                     grid.AddColumn();
                     grid.AddColumn();
@@ -103,7 +103,7 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
                     return 0;
                 }
 
-                if (settings.WordCount)
+                if (settings.OnlyWordCount)
                 {                    
                     grid.AddColumn();
                     grid.AddColumn();
@@ -127,7 +127,7 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
                     return 0;
                 }
 
-                if (settings.CharacterCount)
+                if (settings.OnlyCharacterCount)
                 {                    
                     grid.AddColumn();
                     grid.AddColumn();
@@ -151,7 +151,7 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
                     return 0;
                 }
                 
-                if (settings.ByteCount)
+                if (settings.OnlyByteCount)
                 {
                     grid.AddColumn();
                     grid.AddColumn();
@@ -175,7 +175,10 @@ public class WCountCommand : AsyncCommand<WCountCommand.Settings>
                     return 0;
                 }
 
-                if (!settings.WordCount && !settings.LineCount && !settings.ByteCount && !settings.CharacterCount)
+                if (!settings.OnlyWordCount &&
+                    !settings.OnlyLineCount &&
+                    !settings.OnlyByteCount &&
+                    !settings.OnlyCharacterCount)
                 {
                     int totalLineCount = 0;
                     ulong totalWordCount = 0;
