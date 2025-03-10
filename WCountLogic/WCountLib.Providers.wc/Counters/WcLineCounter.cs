@@ -1,19 +1,13 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
-
 using AlastairLundy.CliInvoke.Abstractions;
 using AlastairLundy.CliInvoke.Exceptions;
-
 using AlastairLundy.WCountLib.Abstractions.Counters;
+using AlastairLundy.WCountLib.Providers.wc.Helpers;
 
-using WCountLib.Providers.wc.Helpers;
-
-#if NET5_0_OR_GREATER
-using System.Runtime.Versioning;
-#endif
-
-namespace WCountLib.Providers.wc.Counters;
+namespace AlastairLundy.WCountLib.Providers.wc.Counters;
 
 /// <summary>
 /// 

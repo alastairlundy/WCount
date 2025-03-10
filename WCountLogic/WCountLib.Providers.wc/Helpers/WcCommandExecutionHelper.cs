@@ -3,19 +3,17 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
 using AlastairLundy.CliInvoke;
 using AlastairLundy.CliInvoke.Abstractions;
 using AlastairLundy.CliInvoke.Builders;
 using AlastairLundy.CliInvoke.Builders.Abstractions;
 using AlastairLundy.CliInvoke.Exceptions;
 using AlastairLundy.Extensions.Processes;
-
 #if NETSTANDARD2_0 || NETSTANDARD2_1
 using OperatingSystem = Polyfills.OperatingSystemPolyfill;
 #endif
 
-namespace WCountLib.Providers.wc.Helpers;
+namespace AlastairLundy.WCountLib.Providers.wc.Helpers;
 
 internal class WcCommandExecutionHelper
 {
