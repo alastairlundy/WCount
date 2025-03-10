@@ -17,19 +17,17 @@
     <PackageTags>wordcount, word-count, word count,  wc, charcount, bytecount, linecount,</PackageTags>
     <AssemblyName>AlastairLundy.WCountLib.Providers.wc</AssemblyName>
     <RootNamespace>AlastairLundy.WCountLib.Providers.wc</RootNamespace>
+    <Version>3.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AlastairLundy.CliInvoke" Version="[1.0.0, 2.0.0)" />
+    <PackageReference Include="AlastairLundy.WCountLib.Abstractions" Version="[3.1.0, 4.0.0)"/>
   </ItemGroup>
 
 	<ItemGroup >
 		<PackageReference Include="PolyFill" Version="[7.21.0, 8.0.0)" Condition="'$(TargetFramework)' == 'netstandard2.0' OR '$(TargetFramework)' == 'netstandard2.1'"/>
 	</ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\WCountLib.Abstractions\WCountLib.Abstractions.csproj" />
-  </ItemGroup>
 
   <ItemGroup>
     <Content Include="..\WCountLib\LICENSE.txt">
