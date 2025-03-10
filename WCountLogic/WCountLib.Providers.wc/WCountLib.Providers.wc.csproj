@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <LangVersion>13</LangVersion>
+    <PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>AlastairLundy.WCountLib.Providers.wc</PackageId>
+    <Title>WCountLib.Providers.wc</Title>
+    <Authors>AlastairLundy</Authors>
+    <Copyright>Copyright (c) Alastair Lundy 2025</Copyright>
+    <RepositoryUrl>https://github.com/alastairlundy/WCount</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <TargetFrameworks>netstandard2.0;net8.0;net9.0;netstandard2.1</TargetFrameworks>
+    <Description>This package provides implementations for WCountLib.Abstractions interfaces that use Posix's and Unix's ``wc`` program to perform the calculations.</Description>
+    <PackageTags>wordcount, word-count, word count,  wc, charcount, bytecount, linecount,</PackageTags>
+    <AssemblyName>AlastairLundy.WCountLib.Providers.wc</AssemblyName>
+    <RootNamespace>AlastairLundy.WCountLib.Providers.wc</RootNamespace>
+    <Version>3.1.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AlastairLundy.CliInvoke" Version="[1.0.0, 2.0.0)" />
+    <PackageReference Include="AlastairLundy.WCountLib.Abstractions" Version="[3.1.0, 4.0.0)"/>
+  </ItemGroup>
+
+	<ItemGroup >
+		<PackageReference Include="PolyFill" Version="[7.21.0, 8.0.0)" Condition="'$(TargetFramework)' == 'netstandard2.0' OR '$(TargetFramework)' == 'netstandard2.1'"/>
+	</ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\WCountLib\LICENSE.txt">
+      <Link>LICENSE.txt</Link>
+    </Content>
+    <None Include="README.md">
+      <Link>README.md</Link>
+      <PackagePath>README.md</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
