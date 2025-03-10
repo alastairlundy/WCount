@@ -7,7 +7,7 @@
     <PackageId>AlastairLundy.WCountLib.Providers.wc</PackageId>
     <Title>WCountLib.Providers.wc</Title>
     <Authors>AlastairLundy</Authors>
-    <Copyright>Copyright (c) Alastair Lundy 2024-2025</Copyright>
+    <Copyright>Copyright (c) Alastair Lundy 2025</Copyright>
     <RepositoryUrl>https://github.com/alastairlundy/WCount</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>Initial release</PackageReleaseNotes>
