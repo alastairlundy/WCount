@@ -7,34 +7,54 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+using AlastairLundy.WCountLib.Abstractions.Counters;
+using AlastairLundy.WCountLib.Abstractions.Detectors;
+using AlastairLundy.WCountLib.Counters;
+using AlastairLundy.WCountLib.Detectors;
 using Microsoft.Extensions.DependencyInjection;
-
-
-using WCountLib.Counters;
-using WCountLib.Counters.Abstractions;
-using WCountLib.Detectors;
-using WCountLib.Detectors.Abstractions;
 
 
 // ReSharper disable UnusedMember.Global
 
-namespace WCountLib.Extensions.DependencyInjection
+namespace AlastairLundy.WCountLib.Extensions.DependencyInjection
 {
     public static class DependencyInjectionExtensions
     {
         /// <summary>
-        /// 
+        /// Sets up the required services and implementations for Dependency Injection using Microsoft.Extensions.DependencyInjection.
         /// </summary>
-        /// <param name="services"></param>
-        /// <returns></returns>
-        public static IServiceCollection UseWCount(this IServiceCollection services)
+        /// <param name="services">The service collection to add to.</param>
+        /// <param name="lifetime">The service lifetime to register the services as.</param>
+        /// <returns>The updated ServiceCollection with WCount's services.</returns>
+        public static IServiceCollection AddWCount(this IServiceCollection services, ServiceLifetime lifetime = ServiceLifetime.Scoped)
         {
-            services.AddSingleton<IWordDetector, WordDetector>();
-            
-            services.AddSingleton<ILineCounter, LineCounter>();
-            services.AddSingleton<IByteCounter, ByteCounter>();
-            services.AddSingleton<ICharCounter, CharCounter>();
-            services.AddSingleton<IWordCounter, WordCounter>();
+            switch (lifetime)
+            {
+                case ServiceLifetime.Scoped:
+                    services.AddScoped<IWordDetector, WordDetector>();
+                    
+                    services.AddScoped<ILineCounter, LineCounter>();
+                    services.AddScoped<IByteCounter, ByteCounter>();
+                    services.AddScoped<ICharacterCounter, CharacterCounter>();
+                    services.AddScoped<IWordCounter, WordCounter>();
+                    break;
+                case ServiceLifetime.Singleton:
+                    services.AddSingleton<IWordDetector, WordDetector>();
+                    
+                    services.AddSingleton<ILineCounter, LineCounter>();
+                    services.AddSingleton<IByteCounter, ByteCounter>();
+                    services.AddSingleton<ICharacterCounter, CharacterCounter>();
+                    services.AddSingleton<IWordCounter, WordCounter>();
+                    break;
+                case ServiceLifetime.Transient:
+                    services.AddTransient<IWordDetector, WordDetector>();
+                    
+                    services.AddTransient<ILineCounter, LineCounter>();
+                    services.AddTransient<IByteCounter, ByteCounter>();
+                    services.AddTransient<ICharacterCounter, CharacterCounter>();
+                    services.AddTransient<IWordCounter, WordCounter>();
+                    break;
+            }
             
             return services;
         }
