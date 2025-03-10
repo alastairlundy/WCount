@@ -17,6 +17,9 @@
     <PackageTags>wordcount, word-count, word count,  wc, charcount, bytecount, linecount,</PackageTags>
     <AssemblyName>AlastairLundy.WCountLib.Providers.wc</AssemblyName>
     <RootNamespace>AlastairLundy.WCountLib.Providers.wc</RootNamespace>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <Version>3.1.0</Version>
   </PropertyGroup>
 
