@@ -9,8 +9,11 @@
     <Grid RowDefinitions="auto auto auto" ColumnDefinitions="* auto auto *">
        
         <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
-            <TextBlock Text="{Binding WordCountText }" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock Text="{}"/>
+            <TextBlock Text="{Binding WordCount}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding WordCountText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            
+            <TextBlock Text="{Binding CharacterCount}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding CharacterCountText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Vertical">
