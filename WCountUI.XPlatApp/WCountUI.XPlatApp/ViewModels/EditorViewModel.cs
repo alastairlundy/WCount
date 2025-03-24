@@ -49,7 +49,7 @@ public partial class EditorViewModel : ViewModelBase
         StringReader stringReader = new(Text);
         StringReader stringReader2 = new(Text);
         
-        await _wordCounter.CountWordsAsync(stringReader);
-        await _characterCounter.CountCharactersAsync(stringReader2, Encoding.Default);
+       WordCount = await _wordCounter.CountWordsAsync(stringReader);
+       CharacterCount = await _characterCounter.CountCharactersAsync(stringReader2, Encoding.Default);
     }
 }
