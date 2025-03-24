@@ -31,8 +31,8 @@ public partial class EditorViewModel : ViewModelBase
     
     [ObservableProperty]
     private string _text;
-    
-    private string WordCountText
+    [ObservableProperty]
+    private string _wordCountText = string.Empty;
     {
         get
         {
