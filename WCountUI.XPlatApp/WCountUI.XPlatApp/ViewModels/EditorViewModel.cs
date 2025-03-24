@@ -1,8 +1,11 @@
 ﻿using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+
 using AlastairLundy.WCountLib.Abstractions.Counters;
+
 using CommunityToolkit.Mvvm.ComponentModel;
+
 using WCountUI.XPlatApp.Localizations;
 
 namespace WCountUI.XPlatApp.ViewModels;
