@@ -8,6 +8,8 @@
 
 
 		<StackPanel Margin="10" Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+			<TextBlock></TextBlock>
+			
 			
 		</StackPanel>
 
@@ -15,7 +17,7 @@
 
 		</StackPanel>
 
-		<TextBlock></TextBlock>
+		
 		
 		<TextBox Grid.Column="1" Grid.Row="2" x:Name="textEditor" AcceptsReturn="True" MinLines="10"
 				 MinHeight="400" MinWidth="600" Text="{Binding Words}" TextChanged="TextEditor_TextChanged"/>
