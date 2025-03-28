@@ -32,7 +32,11 @@ namespace AlastairLundy.WCountLib.Counters
     public class WordCounter : IWordCounter
     {
         private readonly IWordDetector _wordDetector;
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="wordDetector"></param>
         public WordCounter(IWordDetector wordDetector)
         {
             _wordDetector = wordDetector;
