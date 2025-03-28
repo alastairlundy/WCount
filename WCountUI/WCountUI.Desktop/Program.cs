@@ -15,9 +15,15 @@ namespace WCountUI.Desktop
 
         // Avalonia configuration, don't remove; also used by visual designer.
         public static AppBuilder BuildAvaloniaApp()
-            => AppBuilder.Configure<App>()
+        {
+           var appBuilder = AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .WithInterFont()
                 .LogToTrace();
+        
+        
+        
+            return appBuilder;
+        }
     }
 }
