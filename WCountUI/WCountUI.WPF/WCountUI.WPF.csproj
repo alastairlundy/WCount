@@ -9,6 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AlastairLundy.WCountLib" Version="[3.1.1, 4.0.0)" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration" Version="[9.0.3, 10.0.0)" />
+	  <PackageReference Include="Microsoft.Extensions.Hosting" Version="[9.0.3, 10.0.0)" />  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Localizations\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
