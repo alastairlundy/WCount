@@ -5,7 +5,7 @@ VisualStudioVersion = 17.13.35825.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCount.Cli", "WCount.Cli\WCount.Cli.csproj", "{9C0189A2-C275-179D-666B-502856F2926F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCountUI.Desktop", "WCountUI.Desktop\WCountUI.Desktop.csproj", "{6581AAC7-D268-49F5-ACE5-68CBE8CDDC26}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCountUI.WPF", "WCountUI.WPF\WCountUI.WPF.csproj", "{AFA5404C-C440-35B6-4E09-E18573772FE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{9C0189A2-C275-179D-666B-502856F2926F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C0189A2-C275-179D-666B-502856F2926F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C0189A2-C275-179D-666B-502856F2926F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6581AAC7-D268-49F5-ACE5-68CBE8CDDC26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6581AAC7-D268-49F5-ACE5-68CBE8CDDC26}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6581AAC7-D268-49F5-ACE5-68CBE8CDDC26}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6581AAC7-D268-49F5-ACE5-68CBE8CDDC26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFA5404C-C440-35B6-4E09-E18573772FE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFA5404C-C440-35B6-4E09-E18573772FE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFA5404C-C440-35B6-4E09-E18573772FE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFA5404C-C440-35B6-4E09-E18573772FE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
