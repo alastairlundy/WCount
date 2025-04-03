@@ -7,6 +7,7 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.Primitives;
 
@@ -16,6 +17,6 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters.Segments
     {
         int CountCharactersInt32(IEnumerable<StringSegment> segments);
     
-        ulong CountCharactersUInt64(IEnumerable<StringSegment> segments);
+        UInt64 CountCharactersUInt64(IEnumerable<StringSegment> segments);
     }
 }
