@@ -10,7 +10,7 @@
 using System.Collections.Generic;
 using Microsoft.Extensions.Primitives;
 
-namespace AlastairLundy.WCountLib.Abstractions.Detectors.Words
+namespace AlastairLundy.WCountLib.Abstractions.Detectors.Segments
 {
     /// <summary>
     /// A word detecting service that uses String Segments instead of Strings for potentially better performance.
