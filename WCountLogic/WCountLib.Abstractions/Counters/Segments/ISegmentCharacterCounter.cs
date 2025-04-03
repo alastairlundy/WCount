@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Primitives;
 
 namespace AlastairLundy.WCountLib.Abstractions.Counters.Segments
@@ -16,7 +17,9 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters.Segments
     public interface ISegmentCharacterCounter
     {
         int CountCharactersInt32(IEnumerable<StringSegment> segments);
-    
         UInt64 CountCharactersUInt64(IEnumerable<StringSegment> segments);
+        
+        Task<int> CountCharactersInt32Async(IEnumerable<StringSegment> segments);
+        Task<UInt64> CountCharactersUInt64Async(IEnumerable<StringSegment> segments);
     }
 }

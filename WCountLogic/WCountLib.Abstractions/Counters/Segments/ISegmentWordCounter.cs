@@ -8,7 +8,9 @@
  */
 
 
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Primitives;
 
 namespace AlastairLundy.WCountLib.Abstractions.Counters.Segments
@@ -17,7 +19,9 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters.Segments
     public interface ISegmentWordCounter
     {
         int CountWordsInt32(IEnumerable<StringSegment> segments);
-    
-        ulong CountWordsUInt64(IEnumerable<StringSegment> segments);
+        UInt64 CountWordsUInt64(IEnumerable<StringSegment> segments);
+        
+        Task<int> CountWordsInt32Async(IEnumerable<StringSegment> segments);
+        Task<UInt64> CountWordsUInt64Async(IEnumerable<StringSegment> segments);
     }
 }
