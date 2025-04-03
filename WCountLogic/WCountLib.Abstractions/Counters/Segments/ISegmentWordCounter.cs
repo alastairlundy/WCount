@@ -9,12 +9,12 @@
 
 
 using System.Collections.Generic;
-
 using Microsoft.Extensions.Primitives;
 
-namespace AlastairLundy.WCountLib.Abstractions.Counters.Words
+namespace AlastairLundy.WCountLib.Abstractions.Counters.Segments
 {
-    public interface IStringSegmentWordCounter
+    
+    public interface ISegmentWordCounter
     {
         int CountWordsInt32(IEnumerable<StringSegment> segments);
     
