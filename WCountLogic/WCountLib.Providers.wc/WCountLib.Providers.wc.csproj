@@ -32,15 +32,13 @@
 	<ItemGroup >
 		<PackageReference Include="PolyFill" Version="[7.24.0, 8.0.0)" Condition="'$(TargetFramework)' == 'netstandard2.0' OR '$(TargetFramework)' == 'netstandard2.1'"/>
 	</ItemGroup>
-
-  <ItemGroup>
-    <Content Include="..\WCountLib\LICENSE.txt">
-      <Link>LICENSE.txt</Link>
-    </Content>
-  </ItemGroup>
   
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Counters\Segments\" />
   </ItemGroup>
 
 </Project>
