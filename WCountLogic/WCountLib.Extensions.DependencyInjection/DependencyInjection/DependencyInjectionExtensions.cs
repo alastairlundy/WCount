@@ -9,8 +9,10 @@
 
 using AlastairLundy.WCountLib.Abstractions.Counters;
 using AlastairLundy.WCountLib.Abstractions.Detectors;
+
 using AlastairLundy.WCountLib.Counters;
 using AlastairLundy.WCountLib.Detectors;
+
 using Microsoft.Extensions.DependencyInjection;
 
 
