@@ -13,6 +13,7 @@ using System.Linq;
 using AlastairLundy.DotExtensions.Strings;
 
 using AlastairLundy.WCountLib.Abstractions.Detectors;
+using Microsoft.Extensions.Primitives;
 
 // ReSharper disable RedundantBoolCompare
 
