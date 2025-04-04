@@ -33,10 +33,12 @@ namespace AlastairLundy.WCountLib.Detectors
         /// <returns>true if the string is not a special character and doesn't contain a space character if spaces are excluded; false otherwise.</returns>
         public bool IsStringAWord(string input, bool countStringsWithSpacesAsWords = false)
         {
-            bool output = input.ContainsSpaceSeparatedSubStrings() == false;
+            bool containsSpaceSeparatedSubstrings = input.ContainsSpaceSeparatedSubStrings();
 
+            bool output = containsSpaceSeparatedSubstrings == false;
+            
             if (string.IsNullOrWhiteSpace(input) == true || 
-                input.ContainsSpaceSeparatedSubStrings() && countStringsWithSpacesAsWords == false)
+                containsSpaceSeparatedSubstrings && countStringsWithSpacesAsWords == false)
             {
                 output = false;
             }
@@ -46,9 +48,14 @@ namespace AlastairLundy.WCountLib.Detectors
                 output = false;
             }
 
-            if (input.Split(' ').Length == 1 && countStringsWithSpacesAsWords == false)
+            if (containsSpaceSeparatedSubstrings && countStringsWithSpacesAsWords == true)
             {
                 output = true;
+            }
+
+            if (containsSpaceSeparatedSubstrings == false && countStringsWithSpacesAsWords == false)
+            {
+                output = false;
             }
 
             return output;
