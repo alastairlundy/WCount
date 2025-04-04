@@ -43,7 +43,8 @@
     </ItemGroup>
     
     <ItemGroup>
-        <PackageReference Include="AlastairLundy.DotExtensions" Version="[6.2.0, 7.0.0)" />
+        <PackageReference Include="AlastairLundy.DotExtensions" Version="[6.3.0, 7.0.0)" />
+        <PackageReference Include="AlastairLundy.DotExtensions.MsExtensions" Version="[6.3.0, 7.0.0)" />
 		<PackageReference Include="PolyFill" Version="[7.24.0, 8.0.0)" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
 		<PackageReference Include="System.Threading.Tasks.Extensions" Version="[4.6.2, 5.0.0)" Condition="'$(TargetFramework)' == 'netstandard2.0'"/>
 
