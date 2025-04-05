@@ -26,7 +26,7 @@ public class SegmentByteCounter : ISegmentByteCounter
     /// </summary>
     /// <param name="segment"></param>
     /// <returns></returns>
-    protected int CountBytesInt32Worker(StringSegment segment)
+    private int CountBytesInt32Worker(StringSegment segment)
     {
         int byteCount = Encoding.Default.GetByteCount(segment.AsSpan());
 
