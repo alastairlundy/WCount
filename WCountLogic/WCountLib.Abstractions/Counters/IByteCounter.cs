@@ -7,6 +7,7 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,16 +26,22 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
         /// Synchronously reads from the provided TextReader and counts total the number of bytes in the specified Encoding.
         /// </summary>
         /// <param name="textReader">The TextReader from which to count bytes.</param>
-        /// <param name="textEncodingType">The Encoding type of the bytes to count.</param>
+        /// <param name="encoding">The Encoding type of the bytes to count.</param>
         /// <returns>The total number of bytes counted.</returns>
-        int CountBytesInt32(TextReader textReader, Encoding textEncodingType);
+        int CountBytesInt32(TextReader textReader, Encoding encoding);
+        UInt64 CountBytesUInt64(TextReader textReader, Encoding encoding);
+        int CountBytesInt32(string source, Encoding encoding);
+        UInt64 CountBytesUInt64(string source, Encoding encoding);
+        Task<int> CountBytesInt32Async(TextReader textReader, Encoding encoding);
+        Task<int> CountBytesInt32Async(string source, Encoding encoding);
         
         /// <summary>
         /// Asynchronously reads from the provided TextReader and counts the total number of bytes in the specified Encoding.
         /// </summary>
         /// <param name="textReader">The TextReader from which to count bytes.</param>
-        /// <param name="textEncodingType">The Encoding type of the bytes to count.</param>
+        /// <param name="encoding">The Encoding type of the bytes to count.</param>
         /// <returns>The total number of bytes counted.</returns>
-        Task<ulong> CountBytesUInt64Async(TextReader textReader, Encoding textEncodingType);
+        Task<UInt64> CountBytesUInt64Async(TextReader textReader, Encoding encoding);
+        Task<UInt64> CountBytesUInt64Async(string source, Encoding encoding);
     }
 }

@@ -7,6 +7,7 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -24,7 +25,7 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
 
 	    int CountWordsInt32(string source);
 
-	    ulong CountWordsUInt64(string source);
+	    UInt64 CountWordsUInt64(string source);
 	    
 	    int CountWordsInt32(TextReader textReader);
 	    
@@ -33,8 +34,9 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
         /// </summary>
         /// <param name="textReader">The TextReader from which to count words.</param>
         /// <returns>The total number of words counted.</returns>
-        ulong CountWordsUInt64(TextReader textReader);
+        UInt64 CountWordsUInt64(TextReader textReader);
 
+        Task<int> CountWordsInt32Async(string source);
         
 	    Task<int> CountWordsInt32Async(TextReader textReader);
         
@@ -43,6 +45,7 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
 		/// </summary>
 		/// <param name="textReader">The TextReader from which to count words.</param>
 		/// <returns>The total number of words counted.</returns>
-		Task<ulong> CountWordsUInt64Async(TextReader textReader);
+		Task<UInt64> CountWordsUInt64Async(TextReader textReader);
+		Task<UInt64> CountWordsUInt64Async(string source);
 	}
 }
