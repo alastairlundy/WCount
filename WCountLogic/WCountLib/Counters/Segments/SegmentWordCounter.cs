@@ -121,6 +121,7 @@ public class SegmentWordCounter : ISegmentWordCounter
         
     }
 
+    
     public Task<ulong> CountWordsUInt64Async(IEnumerable<StringSegment> segments)
     {
         
