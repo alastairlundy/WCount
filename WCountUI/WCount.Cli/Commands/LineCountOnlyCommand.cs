@@ -1,20 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿/*
+	WCount CLI
+	Copyright (c) Alastair Lundy 2024-2025
+ 
+  This Source Code Form is subject to the terms of the Mozilla Public
+  License, v. 2.0. If a copy of the MPL was not distributed with this
+  file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+using System;
+using System.IO;
 using System.Threading.Tasks;
 
-using BasisBox.Cli.Tools.WCount.Settings;
+using AlastairLundy.WCountLib.Abstractions.Counters;
 
 using Spectre.Console;
 using Spectre.Console.Cli;
 
-using WCountLib;
-using WCountLib.Counters.Abstractions;
+using WCount.Cli.Helpers;
+using WCount.Cli.Localizations;
+using WCount.Cli.Models;
 
-namespace BasisBox.Cli.Tools.WCount.Commands
+namespace WCount.Cli.Commands
 {
-    public class LineCountOnlyCommand : Command<LineCountOnlyCommand.Settings>
+    public class LineCountOnlyCommand : AsyncCommand<LineCountOnlyCommand.Settings>
     {
         private readonly ILineCounter _lineCounter;
 
@@ -28,51 +36,36 @@ namespace BasisBox.Cli.Tools.WCount.Commands
 
         }
 
-        public override int Execute(CommandContext context, Settings settings)
+        public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
         {
-            ExceptionFormats exceptionFormats;
-
-            if (settings.Verbose)
-            {
-                exceptionFormats = ExceptionFormats.Default;
-            }
-            else
-            {
-                exceptionFormats = ExceptionFormats.NoStackTrace;
-            }
-
-            int fileResult = FileArgumentHelpers.HandleFileArgument(settings.Files, exceptionFormats);
+            int fileResult = FileArgumentHelpers.HandleFileArgument(settings.Files, settings.Verbose);
 
             if (fileResult == -1)
             {
                 return -1;
             }
 
+            string[] files = FileArgumentHelpers.ResolveFilePaths(settings.Files!, settings.Verbose);
 
             try
             {
                 int totalLines = 0;
 
-                foreach (string file in settings.Files!)
+                foreach (string file in files)
                 {
-                    int lineCount = _lineCounter.CountLinesInFile(file);
+                    string fileContents = await File.ReadAllTextAsync(file);
+                    
+                    using StringReader reader = new StringReader(fileContents);
+                    
+                    int lineCount = await _lineCounter.CountLinesAsync(reader);
                     totalLines += lineCount;
 
-                    string label = "";
-
-                    if (lineCount == 1)
-                    {
-                        label = Resources.WCount_App_Labels_Lines_Singular;
-                    }
-                    else
-                    {
-                        label = Resources.WCount_App_Labels_Lines_Plural;
-                    }
+                    string label = lineCount == 1 ? Resources.WCount_App_Labels_Lines_Singular : Resources.WCount_App_Labels_Lines_Plural;
 
                     AnsiConsole.WriteLine($"{file} {lineCount} {label}");
                 }
 
-                if (settings.Files.Length > 1)
+                if (files.Length > 1)
                 {
                     if (totalLines == 0 || totalLines > 1)
                     {
@@ -88,7 +81,7 @@ namespace BasisBox.Cli.Tools.WCount.Commands
             }
             catch (Exception ex)
             {
-                AnsiConsole.WriteException(ex, exceptionFormats);
+                ExceptionHelper.PrintException(ex, settings.Verbose);
                 return -1;
             }
         }

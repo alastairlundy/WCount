@@ -1,17 +1,29 @@
-﻿using System;
-using System.Text;
+﻿/*
+	WCount CLI
+	Copyright (c) Alastair Lundy 2024-2025
+ 
+  This Source Code Form is subject to the terms of the Mozilla Public
+  License, v. 2.0. If a copy of the MPL was not distributed with this
+  file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 
-using BasisBox.Cli.Tools.WCount.Settings;
+using System;
+using System.IO;
+using System.Text;
+using System.Threading.Tasks;
+
+using AlastairLundy.WCountLib.Abstractions.Counters;
 
 using Spectre.Console;
 using Spectre.Console.Cli;
 
-using WCountLib;
-using WCountLib.Counters.Abstractions;
+using WCount.Cli.Helpers;
+using WCount.Cli.Localizations;
+using WCount.Cli.Models;
 
-namespace BasisBox.Cli.Tools.WCount.Commands
+namespace WCount.Cli.Commands
 {
-    public class BytesCountOnlyCommand : Command<BytesCountOnlyCommand.Settings>
+    public class BytesCountOnlyCommand : AsyncCommand<BytesCountOnlyCommand.Settings>
     {
         private readonly IByteCounter _byteCounter;
 
@@ -25,52 +37,39 @@ namespace BasisBox.Cli.Tools.WCount.Commands
 
         }
 
-        public override int Execute(CommandContext context, Settings settings)
+        public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
         {
-            ExceptionFormats exceptionFormats;
-
-            if (settings.Verbose)
-            {
-                exceptionFormats = ExceptionFormats.Default;
-            }
-            else
-            {
-                exceptionFormats = ExceptionFormats.NoStackTrace;
-            }
-
-            int fileResult = FileArgumentHelpers.HandleFileArgument(settings.Files, exceptionFormats);
+            int fileResult = FileArgumentHelpers.HandleFileArgument(settings.Files, settings.Verbose);
 
             if (fileResult == -1)
             {
                 return -1;
             }
 
+            string[] files = FileArgumentHelpers.ResolveFilePaths(settings.Files!, settings.Verbose);
 
             try
             {
 
                 ulong totalBytes = 0;
 
-                foreach (string file in settings.Files!)
+                foreach (string file in files)
                 {
-                    ulong byteCount = _byteCounter.CountBytesInFile(file, Encoding.Default);
+                    string fileContents = await File.ReadAllTextAsync(file);
+                    
+                    using StringReader reader = new StringReader(fileContents);
+                    
+                    ulong byteCount =
+                        await _byteCounter.CountBytesAsync(reader, Encoding.Default);
+                    
                     totalBytes += byteCount;
 
-                    string label = "";
-
-                    if (byteCount == 1)
-                    {
-                        label = Resources.Wcount_App_Labels_Bytes_Singular;
-                    }
-                    else
-                    {
-                        label = Resources.WCount_App_Labels_Bytes_Plural;
-                    }
+                    string label = byteCount == 1 ? Resources.WCount_App_Labels_Bytes_Singular : Resources.WCount_App_Labels_Bytes_Plural;
 
                     AnsiConsole.WriteLine($"{file} {byteCount} {label}");
                 }
 
-                if (settings.Files.Length > 1)
+                if (files.Length > 1)
                 {
                     if (totalBytes == 0 || totalBytes > 1)
                     {
@@ -78,7 +77,7 @@ namespace BasisBox.Cli.Tools.WCount.Commands
                     }
                     else
                     {
-                        AnsiConsole.WriteLine($"{Resources.WCount_App_Labels_Total} {totalBytes} {Resources.Wcount_App_Labels_Bytes_Singular}");
+                        AnsiConsole.WriteLine($"{Resources.WCount_App_Labels_Total} {totalBytes} {Resources.WCount_App_Labels_Bytes_Singular}");
                     }
                 }
 
@@ -86,7 +85,7 @@ namespace BasisBox.Cli.Tools.WCount.Commands
             }
             catch (Exception ex)
             {
-                AnsiConsole.WriteException(ex, exceptionFormats);
+                ExceptionHelper.PrintException(ex, settings.Verbose);
                 return -1;
             }
         }

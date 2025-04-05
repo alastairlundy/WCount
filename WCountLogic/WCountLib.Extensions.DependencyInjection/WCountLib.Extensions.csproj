@@ -1,18 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
 	  <Author>Alastair Lundy</Author>
-	  <Title>WCountLib.Extensions</Title>
-	  <AssemblyName>WCountLib.Extensions</AssemblyName>
+	  <Title>AlastairLundy.WCountLib.Extensions</Title>
+	  <AssemblyName>AlastairLundy.WCountLib.Extensions</AssemblyName>
 	  <IncludeSymbols>true</IncludeSymbols>
 	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	  <EmbedUntrackedSources>true</EmbedUntrackedSources>
+	  <PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
+	  <TargetFrameworks>netstandard2.1;net8.0;net9.0;netstandard2.0</TargetFrameworks>
+	  <RootNamespace>AlastairLundy.WCountLib.Extensions</RootNamespace>
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <Authors>AlastairLundy</Authors>
+	  <Copyright>Copyright (c) Alastair Lundy 2024-2025</Copyright>
+	  <RepositoryUrl>https://github.com/alastairlundy/WCount</RepositoryUrl>
+	  <RepositoryType>git</RepositoryType>
+	  <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
+	  <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="[9.0.2, 10.0.0)" />
-		<PackageReference Include="WCountLib" Version="[3.0.0, 4.0.0)" />
+		<PackageReference Include="AlastairLundy.WCountLib" Version="[3.1.1, 4.0.0)"/>
+		<PackageReference Include="AlastairLundy.WCountLib.Abstractions" Version="[3.1.0, 4.0.0)" />
 	</ItemGroup>
 	
 </Project>
