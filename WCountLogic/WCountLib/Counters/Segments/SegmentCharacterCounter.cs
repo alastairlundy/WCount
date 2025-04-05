@@ -21,6 +21,9 @@ using Microsoft.Extensions.Primitives;
 
 namespace AlastairLundy.WCountLib.Counters.Segments;
 
+/// <summary>
+/// 
+/// </summary>
 public class SegmentCharacterCounter : ISegmentCharacterCounter
 {
 
@@ -32,7 +35,7 @@ public class SegmentCharacterCounter : ISegmentCharacterCounter
     }
     
     /// <summary>
-    /// s
+    /// 
     /// </summary>
     /// <param name="segments"></param>
     /// <returns></returns>

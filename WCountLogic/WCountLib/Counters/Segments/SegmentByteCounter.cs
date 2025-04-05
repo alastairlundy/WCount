@@ -19,6 +19,9 @@ using Microsoft.Extensions.Primitives;
 
 namespace AlastairLundy.WCountLib.Counters.Segments;
 
+/// <summary>
+/// 
+/// </summary>
 public class SegmentByteCounter : ISegmentByteCounter
 {
     

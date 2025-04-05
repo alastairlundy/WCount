@@ -21,10 +21,17 @@ using Microsoft.Extensions.Primitives;
 
 namespace AlastairLundy.WCountLib.Counters.Segments;
 
+/// <summary>
+/// 
+/// </summary>
 public class SegmentWordCounter : ISegmentWordCounter
 {
     private readonly ISegmentWordDetector _segmentWordDetector;
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="segmentWordDetector"></param>
     public SegmentWordCounter(ISegmentWordDetector segmentWordDetector)
     {
         _segmentWordDetector = segmentWordDetector;
