@@ -73,11 +73,17 @@ public class SegmentByteCounter : ISegmentByteCounter
 
     public async Task<int> CountBytesInt32Async(IEnumerable<StringSegment> segments)
     {
+        int byteCount = 0;
+
         
     }
 
     public async Task<ulong> CountBytesUInt64Async(IEnumerable<StringSegment> segments)
     {
+        long byteCount = 0;
+        
+        
+        
         
     }
 }
