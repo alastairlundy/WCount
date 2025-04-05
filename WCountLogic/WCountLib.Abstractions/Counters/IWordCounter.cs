@@ -21,18 +21,28 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
 	/// </remarks>
     public interface IWordCounter
     {
+
+	    int CountWordsInt32(string source);
+
+	    ulong CountWordsUInt64(string source);
+	    
+	    int CountWordsInt32(TextReader textReader);
+	    
         /// <summary>
         /// Synchronously reads from the provided TextReader and counts total the number of words.
         /// </summary>
         /// <param name="textReader">The TextReader from which to count words.</param>
         /// <returns>The total number of words counted.</returns>
-         ulong CountWords(TextReader textReader);
+        ulong CountWordsUInt64(TextReader textReader);
 
+        
+	    Task<int> CountWordsInt32Async(TextReader textReader);
+        
 		/// <summary>
 		/// Asynchronously reads from the provided TextReader and counts the total number of words.
 		/// </summary>
 		/// <param name="textReader">The TextReader from which to count words.</param>
 		/// <returns>The total number of words counted.</returns>
-		Task<ulong> CountWordsAsync(TextReader textReader);
+		Task<ulong> CountWordsUInt64Async(TextReader textReader);
 	}
 }
