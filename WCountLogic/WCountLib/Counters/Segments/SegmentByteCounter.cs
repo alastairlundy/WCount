@@ -21,6 +21,7 @@ namespace AlastairLundy.WCountLib.Counters.Segments;
 
 public class SegmentByteCounter : ISegmentByteCounter
 {
+    
     /// <summary>
     /// 
     /// </summary>
@@ -71,19 +72,41 @@ public class SegmentByteCounter : ISegmentByteCounter
         return Convert.ToUInt64(byteCount);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="segments"></param>
+    /// <returns></returns>
     public async Task<int> CountBytesInt32Async(IEnumerable<StringSegment> segments)
     {
-        int byteCount = 0;
-
-        
+        int totalBytes = 0;
+            
+        Task wordCountingTask = Task.Run(() =>
+        {
+            totalBytes = CountBytesInt32(segments);
+        });
+            
+        await wordCountingTask;
+            
+        return totalBytes;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="segments"></param>
+    /// <returns></returns>
     public async Task<ulong> CountBytesUInt64Async(IEnumerable<StringSegment> segments)
     {
-        long byteCount = 0;
-        
-        
-        
-        
+        ulong totalChars = 0;
+            
+        Task wordCountingTask = Task.Run(() =>
+        {
+            totalChars = CountBytesUInt64(segments);
+        });
+            
+        await wordCountingTask;
+            
+        return totalChars;
     }
 }

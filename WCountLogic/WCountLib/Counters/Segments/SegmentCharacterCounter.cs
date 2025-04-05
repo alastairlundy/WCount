@@ -69,13 +69,41 @@ public class SegmentCharacterCounter : ISegmentCharacterCounter
         return Convert.ToUInt64(charCount);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="segments"></param>
+    /// <returns></returns>
     public async Task<int> CountCharactersInt32Async(IEnumerable<StringSegment> segments)
     {
-        
+        int totalChars = 0;
+            
+        Task wordCountingTask = Task.Run(() =>
+        {
+            totalChars = CountCharactersInt32(segments);
+        });
+            
+        await wordCountingTask;
+            
+        return totalChars;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="segments"></param>
+    /// <returns></returns>
     public async Task<ulong> CountCharactersUInt64Async(IEnumerable<StringSegment> segments)
     {
-        
+        ulong totalChars = 0;
+            
+        Task wordCountingTask = Task.Run(() =>
+        {
+            totalChars = CountCharactersUInt64(segments);
+        });
+            
+        await wordCountingTask;
+            
+        return totalChars;
     }
 }

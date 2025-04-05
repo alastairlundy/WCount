@@ -92,11 +92,11 @@ namespace AlastairLundy.WCountLib.Counters
         /// <returns>The total number of words counted.</returns>
         public ulong CountWords(TextReader textReader)
         { 
-           string input = textReader.ReadToEnd();
+            string input = textReader.ReadToEnd();
            
             ulong totalWords = CountWordsWorker(input);
             
-          return totalWords;
+            return totalWords;
         }
 
         /// <summary>

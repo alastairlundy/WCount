@@ -110,20 +110,47 @@ public class SegmentWordCounter : ISegmentWordCounter
         }
             
 #if NET5_0_OR_GREATER
-            return totalWords;
+            return Convert.ToUInt64(totalWords);
 #else
         return Convert.ToUInt64(totalWords);            
 #endif
     }
 
-    public Task<int> CountWordsInt32Async(IEnumerable<StringSegment> segments)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="segments"></param>
+    /// <returns></returns>
+    public async Task<int> CountWordsInt32Async(IEnumerable<StringSegment> segments)
     {
-        
+        int totalWords = 0;
+            
+        Task wordCountingTask = Task.Run(() =>
+        {
+            totalWords = CountWordsInt32(segments);
+        });
+            
+        await wordCountingTask;
+            
+        return totalWords;
     }
 
-    
-    public Task<ulong> CountWordsUInt64Async(IEnumerable<StringSegment> segments)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="segments"></param>
+    /// <returns></returns>
+    public async Task<ulong> CountWordsUInt64Async(IEnumerable<StringSegment> segments)
     {
-        
+        ulong totalWords = 0;
+            
+        Task wordCountingTask = Task.Run(() =>
+        {
+            totalWords = CountWordsUInt64(segments);
+        });
+            
+        await wordCountingTask;
+            
+        return totalWords;
     }
 }
