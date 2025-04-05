@@ -36,8 +36,18 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
         /// <returns>The total number of words counted.</returns>
         UInt64 CountWordsUInt64(TextReader textReader);
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="source"></param>
+		/// <returns></returns>
         Task<int> CountWordsInt32Async(string source);
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="textReader"></param>
+        /// <returns></returns>
 	    Task<int> CountWordsInt32Async(TextReader textReader);
         
 		/// <summary>
@@ -46,6 +56,13 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
 		/// <param name="textReader">The TextReader from which to count words.</param>
 		/// <returns>The total number of words counted.</returns>
 		Task<UInt64> CountWordsUInt64Async(TextReader textReader);
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="source"></param>
+		/// <returns></returns>
 		Task<UInt64> CountWordsUInt64Async(string source);
+
 	}
 }

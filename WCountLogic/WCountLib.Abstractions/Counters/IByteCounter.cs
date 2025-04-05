@@ -29,10 +29,45 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
         /// <param name="encoding">The Encoding type of the bytes to count.</param>
         /// <returns>The total number of bytes counted.</returns>
         int CountBytesInt32(TextReader textReader, Encoding encoding);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="textReader"></param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
         UInt64 CountBytesUInt64(TextReader textReader, Encoding encoding);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
         int CountBytesInt32(string source, Encoding encoding);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
         UInt64 CountBytesUInt64(string source, Encoding encoding);
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="textReader"></param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
         Task<int> CountBytesInt32Async(TextReader textReader, Encoding encoding);
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
         Task<int> CountBytesInt32Async(string source, Encoding encoding);
         
         /// <summary>
@@ -42,6 +77,14 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
         /// <param name="encoding">The Encoding type of the bytes to count.</param>
         /// <returns>The total number of bytes counted.</returns>
         Task<UInt64> CountBytesUInt64Async(TextReader textReader, Encoding encoding);
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
         Task<UInt64> CountBytesUInt64Async(string source, Encoding encoding);
+
     }
 }

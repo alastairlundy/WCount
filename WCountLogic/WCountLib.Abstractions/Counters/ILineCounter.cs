@@ -21,7 +21,13 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
     /// </remarks>
     public interface ILineCounter
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
         int CountLinesInt32(string source);
+        
         /// <summary>
         /// Synchronously reads from the provided TextReader and counts total the number of lines.
         /// </summary>
@@ -29,16 +35,46 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
         /// <returns>The total number of lines counted.</returns>
         int CountLinesInt32(TextReader textReader);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
         UInt64 CountLinesUInt64(string source);
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="textReader"></param>
+        /// <returns></returns>
         UInt64 CountLinesUInt64(TextReader textReader);
+        
         /// <summary>
         /// Asynchronously reads from the provided TextReader and counts the total number of lines.
         /// </summary>
         /// <param name="textReader">The TextReader from which to count lines.</param>
         /// <returns>The total number of lines counted.</returns>
         Task<int> CountLinesInt32Async(TextReader textReader);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
         Task<int> CountLinesInt32Async(string source);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="textReader"></param>
+        /// <returns></returns>
         Task<UInt64> CountLinesUInt64Async(TextReader textReader);
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
         Task<UInt64> CountLinesUInt64Async(string source);
     }
 }

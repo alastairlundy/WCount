@@ -49,6 +49,13 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
         /// <param name="encoding">The Encoding type of the characters to count.</param>
         /// <returns>The total number of characters counted as a 32-bit integer.</returns>
         Task<int> CountCharactersInt32Async(TextReader textReader, Encoding encoding);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
         Task<int> CountCharactersInt32Async(string source, Encoding encoding);
         
         /// <summary>
@@ -58,6 +65,13 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
         /// <param name="encoding">The Encoding type of the characters to count.</param>
         /// <returns>The total number of characters counted as a 64-bit unsigned integer.</returns>
         Task<UInt64> CountCharactersUInt64Async(TextReader textReader, Encoding encoding);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
         Task<UInt64> CountCharactersUInt64Async(string source, Encoding encoding);
 
     }
