@@ -18,14 +18,49 @@ namespace AlastairLundy.WCountLib.Counters.Segments;
 
 public class SegmentByteCounter : ISegmentByteCounter
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="segment"></param>
+    /// <returns></returns>
+    protected int CountBytesInt32Worker(StringSegment segment)
+    {
+        int byteCount = Encoding.Default.GetByteCount(segment.AsSpan());
+
+        return byteCount;
+    }
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="segments"></param>
+    /// <returns></returns>
     public int CountBytesInt32(IEnumerable<StringSegment> segments)
     {
+        int byteCount = 0;
         
+        Parallel.ForEach(segments, segment =>
+        {
+            int bytes = CountBytesInt32Worker(segment);
+
+            Interlocked.Add(ref bytes, byteCount);
+        });
+
+        return byteCount;
     }
 
     public ulong CountBytesUInt64(IEnumerable<StringSegment> segments)
     {
+        long byteCount = 0;
         
+        Parallel.ForEach(segments, segment =>
+        {
+            long bytes = Convert.ToInt64(CountBytesInt32Worker(segment));
+
+            Interlocked.Add(ref bytes, byteCount);
+        });
+
+        return Convert.ToUInt64(byteCount);
     }
 
     public async Task<int> CountBytesInt32Async(IEnumerable<StringSegment> segments)
