@@ -7,6 +7,7 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -18,6 +19,16 @@ namespace AlastairLundy.WCountLib.Counters.Segments;
 
 public class SegmentLineCounter : ISegmentLineCounter
 {
+    private int CountLineInt32Worker(StringSegment segment)
+    {
+        
+    }
+
+    private UInt64 CountLinesUInt64Worker(StringSegment segment)
+    {
+        
+    }
+    
     public int CountLinesInt32(IEnumerable<StringSegment> segments)
     {
         
