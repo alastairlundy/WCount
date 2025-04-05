@@ -17,11 +17,32 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters.Segments
 {
     public interface ISegmentLineCounter
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="segments"></param>
+        /// <returns></returns>
         int CountLinesInt32(IEnumerable<StringSegment> segments);
     
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="segments"></param>
+        /// <returns></returns>
         UInt64 CountLinesUInt64(IEnumerable<StringSegment> segments);
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="segments"></param>
+        /// <returns></returns>
         Task<int> CountLinesInt32Async(IEnumerable<StringSegment> segments);
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="segments"></param>
+        /// <returns></returns>
         Task<UInt64> CountLinesUInt64Async(IEnumerable<StringSegment> segments);
     }
 }

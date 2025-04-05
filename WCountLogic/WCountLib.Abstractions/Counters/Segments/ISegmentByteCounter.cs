@@ -17,11 +17,32 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters.Segments
     
     public interface ISegmentByteCounter
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="segments"></param>
+        /// <returns></returns>
         int CountBytesInt32(IEnumerable<StringSegment> segments);
     
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="segments"></param>
+        /// <returns></returns>
         UInt64 CountBytesUInt64(IEnumerable<StringSegment> segments);
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="segments"></param>
+        /// <returns></returns>
         Task<int> CountBytesInt32Async(IEnumerable<StringSegment> segments);
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="segments"></param>
+        /// <returns></returns>
         Task<UInt64> CountBytesUInt64Async(IEnumerable<StringSegment> segments);
     }
 }
