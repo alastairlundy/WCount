@@ -116,4 +116,13 @@ public class SegmentWordCounter : ISegmentWordCounter
 #endif
     }
 
+    public Task<int> CountWordsInt32Async(IEnumerable<StringSegment> segments)
+    {
+        
+    }
+
+    public Task<ulong> CountWordsUInt64Async(IEnumerable<StringSegment> segments)
+    {
+        
+    }
 }
