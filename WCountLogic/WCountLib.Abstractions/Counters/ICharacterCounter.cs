@@ -22,7 +22,7 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
     /// </remarks>
     public interface ICharacterCounter
     {
-        UInt64 CountCharactersInt32(string text, Encoding encoding);
+        int CountCharactersInt32(string text, Encoding encoding);
         
         UInt64 CountCharactersUInt64(string text, Encoding encoding);
         
