@@ -17,10 +17,32 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters.Segments
 {
     public interface ISegmentCharacterCounter
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="segments"></param>
+        /// <returns></returns>
         int CountCharactersInt32(IEnumerable<StringSegment> segments);
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="segments"></param>
+        /// <returns></returns>
         UInt64 CountCharactersUInt64(IEnumerable<StringSegment> segments);
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="segments"></param>
+        /// <returns></returns>
         Task<int> CountCharactersInt32Async(IEnumerable<StringSegment> segments);
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="segments"></param>
+        /// <returns></returns>
         Task<UInt64> CountCharactersUInt64Async(IEnumerable<StringSegment> segments);
     }
 }

@@ -23,10 +23,25 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
     public interface IWordCounter
     {
 
+	    /// <summary>
+	    /// 
+	    /// </summary>
+	    /// <param name="source"></param>
+	    /// <returns></returns>
 	    int CountWordsInt32(string source);
 
+	    /// <summary>
+	    /// 
+	    /// </summary>
+	    /// <param name="source"></param>
+	    /// <returns></returns>
 	    UInt64 CountWordsUInt64(string source);
 	    
+	    /// <summary>
+	    /// 
+	    /// </summary>
+	    /// <param name="textReader"></param>
+	    /// <returns></returns>
 	    int CountWordsInt32(TextReader textReader);
 	    
         /// <summary>

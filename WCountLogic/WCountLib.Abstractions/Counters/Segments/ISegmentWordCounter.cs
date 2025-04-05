@@ -19,10 +19,32 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters.Segments
     
     public interface ISegmentWordCounter
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="segments"></param>
+        /// <returns></returns>
         int CountWordsInt32(IEnumerable<StringSegment> segments);
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="segments"></param>
+        /// <returns></returns>
         UInt64 CountWordsUInt64(IEnumerable<StringSegment> segments);
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="segments"></param>
+        /// <returns></returns>
         Task<int> CountWordsInt32Async(IEnumerable<StringSegment> segments);
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="segments"></param>
+        /// <returns></returns>
         Task<UInt64> CountWordsUInt64Async(IEnumerable<StringSegment> segments);
     }
 }

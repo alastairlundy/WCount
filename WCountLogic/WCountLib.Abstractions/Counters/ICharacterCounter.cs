@@ -22,8 +22,20 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
     /// </remarks>
     public interface ICharacterCounter
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
         int CountCharactersInt32(string text, Encoding encoding);
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
         UInt64 CountCharactersUInt64(string text, Encoding encoding);
         
         /// <summary>
