@@ -52,6 +52,11 @@ public class SegmentByteCounter : ISegmentByteCounter
         return byteCount;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="segments"></param>
+    /// <returns></returns>
     public ulong CountBytesUInt64(IEnumerable<StringSegment> segments)
     {
         long byteCount = 0;
