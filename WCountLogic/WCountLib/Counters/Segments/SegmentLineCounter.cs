@@ -47,10 +47,10 @@ public class SegmentLineCounter : ISegmentLineCounter
     }
     
     /// <summary>
-    /// 
+    /// Counts the number of lines in a collection of string segments.
     /// </summary>
-    /// <param name="segments"></param>
-    /// <returns></returns>
+    /// <param name="segments">The collection of string segments to count.</param>
+    /// <returns>The total number of lines in the specified collection.</returns>
     public int CountLinesInt32(IEnumerable<StringSegment> segments)
     {
         int lineCount = 0;
@@ -66,10 +66,10 @@ public class SegmentLineCounter : ISegmentLineCounter
     }
 
     /// <summary>
-    /// 
+    /// Counts the number of lines in a collection of string segments.
     /// </summary>
-    /// <param name="segments"></param>
-    /// <returns></returns>
+    /// <param name="segments">The collection of string segments to count.</param>
+    /// <returns>The total number of lines in the specified collection.</returns>
     public ulong CountLinesUInt64(IEnumerable<StringSegment> segments)
     {
         long charCount = 0;
@@ -85,10 +85,10 @@ public class SegmentLineCounter : ISegmentLineCounter
     }
 
     /// <summary>
-    /// 
+    /// Asynchronously counts the number of lines in a collection of string segments.
     /// </summary>
-    /// <param name="segments"></param>
-    /// <returns></returns>
+    /// <param name="segments">The collection of string segments to count.</param>
+    /// <returns>The total number of lines in the specified collection.</returns>
     public async Task<int> CountLinesInt32Async(IEnumerable<StringSegment> segments)
     {
         int totalLines = 0;
@@ -104,10 +104,10 @@ public class SegmentLineCounter : ISegmentLineCounter
     }
 
     /// <summary>
-    /// 
+    /// Asynchronously counts the number of lines in a collection of string segments.
     /// </summary>
-    /// <param name="segments"></param>
-    /// <returns></returns>
+    /// <param name="segments">The collection of string segments to count.</param>
+    /// <returns>The total number of lines in the specified collection.</returns>
     public async Task<ulong> CountLinesUInt64Async(IEnumerable<StringSegment> segments)
     {
         ulong totalLines = 0;

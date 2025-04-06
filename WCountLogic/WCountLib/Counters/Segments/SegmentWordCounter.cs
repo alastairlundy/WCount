@@ -29,19 +29,19 @@ public class SegmentWordCounter : ISegmentWordCounter
     private readonly ISegmentWordDetector _segmentWordDetector;
 
     /// <summary>
-    /// 
+    /// Initializes a new instance of the SegmentWordCounter class using the provided segment word detector.
     /// </summary>
-    /// <param name="segmentWordDetector"></param>
+    /// <param name="segmentWordDetector">The segment word detector to use for counting words.</param>
     public SegmentWordCounter(ISegmentWordDetector segmentWordDetector)
     {
         _segmentWordDetector = segmentWordDetector;
     }
     
     /// <summary>
-    /// 
+    /// Counts the number of words in a collection of string segments.
     /// </summary>
-    /// <param name="segments"></param>
-    /// <returns></returns>
+    /// <param name="segments">The collection of string segments to count.</param>
+    /// <returns>The total number of words in the specified collection.</returns>
     public int CountWordsInt32(IEnumerable<StringSegment> segments)
     {
         int totalWords = 0;
@@ -81,10 +81,10 @@ public class SegmentWordCounter : ISegmentWordCounter
     }
 
     /// <summary>
-    /// 
+    /// Counts the number of words in a collection of string segments.
     /// </summary>
-    /// <param name="segments"></param>
-    /// <returns></returns>
+    /// <param name="segments">The collection of string segments to count.</param>
+    /// <returns>The total number of words in the specified collection.</returns>
     public ulong CountWordsUInt64(IEnumerable<StringSegment> segments)
     {
         long totalWords = 0;
@@ -124,10 +124,10 @@ public class SegmentWordCounter : ISegmentWordCounter
     }
 
     /// <summary>
-    /// 
+    /// Asynchronously counts the number of words in a collection of string segments.
     /// </summary>
-    /// <param name="segments"></param>
-    /// <returns></returns>
+    /// <param name="segments">The collection of string segments to count.</param>
+    /// <returns>The total number of words in the specified collection.</returns>
     public async Task<int> CountWordsInt32Async(IEnumerable<StringSegment> segments)
     {
         int totalWords = 0;
@@ -143,10 +143,10 @@ public class SegmentWordCounter : ISegmentWordCounter
     }
 
     /// <summary>
-    /// 
+    /// Asynchronously counts the number of words in a collection of string segments.
     /// </summary>
-    /// <param name="segments"></param>
-    /// <returns></returns>
+    /// <param name="segments">The collection of string segments to count.</param>
+    /// <returns>The total number of words in the specified collection.</returns>
     public async Task<ulong> CountWordsUInt64Async(IEnumerable<StringSegment> segments)
     {
         ulong totalWords = 0;
