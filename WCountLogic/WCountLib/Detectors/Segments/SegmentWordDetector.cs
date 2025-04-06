@@ -12,6 +12,7 @@ using System.Linq;
 
 using AlastairLundy.DotExtensions.MsExtensions.System.StringSegments;
 using AlastairLundy.DotExtensions.Strings;
+
 using AlastairLundy.WCountLib.Abstractions.Detectors.Segments;
 
 using Microsoft.Extensions.Primitives;
@@ -21,12 +22,13 @@ namespace AlastairLundy.WCountLib.Detectors.Segments;
 
 public class SegmentWordDetector : ISegmentWordDetector
 {
+    
     /// <summary>
-    /// 
+    /// Checks if a string segment represents a single word.
     /// </summary>
-    /// <param name="segment"></param>
-    /// <param name="countStringsWithSpacesAsWords"></param>
-    /// <returns></returns>
+    /// <param name="segment">The string segment to check.</param>
+    /// <param name="countStringsWithSpacesAsWords">Optional flag indicating whether strings with spaces should be considered as words. Defaults to false if not provided.</param>
+    /// <returns>True if the string segment represents a single word, false otherwise.</returns>
     public bool IsStringAWord(StringSegment segment, bool countStringsWithSpacesAsWords = false)
     {
         bool containsSpaceSeparatedSubStrings = segment.Contains(' ') == false;
@@ -53,12 +55,12 @@ public class SegmentWordDetector : ISegmentWordDetector
     }
 
     /// <summary>
-    /// 
+    /// Checks if a string segment represents a single word.
     /// </summary>
-    /// <param name="segment"></param>
-    /// <param name="delimitersToExclude"></param>
-    /// <param name="countStringsWithSpacesAsWords"></param>
-    /// <returns></returns>
+    /// <param name="segment">The string segment to check.</param>
+    /// <param name="delimitersToExclude">Optional delimiters that should be ignored when checking for words. If not provided, default delimiters will be used.</param>
+    /// <param name="countStringsWithSpacesAsWords">Optional flag indicating whether strings with spaces should be considered as words. Defaults to false if not provided.</param>
+    /// <returns>True if the string segment represents a single word, false otherwise.</returns>
     public bool IsStringAWord(StringSegment segment, IEnumerable<char> delimitersToExclude, bool countStringsWithSpacesAsWords = false)
     {
         bool containsSpaceSeparatedSubstrings = segment.Contains(' ');
