@@ -1,6 +1,8 @@
 ## WCount Library
 Count the number of lines, words, characters, and/or bytes in specified files, strings, or IEnumerables of strings.
 
+Since 3.1.0 this library provides implementations for WCountLib.Abstractions
+
 ## How to Use the Project
 Add the nuget package to your project through your IDE or download [WCountLib](https://nuget.org/packages/wcountlib) through Nuget.
 
