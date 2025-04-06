@@ -21,9 +21,6 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
     /// </remarks>
     public interface ICharacterCounter
     {
-        int CountCharactersInt32(string text, Encoding encoding);
-        
-        ulong CountCharactersUInt64(string text, Encoding encoding);
         
         /// <summary>
         /// Synchronously reads from the provided TextReader and counts total the number of characters in the specified Encoding.

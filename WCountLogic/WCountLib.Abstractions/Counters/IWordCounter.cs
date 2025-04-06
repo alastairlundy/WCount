@@ -21,13 +21,6 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
 	/// </remarks>
     public interface IWordCounter
     {
-
-	    int CountWordsInt32(string source);
-
-	    ulong CountWordsUInt64(string source);
-	    
-	    int CountWordsInt32(TextReader textReader);
-	    
         /// <summary>
         /// Synchronously reads from the provided TextReader and counts total the number of words.
         /// </summary>
