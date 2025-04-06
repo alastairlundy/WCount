@@ -35,10 +35,9 @@ public class SegmentCharacterCounter : ISegmentCharacterCounter
     }
     
     /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="segments"></param>
-    /// <returns></returns>
+    /// Returns the total number of characters in all segments. </summary>
+    /// <param name="segments">The segments to count characters from.</param>
+    /// <returns>The total number of characters in all segments.</returns>
     public int CountCharactersInt32(IEnumerable<StringSegment> segments)
     {
         int charCount = 0;
@@ -54,10 +53,9 @@ public class SegmentCharacterCounter : ISegmentCharacterCounter
     }
 
     /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="segments"></param>
-    /// <returns></returns>
+    /// Returns the total number of characters (in units of 64-bit unsigned integers) in all segments. </summary>
+    /// <param name="segments">The segments to count characters from.</param>
+    /// <returns>The total number of characters (in units of 64-bit unsigned integers) in all segments.</returns>
     public ulong CountCharactersUInt64(IEnumerable<StringSegment> segments)
     {
         long charCount = 0;
@@ -73,10 +71,9 @@ public class SegmentCharacterCounter : ISegmentCharacterCounter
     }
 
     /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="segments"></param>
-    /// <returns></returns>
+    /// Returns the total number of characters in all segments. This method is asynchronous to allow for non-blocking operations and efficient use of threads. </summary>
+    /// <param name="segments">The segments to count characters from.</param>
+    /// <returns>The total number of characters in all segments.</returns>
     public async Task<int> CountCharactersInt32Async(IEnumerable<StringSegment> segments)
     {
         int totalChars = 0;
@@ -92,10 +89,9 @@ public class SegmentCharacterCounter : ISegmentCharacterCounter
     }
 
     /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="segments"></param>
-    /// <returns></returns>
+    /// Returns the total number of characters (in units of 64-bit unsigned integers) in all segments. This method is asynchronous to allow for non-blocking operations and efficient use of threads. </summary>
+    /// <param name="segments">The segments to count characters from.</param>
+    /// <returns>The total number of characters (in units of 64-bit unsigned integers) in all segments.</returns>
     public async Task<ulong> CountCharactersUInt64Async(IEnumerable<StringSegment> segments)
     {
         ulong totalChars = 0;

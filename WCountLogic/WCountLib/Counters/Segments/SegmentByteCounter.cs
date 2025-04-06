@@ -38,10 +38,10 @@ public class SegmentByteCounter : ISegmentByteCounter
     }
     
     /// <summary>
-    /// 
+    /// Returns the total number of 32-bit integers that can be represented by the bytes in all segments.
     /// </summary>
-    /// <param name="segments"></param>
-    /// <returns></returns>
+    /// <param name="segments">The segments to count bytes from.</param>
+    /// <returns>The total number of 32-bit integers that can be represented by the bytes in all segments.</returns>
     public int CountBytesInt32(IEnumerable<StringSegment> segments)
     {
         int byteCount = 0;
@@ -57,10 +57,10 @@ public class SegmentByteCounter : ISegmentByteCounter
     }
 
     /// <summary>
-    /// 
+    /// Returns the total number of bytes in all segments.
     /// </summary>
-    /// <param name="segments"></param>
-    /// <returns></returns>
+    /// <param name="segments">The segments to count bytes from.</param>
+    /// <returns>The total number of bytes in all segments.</returns>
     public ulong CountBytesUInt64(IEnumerable<StringSegment> segments)
     {
         long byteCount = 0;
@@ -76,10 +76,10 @@ public class SegmentByteCounter : ISegmentByteCounter
     }
 
     /// <summary>
-    /// 
+    /// Returns the total number of bytes (in units of 32-bit integers) in all segments.
     /// </summary>
-    /// <param name="segments"></param>
-    /// <returns></returns>
+    /// <param name="segments">The segments to count bytes from.</param>
+    /// <returns>The total number of bytes (in units of 32-bit integers) in all segments.</returns>
     public async Task<int> CountBytesInt32Async(IEnumerable<StringSegment> segments)
     {
         int totalBytes = 0;
@@ -95,10 +95,10 @@ public class SegmentByteCounter : ISegmentByteCounter
     }
 
     /// <summary>
-    /// 
+    /// Returns the total number of bytes in all segments.
     /// </summary>
-    /// <param name="segments"></param>
-    /// <returns></returns>
+    /// <param name="segments">The segments to count bytes from.</param>
+    /// <returns>The total number of bytes in all segments.</returns>
     public async Task<ulong> CountBytesUInt64Async(IEnumerable<StringSegment> segments)
     {
         ulong totalChars = 0;
