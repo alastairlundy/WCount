@@ -15,7 +15,7 @@ public class RealWordsTestData : IEnumerable<object[]>
         {
             string words = string.Join(' ', _lorem.Words(Random.Shared.Next(2, 50)));
             
-            yield return new object[] {words, Convert.ToUInt64(words.Length)};
+            yield return new object[] {words, words.Split(' ').Length};
         }
     }
 
