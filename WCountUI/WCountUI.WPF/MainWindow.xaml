@@ -3,9 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:WCountUI.WPF" xmlns:Localizations="clr-namespace:WCountUI.WPF.Localizations"
         mc:Ignorable="d"
-        Title="{Binding Resources.App_Labels_Name}" Height="450" Width="800">
+        Title="{Binding Resources.App_Labels_Name}" Height="450" Width="900" FontSize="16">
+  
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -28,8 +30,31 @@
             <TextBlock x:Name="charCountLabel" FontStyle="Normal" FontWeight="SemiBold"/>
             <TextBlock x:Name="charsLabel" Margin="20 0 20 0"/>
         </StackPanel>
+
+        <ToolBar Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label Margin="0 0 15 0">Font Size: </Label>
+                <mah:NumericUpDown x:Name="fontSizeSelector" MaxWidth="1000" MaxHeight="200" ValueChanged="fontSizeSelector_ValueChanged"
+                                   Minimum="8" Maximum="128" Interval="1" HideUpDownButtons="False" Width="122" />
+
+                <Button Background="Firebrick" Foreground="WhiteSmoke" Margin="20 0 50 0" x:Name="clearTextBoxBtn" Click="clearTextBoxBtn_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Foreground="WhiteSmoke">Clear</Label>
+                        <mah:FontIcon FontFamily="Segoe MDL2 Assets" FontSize="14" Glyph="&#xE894;" Margin="0 0 5 0"/>
+                    </StackPanel>
+                </Button>
+
+                <Button x:Name="clipboardCopyBtn" Click="clipboardCopyBtn_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Label>Copy to Clipboard</Label>
+                        <mah:FontIcon FontFamily="Segoe MDL2 Assets" FontSize="14" Glyph="&#xE8C8;" Margin="0 0 5 0"/>
+                    </StackPanel>
+                </Button>
+                
+            </StackPanel>
+        </ToolBar>
         
-        <TextBox x:Name="textBox" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" Text="{Binding Path=Text}"
-                 MinLines="10" MinWidth="600" MinHeight="300" AcceptsReturn="True" TextChanged="textBox_TextChanged"/>
+        <TextBox x:Name="textBox" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" Text="{Binding Path=Text}"
+                 MinLines="10" MinWidth="500" MinHeight="300" MaxWidth="800" MaxHeight="500" AcceptsReturn="True" TextWrapping="Wrap" TextChanged="textBox_TextChanged"/>
     </Grid>
 </Window>

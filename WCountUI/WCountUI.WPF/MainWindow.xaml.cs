@@ -71,9 +71,17 @@ namespace WCountUI.WPF
 
             wordsLabel.Text = WordCountText;
             charsLabel.Text = CharacterCountText;
+
+            InitializeNumericUpDown();
         }
 
-        
+        private void InitializeNumericUpDown()
+        {
+            //Assign a default value.
+            fontSizeSelector.Value = 12;
+            fontSizeSelector.HideUpDownButtons = false;
+
+        }
 
         private void textBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -91,6 +99,21 @@ namespace WCountUI.WPF
 
             wordsLabel.Text = WordCountText;
             charsLabel.Text = CharacterCountText;
+        }
+
+        private void fontSizeSelector_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
+        {
+            textBox.FontSize = double.Parse(fontSizeSelector.Value.ToString()!);
+        }
+
+        private void clearTextBoxBtn_Click(object sender, RoutedEventArgs e)
+        {
+            textBox.Text = string.Empty;
+        }
+
+        private void clipboardCopyBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(textBox.Text);
         }
     }
 }
