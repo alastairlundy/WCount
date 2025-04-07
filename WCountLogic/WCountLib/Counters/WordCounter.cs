@@ -42,7 +42,7 @@ namespace AlastairLundy.WCountLib.Counters
             _wordDetector = wordDetector;
         }
 
-        protected ulong CountWordsWorker(string input)
+        protected ulong CountWordsWorkerSegment(string input)
         {
 #if NET5_0_OR_GREATER
             ulong totalWords = 0;
@@ -50,8 +50,47 @@ namespace AlastairLundy.WCountLib.Counters
             long totalWords = 0;
 #endif
             
+            StringTokenizer stringTokenizer = new StringTokenizer(input, new[] { ' ' });
+            
+            IEnumerable<StringSegment> segments = stringTokenizer;
+            int segmentCount = segments.Count();
+            
+            if (segmentCount < 100)
+            {
+                Parallel.ForEach(segments, segment =>
+                {
+                    if (_wordDetector.IsStringAWord(segment.Value, false))
+                    {
+                        Interlocked.Increment(ref totalWords);
+                    }
+                });
+            }
+            else
+            {
+                OrderablePartitioner<StringSegment> partitioner = Partitioner.Create(segments, EnumerablePartitionerOptions.NoBuffering);
+                
+                Parallel.ForEach(partitioner, segment =>
+                {
+                    if (_wordDetector.IsStringAWord(segment.Value, false))
+                    {
+                        Interlocked.Increment(ref totalWords);
+                    }
+                });
+            }
+            
+            return totalWords;
+        }
+        
+        protected ulong CountWordsWorker(string input)
+        {
+#if NET5_0_OR_GREATER
+            ulong totalWords = 0;
+#else
+            long totalWords = 0;
+#endif
+         
             string[] segments = input.Split(' ');
-
+            
             Parallel.ForEach(segments, segment =>
             {
                 if (_wordDetector.IsStringAWord(segment, false))
