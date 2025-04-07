@@ -50,33 +50,15 @@ namespace AlastairLundy.WCountLib.Counters
             long totalWords = 0;
 #endif
             
-            StringTokenizer stringTokenizer = new StringTokenizer(input, new[] { ' ' });
-            
-            IEnumerable<StringSegment> segments = stringTokenizer;
-            int segmentCount = segments.Count();
+            IEnumerable<string> segments = input.Split(' ');
 
-            if (segmentCount < 100)
+            Parallel.ForEach(segments, segment =>
             {
-                Parallel.ForEach(segments, segment =>
+                if (_wordDetector.IsStringAWord(segment, false))
                 {
-                    if (_wordDetector.IsStringAWord(segment.Value, false))
-                    {
-                        Interlocked.Increment(ref totalWords);
-                    }
-                });
-            }
-            else
-            {
-                OrderablePartitioner<StringSegment> partitioner = Partitioner.Create(segments, EnumerablePartitionerOptions.NoBuffering);
-                
-                Parallel.ForEach(partitioner, segment =>
-                {
-                    if (_wordDetector.IsStringAWord(segment.Value, false))
-                    {
-                        Interlocked.Increment(ref totalWords);
-                    }
-                });
-            }
+                    Interlocked.Increment(ref totalWords);
+                }
+            });
             
 #if NET5_0_OR_GREATER
             return totalWords;
