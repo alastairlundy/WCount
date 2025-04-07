@@ -32,31 +32,30 @@ namespace AlastairLundy.WCountLib.Detectors
         /// <returns>true if the string is not a special character and doesn't contain a space character if spaces are excluded; false otherwise.</returns>
         public bool IsStringAWord(string input, bool countStringsWithSpacesAsWords = false)
         {
-            bool containsSpaceSeparatedSubstrings = input.ContainsSpaceSeparatedSubStrings();
+            bool output = false;
 
-            bool output = containsSpaceSeparatedSubstrings == false;
-            
-            if (string.IsNullOrWhiteSpace(input) == true || 
-                containsSpaceSeparatedSubstrings && countStringsWithSpacesAsWords == false)
+            switch (input.Length)
             {
-                output = false;
+                case 0:
+                    return false;
+                case 1:
+                    return input[0].IsSpecialCharacter();
+                case > 1:
+                    if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input) 
+                        || input.ToCharArray().All(X => X.IsSpecialCharacter())
+                        || input.Contains(' ') && countStringsWithSpacesAsWords == false)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        output = true;
+                    }
+                    
+                    break;
             }
             
-            if(input.ToCharArray().All(c => c.IsSpecialCharacter() == true))
-            {
-                output = false;
-            }
-
-            if (containsSpaceSeparatedSubstrings && countStringsWithSpacesAsWords == true)
-            {
-                output = true;
-            }
-
-            if (containsSpaceSeparatedSubstrings == false && countStringsWithSpacesAsWords == false)
-            {
-                output = false;
-            }
-
+            
             return output;
         }
 
@@ -70,20 +69,18 @@ namespace AlastairLundy.WCountLib.Detectors
         /// <returns>true if the string does not contain any delimiters to exclude or is not a special character and doesn't contain a space character if space characters are excluded; false otherwise.</returns>
         public bool IsStringAWord(string s, IEnumerable<char> delimitersToExclude, bool countStringsWithSpacesAsWords = false)
         {
-            bool output = false;
-            
             if (string.IsNullOrWhiteSpace(s) == false ||
                 s.ContainsSpaceSeparatedSubStrings() && countStringsWithSpacesAsWords == false)
             {
-                output = false;    
+                return false;    
             }
 
             if (s.ContainsAnyOf(delimitersToExclude) == true)
             {
-                output = false;
+                return false;
             }
 
-            return output;
+            return IsStringAWord(s, countStringsWithSpacesAsWords);
         }
     }
 }

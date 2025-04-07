@@ -50,7 +50,7 @@ public class SegmentWordDetector : ISegmentWordDetector
         {
             output = true;
         }
-
+        
         return output;
     }
 
