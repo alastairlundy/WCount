@@ -78,7 +78,11 @@ namespace AlastairLundy.WCountLib.Counters
                 });
             }
             
+#if NET5_0_OR_GREATER
             return totalWords;
+#else
+            return Convert.ToUInt64(totalWords);            
+#endif
         }
         
         protected ulong CountWordsWorker(string input)
