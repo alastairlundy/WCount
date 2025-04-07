@@ -50,7 +50,7 @@ namespace AlastairLundy.WCountLib.Counters
             long totalWords = 0;
 #endif
             
-            IEnumerable<string> segments = input.Split(' ');
+            string[] segments = input.Split(' ');
 
             Parallel.ForEach(segments, segment =>
             {
