@@ -6,7 +6,8 @@
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:WCountUI.WPF" xmlns:Localizations="clr-namespace:WCountUI.WPF.Localizations"
         mc:Ignorable="d"
-        Title="{Binding Resources.App_Labels_Name}" Height="450" Width="900" FontSize="16">
+        WindowStartupLocation="CenterScreen"
+        Title="{Binding Resources.App_Labels_Name}" Height="600" Width="900" FontSize="16">
   
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -31,7 +32,7 @@
             <TextBlock x:Name="charsLabel" Margin="20 0 20 0"/>
         </StackPanel>
 
-        <ToolBar Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="1">
+        <ToolBar Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0 25 0 0">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Label Margin="0 0 15 0">Font Size: </Label>
                 <mah:NumericUpDown x:Name="fontSizeSelector" MaxWidth="1000" MaxHeight="200" ValueChanged="fontSizeSelector_ValueChanged"
