@@ -15,12 +15,13 @@
         <RepositoryUrl>https://github.com/alastairlundy/WCount</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <PackageReleaseNotes>* Added implementations for new interfaces added in Abstractions 3.2</PackageReleaseNotes>
+        <PackageReleaseNotes>* Fixed bugs with word detection
+* Fixed a bug with word counting tests</PackageReleaseNotes>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <Version>3.2.0</Version>
+        <Version>3.2.1</Version>
         <TargetFrameworks>net8.0;netstandard2.0;netstandard2.1;net9.0</TargetFrameworks>
         <PackageTags>word counter, wc, word count, count</PackageTags>
         <RootNamespace>AlastairLundy.WCountLib</RootNamespace>
