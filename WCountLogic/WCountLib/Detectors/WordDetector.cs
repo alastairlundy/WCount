@@ -14,8 +14,6 @@ using AlastairLundy.DotExtensions.Strings;
 
 using AlastairLundy.WCountLib.Abstractions.Detectors;
 
-// ReSharper disable RedundantBoolCompare
-
 namespace AlastairLundy.WCountLib.Detectors
 {
     /// <summary>
@@ -39,10 +37,10 @@ namespace AlastairLundy.WCountLib.Detectors
                 case 0:
                     return false;
                 case 1:
-                    return input[0].IsSpecialCharacter();
+                    return input[0].IsSpecialCharacter() == false;
                 case > 1:
                     if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input) 
-                        || input.ToCharArray().All(X => X.IsSpecialCharacter())
+                        || input.ToCharArray().All(x => x.IsSpecialCharacter())
                         || input.Contains(' ') && countStringsWithSpacesAsWords == false)
                     {
                         return false;
