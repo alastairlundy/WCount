@@ -7,10 +7,12 @@
         xmlns:local="clr-namespace:WCountUI.WPF" xmlns:Localizations="clr-namespace:WCountUI.WPF.Localizations"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="{Binding Resources.App_Labels_Name}" Height="600" Width="900" FontSize="16">
+        Title="{Binding Resources.App_Labels_Name}" Height="600" Width="900" MaxHeight="700" MinHeight="670" MinWidth="800" FontSize="16">
   
     <Grid Margin="20">
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -56,6 +58,18 @@
         </ToolBar>
         
         <TextBox x:Name="textBox" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" Text="{Binding Path=Text}"
-                 MinLines="10" MinWidth="500" MinHeight="300" MaxWidth="800" MaxHeight="500" AcceptsReturn="True" TextWrapping="Wrap" TextChanged="textBox_TextChanged"/>
+                 MinLines="10" MinWidth="500" MinHeight="350" MaxWidth="800" MaxHeight="450" AcceptsReturn="True"
+                 TextWrapping="Wrap" TextChanged="textBox_TextChanged"/>
+
+        <Button Grid.Row="4" Grid.Column="2" MinHeight="20" Margin="50 10 0 0"
+                x:Name="uploadFileBtn" Click="uploadFileBtn_Click"
+                MinWidth="100" MaxWidth="200" MaxHeight="100" Background="RoyalBlue" Foreground="White">
+            <StackPanel Orientation="Horizontal">
+                <Label Foreground="White">
+                    Upload file
+                </Label>
+                <mah:FontIcon FontFamily="Segoe MDL2 Assets" FontSize="14" Glyph="&#xE898;" Margin="5 0 0 0"/>
+            </StackPanel>
+        </Button>
     </Grid>
 </Window>

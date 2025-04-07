@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+﻿using System;
 using System.IO;
 using System.Text;
 
@@ -7,6 +7,8 @@ using System.Windows;
 using System.Windows.Controls;
 
 using AlastairLundy.WCountLib.Abstractions.Counters;
+
+using Microsoft.Win32;
 
 namespace WCountUI.WPF
 {
@@ -114,6 +116,39 @@ namespace WCountUI.WPF
         private void clipboardCopyBtn_Click(object sender, RoutedEventArgs e)
         {
             Clipboard.SetText(textBox.Text);
+        }
+
+        private void uploadFileBtn_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new()
+            {
+                DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                DefaultExt = ".txt",
+                CheckPathExists = true,
+                CheckFileExists = true,
+                Filter = "Text Documents .txt|*.txt"
+            };
+
+            bool? result = openFileDialog.ShowDialog();
+
+            if(result is not null)
+            {
+                if(result == true)
+                {
+                    string fileName = openFileDialog.FileName;
+
+                    string resolvedFilePath = Path.GetFullPath(fileName);
+
+                    if (File.Exists(resolvedFilePath))
+                    {
+                        textBox.Text = File.ReadAllText(resolvedFilePath);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show($"Could not find file name of {openFileDialog.FileName}. Please try again.", "Error Uploading File");
+                }
+            }
         }
     }
 }
