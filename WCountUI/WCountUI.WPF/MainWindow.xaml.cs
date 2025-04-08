@@ -150,5 +150,12 @@ namespace WCountUI.WPF
                 }
             }
         }
+
+        private void settingsNavBtn_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsWindow settingsWindow = new();
+
+            settingsWindow.ShowDialog();
+        }
     }
 }
