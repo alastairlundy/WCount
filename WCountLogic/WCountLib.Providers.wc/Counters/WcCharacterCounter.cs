@@ -9,9 +9,12 @@
 
 using System;
 using System.IO;
-using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
+
+#if NET5_0_OR_GREATER
+using System.Runtime.Versioning;
+#endif
 
 using AlastairLundy.CliInvoke.Abstractions;
 using AlastairLundy.CliInvoke.Exceptions;
