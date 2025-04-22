@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using AlastairLundy.WCountLib.Abstractions.Counters.Segments;
+
 using Microsoft.Extensions.Primitives;
 
 namespace AlastairLundy.WCountLib.Providers.wc.Counters.Segments;
