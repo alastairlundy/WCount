@@ -8,6 +8,7 @@
  */
 
 using System.Collections.Generic;
+
 using Microsoft.Extensions.Primitives;
 
 namespace AlastairLundy.WCountLib.Abstractions.Detectors.Segments
