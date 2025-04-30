@@ -16,7 +16,7 @@
     <Copyright>Copyright (c) Alastair Lundy 2025</Copyright>
     <RepositoryUrl>https://github.com/alastairlundy/wcount</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Version>3.1.0</Version>
+    <Version>0.1.321.0</Version>
     <AssemblyVersion>3.1.0.0</AssemblyVersion>
   </PropertyGroup>
 
