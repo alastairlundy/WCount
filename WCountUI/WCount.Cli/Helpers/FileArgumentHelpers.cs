@@ -12,18 +12,35 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-
+using System.Threading.Tasks;
 using Pathological.Globbing;
 
 using WCount.Cli.Localizations;
+using WCount.Cli.Models;
 
 namespace WCount.Cli.Helpers
 {
-    internal static class FileArgumentHelpers
+    internal class FileArgumentHelpers
     {
         private static bool IsGlobbedPath(string filePath)
         {
             return Regex.IsMatch(filePath, @"[\*\?$$$$\{\}]");
+        }
+
+        public async Task<IEnumerable<TextFileModel>> ResolveFilesAsync(string[] files, bool areTemporaryFiles, bool isVerbose)
+        {
+            List<TextFileModel> output = new();
+            string[] filePaths = ResolveFilePaths(files, isVerbose);
+
+            foreach (string filePath in filePaths)
+            {
+                string text = await File.ReadAllTextAsync(filePath);
+                
+                TextFileModel textFile = new TextFileModel(filePath, text, areTemporaryFiles);
+                output.Add(textFile);
+            }
+            
+            return output;
         }
         
         public static string[] ResolveFilePaths(string[] files, bool isVerbose)
