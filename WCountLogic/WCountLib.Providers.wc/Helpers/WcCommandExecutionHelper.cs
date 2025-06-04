@@ -8,6 +8,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -19,7 +20,10 @@ using AlastairLundy.CliInvoke.Builders;
 using AlastairLundy.CliInvoke.Builders.Abstractions;
 using AlastairLundy.CliInvoke.Exceptions;
 
-using AlastairLundy.Extensions.Processes;
+using AlastairLundy.DotExtensions.MsExtensions.System.Collections;
+using AlastairLundy.Extensions.Processes.Abstractions;
+
+using Microsoft.Extensions.Primitives;
 
 #if NETSTANDARD2_0 || NETSTANDARD2_1
 using OperatingSystem = Polyfills.OperatingSystemPolyfill;
@@ -62,6 +66,11 @@ internal class WcCommandExecutionHelper
          _commandConfiguration = commandConfigurationBuilder.Build();
     }
 
+    internal TextReader GetSegmentsToTextReader(IEnumerable<StringSegment> segments)
+    {
+        return new StringReader(segments.ToString(' '));
+    }
+    
     private async Task<BufferedProcessResult> ExecuteAsync(string argument, TextReader textReader)
     {
         ICliCommandConfigurationBuilder configurationBuilder = new CliCommandConfigurationBuilder(_commandConfiguration)
