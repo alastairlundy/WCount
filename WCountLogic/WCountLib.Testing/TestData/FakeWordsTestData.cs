@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using AlastairLundy.Extensions.System.Strings;
+
+using AlastairLundy.DotExtensions.Strings;
+
 using Bogus.DataSets;
 
 namespace WCountLib.Testing.TestData;

@@ -70,7 +70,7 @@ namespace AlastairLundy.WCountLib.Counters
         /// <param name="textReader">The TextReader from which to count bytes.</param>
         /// <param name="textEncoding">The Encoding type of the bytes to count.</param>
         /// <returns>The total number of bytes counted.</returns>
-        public int CountBytesInt32(TextReader textReader, Encoding textEncoding)
+        public int CountBytes(TextReader textReader, Encoding textEncoding)
         {
             int byteCount = 0;
 
@@ -97,7 +97,7 @@ namespace AlastairLundy.WCountLib.Counters
         /// <param name="textReader">The TextReader from which to count bytes.</param>
         /// <param name="textEncoding">The Encoding type of the bytes to count.</param>
         /// <returns>The total number of bytes counted.</returns>
-        public async Task<ulong> CountBytesUInt64Async(TextReader textReader, Encoding textEncoding)
+        public async Task<ulong> CountBytesAsync(TextReader textReader, Encoding textEncoding)
         {
             ulong byteCount = 0;
 

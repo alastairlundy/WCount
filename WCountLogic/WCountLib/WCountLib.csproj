@@ -54,7 +54,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-        <PackageReference Include="AlastairLundy.WCountLib.Abstractions" Version="3.2.2" />
+        <PackageReference Include="AlastairLundy.WCountLib.Abstractions" Version="3.2.0" />
 		<PackageReference Include="Microsoft.Extensions.Primitives" Version="9.0.6" />
 	</ItemGroup>
 
