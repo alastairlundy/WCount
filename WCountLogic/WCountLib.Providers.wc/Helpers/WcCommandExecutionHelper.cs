@@ -94,7 +94,7 @@ internal class WcCommandExecutionHelper
             throw new PlatformNotSupportedException();
         }
 
-        Task<BufferedProcessResult> resultTask =  ExecuteAsync("-w", textReader);
+        Task<BufferedProcessResult> resultTask =  ExecuteAsync(argument, textReader);
 			
         resultTask.Start();
 
@@ -117,7 +117,7 @@ internal class WcCommandExecutionHelper
             throw new PlatformNotSupportedException();
         }
 
-        Task<BufferedProcessResult> resultTask =  ExecuteAsync("-w", textReader);
+        Task<BufferedProcessResult> resultTask =  ExecuteAsync(argument, textReader);
 			
         resultTask.Start();
 
