@@ -26,16 +26,13 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
         /// </summary>
         /// <param name="textReader">The TextReader from which to count words.</param>
         /// <returns>The total number of words counted.</returns>
-        ulong CountWordsUInt64(TextReader textReader);
+         ulong CountWords(TextReader textReader);
 
-        
-	    Task<int> CountWordsInt32Async(TextReader textReader);
-        
 		/// <summary>
 		/// Asynchronously reads from the provided TextReader and counts the total number of words.
 		/// </summary>
 		/// <param name="textReader">The TextReader from which to count words.</param>
 		/// <returns>The total number of words counted.</returns>
-		Task<ulong> CountWordsUInt64Async(TextReader textReader);
+		Task<ulong> CountWordsAsync(TextReader textReader);
 	}
 }

@@ -8,11 +8,13 @@
  */
 
 using AlastairLundy.WCountLib.Abstractions.Counters;
+using AlastairLundy.WCountLib.Abstractions.Counters.Segments;
 using AlastairLundy.WCountLib.Abstractions.Detectors;
-
+using AlastairLundy.WCountLib.Abstractions.Detectors.Segments;
 using AlastairLundy.WCountLib.Counters;
+using AlastairLundy.WCountLib.Counters.Segments;
 using AlastairLundy.WCountLib.Detectors;
-
+using AlastairLundy.WCountLib.Detectors.Segments;
 using Microsoft.Extensions.DependencyInjection;
 
 
@@ -33,6 +35,12 @@ namespace AlastairLundy.WCountLib.Extensions.DependencyInjection
             switch (lifetime)
             {
                 case ServiceLifetime.Scoped:
+                    services.AddScoped<ISegmentWordDetector, SegmentWordDetector>();
+                    services.AddScoped<ISegmentByteCounter, SegmentByteCounter>();
+                    services.AddScoped<ISegmentCharacterCounter, SegmentCharacterCounter>();
+                    services.AddScoped<ISegmentLineCounter, SegmentLineCounter>();
+                    services.AddScoped<ISegmentWordCounter, SegmentWordCounter>();
+                    
                     services.AddScoped<IWordDetector, WordDetector>();
                     
                     services.AddScoped<ILineCounter, LineCounter>();
@@ -41,6 +49,12 @@ namespace AlastairLundy.WCountLib.Extensions.DependencyInjection
                     services.AddScoped<IWordCounter, WordCounter>();
                     break;
                 case ServiceLifetime.Singleton:
+                    services.AddSingleton<ISegmentWordDetector, SegmentWordDetector>();
+                    services.AddSingleton<ISegmentByteCounter, SegmentByteCounter>();
+                    services.AddSingleton<ISegmentCharacterCounter, SegmentCharacterCounter>();
+                    services.AddSingleton<ISegmentLineCounter, SegmentLineCounter>();
+                    services.AddSingleton<ISegmentWordCounter, SegmentWordCounter>();
+                    
                     services.AddSingleton<IWordDetector, WordDetector>();
                     
                     services.AddSingleton<ILineCounter, LineCounter>();
@@ -49,6 +63,12 @@ namespace AlastairLundy.WCountLib.Extensions.DependencyInjection
                     services.AddSingleton<IWordCounter, WordCounter>();
                     break;
                 case ServiceLifetime.Transient:
+                    services.AddTransient<ISegmentWordDetector, SegmentWordDetector>();
+                    services.AddTransient<ISegmentByteCounter, SegmentByteCounter>();
+                    services.AddTransient<ISegmentCharacterCounter, SegmentCharacterCounter>();
+                    services.AddTransient<ISegmentLineCounter, SegmentLineCounter>();
+                    services.AddTransient<ISegmentWordCounter, SegmentWordCounter>();
+                    
                     services.AddTransient<IWordDetector, WordDetector>();
                     
                     services.AddTransient<ILineCounter, LineCounter>();

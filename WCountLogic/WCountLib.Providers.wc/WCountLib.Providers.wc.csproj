@@ -10,8 +10,8 @@
     <Copyright>Copyright (c) Alastair Lundy 2025</Copyright>
     <RepositoryUrl>https://github.com/alastairlundy/WCount</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>* Updated to implement and use WCountLib Abstractions 3.2
-* Updated dependencies</PackageReleaseNotes>
+    <PackageReleaseNotes>* Updated dependencies
+* Updated WCountLib.Abstractions to 3.2.2.1 from 3.2.0</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <TargetFrameworks>netstandard2.0;net8.0;net9.0;netstandard2.1</TargetFrameworks>
     <Description>This package provides implementations for WCountLib.Abstractions interfaces that use Posix's and Unix's ``wc`` program to perform the calculations.</Description>
@@ -22,17 +22,19 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Version>3.2.0</Version>
+    <Version>3.2.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AlastairLundy.CliInvoke" Version="[1.2.0, 2.0.0)" />
-    <PackageReference Include="AlastairLundy.DotExtensions.MsExtensions" Version="6.6.0" />
-    <PackageReference Include="AlastairLundy.WCountLib.Abstractions" Version="[3.2.0, 4.0.0)"/>
+    <PackageReference Include="AlastairLundy.CliInvoke" Version="1.4.1" />
+    <PackageReference Include="AlastairLundy.DotExtensions.MsExtensions" Version="7.2.0" />
+    <PackageReference Include="AlastairLundy.WCountLib.Abstractions" Version="3.2.2.1"/>
   </ItemGroup>
 
 	<ItemGroup >
-		<PackageReference Include="PolyFill" Version="7.27.0" Condition="'$(TargetFramework)' == 'netstandard2.0' OR '$(TargetFramework)' == 'netstandard2.1'"/>
+		<PackageReference Include="PolyFill" Version="8.0.1"
+                          Condition="'$(TargetFramework)' == 'netstandard2.0' OR '$(TargetFramework)' == 'netstandard2.1'"
+                          PrivateAssets="All"/>
 	</ItemGroup>
   
   <ItemGroup>

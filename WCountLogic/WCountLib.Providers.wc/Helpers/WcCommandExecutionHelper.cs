@@ -18,10 +18,11 @@ using AlastairLundy.CliInvoke;
 using AlastairLundy.CliInvoke.Abstractions;
 using AlastairLundy.CliInvoke.Builders;
 using AlastairLundy.CliInvoke.Builders.Abstractions;
+using AlastairLundy.CliInvoke.Core.Primitives;
+using AlastairLundy.CliInvoke.Core.Primitives.Results;
 using AlastairLundy.CliInvoke.Exceptions;
 
 using AlastairLundy.DotExtensions.MsExtensions.System.Collections;
-using AlastairLundy.Extensions.Processes.Abstractions;
 
 using Microsoft.Extensions.Primitives;
 

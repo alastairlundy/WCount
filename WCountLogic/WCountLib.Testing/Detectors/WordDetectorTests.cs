@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
+using AlastairLundy.DotExtensions.Strings;
 
-using AlastairLundy.Extensions.System.Strings;
 using AlastairLundy.WCountLib.Detectors;
 using Bogus;
 using Bogus.DataSets;

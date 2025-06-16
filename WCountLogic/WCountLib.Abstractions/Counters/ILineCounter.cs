@@ -33,7 +33,7 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
         /// </summary>
         /// <param name="textReader">The TextReader from which to count lines.</param>
         /// <returns>The total number of lines counted.</returns>
-        int CountLinesInt32(TextReader textReader);
+        int CountLines(TextReader textReader);
 
         /// <summary>
         /// 
