@@ -16,7 +16,7 @@
 	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	  <EmbedUntrackedSources>true</EmbedUntrackedSources>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
-	  <Version>3.2.2</Version>
+	  <Version>3.2.2.1</Version>
 	  <Title>WCountLib.Abstractions</Title>
 	  <Copyright>Copyright (c) Alastair Lundy 2024-2025</Copyright>
 	  <PackageTags>wordcount, word-count, word count,  wc, charcount, bytecount, linecount,</PackageTags>
