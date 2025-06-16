@@ -81,8 +81,8 @@ internal class WcCommandExecutionHelper
         
         File.Delete(_tempFilePath);
         
-        BufferedProcessResult result = 
-            await _commandInvoker.ExecuteBufferedAsync(_commandConfiguration, CancellationToken.None);
+        BufferedProcessResult result = await _commandInvoker.
+            ExecuteBufferedAsync(_commandConfiguration, CancellationToken.None);
 
         return result;
     }
