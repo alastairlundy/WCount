@@ -115,7 +115,7 @@ namespace AlastairLundy.WCountLib.Counters
         /// </summary>
         /// <param name="textReader">The TextReader from which to count words.</param>
         /// <returns>The total number of words counted.</returns>
-        public ulong CountWords(TextReader textReader)
+        public ulong CountWordsUInt64(TextReader textReader)
         { 
             string input = textReader.ReadToEnd();
            
