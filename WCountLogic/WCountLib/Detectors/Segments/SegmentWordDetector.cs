@@ -72,7 +72,7 @@ public class SegmentWordDetector : ISegmentWordDetector
             output = false;    
         }
 
-        if (delimitersToExclude.Select(x => segment.ToCharArray().Contains(x)).Any() == true)
+        if (delimitersToExclude.Select(x => segment.Contains(x)).Any())
         {
             output = false;
         }
