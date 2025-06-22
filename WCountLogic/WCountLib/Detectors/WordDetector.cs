@@ -23,8 +23,10 @@ namespace AlastairLundy.WCountLib.Detectors
     {
         /// <summary>
         /// Checks to see if a string looks like a word.
-        /// Results may not be 100% accurate.
         /// </summary>
+        /// <remarks>
+        /// The results may not be 100% accurate.
+        ///</remarks>
         /// <param name="input">The string to be searched.</param>
         /// <param name="countStringsWithSpacesAsWords">Whether to count strings that contain 1 or more spaces within them as a word. Set to false by default.</param>
         /// <returns>true if the string is not a special character and doesn't contain a space character if spaces are excluded; false otherwise.</returns>
@@ -37,7 +39,7 @@ namespace AlastairLundy.WCountLib.Detectors
                 case 0:
                     return false;
                 case 1:
-                    return input[0].IsSpecialCharacter() == false;
+                    return input.First().IsSpecialCharacter() == false;
                 case > 1:
                     if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input) 
                         || input.ToCharArray().All(x => x.IsSpecialCharacter())
@@ -59,8 +61,10 @@ namespace AlastairLundy.WCountLib.Detectors
 
         /// <summary>
         /// Checks to see if a string looks like a word and doesn't contain the specified delimiters.
-        /// Results may not be 100% accurate.
         /// </summary>
+        /// <remarks>
+        /// The results may not be 100% accurate.
+        /// </remarks>
         /// <param name="s">The string to be searched.</param>
         /// <param name="delimitersToExclude">Deli</param>
         /// <param name="countStringsWithSpacesAsWords">Whether to count strings that contain 1 or more spaces within them as a word. Set to false by default.</param>
@@ -73,7 +77,7 @@ namespace AlastairLundy.WCountLib.Detectors
                 return false;    
             }
 
-            if (s.ContainsAnyOf(delimitersToExclude) == true)
+            if (delimitersToExclude.All(s.Contains))
             {
                 return false;
             }

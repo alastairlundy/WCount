@@ -34,10 +34,14 @@ public class SegmentLineCounter : ISegmentLineCounter
     private int CountLineInt32Worker(StringSegment segment)
     {
         int lineCount = 0;
+        
+        StringSegment newLine = new StringSegment(Environment.NewLine);
 
+        segment.Lin
+        
         foreach (char c in segment.ToCharArray())
         {
-            if (c.ToString().Equals(Environment.NewLine))
+            if (segment.c.Equals(ne))
             {
                 lineCount++;
             }
