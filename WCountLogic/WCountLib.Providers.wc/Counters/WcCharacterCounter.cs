@@ -74,7 +74,7 @@ public class WcCharacterCounter : ICharacterCounter
     [SupportedOSPlatform("freebsd")]
     [UnsupportedOSPlatform("windows")]
 #endif
-    public async Task<ulong> CountCharactersAsync(TextReader textReader, Encoding textEncodingType)
+    public async Task<int> CountCharactersAsync(TextReader textReader, Encoding textEncodingType)
     {
        return await _wcCommandExecutionHelper.RunUInt64Async("-m", textReader);
     }

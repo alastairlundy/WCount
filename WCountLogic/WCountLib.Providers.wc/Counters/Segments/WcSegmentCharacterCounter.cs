@@ -40,7 +40,7 @@ namespace AlastairLundy.WCountLib.Providers.wc.Counters.Segments
         /// </summary>
         /// <param name="segments">A sequence of StringSegment objects.</param>
         /// <returns>The total number of characters as a signed 32-bit integer.</returns>
-        public int CountCharactersInt32(IEnumerable<StringSegment> segments)
+        public int CountCharacters(IEnumerable<StringSegment> segments)
         {
             return _wcCommandExecutionHelper.RunInt32("-m", _wcCommandExecutionHelper.GetSegmentsToTextReader(segments));
         }
@@ -70,7 +70,7 @@ namespace AlastairLundy.WCountLib.Providers.wc.Counters.Segments
         /// </summary>
         /// <param name="segments">A sequence of StringSegment objects.</param>
         /// <returns>The total number of characters as an unsigned 64-bit integer.</returns>
-        public async Task<ulong> CountCharactersUInt64Async(IEnumerable<StringSegment> segments)
+        public async Task<ulong> CountCharactersAsync(IEnumerable<StringSegment> segments)
         {
             return await _wcCommandExecutionHelper.RunUInt64Async("-m", _wcCommandExecutionHelper.GetSegmentsToTextReader(segments));
         }

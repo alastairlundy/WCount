@@ -39,7 +39,7 @@ namespace AlastairLundy.WCountLib.Providers.wc.Counters.Segments
         /// </summary>
         /// <param name="segments">A sequence of StringSegment objects.</param>
         /// <returns>The total number of bytes as a signed 32-bit integer.</returns>
-        public int CountBytesInt32(IEnumerable<StringSegment> segments)
+        public int CountBytes(IEnumerable<StringSegment> segments)
         {
             return _wcCommandExecutionHelper.RunInt32("-c", _wcCommandExecutionHelper.GetSegmentsToTextReader(segments));
 

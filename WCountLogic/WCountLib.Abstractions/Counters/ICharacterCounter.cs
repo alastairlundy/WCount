@@ -35,7 +35,7 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
         /// <param name="textReader">The TextReader from which to count characters.</param>
         /// <param name="textEncodingType">The Encoding type of the characters to count.</param>
         /// <returns>The total number of characters counted.</returns>
-        Task<ulong> CountCharactersAsync(TextReader textReader, Encoding textEncodingType);
+        Task<int> CountCharactersAsync(TextReader textReader, Encoding textEncodingType);
 
     }
 }

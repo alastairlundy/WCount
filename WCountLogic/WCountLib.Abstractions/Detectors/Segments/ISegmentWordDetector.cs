@@ -33,6 +33,7 @@ namespace AlastairLundy.WCountLib.Abstractions.Detectors.Segments
         /// <param name="delimitersToExclude">Delimiters that valid words should not contain.</param>
         /// <param name="countStringsWithSpacesAsWords">Whether to count strings that contain spaces as words. Set to false by default.</param>
         /// <returns>True if the string is a word; false otherwise.</returns>
-        bool IsStringAWord(StringSegment segment, IEnumerable<char> delimitersToExclude, bool countStringsWithSpacesAsWords = false);
+        bool IsStringAWord(StringSegment segment, IEnumerable<char> delimitersToExclude,
+            bool countStringsWithSpacesAsWords = false);
     }
 }

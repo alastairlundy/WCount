@@ -42,7 +42,7 @@ public class SegmentByteCounter : ISegmentByteCounter
     /// </summary>
     /// <param name="segments">The segments to count bytes from.</param>
     /// <returns>The total number of 32-bit integers that can be represented by the bytes in all segments.</returns>
-    public int CountBytesInt32(IEnumerable<StringSegment> segments)
+    public int CountBytes(IEnumerable<StringSegment> segments)
     {
         int byteCount = 0;
         
@@ -86,7 +86,7 @@ public class SegmentByteCounter : ISegmentByteCounter
             
         Task wordCountingTask = Task.Run(() =>
         {
-            totalBytes = CountBytesInt32(segments);
+            totalBytes = CountBytes(segments);
         });
             
         await wordCountingTask;

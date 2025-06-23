@@ -28,47 +28,15 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
         /// <param name="textReader">The TextReader from which to count bytes.</param>
         /// <param name="encoding">The Encoding type of the bytes to count.</param>
         /// <returns>The total number of bytes counted.</returns>
-        int CountBytesInt32(TextReader textReader, Encoding encoding);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="textReader"></param>
-        /// <param name="encoding"></param>
-        /// <returns></returns>
-        UInt64 CountBytesUInt64(TextReader textReader, Encoding encoding);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="encoding"></param>
-        /// <returns></returns>
-        int CountBytesInt32(string source, Encoding encoding);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="encoding"></param>
-        /// <returns></returns>
-        UInt64 CountBytesUInt64(string source, Encoding encoding);
+        int CountBytes(TextReader textReader, Encoding encoding);
         
         /// <summary>
-        /// 
+        /// Synchronously reads from the provided string and counts total the number of bytes in the specified Encoding.
         /// </summary>
-        /// <param name="textReader"></param>
-        /// <param name="encoding"></param>
-        /// <returns></returns>
-        Task<int> CountBytesInt32Async(TextReader textReader, Encoding encoding);
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="encoding"></param>
-        /// <returns></returns>
-        Task<int> CountBytesInt32Async(string source, Encoding encoding);
+        /// <param name="source">The string from which to count bytes.</param>
+        /// <param name="encoding">The Encoding type of the bytes to count.</param>
+        /// <returns>The total number of bytes counted.</returns>
+        int CountBytes(string source, Encoding encoding);
         
         /// <summary>
         /// Asynchronously reads from the provided TextReader and counts the total number of bytes in the specified Encoding.
@@ -76,15 +44,15 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters
         /// <param name="textReader">The TextReader from which to count bytes.</param>
         /// <param name="encoding">The Encoding type of the bytes to count.</param>
         /// <returns>The total number of bytes counted.</returns>
-        Task<UInt64> CountBytesUInt64Async(TextReader textReader, Encoding encoding);
+        Task<int> CountBytesAsync(TextReader textReader, Encoding encoding);
         
         /// <summary>
-        /// 
+        /// Asynchronously reads from the provided string and counts the total number of bytes in the specified Encoding.
         /// </summary>
-        /// <param name="source"></param>
-        /// <param name="encoding"></param>
-        /// <returns></returns>
-        Task<UInt64> CountBytesUInt64Async(string source, Encoding encoding);
+        /// <param name="source">The source from which to count bytes.</param>
+        /// <param name="encoding">The Encoding type of the bytes to count.</param>
+        /// <returns>The total number of bytes counted.</returns>
+        Task<int> CountBytesAsync(string source, Encoding encoding);
 
     }
 }
