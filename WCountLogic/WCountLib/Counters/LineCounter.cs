@@ -20,6 +20,10 @@ namespace AlastairLundy.WCountLib.Counters
 {
     public class LineCounter : ILineCounter
     {
+	    public int CountLines(string source)
+	    {
+		    
+	    }
 
 	    /// <summary>
 	    /// Synchronously reads from the provided TextReader and counts total the number of lines.
@@ -72,5 +76,10 @@ namespace AlastairLundy.WCountLib.Counters
 
 			return await new ValueTask<int>(lineCount);
 		}
-	}
+
+	    public async Task<int> CountLinesAsync(string text)
+	    {
+		    
+	    }
+    }
 }

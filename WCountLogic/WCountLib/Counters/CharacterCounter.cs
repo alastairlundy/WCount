@@ -94,6 +94,11 @@ namespace AlastairLundy.WCountLib.Counters
 			return charCount;
 		}
 
+		public int CountCharacters(string text, Encoding textEncodingType)
+		{
+			
+		}
+
 		/// <summary>
 		/// Asynchronously reads from the provided TextReader and counts the total number of characters in the specified Encoding.
 		/// </summary>
@@ -120,5 +125,10 @@ namespace AlastairLundy.WCountLib.Counters
 
 			return await new ValueTask<int>(charCount);
 		}
-	}
+
+		public Task<int> CountCharactersAsync(string text, Encoding textEncodingType)
+		{
+			
+		}
+    }
 }

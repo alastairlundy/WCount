@@ -57,30 +57,11 @@ public class SegmentByteCounter : ISegmentByteCounter
     }
 
     /// <summary>
-    /// Returns the total number of bytes in all segments.
-    /// </summary>
-    /// <param name="segments">The segments to count bytes from.</param>
-    /// <returns>The total number of bytes in all segments.</returns>
-    public ulong CountBytesUInt64(IEnumerable<StringSegment> segments)
-    {
-        long byteCount = 0;
-        
-        Parallel.ForEach(segments, segment =>
-        {
-            long bytes = Convert.ToInt64(CountBytesInt32Worker(segment));
-
-            Interlocked.Add(ref bytes, byteCount);
-        });
-
-        return Convert.ToUInt64(byteCount);
-    }
-
-    /// <summary>
     /// Returns the total number of bytes (in units of 32-bit integers) in all segments.
     /// </summary>
     /// <param name="segments">The segments to count bytes from.</param>
     /// <returns>The total number of bytes (in units of 32-bit integers) in all segments.</returns>
-    public async Task<int> CountBytesInt32Async(IEnumerable<StringSegment> segments)
+    public async Task<int> CountBytesAsync(IEnumerable<StringSegment> segments)
     {
         int totalBytes = 0;
             
@@ -92,24 +73,5 @@ public class SegmentByteCounter : ISegmentByteCounter
         await wordCountingTask;
             
         return totalBytes;
-    }
-
-    /// <summary>
-    /// Returns the total number of bytes in all segments.
-    /// </summary>
-    /// <param name="segments">The segments to count bytes from.</param>
-    /// <returns>The total number of bytes in all segments.</returns>
-    public async Task<ulong> CountBytesUInt64Async(IEnumerable<StringSegment> segments)
-    {
-        ulong totalChars = 0;
-            
-        Task wordCountingTask = Task.Run(() =>
-        {
-            totalChars = CountBytesUInt64(segments);
-        });
-            
-        await wordCountingTask;
-            
-        return totalChars;
     }
 }

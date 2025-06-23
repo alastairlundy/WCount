@@ -110,6 +110,11 @@ namespace AlastairLundy.WCountLib.Counters
             
         }
 
+        public int CountWords(string text)
+        {
+            
+        }
+
         /// <summary>
         /// Asynchronously reads from the provided TextReader and counts the total number of words.
         /// </summary>
@@ -129,6 +134,11 @@ namespace AlastairLundy.WCountLib.Counters
             await wordCountingTask;
             
             return totalWords;
+        }
+
+        public async Task<int> CountWordsAsync(string text)
+        {
+            
         }
     }
 }
