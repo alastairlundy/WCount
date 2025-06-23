@@ -48,15 +48,12 @@
     <ItemGroup>
         <PackageReference Include="AlastairLundy.DotExtensions" Version="7.2.1" />
         <PackageReference Include="AlastairLundy.DotExtensions.MsExtensions" Version="7.2.1" />
-		<PackageReference Include="PolyFill" Version="8.0.1" Condition="'$(TargetFramework)' == 'netstandard2.0'" PrivateAssets="All"/>
-		<PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.3" Condition="'$(TargetFramework)' == 'netstandard2.0'"/>
-
+        <PackageReference Include="Microsoft.Extensions.Primitives" Version="9.0.6" />
 	</ItemGroup>
 
 	<ItemGroup>
-        <PackageReference Include="AlastairLundy.WCountLib.Abstractions" Version="3.2.2.1" />
-		<PackageReference Include="Microsoft.Extensions.Primitives" Version="9.0.6" />
-	</ItemGroup>
+        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.3" Condition="'$(TargetFramework)' == 'netstandard2.0'"/>
+    </ItemGroup>
 
 
     <ItemGroup>
@@ -72,6 +69,10 @@
         <AutoGen>True</AutoGen>
         <DependentUpon>Resources.resx</DependentUpon>
       </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\WCountLib.Abstractions\WCountLib.Abstractions.csproj" />
     </ItemGroup>
 
 </Project>

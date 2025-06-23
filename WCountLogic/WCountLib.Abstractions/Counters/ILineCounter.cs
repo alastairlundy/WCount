@@ -41,4 +41,11 @@ public interface ILineCounter
     /// <param name="textReader">The TextReader from which to count lines.</param>
     /// <returns>The total number of lines counted.</returns>
     Task<int> CountLinesAsync(TextReader textReader);
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
+    Task<int> CountLinesAsync(string text);
 }

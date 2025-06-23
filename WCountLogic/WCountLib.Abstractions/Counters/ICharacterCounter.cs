@@ -30,11 +30,26 @@ public interface ICharacterCounter
     int CountCharacters(TextReader textReader, Encoding textEncodingType);
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="text"></param>
+    /// <param name="textEncodingType"></param>
+    /// <returns></returns>
+    int CountCharacters(string text, Encoding textEncodingType);
+    
+    /// <summary>
     /// Asynchronously reads from the provided TextReader and counts the total number of characters in the specified Encoding.
     /// </summary>
     /// <param name="textReader">The TextReader from which to count characters.</param>
     /// <param name="textEncodingType">The Encoding type of the characters to count.</param>
     /// <returns>The total number of characters counted.</returns>
     Task<int> CountCharactersAsync(TextReader textReader, Encoding textEncodingType);
-
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="text"></param>
+    /// <param name="textEncodingType"></param>
+    /// <returns></returns>
+    Task<int> CountCharactersAsync(string text, Encoding textEncodingType);
 }

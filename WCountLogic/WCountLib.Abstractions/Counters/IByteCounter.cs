@@ -33,10 +33,10 @@ public interface IByteCounter
     /// <summary>
     /// Synchronously reads from the provided string and counts total the number of bytes in the specified Encoding.
     /// </summary>
-    /// <param name="source">The string from which to count bytes.</param>
+    /// <param name="text">The string from which to count bytes.</param>
     /// <param name="encoding">The Encoding type of the bytes to count.</param>
     /// <returns>The total number of bytes counted.</returns>
-    int CountBytes(string source, Encoding encoding);
+    int CountBytes(string text, Encoding encoding);
         
     /// <summary>
     /// Asynchronously reads from the provided TextReader and counts the total number of bytes in the specified Encoding.
@@ -49,9 +49,9 @@ public interface IByteCounter
     /// <summary>
     /// Asynchronously reads from the provided string and counts the total number of bytes in the specified Encoding.
     /// </summary>
-    /// <param name="source">The source from which to count bytes.</param>
+    /// <param name="text">The source from which to count bytes.</param>
     /// <param name="encoding">The Encoding type of the bytes to count.</param>
     /// <returns>The total number of bytes counted.</returns>
-    Task<int> CountBytesAsync(string source, Encoding encoding);
+    Task<int> CountBytesAsync(string text, Encoding encoding);
 
 }

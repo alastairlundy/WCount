@@ -7,11 +7,6 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-
-#if NETSTANDARD2_0 || NETSTANDARD2_1
-using System;
-#endif
-
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -42,13 +37,9 @@ namespace AlastairLundy.WCountLib.Counters
             _wordDetector = wordDetector;
         }
 
-        private ulong CountWordsWorkerSegment(string input)
+        private int CountWordsWorkerSegment(string input)
         {
-#if NET5_0_OR_GREATER
-            ulong totalWords = 0;
-#else
-            long totalWords = 0;
-#endif
+            int totalWords = 0;
             
             StringTokenizer stringTokenizer = new StringTokenizer(input, new[] { ' ' });
             
@@ -78,11 +69,7 @@ namespace AlastairLundy.WCountLib.Counters
                 });
             }
             
-#if NET5_0_OR_GREATER
             return totalWords;
-#else
-            return Convert.ToUInt64(totalWords);            
-#endif
         }
         
         /*protected ulong CountWordsWorker(string input)
@@ -115,13 +102,12 @@ namespace AlastairLundy.WCountLib.Counters
         /// </summary>
         /// <param name="textReader">The TextReader from which to count words.</param>
         /// <returns>The total number of words counted.</returns>
-        public ulong CountWords(TextReader textReader)
+        public int CountWords(TextReader textReader)
         { 
             string input = textReader.ReadToEnd();
            
-            ulong totalWords = CountWordsWorkerSegment(input);
+            return CountWordsWorkerSegment(input);
             
-            return totalWords;
         }
 
         /// <summary>
@@ -129,11 +115,11 @@ namespace AlastairLundy.WCountLib.Counters
         /// </summary>
         /// <param name="textReader">The TextReader from which to count words.</param>
         /// <returns>The total number of words counted.</returns>
-        public async Task<ulong> CountWordsAsync(TextReader textReader)
+        public async Task<int> CountWordsAsync(TextReader textReader)
         {
             string input = await textReader.ReadToEndAsync();
 
-            ulong totalWords = 0;
+            int totalWords = 0;
             
             Task wordCountingTask = Task.Run(() =>
             {
