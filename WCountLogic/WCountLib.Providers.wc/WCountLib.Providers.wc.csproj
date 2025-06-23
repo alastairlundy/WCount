@@ -26,9 +26,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AlastairLundy.CliInvoke" Version="1.4.1" />
-    <PackageReference Include="AlastairLundy.DotExtensions.MsExtensions" Version="7.2.0" />
-    <PackageReference Include="AlastairLundy.WCountLib.Abstractions" Version="3.2.2.1"/>
+    <PackageReference Include="AlastairLundy.CliInvoke.Core" Version="2.0.0-alpha.1" />
+    <PackageReference Include="AlastairLundy.DotExtensions.MsExtensions" Version="7.2.1" />
   </ItemGroup>
 
 	<ItemGroup >
@@ -39,6 +38,10 @@
   
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\WCountLib.Abstractions\WCountLib.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

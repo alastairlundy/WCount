@@ -9,18 +9,18 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-using AlastairLundy.CliInvoke;
-using AlastairLundy.CliInvoke.Abstractions;
-using AlastairLundy.CliInvoke.Builders;
-using AlastairLundy.CliInvoke.Builders.Abstractions;
+using AlastairLundy.CliInvoke.Core.Abstractions;
+using AlastairLundy.CliInvoke.Core.Builders;
+using AlastairLundy.CliInvoke.Core.Builders.Abstractions;
 using AlastairLundy.CliInvoke.Core.Primitives;
+using AlastairLundy.CliInvoke.Core.Primitives.Exceptions;
 using AlastairLundy.CliInvoke.Core.Primitives.Results;
-using AlastairLundy.CliInvoke.Exceptions;
 
 using AlastairLundy.DotExtensions.MsExtensions.System.Collections;
 
@@ -34,10 +34,8 @@ namespace AlastairLundy.WCountLib.Providers.wc.Helpers;
 
 internal class WcCommandExecutionHelper
 {
-    private readonly ICliCommandInvoker _commandInvoker;
-
-    private CliCommandConfiguration _commandConfiguration;
-
+    private readonly IProcessInvoker _processInvoker;
+    
     private string _tempFilePath;
     
     private string CreateTempFilePath(TextReader textReader)
@@ -56,15 +54,10 @@ internal class WcCommandExecutionHelper
         return tempFilePath;
     }
     
-    internal WcCommandExecutionHelper(ICliCommandInvoker commandInvoker)
+    internal WcCommandExecutionHelper(IProcessInvoker processInvoker)
     {
         _tempFilePath = string.Empty;
-        _commandInvoker = commandInvoker;
-        ICliCommandConfigurationBuilder commandConfigurationBuilder = new CliCommandConfigurationBuilder(
-                "/usr/bin/wc")
-            .WithValidation(ProcessResultValidation.None);
-         
-         _commandConfiguration = commandConfigurationBuilder.Build();
+        _processInvoker = processInvoker;
     }
 
     internal TextReader GetSegmentsToTextReader(IEnumerable<StringSegment> segments)
@@ -74,15 +67,17 @@ internal class WcCommandExecutionHelper
     
     private async Task<BufferedProcessResult> ExecuteAsync(string argument, TextReader textReader)
     {
-        ICliCommandConfigurationBuilder configurationBuilder = new CliCommandConfigurationBuilder(_commandConfiguration)
-            .WithArguments($"{argument}, {CreateTempFilePath(textReader)}");
+        IProcessConfigurationBuilder processConfigurationBuilder = new ProcessConfigurationBuilder(
+                "/usr/bin/wc")
+                .WithArguments($"{argument}, {CreateTempFilePath(textReader)}")
+            .WithValidation(ProcessResultValidation.ExitCodeZero);
         
-        _commandConfiguration = configurationBuilder.Build();
+        ProcessConfiguration processConfiguration = processConfigurationBuilder.Build();
         
         File.Delete(_tempFilePath);
         
-        BufferedProcessResult result = await _commandInvoker.
-            ExecuteBufferedAsync(_commandConfiguration, CancellationToken.None);
+        BufferedProcessResult result = await _processInvoker.
+            ExecuteBufferedProcessAsync(processConfiguration, CancellationToken.None);
 
         return result;
     }
@@ -100,37 +95,9 @@ internal class WcCommandExecutionHelper
 
         resultTask.Wait();
 
-        if (resultTask.Result.ExitCode != 0 || resultTask.Result.StandardOutput.ToLower().Contains("illegal"))
-        {
-            throw new CliCommandNotSuccessfulException(resultTask.Result.ExitCode, _commandConfiguration);
-        }
-
         string resultString = resultTask.Result.StandardOutput.Split(' ').First();
 
         return int.Parse(resultString);
-    }
-    
-    internal ulong RunUInt64(string argument, TextReader textReader)
-    {
-        if (OperatingSystem.IsWindows())
-        {
-            throw new PlatformNotSupportedException();
-        }
-
-        Task<BufferedProcessResult> resultTask =  ExecuteAsync(argument, textReader);
-			
-        resultTask.Start();
-
-        resultTask.Wait();
-
-        if (resultTask.Result.ExitCode != 0 || resultTask.Result.StandardOutput.ToLower().Contains("illegal"))
-        {
-            throw new CliCommandNotSuccessfulException(resultTask.Result.ExitCode, _commandConfiguration);
-        }
-
-        string resultString = resultTask.Result.StandardOutput.Split(' ').First();
-
-        return ulong.Parse(resultString);
     }
   
     internal async Task<int> RunInt32Async(string argument, TextReader textReader)
@@ -141,33 +108,9 @@ internal class WcCommandExecutionHelper
         }
 			
         BufferedProcessResult result = await ExecuteAsync(argument, textReader);
-			
-        if (result.ExitCode != 0 || result.StandardOutput.ToLower().Contains("illegal"))
-        {
-            throw new CliCommandNotSuccessfulException(result.ExitCode, _commandConfiguration);
-        }
 
         string resultString = result.StandardOutput.Split(' ').First();
 
         return int.Parse(resultString);
-    }
-    
-    internal async Task<ulong> RunUInt64Async(string argument, TextReader textReader)
-    {
-        if (OperatingSystem.IsWindows())
-        {
-            throw new PlatformNotSupportedException();
-        }
-			
-        BufferedProcessResult result = await ExecuteAsync(argument, textReader);
-			
-        if (result.ExitCode != 0 || result.StandardOutput.ToLower().Contains("illegal"))
-        {
-            throw new CliCommandNotSuccessfulException(result.ExitCode, _commandConfiguration);
-        }
-
-        string resultString = result.StandardOutput.Split(' ').First();
-
-        return ulong.Parse(resultString);
     }
 }

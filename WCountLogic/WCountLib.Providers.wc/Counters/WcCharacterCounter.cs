@@ -16,8 +16,7 @@ using System.Threading.Tasks;
 using System.Runtime.Versioning;
 #endif
 
-using AlastairLundy.CliInvoke.Abstractions;
-using AlastairLundy.CliInvoke.Exceptions;
+using AlastairLundy.CliInvoke.Core.Abstractions;
 
 using AlastairLundy.WCountLib.Abstractions.Counters;
 using AlastairLundy.WCountLib.Providers.wc.Helpers;
@@ -34,10 +33,10 @@ public class WcCharacterCounter : ICharacterCounter
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="cliCommandInvoker"></param>
-    public WcCharacterCounter(ICliCommandInvoker cliCommandInvoker)
+    /// <param name="processInvoker"></param>
+    public WcCharacterCounter(IProcessInvoker processInvoker)
     {
-        _wcCommandExecutionHelper = new WcCommandExecutionHelper(cliCommandInvoker);
+        _wcCommandExecutionHelper = new WcCommandExecutionHelper(processInvoker);
     }
     
     /// <summary>
@@ -59,6 +58,11 @@ public class WcCharacterCounter : ICharacterCounter
         return _wcCommandExecutionHelper.RunInt32("-m", textReader);
     }
 
+    public int CountCharacters(string text, Encoding textEncodingType)
+    {
+        
+    }
+
     /// <summary>
     /// Asynchronously reads from the provided TextReader and uses the Unix ``wc`` program to count the total number of characters in the specified Encoding.
     /// </summary>
@@ -76,6 +80,11 @@ public class WcCharacterCounter : ICharacterCounter
 #endif
     public async Task<int> CountCharactersAsync(TextReader textReader, Encoding textEncodingType)
     {
-       return await _wcCommandExecutionHelper.RunUInt64Async("-m", textReader);
+       return await _wcCommandExecutionHelper.RunInt32Async("-m", textReader);
+    }
+
+    public async Task<int> CountCharactersAsync(string text, Encoding textEncodingType)
+    {
+        
     }
 }

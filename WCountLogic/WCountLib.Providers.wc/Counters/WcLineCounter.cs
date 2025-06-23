@@ -15,8 +15,7 @@ using System.Threading.Tasks;
 using System.Runtime.Versioning;
 #endif
 
-using AlastairLundy.CliInvoke.Abstractions;
-using AlastairLundy.CliInvoke.Exceptions;
+using AlastairLundy.CliInvoke.Core.Abstractions;
 
 using AlastairLundy.WCountLib.Abstractions.Counters;
 using AlastairLundy.WCountLib.Providers.wc.Helpers;
@@ -33,12 +32,17 @@ public class WcLineCounter : ILineCounter
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="commandInvoker"></param>
-    public WcLineCounter(ICliCommandInvoker commandInvoker)
+    /// <param name="processInvoker"></param>
+    public WcLineCounter(IProcessInvoker processInvoker)
     {
-        _wcCommandExecutionHelper = new WcCommandExecutionHelper(commandInvoker);
+        _wcCommandExecutionHelper = new WcCommandExecutionHelper(processInvoker);
     }
-    
+
+    public int CountLines(string source)
+    {
+        
+    }
+
     /// <summary>
     /// Synchronously reads from the provided TextReader and uses the Unix ``wc`` program to count the total number of lines.
     /// </summary>
@@ -74,5 +78,10 @@ public class WcLineCounter : ILineCounter
     public async Task<int> CountLinesAsync(TextReader textReader)
     {
        return await _wcCommandExecutionHelper.RunInt32Async("-l", textReader);
+    }
+
+    public async Task<int> CountLinesAsync(string text)
+    {
+        
     }
 }

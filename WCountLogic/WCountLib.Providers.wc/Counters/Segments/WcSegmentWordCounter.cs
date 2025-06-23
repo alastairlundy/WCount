@@ -9,9 +9,7 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
-using AlastairLundy.CliInvoke.Abstractions;
-
+using AlastairLundy.CliInvoke.Core.Abstractions;
 using AlastairLundy.WCountLib.Abstractions.Counters.Segments;
 
 using AlastairLundy.WCountLib.Providers.wc.Helpers;
@@ -30,10 +28,10 @@ namespace AlastairLundy.WCountLib.Providers.wc.Counters.Segments
         /// <summary>
         /// Initializes a new instance of the WcSegmentWordCounter class.
         /// </summary>
-        /// <param name="commandInvoker">The ICliCommandInvoker to be used to execute the ``wc``program.</param>
-        public WcSegmentWordCounter(ICliCommandInvoker commandInvoker)
+        /// <param name="processInvoker">The ICliCommandInvoker to be used to execute the ``wc``program.</param>
+        public WcSegmentWordCounter(IProcessInvoker processInvoker)
         {
-            _wcCommandExecutionHelper = new WcCommandExecutionHelper(commandInvoker);
+            _wcCommandExecutionHelper = new WcCommandExecutionHelper(processInvoker);
         }
     
         /// <summary>
@@ -41,7 +39,7 @@ namespace AlastairLundy.WCountLib.Providers.wc.Counters.Segments
         /// </summary>
         /// <param name="segments"></param>
         /// <returns></returns>
-        public int CountWordsInt32(IEnumerable<StringSegment> segments)
+        public int CountWords(IEnumerable<StringSegment> segments)
         {
             return _wcCommandExecutionHelper.RunInt32("-w", _wcCommandExecutionHelper.GetSegmentsToTextReader(segments));
         }
@@ -51,30 +49,9 @@ namespace AlastairLundy.WCountLib.Providers.wc.Counters.Segments
         /// </summary>
         /// <param name="segments"></param>
         /// <returns></returns>
-        public ulong CountWordsUInt64(IEnumerable<StringSegment> segments)
-        {
-            return _wcCommandExecutionHelper.RunUInt64("-w", _wcCommandExecutionHelper.GetSegmentsToTextReader(segments));
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="segments"></param>
-        /// <returns></returns>
-        public async Task<int> CountWordsInt32Async(IEnumerable<StringSegment> segments)
+        public async Task<int> CountWordsAsync(IEnumerable<StringSegment> segments)
         {
             return await _wcCommandExecutionHelper.RunInt32Async("-w", _wcCommandExecutionHelper.GetSegmentsToTextReader(segments));
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="segments"></param>
-        /// <returns></returns>
-        public async Task<ulong> CountWordsUInt64Async(IEnumerable<StringSegment> segments)
-        {
-            return await _wcCommandExecutionHelper.RunUInt64Async("-w",
-                _wcCommandExecutionHelper.GetSegmentsToTextReader(segments));
         }
     }
 }

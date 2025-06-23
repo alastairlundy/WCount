@@ -16,8 +16,7 @@ using System.Threading.Tasks;
 using System.Runtime.Versioning;
 #endif
 
-using AlastairLundy.CliInvoke.Abstractions;
-using AlastairLundy.CliInvoke.Exceptions;
+using AlastairLundy.CliInvoke.Core.Abstractions;
 
 using AlastairLundy.WCountLib.Abstractions.Counters;
 using AlastairLundy.WCountLib.Providers.wc.Helpers;
@@ -34,10 +33,10 @@ public class WcByteCounter : IByteCounter
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="cliCommandInvoker"></param>
-    public WcByteCounter(ICliCommandInvoker cliCommandInvoker)
+    /// <param name="processInvoker"></param>
+    public WcByteCounter(IProcessInvoker processInvoker)
     {
-        _wcCommandExecutionHelper = new WcCommandExecutionHelper(cliCommandInvoker);
+        _wcCommandExecutionHelper = new WcCommandExecutionHelper(processInvoker);
     }
     
     /// <summary>
@@ -59,6 +58,11 @@ public class WcByteCounter : IByteCounter
         return _wcCommandExecutionHelper.RunInt32("-c", textReader);
     }
 
+    public int CountBytes(string text, Encoding encoding)
+    {
+        
+    }
+
     /// <summary>
     /// Asynchronously reads from the provided TextReader and uses the Unix ``wc`` program to count the total number of bytes in the specified Encoding.
     /// </summary>
@@ -66,7 +70,6 @@ public class WcByteCounter : IByteCounter
     /// <param name="textEncodingType">The Encoding type of the bytes to count.</param>
     /// <returns>The total number of bytes counted.</returns>
     /// <exception cref="PlatformNotSupportedException">Thrown if run on a platform that doesn't support the Unix ``wc`` command (such as Windows).</exception>
-    /// <exception cref="CliCommandNotSuccessfulException">Thrown if the Command is not successfully executed.</exception>
 #if NET5_0_OR_GREATER
     [SupportedOSPlatform("linux")]
     [SupportedOSPlatform("macos")]
@@ -74,8 +77,13 @@ public class WcByteCounter : IByteCounter
     [SupportedOSPlatform("freebsd")]
     [UnsupportedOSPlatform("windows")]
 #endif
-    public async Task<ulong> CountBytesAsync(TextReader textReader, Encoding textEncodingType)
+    public async Task<int> CountBytesAsync(TextReader textReader, Encoding textEncodingType)
     {
-       return await _wcCommandExecutionHelper.RunUInt64Async("-c", textReader);
+       return await _wcCommandExecutionHelper.RunInt32Async("-c", textReader);
+    }
+
+    public async Task<int> CountBytesAsync(string text, Encoding encoding)
+    {
+        
     }
 }

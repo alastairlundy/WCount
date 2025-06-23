@@ -9,8 +9,7 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AlastairLundy.CliInvoke.Abstractions;
-
+using AlastairLundy.CliInvoke.Core.Abstractions;
 using AlastairLundy.WCountLib.Abstractions.Counters.Segments;
 
 using AlastairLundy.WCountLib.Providers.wc.Helpers;
@@ -29,10 +28,10 @@ namespace AlastairLundy.WCountLib.Providers.wc.Counters.Segments
         /// <summary>
         /// Initializes a new instance of the WcSegmentCharacterCounter class.
         /// </summary>
-        /// <param name="commandInvoker">The ICliCommandInvoker to be used to execute the ``wc``program.</param>
-        public WcSegmentCharacterCounter(ICliCommandInvoker commandInvoker)
+        /// <param name="processInvoker">The ICliCommandInvoker to be used to execute the ``wc``program.</param>
+        public WcSegmentCharacterCounter(IProcessInvoker processInvoker)
         {
-            _wcCommandExecutionHelper = new WcCommandExecutionHelper(commandInvoker);
+            _wcCommandExecutionHelper = new WcCommandExecutionHelper(processInvoker);
         }
         
         /// <summary>
@@ -44,35 +43,16 @@ namespace AlastairLundy.WCountLib.Providers.wc.Counters.Segments
         {
             return _wcCommandExecutionHelper.RunInt32("-m", _wcCommandExecutionHelper.GetSegmentsToTextReader(segments));
         }
-
-        /// <summary>
-        /// Counts the total number of characters in a sequence of string segments.
-        /// </summary>
-        /// <param name="segments">A sequence of StringSegment objects.</param>
-        /// <returns>The total number of characters as an unsigned 64-bit integer.</returns>
-        public ulong CountCharactersUInt64(IEnumerable<StringSegment> segments)
-        {
-            return _wcCommandExecutionHelper.RunUInt64("-m", _wcCommandExecutionHelper.GetSegmentsToTextReader(segments));
-        }
         
         /// <summary>
         /// Counts the total number of characters in a sequence of string segments.
         /// </summary>
         /// <param name="segments">A sequence of StringSegment objects.</param>
         /// <returns>The total number of characters as a signed 32-bit integer.</returns>
-        public async Task<int> CountCharactersInt32Async(IEnumerable<StringSegment> segments)
+        public async Task<int> CountCharactersAsync(IEnumerable<StringSegment> segments)
         {
             return await _wcCommandExecutionHelper.RunInt32Async("-m", _wcCommandExecutionHelper.GetSegmentsToTextReader(segments));
         }
-
-        /// <summary>
-        /// Counts the total number of characters in a sequence of string segments.
-        /// </summary>
-        /// <param name="segments">A sequence of StringSegment objects.</param>
-        /// <returns>The total number of characters as an unsigned 64-bit integer.</returns>
-        public async Task<ulong> CountCharactersAsync(IEnumerable<StringSegment> segments)
-        {
-            return await _wcCommandExecutionHelper.RunUInt64Async("-m", _wcCommandExecutionHelper.GetSegmentsToTextReader(segments));
-        }
+        
     }
 }
