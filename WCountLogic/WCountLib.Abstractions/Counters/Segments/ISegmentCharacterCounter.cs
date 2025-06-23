@@ -13,20 +13,19 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Primitives;
 
-namespace AlastairLundy.WCountLib.Abstractions.Counters.Segments
+namespace AlastairLundy.WCountLib.Abstractions.Counters.Segments;
+
+public interface ISegmentCharacterCounter
 {
-    public interface ISegmentCharacterCounter
-    {
-        /// <summary>
-        /// Returns the total number of characters in all segments. </summary>
-        /// <param name="segments">The segments to count characters from.</param>
-        /// <returns>The total number of characters in all segments.</returns>
-        int CountCharacters(IEnumerable<StringSegment> segments);
+    /// <summary>
+    /// Returns the total number of characters in all segments. </summary>
+    /// <param name="segments">The segments to count characters from.</param>
+    /// <returns>The total number of characters in all segments.</returns>
+    int CountCharacters(IEnumerable<StringSegment> segments);
         
-        /// <summary>
-        /// Returns the total number of characters (in units of 64-bit unsigned integers) in all segments. This method is asynchronous to allow for non-blocking operations and efficient use of threads. </summary>
-        /// <param name="segments">The segments to count characters from.</param>
-        /// <returns>The total number of characters (in units of 64-bit unsigned integers) in all segments.</returns>
-        Task<UInt64> CountCharactersAsync(IEnumerable<StringSegment> segments);
-    }
+    /// <summary>
+    /// Returns the total number of characters (in units of 64-bit unsigned integers) in all segments. This method is asynchronous to allow for non-blocking operations and efficient use of threads. </summary>
+    /// <param name="segments">The segments to count characters from.</param>
+    /// <returns>The total number of characters (in units of 64-bit unsigned integers) in all segments.</returns>
+    Task<UInt64> CountCharactersAsync(IEnumerable<StringSegment> segments);
 }

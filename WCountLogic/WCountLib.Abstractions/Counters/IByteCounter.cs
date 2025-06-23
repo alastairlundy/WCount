@@ -12,47 +12,46 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AlastairLundy.WCountLib.Abstractions.Counters
+namespace AlastairLundy.WCountLib.Abstractions.Counters;
+
+/// <summary>
+/// Represents a service that counts the number of bytes in TextReaders.
+/// </summary>
+/// <remarks>
+/// <para>Implementing classes should be stateless and avoid containing any properties or fields that aren't related to configurations or settings for byte counting.</para>
+/// </remarks>
+public interface IByteCounter
 {
     /// <summary>
-    /// Represents a service that counts the number of bytes in TextReaders.
+    /// Synchronously reads from the provided TextReader and counts total the number of bytes in the specified Encoding.
     /// </summary>
-    /// <remarks>
-    /// <para>Implementing classes should be stateless and avoid containing any properties or fields that aren't related to configurations or settings for byte counting.</para>
-    /// </remarks>
-    public interface IByteCounter
-    {
-        /// <summary>
-        /// Synchronously reads from the provided TextReader and counts total the number of bytes in the specified Encoding.
-        /// </summary>
-        /// <param name="textReader">The TextReader from which to count bytes.</param>
-        /// <param name="encoding">The Encoding type of the bytes to count.</param>
-        /// <returns>The total number of bytes counted.</returns>
-        int CountBytes(TextReader textReader, Encoding encoding);
+    /// <param name="textReader">The TextReader from which to count bytes.</param>
+    /// <param name="encoding">The Encoding type of the bytes to count.</param>
+    /// <returns>The total number of bytes counted.</returns>
+    int CountBytes(TextReader textReader, Encoding encoding);
         
-        /// <summary>
-        /// Synchronously reads from the provided string and counts total the number of bytes in the specified Encoding.
-        /// </summary>
-        /// <param name="source">The string from which to count bytes.</param>
-        /// <param name="encoding">The Encoding type of the bytes to count.</param>
-        /// <returns>The total number of bytes counted.</returns>
-        int CountBytes(string source, Encoding encoding);
+    /// <summary>
+    /// Synchronously reads from the provided string and counts total the number of bytes in the specified Encoding.
+    /// </summary>
+    /// <param name="source">The string from which to count bytes.</param>
+    /// <param name="encoding">The Encoding type of the bytes to count.</param>
+    /// <returns>The total number of bytes counted.</returns>
+    int CountBytes(string source, Encoding encoding);
         
-        /// <summary>
-        /// Asynchronously reads from the provided TextReader and counts the total number of bytes in the specified Encoding.
-        /// </summary>
-        /// <param name="textReader">The TextReader from which to count bytes.</param>
-        /// <param name="encoding">The Encoding type of the bytes to count.</param>
-        /// <returns>The total number of bytes counted.</returns>
-        Task<int> CountBytesAsync(TextReader textReader, Encoding encoding);
+    /// <summary>
+    /// Asynchronously reads from the provided TextReader and counts the total number of bytes in the specified Encoding.
+    /// </summary>
+    /// <param name="textReader">The TextReader from which to count bytes.</param>
+    /// <param name="encoding">The Encoding type of the bytes to count.</param>
+    /// <returns>The total number of bytes counted.</returns>
+    Task<int> CountBytesAsync(TextReader textReader, Encoding encoding);
         
-        /// <summary>
-        /// Asynchronously reads from the provided string and counts the total number of bytes in the specified Encoding.
-        /// </summary>
-        /// <param name="source">The source from which to count bytes.</param>
-        /// <param name="encoding">The Encoding type of the bytes to count.</param>
-        /// <returns>The total number of bytes counted.</returns>
-        Task<int> CountBytesAsync(string source, Encoding encoding);
+    /// <summary>
+    /// Asynchronously reads from the provided string and counts the total number of bytes in the specified Encoding.
+    /// </summary>
+    /// <param name="source">The source from which to count bytes.</param>
+    /// <param name="encoding">The Encoding type of the bytes to count.</param>
+    /// <returns>The total number of bytes counted.</returns>
+    Task<int> CountBytesAsync(string source, Encoding encoding);
 
-    }
 }
