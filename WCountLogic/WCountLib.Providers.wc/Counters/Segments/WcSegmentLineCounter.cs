@@ -10,8 +10,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using AlastairLundy.CliInvoke.Abstractions;
-
+using AlastairLundy.CliInvoke.Core.Abstractions;
 using AlastairLundy.WCountLib.Abstractions.Counters.Segments;
 
 using AlastairLundy.WCountLib.Providers.wc.Helpers;
@@ -30,10 +29,10 @@ namespace AlastairLundy.WCountLib.Providers.wc.Counters.Segments
         /// <summary>
         /// Initializes a new instance of the WcSegmentLineCounter class.
         /// </summary>
-        /// <param name="commandInvoker">The ICliCommandInvoker to be used to execute the ``wc``program.</param>
-        public WcSegmentLineCounter(ICliCommandInvoker commandInvoker)
+        /// <param name="processInvoker">The ICliCommandInvoker to be used to execute the ``wc``program.</param>
+        public WcSegmentLineCounter(IProcessInvoker processInvoker)
         {
-            _wcCommandExecutionHelper = new WcCommandExecutionHelper(commandInvoker);
+            _wcCommandExecutionHelper = new WcCommandExecutionHelper(processInvoker);
         }
         
         /// <summary>
@@ -41,39 +40,19 @@ namespace AlastairLundy.WCountLib.Providers.wc.Counters.Segments
         /// </summary>
         /// <param name="segments">A sequence of StringSegment objects.</param>
         /// <returns>The total number of lines as a signed 32-bit integer.</returns>
-        public int CountLinesInt32(IEnumerable<StringSegment> segments)
+        public int CountLines(IEnumerable<StringSegment> segments)
         {
             return _wcCommandExecutionHelper.RunInt32("-l", _wcCommandExecutionHelper.GetSegmentsToTextReader(segments));
         }
-
-        /// <summary>
-        /// Counts the total number of lines in a sequence of string segments.
-        /// </summary>
-        /// <param name="segments">A sequence of StringSegment objects.</param>
-        /// <returns>The total number of lines as an unsigned 64-bit integer.</returns>
-        public ulong CountLinesUInt64(IEnumerable<StringSegment> segments)
-        {
-            return _wcCommandExecutionHelper.RunUInt64("-l", _wcCommandExecutionHelper.GetSegmentsToTextReader(segments));
-        }
-
+        
         /// <summary>
         /// Counts the total number of lines in a sequence of string segments.
         /// </summary>
         /// <param name="segments">A sequence of StringSegment objects.</param>
         /// <returns>The total number of lines as a signed 32-bit integer.</returns>
-        public async Task<int> CountLinesInt32Async(IEnumerable<StringSegment> segments)
+        public async Task<int> CountLinesAsync(IEnumerable<StringSegment> segments)
         {
             return await _wcCommandExecutionHelper.RunInt32Async("-l", _wcCommandExecutionHelper.GetSegmentsToTextReader(segments));
-        }
-
-        /// <summary>
-        /// Counts the total number of lines in a sequence of string segments.
-        /// </summary>
-        /// <param name="segments">A sequence of StringSegment objects.</param>
-        /// <returns>The total number of lines as an unsigned 64-bit integer.</returns>
-        public async Task<ulong> CountLinesUInt64Async(IEnumerable<StringSegment> segments)
-        {
-            return await _wcCommandExecutionHelper.RunUInt64Async("-l", _wcCommandExecutionHelper.GetSegmentsToTextReader(segments));
         }
     }
 }

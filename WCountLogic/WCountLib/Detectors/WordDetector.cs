@@ -17,7 +17,7 @@ using AlastairLundy.WCountLib.Abstractions.Detectors;
 namespace AlastairLundy.WCountLib.Detectors
 {
     /// <summary>
-    /// A class to detect if strings that looks like words are words.
+    /// A class to detect if strings that look like words are words.
     /// </summary>
     public class WordDetector : IWordDetector
     {
@@ -73,7 +73,7 @@ namespace AlastairLundy.WCountLib.Detectors
                 return false;    
             }
 
-            if (s.ContainsAnyOf(delimitersToExclude) == true)
+            if (delimitersToExclude.Select(s.Contains).Any())
             {
                 return false;
             }

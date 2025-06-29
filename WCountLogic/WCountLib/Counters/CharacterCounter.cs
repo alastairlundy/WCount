@@ -94,15 +94,20 @@ namespace AlastairLundy.WCountLib.Counters
 			return charCount;
 		}
 
+		public int CountCharacters(string text, Encoding textEncodingType)
+		{
+			
+		}
+
 		/// <summary>
 		/// Asynchronously reads from the provided TextReader and counts the total number of characters in the specified Encoding.
 		/// </summary>
 		/// <param name="textReader">The TextReader from which to count characters.</param>
 		/// <param name="textEncodingType">The Encoding type of the characters to count.</param>
 		/// <returns>The total number of characters counted.</returns>
-		public async Task<ulong> CountCharactersAsync(TextReader textReader, Encoding textEncodingType)
+		public async Task<int> CountCharactersAsync(TextReader textReader, Encoding textEncodingType)
 		{
-			ulong charCount = 0;
+			int charCount = 0;
 
 			string? latestLine;
 
@@ -112,13 +117,18 @@ namespace AlastairLundy.WCountLib.Counters
 
 				if (latestLine != null)
 				{
-                    charCount += Convert.ToUInt64(CountCharactersWorker(latestLine, textEncodingType));
+                    charCount += CountCharactersWorker(latestLine, textEncodingType);
 				}
 			}
 			while (latestLine != null);
 
 
-			return await new ValueTask<ulong>(charCount);
+			return await new ValueTask<int>(charCount);
 		}
-	}
+
+		public Task<int> CountCharactersAsync(string text, Encoding textEncodingType)
+		{
+			
+		}
+    }
 }
