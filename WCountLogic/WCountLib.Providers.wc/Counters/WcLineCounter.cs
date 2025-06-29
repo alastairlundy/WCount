@@ -38,9 +38,14 @@ public class WcLineCounter : ILineCounter
         _wcCommandExecutionHelper = new WcCommandExecutionHelper(processInvoker);
     }
 
-    public int CountLines(string source)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
+    public int CountLines(string text)
     {
-        
+        return _wcCommandExecutionHelper.RunInt32("-l", text);
     }
 
     /// <summary>
@@ -80,8 +85,14 @@ public class WcLineCounter : ILineCounter
        return await _wcCommandExecutionHelper.RunInt32Async("-l", textReader);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
     public async Task<int> CountLinesAsync(string text)
     {
-        
+        return await _wcCommandExecutionHelper.RunInt32Async("-l", text);
+
     }
 }

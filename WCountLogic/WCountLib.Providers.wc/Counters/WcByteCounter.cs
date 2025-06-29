@@ -58,9 +58,15 @@ public class WcByteCounter : IByteCounter
         return _wcCommandExecutionHelper.RunInt32("-c", textReader);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="text"></param>
+    /// <param name="encoding"></param>
+    /// <returns></returns>
     public int CountBytes(string text, Encoding encoding)
     {
-        
+        return _wcCommandExecutionHelper.RunInt32("-c", text);
     }
 
     /// <summary>
@@ -82,8 +88,14 @@ public class WcByteCounter : IByteCounter
        return await _wcCommandExecutionHelper.RunInt32Async("-c", textReader);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="text"></param>
+    /// <param name="encoding"></param>
+    /// <returns></returns>
     public async Task<int> CountBytesAsync(string text, Encoding encoding)
     {
-        
+        return await _wcCommandExecutionHelper.RunInt32Async("-c", text);
     }
 }

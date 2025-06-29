@@ -52,9 +52,14 @@ public class WcWordCounter : IWordCounter
 		return _wcCommandExecutionHelper.RunInt32("-w", textReader);
 	}
 
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="text"></param>
+	/// <returns></returns>
 	public int CountWords(string text)
 	{
-		
+		return _wcCommandExecutionHelper.RunInt32("-w", text);
 	}
 
 	/// <summary>
@@ -76,8 +81,13 @@ public class WcWordCounter : IWordCounter
 		return await _wcCommandExecutionHelper.RunInt32Async("-w", textReader);
 	}
 
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="text"></param>
+	/// <returns></returns>
 	public async Task<int> CountWordsAsync(string text)
 	{
-		
+		return await _wcCommandExecutionHelper.RunInt32Async("-w", text);
 	}
 }

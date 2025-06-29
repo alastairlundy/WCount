@@ -38,19 +38,39 @@ internal class WcCommandExecutionHelper
     
     private string _tempFilePath;
     
-    private string CreateTempFilePath(TextReader textReader)
+    private async Task<string> CreateTempFilePathAsync(TextReader textReader)
+    {
+        string tempFilePath = Path.GetTempFileName();
+        tempFilePath = Path.ChangeExtension(tempFilePath, ".txt");
+        
+        _tempFilePath = tempFilePath;
+
+#if NETSTANDARD2_1
+        await
+ #endif
+        using (var writer = new StreamWriter(tempFilePath))
+        {
+            await writer.WriteAsync(await textReader.ReadToEndAsync());
+            writer.Close();
+        }
+        
+        return tempFilePath;
+    }
+    
+    private async Task<string> CreateTempFilePathAsync(string text)
     {
         string tempFilePath = Path.GetTempFileName();
         tempFilePath = Path.ChangeExtension(tempFilePath, ".txt");
         
         _tempFilePath = tempFilePath;
         
-        using (var writer = new StreamWriter(tempFilePath))
-        {
-            writer.Write(textReader.ReadToEnd());
-            writer.Close();
-        }
+#if NETSTANDARD2_1 || NET5_0_OR_GREATER
+        await File.WriteAllTextAsync(tempFilePath, text);
+#else
+        await FilePolyfill.WriteAllTextAsync(tempFilePath, text);
+#endif
         
+
         return tempFilePath;
     }
     
@@ -65,11 +85,11 @@ internal class WcCommandExecutionHelper
         return new StringReader(segments.ToString(' '));
     }
     
-    private async Task<BufferedProcessResult> ExecuteAsync(string argument, TextReader textReader)
+    private async Task<BufferedProcessResult> ExecuteAsync(string argument, string tempFileName)
     {
         IProcessConfigurationBuilder processConfigurationBuilder = new ProcessConfigurationBuilder(
                 "/usr/bin/wc")
-                .WithArguments($"{argument}, {CreateTempFilePath(textReader)}")
+                .WithArguments($"{argument}, {tempFileName}")
             .WithValidation(ProcessResultValidation.ExitCodeZero);
         
         ProcessConfiguration processConfiguration = processConfigurationBuilder.Build();
@@ -81,7 +101,7 @@ internal class WcCommandExecutionHelper
 
         return result;
     }
-
+    
     internal int RunInt32(string argument, TextReader textReader)
     {
         if (OperatingSystem.IsWindows())
@@ -89,10 +109,34 @@ internal class WcCommandExecutionHelper
             throw new PlatformNotSupportedException();
         }
 
-        Task<BufferedProcessResult> resultTask =  ExecuteAsync(argument, textReader);
+        Task<string> tempFile = CreateTempFilePathAsync(textReader);
+        tempFile.Start();
+        tempFile.Wait();
+
+        Task<BufferedProcessResult> resultTask =  ExecuteAsync(argument, tempFile.Result);
 			
         resultTask.Start();
 
+        resultTask.Wait();
+
+        string resultString = resultTask.Result.StandardOutput.Split(' ').First();
+
+        return int.Parse(resultString);
+    }
+    
+    internal int RunInt32(string argument, string text)
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            throw new PlatformNotSupportedException();
+        }
+        
+        Task<string> tempFile = CreateTempFilePathAsync(text);
+        tempFile.Start();
+        tempFile.Wait();
+        
+        Task<BufferedProcessResult> resultTask =  ExecuteAsync(argument, tempFile.Result);
+        resultTask.Start();
         resultTask.Wait();
 
         string resultString = resultTask.Result.StandardOutput.Split(' ').First();
@@ -106,8 +150,26 @@ internal class WcCommandExecutionHelper
         {
             throw new PlatformNotSupportedException();
         }
+        
+        string tempFile = await CreateTempFilePathAsync(textReader);
 			
-        BufferedProcessResult result = await ExecuteAsync(argument, textReader);
+        BufferedProcessResult result = await ExecuteAsync(argument, tempFile);
+
+        string resultString = result.StandardOutput.Split(' ').First();
+
+        return int.Parse(resultString);
+    }
+
+    internal async Task<int> RunInt32Async(string argument, string text)
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            throw new PlatformNotSupportedException();
+        }
+        
+        string tempFile = await CreateTempFilePathAsync(text);
+			
+        BufferedProcessResult result = await ExecuteAsync(argument, tempFile);
 
         string resultString = result.StandardOutput.Split(' ').First();
 

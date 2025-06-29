@@ -58,9 +58,16 @@ public class WcCharacterCounter : ICharacterCounter
         return _wcCommandExecutionHelper.RunInt32("-m", textReader);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="text"></param>
+    /// <param name="textEncodingType"></param>
+    /// <returns></returns>
     public int CountCharacters(string text, Encoding textEncodingType)
     {
-        
+        return _wcCommandExecutionHelper.RunInt32("-m", text);
+
     }
 
     /// <summary>
@@ -70,7 +77,6 @@ public class WcCharacterCounter : ICharacterCounter
     /// <param name="textEncodingType">The Encoding type of the characters to count.</param>
     /// <returns>The total number of characters counted.</returns>
     /// <exception cref="PlatformNotSupportedException">Thrown if run on a platform that doesn't support the Unix ``wc`` command (such as Windows).</exception>
-    /// <exception cref="CliCommandNotSuccessfulException">Thrown if the Command is not successfully executed.</exception>
 #if NET5_0_OR_GREATER
     [SupportedOSPlatform("linux")]
     [SupportedOSPlatform("macos")]
@@ -83,8 +89,14 @@ public class WcCharacterCounter : ICharacterCounter
        return await _wcCommandExecutionHelper.RunInt32Async("-m", textReader);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="text"></param>
+    /// <param name="textEncodingType"></param>
+    /// <returns></returns>
     public async Task<int> CountCharactersAsync(string text, Encoding textEncodingType)
     {
-        
+        return await _wcCommandExecutionHelper.RunInt32Async("-m", text);
     }
 }
