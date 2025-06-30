@@ -7,9 +7,9 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 using AlastairLundy.WCountLib.Abstractions.Counters;
@@ -91,9 +91,15 @@ namespace AlastairLundy.WCountLib.Counters
             return byteCount;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
         public int CountBytes(string text, Encoding encoding)
         {
-            
+            return CountBytesWorker(text, encoding);
         }
 
         /// <summary>
@@ -125,7 +131,13 @@ namespace AlastairLundy.WCountLib.Counters
 
         public async Task<int> CountBytesAsync(string text, Encoding encoding)
         {
-            
+            Task<int> task = new Task<int>(()=> CountBytesWorker(text, encoding));
+
+            task.Start();
+
+            int result = await task.WaitAsync(CancellationToken.None);
+
+            return await new ValueTask<int>(result);
         }
     }
 }

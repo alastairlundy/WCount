@@ -7,9 +7,9 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 using AlastairLundy.WCountLib.Abstractions.Counters;
@@ -94,9 +94,15 @@ namespace AlastairLundy.WCountLib.Counters
 			return charCount;
 		}
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="textEncodingType"></param>
+        /// <returns></returns>
 		public int CountCharacters(string text, Encoding textEncodingType)
 		{
-			
+			return CountCharactersWorker(text, textEncodingType);
 		}
 
 		/// <summary>
@@ -126,9 +132,20 @@ namespace AlastairLundy.WCountLib.Counters
 			return await new ValueTask<int>(charCount);
 		}
 
-		public Task<int> CountCharactersAsync(string text, Encoding textEncodingType)
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="text"></param>
+		/// <param name="textEncodingType"></param>
+		/// <returns></returns>
+		public async Task<int> CountCharactersAsync(string text, Encoding textEncodingType)
 		{
-			
+			Task<int> task = new Task<int>(() =>  CountCharacters(text, textEncodingType));
+			task.Start();
+
+			int result = await task.WaitAsync(CancellationToken.None);
+
+			return result;
 		}
     }
 }
