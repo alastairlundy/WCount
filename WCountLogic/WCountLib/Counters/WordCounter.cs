@@ -72,30 +72,7 @@ namespace AlastairLundy.WCountLib.Counters
             return totalWords;
         }
         
-        /*protected ulong CountWordsWorker(string input)
-        {
-#if NET5_0_OR_GREATER
-            ulong totalWords = 0;
-#else
-            long totalWords = 0;
-#endif
-         
-            string[] segments = input.Split(' ');
-            
-            Parallel.ForEach(segments, segment =>
-            {
-                if (_wordDetector.IsStringAWord(segment, false))
-                {
-                    Interlocked.Increment(ref totalWords);
-                }
-            });
-            
-#if NET5_0_OR_GREATER
-            return totalWords;
-#else
-            return Convert.ToUInt64(totalWords);            
-#endif
-        }*/
+
 
         /// <summary>
         /// Synchronously reads from the provided TextReader and counts total the number of words.
@@ -109,10 +86,15 @@ namespace AlastairLundy.WCountLib.Counters
             return CountWordsWorkerSegment(input);
             
         }
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public int CountWords(string text)
         {
-            
+            return CountWordsWorkerSegment(text);
         }
 
         /// <summary>
@@ -136,9 +118,23 @@ namespace AlastairLundy.WCountLib.Counters
             return totalWords;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public async Task<int> CountWordsAsync(string text)
         {
+            int totalWords = 0;
             
+            Task wordCountingTask = Task.Run(() =>
+            {
+                totalWords = CountWordsWorkerSegment(text);
+            });
+            
+            await wordCountingTask;
+            
+            return totalWords;
         }
     }
 }
