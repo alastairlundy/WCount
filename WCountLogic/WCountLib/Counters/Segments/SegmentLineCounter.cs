@@ -9,7 +9,7 @@
 
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,21 +29,15 @@ public class SegmentLineCounter : ISegmentLineCounter
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="segment"></param>
+    /// <param name="line"></param>
     /// <returns></returns>
-    private int CountLineInt32Worker(StringSegment segment)
+    private int CountLineInt32Worker(StringSegment line)
     {
-        int lineCount = 0;
+        StringSegment environmentNewLineSegment = new StringSegment(Environment.NewLine);
 
-        foreach (char c in segment.ToCharArray())
-        {
-            if (c.ToString().Equals(Environment.NewLine))
-            {
-                lineCount++;
-            }
-        }
+        StringSegment[] segments = line.Split(environmentNewLineSegment);
 
-        return lineCount;
+        return segments.Any() ? segments.Length : 0;
     }
     
     /// <summary>
