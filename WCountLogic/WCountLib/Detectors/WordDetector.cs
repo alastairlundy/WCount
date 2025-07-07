@@ -23,7 +23,7 @@ namespace AlastairLundy.WCountLib.Detectors
     {
         /// <summary>
         /// Checks to see if a string looks like a word.
-        /// Results may not be 100% accurate.
+        /// The results may not be 100% accurate.
         /// </summary>
         /// <param name="input">The string to be searched.</param>
         /// <param name="countStringsWithSpacesAsWords">Whether to count strings that contain 1 or more spaces within them as a word. Set to false by default.</param>
@@ -59,7 +59,7 @@ namespace AlastairLundy.WCountLib.Detectors
 
         /// <summary>
         /// Checks to see if a string looks like a word and doesn't contain the specified delimiters.
-        /// Results may not be 100% accurate.
+        /// The results may not be 100% accurate.
         /// </summary>
         /// <param name="s">The string to be searched.</param>
         /// <param name="delimitersToExclude">Deli</param>
