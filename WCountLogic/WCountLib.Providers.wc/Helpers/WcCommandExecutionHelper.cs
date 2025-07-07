@@ -9,7 +9,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -18,8 +17,8 @@ using System.Threading.Tasks;
 using AlastairLundy.CliInvoke.Core.Abstractions;
 using AlastairLundy.CliInvoke.Core.Builders;
 using AlastairLundy.CliInvoke.Core.Builders.Abstractions;
+
 using AlastairLundy.CliInvoke.Core.Primitives;
-using AlastairLundy.CliInvoke.Core.Primitives.Exceptions;
 using AlastairLundy.CliInvoke.Core.Primitives.Results;
 
 using AlastairLundy.DotExtensions.MsExtensions.System.Collections;
@@ -147,9 +146,7 @@ internal class WcCommandExecutionHelper
     internal async Task<int> RunInt32Async(string argument, TextReader textReader)
     {
         if (OperatingSystem.IsWindows())
-        {
             throw new PlatformNotSupportedException();
-        }
         
         string tempFile = await CreateTempFilePathAsync(textReader);
 			
@@ -163,9 +160,7 @@ internal class WcCommandExecutionHelper
     internal async Task<int> RunInt32Async(string argument, string text)
     {
         if (OperatingSystem.IsWindows())
-        {
             throw new PlatformNotSupportedException();
-        }
         
         string tempFile = await CreateTempFilePathAsync(text);
 			
