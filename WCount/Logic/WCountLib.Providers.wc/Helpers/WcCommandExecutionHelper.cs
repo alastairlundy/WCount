@@ -47,7 +47,7 @@ internal class WcCommandExecutionHelper
 #if NETSTANDARD2_1
         await
  #endif
-        using (var writer = new StreamWriter(tempFilePath))
+        using (StreamWriter writer = new StreamWriter(tempFilePath))
         {
             await writer.WriteAsync(await textReader.ReadToEndAsync());
             writer.Close();

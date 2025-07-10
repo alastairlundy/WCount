@@ -1,6 +1,6 @@
 @WCountApi_HostAddress = http://localhost:5116
 
-GET {{WCountApi_HostAddress}}/weatherforecast/
+GET {{WCountApi_HostAddress}}/WordCount/
 Accept: application/json
 
 ###

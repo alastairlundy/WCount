@@ -7,12 +7,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AlastairLundy.WCountLib" Version="3.2.2" />
-        <PackageReference Include="AlastairLundy.WCountLib.Abstractions" Version="3.2.2.1" />
-        <PackageReference Include="AlastairLundy.WCountLib.Extensions" Version="3.2.2" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.6"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.6" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.7" />
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Logic\WCountLib.Abstractions\WCountLib.Abstractions.csproj" />
+      <ProjectReference Include="..\..\Logic\WCountLib.Extensions\WCountLib.Extensions.csproj" />
+      <ProjectReference Include="..\..\Logic\WCountLib\WCountLib.csproj" />
     </ItemGroup>
 
 </Project>

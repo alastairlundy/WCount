@@ -1,6 +1,8 @@
 using System.IO;
 using System.Threading.Tasks;
+
 using AlastairLundy.WCountLib.Abstractions.Counters;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,7 +27,7 @@ namespace WCountApi.Controllers
             if(string.IsNullOrEmpty(text))
                 return BadRequest();
 
-            ulong result = await _wordCounter.CountWordsAsync(new StringReader(text));
+            int result = await _wordCounter.CountWordsAsync(text);
 
             return Ok(result);
         }
