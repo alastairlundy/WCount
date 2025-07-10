@@ -7,9 +7,9 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 using AlastairLundy.WCountLib.Abstractions.Counters;
@@ -94,15 +94,26 @@ namespace AlastairLundy.WCountLib.Counters
 			return charCount;
 		}
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="textEncodingType"></param>
+        /// <returns></returns>
+		public int CountCharacters(string text, Encoding textEncodingType)
+		{
+			return CountCharactersWorker(text, textEncodingType);
+		}
+
 		/// <summary>
 		/// Asynchronously reads from the provided TextReader and counts the total number of characters in the specified Encoding.
 		/// </summary>
 		/// <param name="textReader">The TextReader from which to count characters.</param>
 		/// <param name="textEncodingType">The Encoding type of the characters to count.</param>
 		/// <returns>The total number of characters counted.</returns>
-		public async Task<ulong> CountCharactersAsync(TextReader textReader, Encoding textEncodingType)
+		public async Task<int> CountCharactersAsync(TextReader textReader, Encoding textEncodingType)
 		{
-			ulong charCount = 0;
+			int charCount = 0;
 
 			string? latestLine;
 
@@ -112,13 +123,29 @@ namespace AlastairLundy.WCountLib.Counters
 
 				if (latestLine != null)
 				{
-                    charCount += Convert.ToUInt64(CountCharactersWorker(latestLine, textEncodingType));
+                    charCount += CountCharactersWorker(latestLine, textEncodingType);
 				}
 			}
 			while (latestLine != null);
 
 
-			return await new ValueTask<ulong>(charCount);
+			return await new ValueTask<int>(charCount);
 		}
-	}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="text"></param>
+		/// <param name="textEncodingType"></param>
+		/// <returns></returns>
+		public async Task<int> CountCharactersAsync(string text, Encoding textEncodingType)
+		{
+			Task<int> task = new Task<int>(() =>  CountCharacters(text, textEncodingType));
+			task.Start();
+
+			int result = await task.WaitAsync(CancellationToken.None);
+
+			return result;
+		}
+    }
 }

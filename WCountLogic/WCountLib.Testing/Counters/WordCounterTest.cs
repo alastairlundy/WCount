@@ -12,9 +12,9 @@ public class WordCounterTest
 
     [Theory]
     [ClassData(typeof(RealWordsTestData))]
-    public void CountWords(string words, ulong expected)
+    public void CountWords(string words, int expected)
     {
-        ulong actual = _counter.CountWords(new StringReader(words));
+        int actual = _counter.CountWords(words);
         
         Assert.Equal(expected, actual);
     }
@@ -23,8 +23,8 @@ public class WordCounterTest
     [ClassData(typeof(FakeWordsTestData))]
     public void DontCountFakeWords(string words)
     {
-        ulong actual = _counter.CountWords(new StringReader(words));
+        int actual = _counter.CountWords(words);
         
-        Assert.Equal(ulong.Parse("0"), actual);
+        Assert.Equal(0, actual);
     }   
 }

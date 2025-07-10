@@ -7,9 +7,9 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 using AlastairLundy.WCountLib.Abstractions.Counters;
@@ -92,14 +92,25 @@ namespace AlastairLundy.WCountLib.Counters
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
+        public int CountBytes(string text, Encoding encoding)
+        {
+            return CountBytesWorker(text, encoding);
+        }
+
+        /// <summary>
         /// Asynchronously reads from the provided TextReader and counts the total number of bytes in the specified Encoding.
         /// </summary>
         /// <param name="textReader">The TextReader from which to count bytes.</param>
         /// <param name="textEncoding">The Encoding type of the bytes to count.</param>
         /// <returns>The total number of bytes counted.</returns>
-        public async Task<ulong> CountBytesAsync(TextReader textReader, Encoding textEncoding)
+        public async Task<int> CountBytesAsync(TextReader textReader, Encoding textEncoding)
         {
-            ulong byteCount = 0;
+            int byteCount = 0;
 
             string? latestLine;
 
@@ -109,13 +120,24 @@ namespace AlastairLundy.WCountLib.Counters
 
                 if (latestLine != null)
                 {
-                    byteCount += Convert.ToUInt64(CountBytesWorker(latestLine, textEncoding));
+                    byteCount += CountBytesWorker(latestLine, textEncoding);
                 }
             }
             while (latestLine != null);
 
 
-            return await new ValueTask<ulong>(byteCount);
+            return await new ValueTask<int>(byteCount);
+        }
+
+        public async Task<int> CountBytesAsync(string text, Encoding encoding)
+        {
+            Task<int> task = new Task<int>(()=> CountBytesWorker(text, encoding));
+
+            task.Start();
+
+            int result = await task.WaitAsync(CancellationToken.None);
+
+            return await new ValueTask<int>(result);
         }
     }
 }

@@ -7,11 +7,14 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
 using AlastairLundy.WCountLib.Abstractions.Counters;
+
+using Microsoft.Extensions.Primitives;
 
 
 // ReSharper disable RedundantIfElseBlock
@@ -20,6 +23,23 @@ namespace AlastairLundy.WCountLib.Counters
 {
     public class LineCounter : ILineCounter
     {
+	    public int CountLines(string source)
+	    {
+		    int output = 0;
+		    StringTokenizer tokenizer = new StringTokenizer(source, [' ']);
+
+		    StringSegment environmentNewLine = new StringSegment(Environment.NewLine);
+		    
+		    foreach (StringSegment segment in tokenizer)
+		    {
+			    if (segment.Equals(environmentNewLine))
+			    {
+				    output++;
+			    }
+		    }
+		    
+		    return output;
+	    }
 
 	    /// <summary>
 	    /// Synchronously reads from the provided TextReader and counts total the number of lines.
@@ -72,5 +92,15 @@ namespace AlastairLundy.WCountLib.Counters
 
 			return await new ValueTask<int>(lineCount);
 		}
-	}
+
+	    public async Task<int> CountLinesAsync(string text)
+	    {
+		    Task<int> task = new Task<int>(() => CountLines(text));
+		    task.Start();
+
+		    int result = await task.WaitAsync(CancellationToken.None);
+		    
+		    return await new ValueTask<int>(result);
+	    }
+    }
 }

@@ -17,13 +17,13 @@ using AlastairLundy.WCountLib.Abstractions.Detectors;
 namespace AlastairLundy.WCountLib.Detectors
 {
     /// <summary>
-    /// A class to detect if strings that looks like words are words.
+    /// A class to detect if strings that look like words are words.
     /// </summary>
     public class WordDetector : IWordDetector
     {
         /// <summary>
         /// Checks to see if a string looks like a word.
-        /// Results may not be 100% accurate.
+        /// The results may not be 100% accurate.
         /// </summary>
         /// <param name="input">The string to be searched.</param>
         /// <param name="countStringsWithSpacesAsWords">Whether to count strings that contain 1 or more spaces within them as a word. Set to false by default.</param>
@@ -59,7 +59,7 @@ namespace AlastairLundy.WCountLib.Detectors
 
         /// <summary>
         /// Checks to see if a string looks like a word and doesn't contain the specified delimiters.
-        /// Results may not be 100% accurate.
+        /// The results may not be 100% accurate.
         /// </summary>
         /// <param name="s">The string to be searched.</param>
         /// <param name="delimitersToExclude">Deli</param>
@@ -73,7 +73,7 @@ namespace AlastairLundy.WCountLib.Detectors
                 return false;    
             }
 
-            if (s.ContainsAnyOf(delimitersToExclude) == true)
+            if (delimitersToExclude.Select(s.Contains).Any())
             {
                 return false;
             }

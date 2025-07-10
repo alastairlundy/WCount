@@ -15,8 +15,7 @@ using System.Threading.Tasks;
 using System.Runtime.Versioning;
 #endif
 
-using AlastairLundy.CliInvoke.Abstractions;
-using AlastairLundy.CliInvoke.Exceptions;
+using AlastairLundy.CliInvoke.Core.Abstractions;
 
 using AlastairLundy.WCountLib.Abstractions.Counters;
 using AlastairLundy.WCountLib.Providers.wc.Helpers;
@@ -30,9 +29,9 @@ public class WcWordCounter : IWordCounter
 {
 	private readonly WcCommandExecutionHelper _wcCommandExecutionHelper;
 		
-	public WcWordCounter(ICliCommandInvoker cliCommandInvoker)
+	public WcWordCounter(IProcessInvoker processInvoker)
 	{
-		_wcCommandExecutionHelper = new WcCommandExecutionHelper(cliCommandInvoker);
+		_wcCommandExecutionHelper = new WcCommandExecutionHelper(processInvoker);
 	}
 
 	/// <summary>
@@ -48,9 +47,19 @@ public class WcWordCounter : IWordCounter
 	[SupportedOSPlatform("freebsd")]
 	[UnsupportedOSPlatform("windows")]
 #endif
-	public ulong CountWords(TextReader textReader)
+	public int CountWords(TextReader textReader)
 	{
-		return _wcCommandExecutionHelper.RunUInt64("-w", textReader);
+		return _wcCommandExecutionHelper.RunInt32("-w", textReader);
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="text"></param>
+	/// <returns></returns>
+	public int CountWords(string text)
+	{
+		return _wcCommandExecutionHelper.RunInt32("-w", text);
 	}
 
 	/// <summary>
@@ -67,8 +76,18 @@ public class WcWordCounter : IWordCounter
 	[SupportedOSPlatform("freebsd")]
 	[UnsupportedOSPlatform("windows")]
 #endif
-	public async Task<ulong> CountWordsAsync(TextReader textReader)
+	public async Task<int> CountWordsAsync(TextReader textReader)
 	{
-		return await _wcCommandExecutionHelper.RunUInt64Async("-w", textReader);
+		return await _wcCommandExecutionHelper.RunInt32Async("-w", textReader);
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="text"></param>
+	/// <returns></returns>
+	public async Task<int> CountWordsAsync(string text)
+	{
+		return await _wcCommandExecutionHelper.RunInt32Async("-w", text);
 	}
 }
