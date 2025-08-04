@@ -27,11 +27,11 @@
 
   <ItemGroup>
     <PackageReference Include="AlastairLundy.CliInvoke.Core" Version="2.0.0-alpha.3" />
-    <PackageReference Include="AlastairLundy.DotExtensions.MsExtensions" Version="7.6.1" />
+    <PackageReference Include="AlastairLundy.DotExtensions.MsExtensions" Version="7.6.2" />
   </ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="PolyFill" Version="8.7.3" Condition="'$(TargetFramework)' == 'netstandard2.0' OR '$(TargetFramework)' == 'netstandard2.1'" PrivateAssets="All" />
+		<PackageReference Include="PolyFill" Version="8.7.4" Condition="'$(TargetFramework)' == 'netstandard2.0' OR '$(TargetFramework)' == 'netstandard2.1'" PrivateAssets="All" />
 	</ItemGroup>
   
   <ItemGroup>
