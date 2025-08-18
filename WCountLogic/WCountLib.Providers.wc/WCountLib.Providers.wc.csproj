@@ -27,7 +27,7 @@
 
   <ItemGroup>
     <PackageReference Include="AlastairLundy.CliInvoke.Core" Version="2.0.0-alpha.3" />
-    <PackageReference Include="AlastairLundy.DotExtensions.MsExtensions" Version="7.6.2" />
+    <PackageReference Include="AlastairLundy.DotExtensions.MsExtensions" Version="7.6.5" />
   </ItemGroup>
 
 	<ItemGroup>
