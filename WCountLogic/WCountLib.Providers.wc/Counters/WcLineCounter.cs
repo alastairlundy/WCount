@@ -10,12 +10,11 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using AlastairLundy.CliInvoke.Core;
 
 #if NET5_0_OR_GREATER
 using System.Runtime.Versioning;
 #endif
-
-using AlastairLundy.CliInvoke.Core.Abstractions;
 
 using AlastairLundy.WCountLib.Abstractions.Counters;
 using AlastairLundy.WCountLib.Providers.wc.Helpers;

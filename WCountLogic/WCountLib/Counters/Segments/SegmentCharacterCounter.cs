@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-using AlastairLundy.DotExtensions.MsExtensions.System.StringSegments;
+using AlastairLundy.DotExtensions.MsExtensions.StringSegments;
 
 using AlastairLundy.WCountLib.Abstractions.Counters.Segments;
 

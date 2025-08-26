@@ -9,14 +9,15 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AlastairLundy.CliInvoke.Core.Abstractions;
+
+using AlastairLundy.CliInvoke.Core;
 using AlastairLundy.WCountLib.Abstractions.Counters.Segments;
 
 using AlastairLundy.WCountLib.Providers.wc.Helpers;
 
 using Microsoft.Extensions.Primitives;
 
-namespace AlastairLundy.WCountLib.Providers.wc.Counters.Segments
+namespace AlastairLundy.WCountLib.Providers.wc.Counters.Segments;
 {
     /// <summary>
     /// Uses Unix's ``wc`` program for implementing Character counting in sequences of string segments.

@@ -46,7 +46,9 @@
     </ItemGroup>
     
     <ItemGroup>
-        <PackageReference Include="AlastairLundy.DotExtensions.MsExtensions" Version="7.6.5" />
+        <PackageReference Include="AlastairLundy.DotExtensions" Version="8.2.0" />
+        <PackageReference Include="AlastairLundy.DotExtensions.MsExtensions" Version="8.2.0" />
+        <PackageReference Include="AlastairLundy.EnhancedLinq.MsExtensions" Version="0.1.0.1" />
         <PackageReference Include="Microsoft.Extensions.Primitives" Version="9.0.8" />
 	</ItemGroup>
 

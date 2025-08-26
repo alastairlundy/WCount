@@ -13,9 +13,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-using AlastairLundy.DotExtensions.MsExtensions.System.StringSegments;
-
 using AlastairLundy.WCountLib.Abstractions.Counters.Segments;
+
+using EnhancedLinq.MsExtensions.StringSegments.Immediate;
 
 using Microsoft.Extensions.Primitives;
 
@@ -34,7 +34,7 @@ public class SegmentLineCounter : ISegmentLineCounter
     private int CountLineInt32Worker(StringSegment line)
     {
         StringSegment environmentNewLineSegment = new StringSegment(Environment.NewLine);
-
+        
         StringSegment[] segments = line.Split(environmentNewLineSegment);
 
         return segments.Any() ? segments.Length : 0;

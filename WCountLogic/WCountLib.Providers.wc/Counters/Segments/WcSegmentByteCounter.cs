@@ -9,9 +9,7 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AlastairLundy.CliInvoke.Core.Abstractions;
-using AlastairLundy.DotExtensions.MsExtensions.System.Collections;
-
+using AlastairLundy.CliInvoke.Core;
 using AlastairLundy.WCountLib.Abstractions.Counters.Segments;
 using AlastairLundy.WCountLib.Providers.wc.Helpers;
 using Microsoft.Extensions.Primitives;

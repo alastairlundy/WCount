@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 using System.Runtime.Versioning;
 #endif
 
-using AlastairLundy.CliInvoke.Core.Abstractions;
+using AlastairLundy.CliInvoke.Core;
 
 using AlastairLundy.WCountLib.Abstractions.Counters;
 using AlastairLundy.WCountLib.Providers.wc.Helpers;

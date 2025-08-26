@@ -10,7 +10,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using AlastairLundy.DotExtensions.MsExtensions.System.StringSegments;
+using AlastairLundy.DotExtensions.MsExtensions.StringSegments;
 using AlastairLundy.DotExtensions.Strings;
 
 using AlastairLundy.WCountLib.Abstractions.Detectors.Segments;
