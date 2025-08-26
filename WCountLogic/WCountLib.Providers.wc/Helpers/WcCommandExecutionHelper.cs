@@ -19,8 +19,6 @@ using AlastairLundy.CliInvoke.Core.Builders;
 
 using AlastairLundy.CliInvoke.Core.Primitives;
 
-using Microsoft.Extensions.Primitives;
-
 namespace AlastairLundy.WCountLib.Providers.wc.Helpers;
 
 internal class WcCommandExecutionHelper
@@ -46,11 +44,6 @@ internal class WcCommandExecutionHelper
         _tempFilePath = string.Empty;
         _processInvoker = processInvoker;
     }
-
-    internal string GetSegmentsToString(IEnumerable<StringSegment> segments)
-    {
-        return string.Join(' ', segments);
-    }
     
     private async Task<BufferedProcessResult> ExecuteAsync(string argument, string tempFileName)
     {
@@ -60,11 +53,11 @@ internal class WcCommandExecutionHelper
         
         ProcessConfiguration processConfiguration = processConfigurationBuilder.Build();
         
-        File.Delete(_tempFilePath);
-        
         BufferedProcessResult result = await _processInvoker.
             ExecuteBufferedAsync(processConfiguration, ProcessExitInfo.Default, CancellationToken.None);
 
+        File.Delete(_tempFilePath);
+        
         return result;
     }
     

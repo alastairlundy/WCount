@@ -10,7 +10,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AlastairLundy.CliInvoke.Core;
-
+using AlastairLundy.DotExtensions.MsExtensions.StringSegments.Collections;
 using AlastairLundy.WCountLib.Abstractions.Counters.Segments;
 
 using AlastairLundy.WCountLib.Providers.wc.Helpers;
@@ -42,7 +42,7 @@ public class WcSegmentLineCounter : ISegmentLineCounter
     /// <returns>The total number of lines as a signed 32-bit integer.</returns>
     public int CountLines(IEnumerable<StringSegment> segments)
     {
-        return _wcCommandExecutionHelper.RunInt32("-l", _wcCommandExecutionHelper.GetSegmentsToString(segments));
+        return _wcCommandExecutionHelper.RunInt32("-l", segments.ToString(' '));
     }
         
     /// <summary>
@@ -52,6 +52,6 @@ public class WcSegmentLineCounter : ISegmentLineCounter
     /// <returns>The total number of lines as a signed 32-bit integer.</returns>
     public async Task<int> CountLinesAsync(IEnumerable<StringSegment> segments)
     {
-        return await _wcCommandExecutionHelper.RunInt32Async("-l", _wcCommandExecutionHelper.GetSegmentsToString(segments));
+        return await _wcCommandExecutionHelper.RunInt32Async("-l", segments.ToString(' '));
     }
 }

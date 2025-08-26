@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using AlastairLundy.CliInvoke.Core;
+using AlastairLundy.DotExtensions.MsExtensions.StringSegments.Collections;
 using AlastairLundy.WCountLib.Abstractions.Counters.Segments;
 
 using AlastairLundy.WCountLib.Providers.wc.Helpers;
@@ -42,7 +43,7 @@ public class WcSegmentCharacterCounter : ISegmentCharacterCounter
     /// <returns>The total number of characters as a signed 32-bit integer.</returns>
     public int CountCharacters(IEnumerable<StringSegment> segments)
     {
-        return _wcCommandExecutionHelper.RunInt32("-m", _wcCommandExecutionHelper.GetSegmentsToString(segments));
+        return _wcCommandExecutionHelper.RunInt32("-m", segments.ToString(' '));
     }
         
     /// <summary>
@@ -52,7 +53,7 @@ public class WcSegmentCharacterCounter : ISegmentCharacterCounter
     /// <returns>The total number of characters as a signed 32-bit integer.</returns>
     public async Task<int> CountCharactersAsync(IEnumerable<StringSegment> segments)
     {
-        return await _wcCommandExecutionHelper.RunInt32Async("-m", _wcCommandExecutionHelper.GetSegmentsToString(segments));
+        return await _wcCommandExecutionHelper.RunInt32Async("-m", segments.ToString(' '));
     }
         
 }

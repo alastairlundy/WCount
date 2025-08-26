@@ -31,6 +31,7 @@
   </ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="AlastairLundy.DotExtensions.MsExtensions" Version="8.2.0" />
 		<PackageReference Include="PolyFill" Version="8.8.0" Condition="'$(TargetFramework)' == 'netstandard2.0' OR '$(TargetFramework)' == 'netstandard2.1'" PrivateAssets="All" />
 	</ItemGroup>
   
