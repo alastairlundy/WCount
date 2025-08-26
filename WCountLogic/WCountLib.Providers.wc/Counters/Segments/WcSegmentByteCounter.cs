@@ -14,43 +14,42 @@ using AlastairLundy.WCountLib.Abstractions.Counters.Segments;
 using AlastairLundy.WCountLib.Providers.wc.Helpers;
 using Microsoft.Extensions.Primitives;
 
-namespace AlastairLundy.WCountLib.Providers.wc.Counters.Segments
+namespace AlastairLundy.WCountLib.Providers.wc.Counters.Segments;
+
+/// <summary>
+/// Uses Unix's ``wc`` program for implementing Byte counting in sequences of string segments.
+/// </summary>
+public class WcSegmentByteCounter : ISegmentByteCounter
 {
+    private readonly WcCommandExecutionHelper _wcCommandExecutionHelper;
+
     /// <summary>
-    /// Uses Unix's ``wc`` program for implementing Byte counting in sequences of string segments.
+    /// Initializes a new instance of the WcSegmentByteCounter class.
     /// </summary>
-    public class WcSegmentByteCounter : ISegmentByteCounter
+    /// <param name="processInvoker">The ICliCommandInvoker to be used to execute the ``wc``program.</param>
+    public WcSegmentByteCounter(IProcessInvoker processInvoker)
     {
-        private readonly WcCommandExecutionHelper _wcCommandExecutionHelper;
-
-        /// <summary>
-        /// Initializes a new instance of the WcSegmentByteCounter class.
-        /// </summary>
-        /// <param name="processInvoker">The ICliCommandInvoker to be used to execute the ``wc``program.</param>
-        public WcSegmentByteCounter(IProcessInvoker processInvoker)
-        {
-            _wcCommandExecutionHelper = new WcCommandExecutionHelper(processInvoker);
-        }
+        _wcCommandExecutionHelper = new WcCommandExecutionHelper(processInvoker);
+    }
     
-        /// <summary>
-        /// Counts the total number of bytes in a sequence of string segments.
-        /// </summary>
-        /// <param name="segments">A sequence of StringSegment objects.</param>
-        /// <returns>The total number of bytes as a signed 32-bit integer.</returns>
-        public int CountBytes(IEnumerable<StringSegment> segments)
-        {
-            return _wcCommandExecutionHelper.RunInt32("-c", _wcCommandExecutionHelper.GetSegmentsToTextReader(segments));
+    /// <summary>
+    /// Counts the total number of bytes in a sequence of string segments.
+    /// </summary>
+    /// <param name="segments">A sequence of StringSegment objects.</param>
+    /// <returns>The total number of bytes as a signed 32-bit integer.</returns>
+    public int CountBytes(IEnumerable<StringSegment> segments)
+    {
+        return _wcCommandExecutionHelper.RunInt32("-c", _wcCommandExecutionHelper.GetSegmentsToTextReader(segments));
 
-        }
+    }
 
-        /// <summary>
-        /// Counts the total number of bytes in a sequence of string segments.
-        /// </summary>
-        /// <param name="segments">A sequence of StringSegment objects.</param>
-        /// <returns>The total number of bytes.</returns>
-        public async Task<int> CountBytesAsync(IEnumerable<StringSegment> segments)
-        {
-            return await _wcCommandExecutionHelper.RunInt32Async("-c", _wcCommandExecutionHelper.GetSegmentsToTextReader(segments));
-        }
+    /// <summary>
+    /// Counts the total number of bytes in a sequence of string segments.
+    /// </summary>
+    /// <param name="segments">A sequence of StringSegment objects.</param>
+    /// <returns>The total number of bytes.</returns>
+    public async Task<int> CountBytesAsync(IEnumerable<StringSegment> segments)
+    {
+        return await _wcCommandExecutionHelper.RunInt32Async("-c", _wcCommandExecutionHelper.GetSegmentsToTextReader(segments));
     }
 }

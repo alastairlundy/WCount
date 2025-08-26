@@ -13,13 +13,11 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
-using AlastairLundy.CliInvoke.Core.Abstractions;
+using AlastairLundy.CliInvoke.Builders;
+using AlastairLundy.CliInvoke.Core;
 using AlastairLundy.CliInvoke.Core.Builders;
-using AlastairLundy.CliInvoke.Core.Builders.Abstractions;
 
 using AlastairLundy.CliInvoke.Core.Primitives;
-using AlastairLundy.CliInvoke.Core.Primitives.Results;
 
 using AlastairLundy.DotExtensions.MsExtensions.System.Collections;
 
@@ -88,15 +86,14 @@ internal class WcCommandExecutionHelper
     {
         IProcessConfigurationBuilder processConfigurationBuilder = new ProcessConfigurationBuilder(
                 "/usr/bin/wc")
-                .WithArguments($"{argument}, {tempFileName}")
-            .WithValidation(ProcessResultValidation.ExitCodeZero);
+            .WithArguments($"{argument}, {tempFileName}");
         
         ProcessConfiguration processConfiguration = processConfigurationBuilder.Build();
         
         File.Delete(_tempFilePath);
         
         BufferedProcessResult result = await _processInvoker.
-            ExecuteBufferedProcessAsync(processConfiguration, CancellationToken.None);
+            ExecuteBufferedAsync(processConfiguration, ProcessExitInfo.Default, CancellationToken.None);
 
         return result;
     }
