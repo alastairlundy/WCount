@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace AlastairLundy.WCountLib.Abstractions.Counters;
 
 /// <summary>
-/// Represents a service that counts the number of lines in TextReaders.
+/// Represents a service that counts the number of lines in strings.
 /// </summary>
 /// <remarks>
 /// <para>Implementing classes should be stateless and avoid containing any properties or fields that aren't related to configurations or settings for line counting.</para>
@@ -22,30 +22,16 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters;
 public interface ILineCounter
 {
     /// <summary>
-    /// 
+    /// Synchronously reads from the provided string and counts total the number of lines.
     /// </summary>
-    /// <param name="source"></param>
-    /// <returns></returns>
+    /// <param name="source">The string from which to count lines.</param>
+    /// <returns>The total number of lines counted.</returns>
     int CountLines(string source);
-        
-    /// <summary>
-    /// Synchronously reads from the provided TextReader and counts total the number of lines.
-    /// </summary>
-    /// <param name="textReader">The TextReader from which to count lines.</param>
-    /// <returns>The total number of lines counted.</returns>
-    int CountLines(TextReader textReader);
-        
-    /// <summary>
-    /// Asynchronously reads from the provided TextReader and counts the total number of lines.
-    /// </summary>
-    /// <param name="textReader">The TextReader from which to count lines.</param>
-    /// <returns>The total number of lines counted.</returns>
-    Task<int> CountLinesAsync(TextReader textReader);
     
     /// <summary>
-    /// 
+    /// Asynchronously reads from the provided string and counts the total number of lines.
     /// </summary>
-    /// <param name="text"></param>
-    /// <returns></returns>
-    Task<int> CountLinesAsync(string text);
+    /// <param name="source">The string from which to count lines.</param>
+    /// <returns>The total number of lines counted.</returns>
+    Task<int> CountLinesAsync(string source);
 }
