@@ -12,10 +12,8 @@ using System.IO;
 using System.Threading.Tasks;
 using AlastairLundy.CliInvoke.Core;
 
-#if NET5_0_OR_GREATER
 using System.Runtime.Versioning;
-#endif
-
+using AlastairLundy.CliInvoke.Exceptions;
 using AlastairLundy.WCountLib.Abstractions.Counters;
 using AlastairLundy.WCountLib.Providers.wc.Helpers;
 
@@ -34,24 +32,6 @@ public class WcWordCounter : IWordCounter
 	}
 
 	/// <summary>
-	/// Synchronously reads from the provided TextReader  and uses the Unix ``wc`` program to count the total number of words.
-	/// </summary>
-	/// <param name="textReader">The TextReader from which to count words.</param>
-	/// <returns>The total number of words counted.</returns>
-	/// <exception cref="PlatformNotSupportedException">Thrown if run on a platform that doesn't support the Unix ``wc`` command (such as Windows).</exception>
-#if NET5_0_OR_GREATER
-	[SupportedOSPlatform("linux")]
-	[SupportedOSPlatform("macos")]
-	[SupportedOSPlatform("maccatalyst")]
-	[SupportedOSPlatform("freebsd")]
-	[UnsupportedOSPlatform("windows")]
-#endif
-	public int CountWords(TextReader textReader)
-	{
-		return _wcCommandExecutionHelper.RunInt32("-w", textReader);
-	}
-
-	/// <summary>
 	/// 
 	/// </summary>
 	/// <param name="text"></param>
@@ -59,25 +39,6 @@ public class WcWordCounter : IWordCounter
 	public int CountWords(string text)
 	{
 		return _wcCommandExecutionHelper.RunInt32("-w", text);
-	}
-
-	/// <summary>
-	/// Asynchronously reads from the provided TextReader and uses the Unix ``wc`` program to count the total number of words.
-	/// </summary>
-	/// <param name="textReader">The TextReader from which to count words.</param>
-	/// <returns>The total number of words counted.</returns>
-	/// <exception cref="PlatformNotSupportedException">Thrown if run on a platform that doesn't support the Unix ``wc`` command (such as Windows).</exception>
-	/// <exception cref="CliCommandNotSuccessfulException">Thrown if the Command is not successfully executed.</exception>
-#if NET5_0_OR_GREATER
-	[SupportedOSPlatform("linux")]
-	[SupportedOSPlatform("macos")]
-	[SupportedOSPlatform("maccatalyst")]
-	[SupportedOSPlatform("freebsd")]
-	[UnsupportedOSPlatform("windows")]
-#endif
-	public async Task<int> CountWordsAsync(TextReader textReader)
-	{
-		return await _wcCommandExecutionHelper.RunInt32Async("-w", textReader);
 	}
 
 	/// <summary>

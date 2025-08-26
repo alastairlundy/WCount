@@ -12,9 +12,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-#if NET5_0_OR_GREATER
 using System.Runtime.Versioning;
-#endif
 
 using AlastairLundy.CliInvoke.Core;
 
@@ -38,25 +36,6 @@ public class WcByteCounter : IByteCounter
     {
         _wcCommandExecutionHelper = new WcCommandExecutionHelper(processInvoker);
     }
-    
-    /// <summary>
-    /// Synchronously reads from the provided TextReader and counts total the number of bytes in the specified Encoding.
-    /// </summary>
-    /// <param name="textReader">The TextReader from which to count bytes.</param>
-    /// <param name="textEncodingType">The Encoding type of the bytes to count.</param>
-    /// <returns>The total number of bytes counted.</returns>
-    /// <exception cref="PlatformNotSupportedException">Thrown if run on a platform that doesn't support the Unix ``wc`` command (such as Windows).</exception>
-#if NET5_0_OR_GREATER
-    [SupportedOSPlatform("linux")]
-    [SupportedOSPlatform("macos")]
-    [SupportedOSPlatform("maccatalyst")]
-    [SupportedOSPlatform("freebsd")]
-    [UnsupportedOSPlatform("windows")]
-#endif
-    public int CountBytes(TextReader textReader, Encoding textEncodingType)
-    {
-        return _wcCommandExecutionHelper.RunInt32("-c", textReader);
-    }
 
     /// <summary>
     /// 
@@ -68,26 +47,7 @@ public class WcByteCounter : IByteCounter
     {
         return _wcCommandExecutionHelper.RunInt32("-c", text);
     }
-
-    /// <summary>
-    /// Asynchronously reads from the provided TextReader and uses the Unix ``wc`` program to count the total number of bytes in the specified Encoding.
-    /// </summary>
-    /// <param name="textReader">The TextReader from which to count bytes.</param>
-    /// <param name="textEncodingType">The Encoding type of the bytes to count.</param>
-    /// <returns>The total number of bytes counted.</returns>
-    /// <exception cref="PlatformNotSupportedException">Thrown if run on a platform that doesn't support the Unix ``wc`` command (such as Windows).</exception>
-#if NET5_0_OR_GREATER
-    [SupportedOSPlatform("linux")]
-    [SupportedOSPlatform("macos")]
-    [SupportedOSPlatform("maccatalyst")]
-    [SupportedOSPlatform("freebsd")]
-    [UnsupportedOSPlatform("windows")]
-#endif
-    public async Task<int> CountBytesAsync(TextReader textReader, Encoding textEncodingType)
-    {
-       return await _wcCommandExecutionHelper.RunInt32Async("-c", textReader);
-    }
-
+    
     /// <summary>
     /// 
     /// </summary>

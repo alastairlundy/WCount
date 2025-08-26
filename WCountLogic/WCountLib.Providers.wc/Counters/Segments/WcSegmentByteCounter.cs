@@ -10,8 +10,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AlastairLundy.CliInvoke.Core;
+
 using AlastairLundy.WCountLib.Abstractions.Counters.Segments;
 using AlastairLundy.WCountLib.Providers.wc.Helpers;
+
 using Microsoft.Extensions.Primitives;
 
 namespace AlastairLundy.WCountLib.Providers.wc.Counters.Segments;
@@ -39,7 +41,7 @@ public class WcSegmentByteCounter : ISegmentByteCounter
     /// <returns>The total number of bytes as a signed 32-bit integer.</returns>
     public int CountBytes(IEnumerable<StringSegment> segments)
     {
-        return _wcCommandExecutionHelper.RunInt32("-c", _wcCommandExecutionHelper.GetSegmentsToTextReader(segments));
+        return _wcCommandExecutionHelper.RunInt32("-c", _wcCommandExecutionHelper.GetSegmentsToString(segments));
 
     }
 
@@ -50,6 +52,6 @@ public class WcSegmentByteCounter : ISegmentByteCounter
     /// <returns>The total number of bytes.</returns>
     public async Task<int> CountBytesAsync(IEnumerable<StringSegment> segments)
     {
-        return await _wcCommandExecutionHelper.RunInt32Async("-c", _wcCommandExecutionHelper.GetSegmentsToTextReader(segments));
+        return await _wcCommandExecutionHelper.RunInt32Async("-c", _wcCommandExecutionHelper.GetSegmentsToString(segments));
     }
 }

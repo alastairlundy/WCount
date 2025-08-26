@@ -10,6 +10,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AlastairLundy.CliInvoke.Core;
+
 using AlastairLundy.WCountLib.Abstractions.Counters.Segments;
 
 using AlastairLundy.WCountLib.Providers.wc.Helpers;
@@ -41,7 +42,7 @@ public class WcSegmentWordCounter : ISegmentWordCounter
     /// <returns></returns>
     public int CountWords(IEnumerable<StringSegment> segments)
     {
-        return _wcCommandExecutionHelper.RunInt32("-w", _wcCommandExecutionHelper.GetSegmentsToTextReader(segments));
+        return _wcCommandExecutionHelper.RunInt32("-w", _wcCommandExecutionHelper.GetSegmentsToString(segments));
     }
 
     /// <summary>
@@ -51,6 +52,6 @@ public class WcSegmentWordCounter : ISegmentWordCounter
     /// <returns></returns>
     public async Task<int> CountWordsAsync(IEnumerable<StringSegment> segments)
     {
-        return await _wcCommandExecutionHelper.RunInt32Async("-w", _wcCommandExecutionHelper.GetSegmentsToTextReader(segments));
+        return await _wcCommandExecutionHelper.RunInt32Async("-w", _wcCommandExecutionHelper.GetSegmentsToString(segments));
     }
 }

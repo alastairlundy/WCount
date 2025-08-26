@@ -19,13 +19,7 @@ using AlastairLundy.CliInvoke.Core.Builders;
 
 using AlastairLundy.CliInvoke.Core.Primitives;
 
-using AlastairLundy.DotExtensions.MsExtensions.System.Collections;
-
 using Microsoft.Extensions.Primitives;
-
-#if NETSTANDARD2_0 || NETSTANDARD2_1
-using OperatingSystem = Polyfills.OperatingSystemPolyfill;
-#endif
 
 namespace AlastairLundy.WCountLib.Providers.wc.Helpers;
 
@@ -35,25 +29,6 @@ internal class WcCommandExecutionHelper
     
     private string _tempFilePath;
     
-    private async Task<string> CreateTempFilePathAsync(TextReader textReader)
-    {
-        string tempFilePath = Path.GetTempFileName();
-        tempFilePath = Path.ChangeExtension(tempFilePath, ".txt");
-        
-        _tempFilePath = tempFilePath;
-
-#if NETSTANDARD2_1
-        await
- #endif
-        using (var writer = new StreamWriter(tempFilePath))
-        {
-            await writer.WriteAsync(await textReader.ReadToEndAsync());
-            writer.Close();
-        }
-        
-        return tempFilePath;
-    }
-    
     private async Task<string> CreateTempFilePathAsync(string text)
     {
         string tempFilePath = Path.GetTempFileName();
@@ -61,13 +36,8 @@ internal class WcCommandExecutionHelper
         
         _tempFilePath = tempFilePath;
         
-#if NETSTANDARD2_1 || NET5_0_OR_GREATER
         await File.WriteAllTextAsync(tempFilePath, text);
-#else
-        await FilePolyfill.WriteAllTextAsync(tempFilePath, text);
-#endif
         
-
         return tempFilePath;
     }
     
@@ -77,9 +47,9 @@ internal class WcCommandExecutionHelper
         _processInvoker = processInvoker;
     }
 
-    internal TextReader GetSegmentsToTextReader(IEnumerable<StringSegment> segments)
+    internal string GetSegmentsToString(IEnumerable<StringSegment> segments)
     {
-        return new StringReader(segments.ToString(' '));
+        return string.Join(' ', segments);
     }
     
     private async Task<BufferedProcessResult> ExecuteAsync(string argument, string tempFileName)
@@ -98,28 +68,6 @@ internal class WcCommandExecutionHelper
         return result;
     }
     
-    internal int RunInt32(string argument, TextReader textReader)
-    {
-        if (OperatingSystem.IsWindows())
-        {
-            throw new PlatformNotSupportedException();
-        }
-
-        Task<string> tempFile = CreateTempFilePathAsync(textReader);
-        tempFile.Start();
-        tempFile.Wait();
-
-        Task<BufferedProcessResult> resultTask =  ExecuteAsync(argument, tempFile.Result);
-			
-        resultTask.Start();
-
-        resultTask.Wait();
-
-        string resultString = resultTask.Result.StandardOutput.Split(' ').First();
-
-        return int.Parse(resultString);
-    }
-    
     internal int RunInt32(string argument, string text)
     {
         if (OperatingSystem.IsWindows())
@@ -136,20 +84,6 @@ internal class WcCommandExecutionHelper
         resultTask.Wait();
 
         string resultString = resultTask.Result.StandardOutput.Split(' ').First();
-
-        return int.Parse(resultString);
-    }
-  
-    internal async Task<int> RunInt32Async(string argument, TextReader textReader)
-    {
-        if (OperatingSystem.IsWindows())
-            throw new PlatformNotSupportedException();
-        
-        string tempFile = await CreateTempFilePathAsync(textReader);
-			
-        BufferedProcessResult result = await ExecuteAsync(argument, tempFile);
-
-        string resultString = result.StandardOutput.Split(' ').First();
 
         return int.Parse(resultString);
     }
