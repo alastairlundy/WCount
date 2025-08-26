@@ -16,128 +16,127 @@ using AlastairLundy.WCountLib.Abstractions.Counters;
 
 // ReSharper disable RedundantIfElseBlock
 
-namespace AlastairLundy.WCountLib.Counters
+namespace AlastairLundy.WCountLib.Counters;
+
+public class ByteCounter : IByteCounter
 {
-    public class ByteCounter : IByteCounter
+    /// <summary>
+    /// Gets the number of bytes in a string.
+    /// </summary>
+    /// <param name="s">The string to be searched.</param>
+    /// <param name="textEncodingType">The type of encoding to use to decode the bytes.</param>
+    /// <returns>the number of bytes in the string.</returns>
+    protected int CountBytesWorker(string s, Encoding textEncodingType)
     {
-        /// <summary>
-        /// Gets the number of bytes in a string.
-        /// </summary>
-        /// <param name="s">The string to be searched.</param>
-        /// <param name="textEncodingType">The type of encoding to use to decode the bytes.</param>
-        /// <returns>the number of bytes in the string.</returns>
-        protected int CountBytesWorker(string s, Encoding textEncodingType)
-        {
-            int byteCount;
+        int byteCount;
 
-            if (Equals(textEncodingType, Encoding.Unicode))
-            {
-                byteCount = Encoding.Unicode.GetByteCount(s);
-            }
-            else if (Equals(textEncodingType, Encoding.UTF32))
-            {
-                byteCount = Encoding.UTF32.GetByteCount(s);
-            }
-            else if (Equals(textEncodingType, Encoding.UTF8))
-            {
-                byteCount = Encoding.UTF8.GetByteCount(s);
-            }
-            else if (Equals(textEncodingType, Encoding.ASCII))
-            {
-                byteCount = Encoding.ASCII.GetByteCount(s);
-            }
-            else if (Equals(textEncodingType, Encoding.BigEndianUnicode))
-            {
-                byteCount = Encoding.BigEndianUnicode.GetByteCount(s);
-            }
+        if (Equals(textEncodingType, Encoding.Unicode))
+        {
+            byteCount = Encoding.Unicode.GetByteCount(s);
+        }
+        else if (Equals(textEncodingType, Encoding.UTF32))
+        {
+            byteCount = Encoding.UTF32.GetByteCount(s);
+        }
+        else if (Equals(textEncodingType, Encoding.UTF8))
+        {
+            byteCount = Encoding.UTF8.GetByteCount(s);
+        }
+        else if (Equals(textEncodingType, Encoding.ASCII))
+        {
+            byteCount = Encoding.ASCII.GetByteCount(s);
+        }
+        else if (Equals(textEncodingType, Encoding.BigEndianUnicode))
+        {
+            byteCount = Encoding.BigEndianUnicode.GetByteCount(s);
+        }
 #if NET8_0_OR_GREATER
-            else if (Equals(textEncodingType, Encoding.Latin1))
-            {
-                byteCount = Encoding.Latin1.GetByteCount(s);
-            }
+        else if (Equals(textEncodingType, Encoding.Latin1))
+        {
+            byteCount = Encoding.Latin1.GetByteCount(s);
+        }
 #endif
-            else
+        else
+        {
+            byteCount = Encoding.Default.GetByteCount(s);
+        }
+
+        return byteCount;
+    }
+
+    /// <summary>
+    /// Synchronously reads from the provided TextReader and counts total the number of bytes in the specified Encoding.
+    /// </summary>
+    /// <param name="textReader">The TextReader from which to count bytes.</param>
+    /// <param name="textEncoding">The Encoding type of the bytes to count.</param>
+    /// <returns>The total number of bytes counted.</returns>
+    public int CountBytes(TextReader textReader, Encoding textEncoding)
+    {
+        int byteCount = 0;
+
+        string? latestLine;
+
+        do
+        {
+            latestLine = textReader.ReadLine();
+
+            if (latestLine != null)
             {
-                byteCount = Encoding.Default.GetByteCount(s);
+                byteCount += CountBytesWorker(latestLine, textEncoding);
             }
-
-            return byteCount;
         }
+        while (latestLine != null);
 
-        /// <summary>
-        /// Synchronously reads from the provided TextReader and counts total the number of bytes in the specified Encoding.
-        /// </summary>
-        /// <param name="textReader">The TextReader from which to count bytes.</param>
-        /// <param name="textEncoding">The Encoding type of the bytes to count.</param>
-        /// <returns>The total number of bytes counted.</returns>
-        public int CountBytes(TextReader textReader, Encoding textEncoding)
+
+        return byteCount;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="text"></param>
+    /// <param name="encoding"></param>
+    /// <returns></returns>
+    public int CountBytes(string text, Encoding encoding)
+    {
+        return CountBytesWorker(text, encoding);
+    }
+
+    /// <summary>
+    /// Asynchronously reads from the provided TextReader and counts the total number of bytes in the specified Encoding.
+    /// </summary>
+    /// <param name="textReader">The TextReader from which to count bytes.</param>
+    /// <param name="textEncoding">The Encoding type of the bytes to count.</param>
+    /// <returns>The total number of bytes counted.</returns>
+    public async Task<int> CountBytesAsync(TextReader textReader, Encoding textEncoding)
+    {
+        int byteCount = 0;
+
+        string? latestLine;
+
+        do
         {
-            int byteCount = 0;
+            latestLine = await textReader.ReadLineAsync();
 
-            string? latestLine;
-
-            do
+            if (latestLine != null)
             {
-                latestLine = textReader.ReadLine();
-
-                if (latestLine != null)
-                {
-                    byteCount += CountBytesWorker(latestLine, textEncoding);
-                }
+                byteCount += CountBytesWorker(latestLine, textEncoding);
             }
-            while (latestLine != null);
-
-
-            return byteCount;
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="text"></param>
-        /// <param name="encoding"></param>
-        /// <returns></returns>
-        public int CountBytes(string text, Encoding encoding)
-        {
-            return CountBytesWorker(text, encoding);
-        }
-
-        /// <summary>
-        /// Asynchronously reads from the provided TextReader and counts the total number of bytes in the specified Encoding.
-        /// </summary>
-        /// <param name="textReader">The TextReader from which to count bytes.</param>
-        /// <param name="textEncoding">The Encoding type of the bytes to count.</param>
-        /// <returns>The total number of bytes counted.</returns>
-        public async Task<int> CountBytesAsync(TextReader textReader, Encoding textEncoding)
-        {
-            int byteCount = 0;
-
-            string? latestLine;
-
-            do
-            {
-                latestLine = await textReader.ReadLineAsync();
-
-                if (latestLine != null)
-                {
-                    byteCount += CountBytesWorker(latestLine, textEncoding);
-                }
-            }
-            while (latestLine != null);
+        while (latestLine != null);
 
 
-            return await new ValueTask<int>(byteCount);
-        }
+        return await new ValueTask<int>(byteCount);
+    }
 
-        public async Task<int> CountBytesAsync(string text, Encoding encoding)
-        {
-            Task<int> task = new Task<int>(()=> CountBytesWorker(text, encoding));
+    public async Task<int> CountBytesAsync(string text, Encoding encoding)
+    {
+        Task<int> task = new Task<int>(()=> CountBytesWorker(text, encoding));
 
-            task.Start();
+        task.Start();
 
-            int result = await task.WaitAsync(CancellationToken.None);
+        int result = await task.WaitAsync(CancellationToken.None);
 
-            return await new ValueTask<int>(result);
-        }
+        return await new ValueTask<int>(result);
     }
 }

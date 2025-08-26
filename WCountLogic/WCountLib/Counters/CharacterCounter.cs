@@ -17,135 +17,134 @@ using AlastairLundy.WCountLib.Abstractions.Counters;
 
 // ReSharper disable RedundantIfElseBlock
 
-namespace AlastairLundy.WCountLib.Counters
+namespace AlastairLundy.WCountLib.Counters;
+
+public class CharacterCounter : ICharacterCounter
 {
-    public class CharacterCounter : ICharacterCounter
-    {
-        /// <summary>
-        /// Get the number of characters in a string.
-        /// </summary>
-        /// <param name="s">The string to be searched.</param>
-        /// <param name="textEncodingType">The encoding type to use to count characters.</param>
-        /// <returns>the number of characters in a string.</returns>
-        protected int CountCharactersWorker(string s, Encoding textEncodingType)
-        {
-            int totalChars;
+	/// <summary>
+	/// Get the number of characters in a string.
+	/// </summary>
+	/// <param name="s">The string to be searched.</param>
+	/// <param name="textEncodingType">The encoding type to use to count characters.</param>
+	/// <returns>the number of characters in a string.</returns>
+	protected int CountCharactersWorker(string s, Encoding textEncodingType)
+	{
+		int totalChars;
 
-            byte[] bytes = textEncodingType.GetBytes(s.ToCharArray());
+		byte[] bytes = textEncodingType.GetBytes(s.ToCharArray());
 
-            if (Equals(textEncodingType, Encoding.Unicode))
-            {
-                totalChars = Encoding.Unicode.GetCharCount(bytes);
-            }
-            else if (Equals(textEncodingType, Encoding.UTF32))
-            {
-                totalChars = Encoding.UTF32.GetCharCount(bytes);
-            }
-            else if (Equals(textEncodingType, Encoding.UTF8))
-            {
-                totalChars = Encoding.UTF8.GetCharCount(bytes);
-            }
-            else if (Equals(textEncodingType, Encoding.ASCII))
-            {
-                totalChars = Encoding.ASCII.GetCharCount(bytes);
-            }
-            else if (Equals(textEncodingType, Encoding.BigEndianUnicode))
-            {
-                totalChars = Encoding.BigEndianUnicode.GetCharCount(bytes);
-            }
+		if (Equals(textEncodingType, Encoding.Unicode))
+		{
+			totalChars = Encoding.Unicode.GetCharCount(bytes);
+		}
+		else if (Equals(textEncodingType, Encoding.UTF32))
+		{
+			totalChars = Encoding.UTF32.GetCharCount(bytes);
+		}
+		else if (Equals(textEncodingType, Encoding.UTF8))
+		{
+			totalChars = Encoding.UTF8.GetCharCount(bytes);
+		}
+		else if (Equals(textEncodingType, Encoding.ASCII))
+		{
+			totalChars = Encoding.ASCII.GetCharCount(bytes);
+		}
+		else if (Equals(textEncodingType, Encoding.BigEndianUnicode))
+		{
+			totalChars = Encoding.BigEndianUnicode.GetCharCount(bytes);
+		}
 #if NET8_0_OR_GREATER
-            else if (Equals(textEncodingType, Encoding.Latin1))
-            {
-                totalChars = Encoding.Latin1.GetCharCount(bytes);
-            }
+		else if (Equals(textEncodingType, Encoding.Latin1))
+		{
+			totalChars = Encoding.Latin1.GetCharCount(bytes);
+		}
 #endif
-            else
-            {
-                totalChars = Encoding.Default.GetCharCount(bytes);
-            }
-
-            return totalChars;
-        }
-
-        /// <summary>
-        /// Synchronously reads from the provided TextReader and counts total the number of characters in the specified Encoding.
-        /// </summary>
-        /// <param name="textReader">The TextReader from which to count characters.</param>
-        /// <param name="textEncodingType">The Encoding type of the characters to count.</param>
-        /// <returns>The total number of characters counted.</returns>
-		public int CountCharacters(TextReader textReader, Encoding textEncodingType)
+		else
 		{
-            int charCount = 0;
+			totalChars = Encoding.Default.GetCharCount(bytes);
+		}
 
-			string? latestLine;
+		return totalChars;
+	}
 
-			do
+	/// <summary>
+	/// Synchronously reads from the provided TextReader and counts total the number of characters in the specified Encoding.
+	/// </summary>
+	/// <param name="textReader">The TextReader from which to count characters.</param>
+	/// <param name="textEncodingType">The Encoding type of the characters to count.</param>
+	/// <returns>The total number of characters counted.</returns>
+	public int CountCharacters(TextReader textReader, Encoding textEncodingType)
+	{
+		int charCount = 0;
+
+		string? latestLine;
+
+		do
+		{
+			latestLine = textReader.ReadLine();
+
+			if (latestLine != null)
 			{
-				latestLine = textReader.ReadLine();
-
-				if (latestLine != null)
-				{
-					charCount += CountCharactersWorker(latestLine, textEncodingType);
-				}
+				charCount += CountCharactersWorker(latestLine, textEncodingType);
 			}
-			while (latestLine != null);
-
-
-			return charCount;
 		}
+		while (latestLine != null);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="text"></param>
-        /// <param name="textEncodingType"></param>
-        /// <returns></returns>
-		public int CountCharacters(string text, Encoding textEncodingType)
+
+		return charCount;
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="text"></param>
+	/// <param name="textEncodingType"></param>
+	/// <returns></returns>
+	public int CountCharacters(string text, Encoding textEncodingType)
+	{
+		return CountCharactersWorker(text, textEncodingType);
+	}
+
+	/// <summary>
+	/// Asynchronously reads from the provided TextReader and counts the total number of characters in the specified Encoding.
+	/// </summary>
+	/// <param name="textReader">The TextReader from which to count characters.</param>
+	/// <param name="textEncodingType">The Encoding type of the characters to count.</param>
+	/// <returns>The total number of characters counted.</returns>
+	public async Task<int> CountCharactersAsync(TextReader textReader, Encoding textEncodingType)
+	{
+		int charCount = 0;
+
+		string? latestLine;
+
+		do
 		{
-			return CountCharactersWorker(text, textEncodingType);
-		}
+			latestLine = await textReader.ReadLineAsync();
 
-		/// <summary>
-		/// Asynchronously reads from the provided TextReader and counts the total number of characters in the specified Encoding.
-		/// </summary>
-		/// <param name="textReader">The TextReader from which to count characters.</param>
-		/// <param name="textEncodingType">The Encoding type of the characters to count.</param>
-		/// <returns>The total number of characters counted.</returns>
-		public async Task<int> CountCharactersAsync(TextReader textReader, Encoding textEncodingType)
-		{
-			int charCount = 0;
-
-			string? latestLine;
-
-			do
+			if (latestLine != null)
 			{
-				latestLine = await textReader.ReadLineAsync();
-
-				if (latestLine != null)
-				{
-                    charCount += CountCharactersWorker(latestLine, textEncodingType);
-				}
+				charCount += CountCharactersWorker(latestLine, textEncodingType);
 			}
-			while (latestLine != null);
-
-
-			return await new ValueTask<int>(charCount);
 		}
+		while (latestLine != null);
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="text"></param>
-		/// <param name="textEncodingType"></param>
-		/// <returns></returns>
-		public async Task<int> CountCharactersAsync(string text, Encoding textEncodingType)
-		{
-			Task<int> task = new Task<int>(() =>  CountCharacters(text, textEncodingType));
-			task.Start();
 
-			int result = await task.WaitAsync(CancellationToken.None);
+		return await new ValueTask<int>(charCount);
+	}
 
-			return result;
-		}
-    }
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="text"></param>
+	/// <param name="textEncodingType"></param>
+	/// <returns></returns>
+	public async Task<int> CountCharactersAsync(string text, Encoding textEncodingType)
+	{
+		Task<int> task = new Task<int>(() =>  CountCharacters(text, textEncodingType));
+		task.Start();
+
+		int result = await task.WaitAsync(CancellationToken.None);
+
+		return result;
+	}
 }
