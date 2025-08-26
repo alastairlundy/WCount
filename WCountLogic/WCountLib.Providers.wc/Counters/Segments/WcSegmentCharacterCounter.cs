@@ -42,7 +42,7 @@ public class WcSegmentCharacterCounter : ISegmentCharacterCounter
     /// <returns>The total number of characters as a signed 32-bit integer.</returns>
     public int CountCharacters(IEnumerable<StringSegment> segments)
     {
-        return _wcCommandExecutionHelper.RunInt32("-m", _wcCommandExecutionHelper.GetSegmentsToTextReader(segments));
+        return _wcCommandExecutionHelper.RunInt32("-m", _wcCommandExecutionHelper.GetSegmentsToString(segments));
     }
         
     /// <summary>
@@ -52,7 +52,7 @@ public class WcSegmentCharacterCounter : ISegmentCharacterCounter
     /// <returns>The total number of characters as a signed 32-bit integer.</returns>
     public async Task<int> CountCharactersAsync(IEnumerable<StringSegment> segments)
     {
-        return await _wcCommandExecutionHelper.RunInt32Async("-m", _wcCommandExecutionHelper.GetSegmentsToTextReader(segments));
+        return await _wcCommandExecutionHelper.RunInt32Async("-m", _wcCommandExecutionHelper.GetSegmentsToString(segments));
     }
         
 }
