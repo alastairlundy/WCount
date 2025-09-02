@@ -2,11 +2,6 @@
 
 ## Projects within this repo
 
-### WCount UI
-| Project Name           | License | Description                                                  | 
-|------------------------|---------|--------------------------------------------------------------|
-| WCount.Cli             | MPL 2.0 | An alternative to the Unix ``wc`` program, written in C# and using .NET . |
-
 ### WCount Logic
 | Project Name           | License | Description                                                                                                                                | 
 |------------------------|---------|--------------------------------------------------------------------------------------------------------------------------------------------|
