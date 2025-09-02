@@ -29,7 +29,7 @@ public class SegmentWordDetector : ISegmentWordDetector
     /// <param name="segment">The string segment to check.</param>
     /// <param name="countStringsWithSpacesAsWords">Optional flag indicating whether strings with spaces should be considered as words. Defaults to false if not provided.</param>
     /// <returns>True if the string segment represents a single word, false otherwise.</returns>
-    public bool IsStringAWord(StringSegment segment, bool countStringsWithSpacesAsWords = false)
+    public bool IsSegmentAWord(StringSegment segment, bool countStringsWithSpacesAsWords = false)
     {
         bool containsSpaceSeparatedSubStrings = segment.Contains(' ') == false;
 
@@ -61,7 +61,7 @@ public class SegmentWordDetector : ISegmentWordDetector
     /// <param name="delimitersToExclude">Optional delimiters that should be ignored when checking for words. If not provided, default delimiters will be used.</param>
     /// <param name="countStringsWithSpacesAsWords">Optional flag indicating whether strings with spaces should be considered as words. Defaults to false if not provided.</param>
     /// <returns>True if the string segment represents a single word, false otherwise.</returns>
-    public bool IsStringAWord(StringSegment segment, IEnumerable<char> delimitersToExclude, bool countStringsWithSpacesAsWords = false)
+    public bool IsSegmentAWord(StringSegment segment, IEnumerable<char> delimitersToExclude, bool countStringsWithSpacesAsWords = false)
     {
         bool containsSpaceSeparatedSubstrings = segment.Contains(' ');
         bool output = false;

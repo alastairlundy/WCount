@@ -21,10 +21,4 @@ public interface ISegmentCharacterCounter
     /// <param name="segments">The segments to count characters from.</param>
     /// <returns>The total number of characters in all segments.</returns>
     int CountCharacters(IEnumerable<StringSegment> segments);
-        
-    /// <summary>
-    /// Returns the total number of characters (in units of 64-bit unsigned integers) in all segments. This method is asynchronous to allow for non-blocking operations and efficient use of threads. </summary>
-    /// <param name="segments">The segments to count characters from.</param>
-    /// <returns>The total number of characters (in units of 64-bit unsigned integers) in all segments.</returns>
-    Task<int> CountCharactersAsync(IEnumerable<StringSegment> segments);
 }

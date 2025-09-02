@@ -29,13 +29,5 @@ public interface IByteCounter
     /// <param name="encoding">The Encoding type of the bytes to count.</param>
     /// <returns>The total number of bytes counted.</returns>
     int CountBytes(string source, Encoding encoding);
-        
-    /// <summary>
-    /// Asynchronously reads from the provided string and counts the total number of bytes in the specified Encoding.
-    /// </summary>
-    /// <param name="source">The source from which to count bytes.</param>
-    /// <param name="encoding">The Encoding type of the bytes to count.</param>
-    /// <returns>The total number of bytes counted.</returns>
-    Task<int> CountBytesAsync(string source, Encoding encoding);
 
 }

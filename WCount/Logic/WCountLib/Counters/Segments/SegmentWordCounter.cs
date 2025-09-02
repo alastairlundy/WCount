@@ -53,7 +53,7 @@ public class SegmentWordCounter : ISegmentWordCounter
         {
             Parallel.ForEach(stringSegments, segment =>
             {
-                if (_segmentWordDetector.IsStringAWord(segment, false))
+                if (_segmentWordDetector.IsSegmentAWord(segment, false))
                 {
                     Interlocked.Increment(ref totalWords);
                 }
@@ -65,35 +65,12 @@ public class SegmentWordCounter : ISegmentWordCounter
                 
             Parallel.ForEach(partitioner, segment =>
             {
-                if (_segmentWordDetector.IsStringAWord(segment, false))
+                if (_segmentWordDetector.IsSegmentAWord(segment, false))
                 {
                     Interlocked.Increment(ref totalWords);
                 }
             });
         }
-            
-#if NET5_0_OR_GREATER
-            return totalWords;
-#else
-        return totalWords;            
-#endif
-    }
-
-    /// <summary>
-    /// Asynchronously counts the number of words in a collection of string segments.
-    /// </summary>
-    /// <param name="segments">The collection of string segments to count.</param>
-    /// <returns>The total number of words in the specified collection.</returns>
-    public async Task<int> CountWordsAsync(IEnumerable<StringSegment> segments)
-    {
-        int totalWords = 0;
-            
-        Task wordCountingTask = Task.Run(() =>
-        {
-            totalWords = CountWords(segments);
-        });
-            
-        await wordCountingTask;
             
         return totalWords;
     }

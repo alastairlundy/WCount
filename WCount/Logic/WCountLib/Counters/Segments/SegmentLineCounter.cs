@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 using AlastairLundy.WCountLib.Abstractions.Counters.Segments;
 
-using EnhancedLinq.MsExtensions.StringSegments.Immediate;
+using AlastairLundy.EnhancedLinq.MsExtensions.StringSegments.Immediate;
 
 using Microsoft.Extensions.Primitives;
 
@@ -29,13 +29,13 @@ public class SegmentLineCounter : ISegmentLineCounter
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="line"></param>
+    /// <param name="segment"></param>
     /// <returns></returns>
-    private int CountLineInt32Worker(StringSegment line)
+    private int CountLineInt32Worker(StringSegment segment)
     {
         StringSegment environmentNewLineSegment = new StringSegment(Environment.NewLine);
         
-        StringSegment[] segments = line.Split(environmentNewLineSegment);
+        StringSegment[] segments = segment.Split(environmentNewLineSegment);
 
         return segments.Any() ? segments.Length : 0;
     }
@@ -57,24 +57,5 @@ public class SegmentLineCounter : ISegmentLineCounter
         });
 
         return lineCount;
-    }
-    
-    /// <summary>
-    /// Asynchronously counts the number of lines in a collection of string segments.
-    /// </summary>
-    /// <param name="segments">The collection of string segments to count.</param>
-    /// <returns>The total number of lines in the specified collection.</returns>
-    public async Task<int> CountLinesAsync(IEnumerable<StringSegment> segments)
-    {
-        int totalLines = 0;
-            
-        Task wordCountingTask = Task.Run(() =>
-        {
-            totalLines = CountLines(segments);
-        });
-            
-        await wordCountingTask;
-            
-        return totalLines;
     }
 }

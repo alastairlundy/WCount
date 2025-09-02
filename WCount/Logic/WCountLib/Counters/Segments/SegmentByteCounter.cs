@@ -54,23 +54,4 @@ public class SegmentByteCounter : ISegmentByteCounter
 
         return byteCount;
     }
-
-    /// <summary>
-    /// Returns the total number of bytes (in units of 32-bit integers) in all segments.
-    /// </summary>
-    /// <param name="segments">The segments to count bytes from.</param>
-    /// <returns>The total number of bytes (in units of 32-bit integers) in all segments.</returns>
-    public async Task<int> CountBytesAsync(IEnumerable<StringSegment> segments)
-    {
-        int totalBytes = 0;
-            
-        Task wordCountingTask = Task.Run(() =>
-        {
-            totalBytes = CountBytes(segments);
-        });
-            
-        await wordCountingTask;
-            
-        return totalBytes;
-    }
 }

@@ -24,14 +24,14 @@ public class CharacterCounter : ICharacterCounter
 	/// <summary>
 	/// Get the number of characters in a string.
 	/// </summary>
-	/// <param name="s">The string to be searched.</param>
+	/// <param name="text">The string to be searched.</param>
 	/// <param name="textEncodingType">The encoding type to use to count characters.</param>
-	/// <returns>the number of characters in a string.</returns>
-	protected int CountCharactersWorker(string s, Encoding textEncodingType)
+	/// <returns>The number of characters in the string.</returns>
+	public int CountCharacters(string text, Encoding textEncodingType)
 	{
-		int totalChars;
+		int totalChars = 0;
 
-		byte[] bytes = textEncodingType.GetBytes(s.ToCharArray());
+		byte[] bytes = textEncodingType.GetBytes(text.ToCharArray());
 
 		if (Equals(textEncodingType, Encoding.Unicode))
 		{
@@ -65,86 +65,5 @@ public class CharacterCounter : ICharacterCounter
 		}
 
 		return totalChars;
-	}
-
-	/// <summary>
-	/// Synchronously reads from the provided TextReader and counts total the number of characters in the specified Encoding.
-	/// </summary>
-	/// <param name="textReader">The TextReader from which to count characters.</param>
-	/// <param name="textEncodingType">The Encoding type of the characters to count.</param>
-	/// <returns>The total number of characters counted.</returns>
-	public int CountCharacters(TextReader textReader, Encoding textEncodingType)
-	{
-		int charCount = 0;
-
-		string? latestLine;
-
-		do
-		{
-			latestLine = textReader.ReadLine();
-
-			if (latestLine != null)
-			{
-				charCount += CountCharactersWorker(latestLine, textEncodingType);
-			}
-		}
-		while (latestLine != null);
-
-
-		return charCount;
-	}
-
-	/// <summary>
-	/// 
-	/// </summary>
-	/// <param name="text"></param>
-	/// <param name="textEncodingType"></param>
-	/// <returns></returns>
-	public int CountCharacters(string text, Encoding textEncodingType)
-	{
-		return CountCharactersWorker(text, textEncodingType);
-	}
-
-	/// <summary>
-	/// Asynchronously reads from the provided TextReader and counts the total number of characters in the specified Encoding.
-	/// </summary>
-	/// <param name="textReader">The TextReader from which to count characters.</param>
-	/// <param name="textEncodingType">The Encoding type of the characters to count.</param>
-	/// <returns>The total number of characters counted.</returns>
-	public async Task<int> CountCharactersAsync(TextReader textReader, Encoding textEncodingType)
-	{
-		int charCount = 0;
-
-		string? latestLine;
-
-		do
-		{
-			latestLine = await textReader.ReadLineAsync();
-
-			if (latestLine != null)
-			{
-				charCount += CountCharactersWorker(latestLine, textEncodingType);
-			}
-		}
-		while (latestLine != null);
-
-
-		return await new ValueTask<int>(charCount);
-	}
-
-	/// <summary>
-	/// 
-	/// </summary>
-	/// <param name="text"></param>
-	/// <param name="textEncodingType"></param>
-	/// <returns></returns>
-	public async Task<int> CountCharactersAsync(string text, Encoding textEncodingType)
-	{
-		Task<int> task = new Task<int>(() =>  CountCharacters(text, textEncodingType));
-		task.Start();
-
-		int result = await task.WaitAsync(CancellationToken.None);
-
-		return result;
 	}
 }

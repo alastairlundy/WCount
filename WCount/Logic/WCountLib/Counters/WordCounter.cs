@@ -41,10 +41,11 @@ public class WordCounter : IWordCounter
     {
         int totalWords = 0;
             
-        StringTokenizer stringTokenizer = new StringTokenizer(input, new[] { ' ' });
-            
-        IEnumerable<StringSegment> segments = stringTokenizer;
-        int segmentCount = segments.Count();
+        IEnumerable<StringSegment> tokens = new StringTokenizer(input, new[] { ' ' });
+
+        StringSegment[] segments = tokens.ToArray();
+        
+        int segmentCount = segments.Length;
             
         if (segmentCount < 100)
         {
@@ -72,21 +73,6 @@ public class WordCounter : IWordCounter
         return totalWords;
     }
         
-
-
-    /// <summary>
-    /// Synchronously reads from the provided TextReader and counts total the number of words.
-    /// </summary>
-    /// <param name="textReader">The TextReader from which to count words.</param>
-    /// <returns>The total number of words counted.</returns>
-    public int CountWords(TextReader textReader)
-    { 
-        string input = textReader.ReadToEnd();
-           
-        return CountWordsWorkerSegment(input);
-            
-    }
-        
     /// <summary>
     /// 
     /// </summary>
@@ -95,45 +81,5 @@ public class WordCounter : IWordCounter
     public int CountWords(string text)
     {
         return CountWordsWorkerSegment(text);
-    }
-
-    /// <summary>
-    /// Asynchronously reads from the provided TextReader and counts the total number of words.
-    /// </summary>
-    /// <param name="textReader">The TextReader from which to count words.</param>
-    /// <returns>The total number of words counted.</returns>
-    public async Task<int> CountWordsAsync(TextReader textReader)
-    {
-        string input = await textReader.ReadToEndAsync();
-
-        int totalWords = 0;
-            
-        Task wordCountingTask = Task.Run(() =>
-        {
-            totalWords = CountWordsWorkerSegment(input);
-        });
-            
-        await wordCountingTask;
-            
-        return totalWords;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="text"></param>
-    /// <returns></returns>
-    public async Task<int> CountWordsAsync(string text)
-    {
-        int totalWords = 0;
-            
-        Task wordCountingTask = Task.Run(() =>
-        {
-            totalWords = CountWordsWorkerSegment(text);
-        });
-            
-        await wordCountingTask;
-            
-        return totalWords;
     }
 }

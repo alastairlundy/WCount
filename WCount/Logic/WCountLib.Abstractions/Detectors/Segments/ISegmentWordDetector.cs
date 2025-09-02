@@ -19,20 +19,20 @@ namespace AlastairLundy.WCountLib.Abstractions.Detectors.Segments;
 public interface ISegmentWordDetector
 {
     /// <summary>
-    /// Determines whether a string is a word or not.
+    /// Determines whether a StringSegment is a word or not.
     /// </summary>
     /// <param name="segment">The segment to be searched for a word.</param>
-    /// <param name="countStringsWithSpacesAsWords">Whether to count strings that contain spaces as words. Set to false by default.</param>
-    /// <returns>True if the string is a word; false otherwise.</returns>
-    bool IsStringAWord(StringSegment segment, bool countStringsWithSpacesAsWords = false);
+    /// <param name="countStringsWithSpacesAsWords">Whether to count StringSegments that contain spaces as words. Set to false by default.</param>
+    /// <returns>True if the StringSegment is a word; false otherwise.</returns>
+    bool IsSegmentAWord(StringSegment segment, bool countStringsWithSpacesAsWords = false);
 
     /// <summary>
     /// Determines whether a string segment is a word or not.
     /// </summary>
     /// <param name="segment">The segment to be searched for a word.</param>
     /// <param name="delimitersToExclude">Delimiters that valid words should not contain.</param>
-    /// <param name="countStringsWithSpacesAsWords">Whether to count strings that contain spaces as words. Set to false by default.</param>
-    /// <returns>True if the string is a word; false otherwise.</returns>
-    bool IsStringAWord(StringSegment segment, IEnumerable<char> delimitersToExclude,
+    /// <param name="countStringsWithSpacesAsWords">Whether to count StringSegments that contain spaces as words. Set to false by default.</param>
+    /// <returns>True if the StringSegment is a word; false otherwise.</returns>
+    bool IsSegmentAWord(StringSegment segment, IEnumerable<char> delimitersToExclude,
         bool countStringsWithSpacesAsWords = false);
 }

@@ -27,11 +27,4 @@ public interface ILineCounter
     /// <param name="source">The string from which to count lines.</param>
     /// <returns>The total number of lines counted.</returns>
     int CountLines(string source);
-    
-    /// <summary>
-    /// Asynchronously reads from the provided string and counts the total number of lines.
-    /// </summary>
-    /// <param name="source">The string from which to count lines.</param>
-    /// <returns>The total number of lines counted.</returns>
-    Task<int> CountLinesAsync(string source);
 }

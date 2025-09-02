@@ -21,8 +21,16 @@ using Microsoft.Extensions.Primitives;
 
 namespace AlastairLundy.WCountLib.Counters;
 
+/// <summary>
+/// 
+/// </summary>
 public class LineCounter : ILineCounter
 {
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="source"></param>
+	/// <returns></returns>
 	public int CountLines(string source)
 	{
 		int output = 0;
@@ -39,67 +47,5 @@ public class LineCounter : ILineCounter
 		}
 		    
 		return output;
-	}
-
-	/// <summary>
-	/// Synchronously reads from the provided TextReader and counts total the number of lines.
-	/// </summary>
-	/// <param name="textReader">The TextReader from which to count lines.</param>
-	/// <returns>The total number of lines counted.</returns>
-	public int CountLines(TextReader textReader)
-	{
-		int lineCount = 0;
-			
-		string? latestLine;
-
-		do
-		{
-			latestLine = textReader.ReadLine();
-
-			if(latestLine != null)
-			{
-				Interlocked.Increment(ref lineCount);
-			}
-		}
-		while (latestLine != null);
-
-
-		return lineCount;
-	}
-
-	/// <summary>
-	/// Asynchronously reads from the provided TextReader and counts the total number of lines.
-	/// </summary>
-	/// <param name="textReader">The TextReader from which to count lines.</param>
-	/// <returns>The total number of lines counted.</returns>
-	public async Task<int> CountLinesAsync(TextReader textReader)
-	{
-		int lineCount = 0;
-
-		string? latestLine;
-
-		do
-		{
-			latestLine = await textReader.ReadLineAsync();
-
-			if (latestLine != null)
-			{
-				Interlocked.Increment(ref lineCount);
-			}
-		}
-		while (latestLine != null);
-
-
-		return await new ValueTask<int>(lineCount);
-	}
-
-	public async Task<int> CountLinesAsync(string text)
-	{
-		Task<int> task = new Task<int>(() => CountLines(text));
-		task.Start();
-
-		int result = await task.WaitAsync(CancellationToken.None);
-		    
-		return await new ValueTask<int>(result);
 	}
 }

@@ -50,22 +50,4 @@ public class SegmentCharacterCounter : ISegmentCharacterCounter
 
         return charCount;
     }
-
-    /// <summary>
-    /// Returns the total number of characters in all segments. This method is asynchronous to allow for non-blocking operations and efficient use of threads. </summary>
-    /// <param name="segments">The segments to count characters from.</param>
-    /// <returns>The total number of characters in all segments.</returns>
-    public async Task<int> CountCharactersAsync(IEnumerable<StringSegment> segments)
-    {
-        int totalChars = 0;
-            
-        Task wordCountingTask = Task.Run(() =>
-        {
-            totalChars = CountCharacters(segments);
-        });
-            
-        await wordCountingTask;
-            
-        return totalChars;
-    }
 }

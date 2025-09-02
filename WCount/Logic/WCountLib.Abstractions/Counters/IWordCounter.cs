@@ -27,11 +27,4 @@ public interface IWordCounter
 	/// <param name="source">The string from which to count words.</param>
 	/// <returns>The total number of words counted.</returns>
 	int CountWords(string source);
-	
-	/// <summary>
-	/// Asynchronously reads from the provided string and counts the total number of words.
-	/// </summary>
-	/// <param name="source">The string from which to count words.</param>
-	/// <returns>The total number of words counted.</returns>
-	Task<int> CountWordsAsync(string source);
 }
