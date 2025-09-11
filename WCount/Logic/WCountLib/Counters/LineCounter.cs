@@ -9,6 +9,8 @@
 
 using System;
 
+using AlastairLundy.DotExtensions.MsExtensions.StringSegments;
+
 using AlastairLundy.WCountLib.Abstractions.Counters;
 
 using Microsoft.Extensions.Primitives;
@@ -37,7 +39,7 @@ public class LineCounter : ILineCounter
 		    
 		foreach (StringSegment segment in tokenizer)
 		{
-			if (segment.Equals(environmentNewLine))
+			if (segment.Contains(environmentNewLine) || segment.Equals(environmentNewLine))
 			{
 				output++;
 			}
