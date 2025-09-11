@@ -25,13 +25,13 @@ public interface IWordDetector
     /// <param name="countStringsWithSpacesAsWords">Whether to count strings that contain spaces as words. Set to false by default.</param>
     /// <returns>True if the string is a word; false otherwise.</returns>
     bool IsStringAWord(string s, bool countStringsWithSpacesAsWords = false);
-
+    
     /// <summary>
-    /// Determines whether a string is a word or not.
+    /// Determines whether a string contains 1 or more words.
     /// </summary>
-    /// <param name="s">The string to be searched for a word.</param>
-    /// <param name="delimitersToExclude">Delimiters that valid words should not contain.</param>
-    /// <param name="countStringsWithSpacesAsWords">Whether to count strings that contain spaces as words. Set to false by default.</param>
-    /// <returns>True if the string is a word; false otherwise.</returns>
-    bool IsStringAWord(string s, IEnumerable<char> delimitersToExclude, bool countStringsWithSpacesAsWords = false);
+    /// <param name="s"></param>
+    /// <param name="wordSeparator"></param>
+    /// <param name="countStringsWithSpacesAsWords"></param>
+    /// <returns></returns>
+    bool DoesStringContainWords(string s, char wordSeparator, bool countStringsWithSpacesAsWords = false);
 }
