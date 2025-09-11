@@ -15,6 +15,9 @@ using Microsoft.Extensions.Primitives;
 
 namespace AlastairLundy.WCountLib.Abstractions.Counters.Segments;
 
+/// <summary>
+/// 
+/// </summary>
 public interface ISegmentWordCounter
 {
     /// <summary>

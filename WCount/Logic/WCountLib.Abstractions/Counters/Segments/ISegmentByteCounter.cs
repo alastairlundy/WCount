@@ -14,8 +14,12 @@ using Microsoft.Extensions.Primitives;
 
 namespace AlastairLundy.WCountLib.Abstractions.Counters.Segments;
 
+/// <summary>
+/// 
+/// </summary>
 public interface ISegmentByteCounter
 {
+    
     /// <summary>
     /// Returns the total number of bytes that can be represented by 32-bit integers in all segments. </summary>
     /// <param name="segments">The segments to count bytes from.</param>
