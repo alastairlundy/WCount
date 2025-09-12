@@ -10,7 +10,7 @@
 namespace AlastairLundy.WCountLib.Abstractions.Counters;
 
 /// <summary>
-/// Represents a service that counts the number of words in strings.
+/// An interface for a service that counts the number of words in strings.
 /// </summary>
 /// <remarks><para>Implementing classes should be stateless and avoid containing any properties or fields that aren't related to configurations or settings for word counting.</para>
 /// <para>Implementers are responsible for determining how to handle punctuation, special characters, how to detect what a word is, and other text processing details.</para>

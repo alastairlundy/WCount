@@ -10,7 +10,7 @@
 namespace AlastairLundy.WCountLib.Abstractions.Counters;
 
 /// <summary>
-/// Represents a service that counts the number of lines in strings.
+/// An interface for a service that counts the number of lines in strings.
 /// </summary>
 /// <remarks>
 /// <para>Implementing classes should be stateless and avoid containing any properties or fields that aren't related to configurations or settings for line counting.</para>

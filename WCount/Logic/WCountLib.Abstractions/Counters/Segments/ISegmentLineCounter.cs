@@ -13,8 +13,11 @@ using Microsoft.Extensions.Primitives;
 namespace AlastairLundy.WCountLib.Abstractions.Counters.Segments;
 
 /// <summary>
-/// 
+/// An interface for a service that counts the number of lines in <see cref="StringSegment"/>s.
 /// </summary>
+/// <remarks>
+/// <para>Implementing classes should be stateless and avoid containing any properties or fields that aren't related to configurations or settings for line counting.</para>
+/// </remarks>
 public interface ISegmentLineCounter
 {
     /// <summary>
