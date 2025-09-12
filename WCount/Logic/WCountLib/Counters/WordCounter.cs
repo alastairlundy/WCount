@@ -23,6 +23,9 @@ using Microsoft.Extensions.Primitives;
 
 namespace AlastairLundy.WCountLib.Counters;
 
+/// <summary>
+/// 
+/// </summary>
 public class WordCounter : IWordCounter
 {
     private readonly IWordDetector _wordDetector;

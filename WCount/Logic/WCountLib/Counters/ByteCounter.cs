@@ -14,6 +14,9 @@ using AlastairLundy.WCountLib.Abstractions.Counters;
 
 namespace AlastairLundy.WCountLib.Counters;
 
+/// <summary>
+/// 
+/// </summary>
 public class ByteCounter : IByteCounter
 {
     /// <summary>
