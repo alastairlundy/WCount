@@ -22,8 +22,8 @@ public interface ISegmentByteCounter
 {
     
     /// <summary>
-    /// Returns the total number of bytes that can be represented by 32-bit integers in all segments. </summary>
+    /// Returns the total number of bytes in all segments. </summary>
     /// <param name="segments">The segments to count bytes from.</param>
-    /// <returns>The total number of bytes that can be represented by 32-bit integers in all segments.</returns>
+    /// <returns>The total number of bytes in all segments.</returns>
     int CountBytes(IEnumerable<StringSegment> segments);
 }

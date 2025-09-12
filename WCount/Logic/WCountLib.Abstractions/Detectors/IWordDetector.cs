@@ -12,7 +12,7 @@
 namespace AlastairLundy.WCountLib.Abstractions.Detectors;
 
 /// <summary>
-/// An interface for a word detection mechanism.
+/// An interface for a word detecting service.
 /// </summary>
 public interface IWordDetector
 {

@@ -12,7 +12,7 @@ using Microsoft.Extensions.Primitives;
 namespace AlastairLundy.WCountLib.Abstractions.Detectors.Segments;
 
 /// <summary>
-/// A word detecting service that uses String Segments instead of Strings for potentially better performance.
+/// An interface for a word detecting service that uses <see cref="StringSegment"/> instead of <see cref="string"/> for potentially better performance.
 /// </summary>
 public interface ISegmentWordDetector
 {
