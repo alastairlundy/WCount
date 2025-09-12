@@ -24,6 +24,9 @@ using Microsoft.Extensions.Primitives;
 
 namespace AlastairLundy.WCountLib.Detectors.Segments;
 
+/// <summary>
+/// 
+/// </summary>
 public class SegmentWordDetector : ISegmentWordDetector
 {
     
