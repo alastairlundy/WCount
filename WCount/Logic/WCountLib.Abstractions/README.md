@@ -6,7 +6,7 @@ There is also an interface for determining what is a word, that can be used to a
 No implementations are provided in this package - this is by design.
 
 ### Compatibility
-This project should work with any .NET Standard 2.0, .NET Standard 2.1, .NET 8, or newer .NET project but support for edge cases or niche use cases is not guaranteed.
+This project should work with projects targeting .NET 8 or newer but support for edge cases or niche use cases is not guaranteed.
 
 ### Licensing
 The WCount library is licensed under the MPL 2.0 license.

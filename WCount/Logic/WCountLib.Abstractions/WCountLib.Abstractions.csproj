@@ -8,7 +8,7 @@
 	  <PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	  <RepositoryType>git</RepositoryType>
-	  <RepositoryUrl>https://github.com/alastairlundy/wcount</RepositoryUrl>
+	  <RepositoryUrl>https://github.com/alastairlundy/wcountapi</RepositoryUrl>
 	  <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	  <ImplicitUsings>disable</ImplicitUsings>
 	  <LangVersion>13</LangVersion>
@@ -16,14 +16,15 @@
 	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	  <EmbedUntrackedSources>true</EmbedUntrackedSources>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
-	  <Version>3.2.2.1</Version>
+	  <Version>4.0.0</Version>
 	  <Title>WCountLib.Abstractions</Title>
 	  <Copyright>Copyright (c) Alastair Lundy 2024-2025</Copyright>
 	  <PackageTags>wordcount, word-count, word count,  wc, charcount, bytecount, linecount,</PackageTags>
 	  <Description>This package adds interfaces to enable counting the number of lines, words, characters, and/or bytes in TextReader streams.
 </Description>
 	  <PackageReleaseNotes>* Significantly cleaned up and reduced API surface to focus on strings and stringsegments
-* Updated Microsoft.Extensions.Primitives to 9.0.8 from 9.0.6</PackageReleaseNotes>
+* Updated Microsoft.Extensions.Primitives to 9.0.9 from 9.0.6
+* Removed .NET Standard 2.0 and 2.1 support</PackageReleaseNotes>
   </PropertyGroup>
 
 	<ItemGroup>
