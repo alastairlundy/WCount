@@ -9,8 +9,10 @@
 
 using System.Linq;
 
-using AlastairLundy.DotExtensions.MsExtensions.StringSegments;
+
 using AlastairLundy.DotExtensions.Strings;
+using AlastairLundy.DotExtensions.MsExtensions.StringSegments;
+
 using AlastairLundy.EnhancedLinq.MsExtensions.StringSegments.Deferred;
 using AlastairLundy.EnhancedLinq.MsExtensions.StringSegments.Immediate;
 
@@ -71,13 +73,13 @@ public class SegmentWordDetector : ISegmentWordDetector
     }
 
     /// <summary>
-    /// 
+    /// Determines whether a string segment contains one or more words.
     /// </summary>
-    /// <param name="segment"></param>
-    /// <param name="wordSeparator"></param>
-    /// <param name="countStringsWithSpacesAsWords"></param>
-    /// <returns></returns>
-    public bool DoesSegmentContainWords(StringSegment segment, char wordSeparator, bool countStringsWithSpacesAsWords = false)
+    /// <param name="segment">The <see cref="StringSegment"/> to look for.</param>
+    /// <param name="wordSeparator">The separator char to look for between words.</param>
+    /// <param name="countSegmentsWithSpacesAsWords">Whether to count StringSegments that contain spaces as words. Set to false by default.</param>
+    /// <returns>True if one or more words was found in the string segment, false otherwise.</returns>
+    public bool DoesSegmentContainWords(StringSegment segment, char wordSeparator, bool countSegmentsWithSpacesAsWords = false)
     {
         if (StringSegment.IsNullOrEmpty(segment) || segment.All(c => char.IsWhiteSpace(c)))
             return false;
@@ -90,9 +92,7 @@ public class SegmentWordDetector : ISegmentWordDetector
         {
             return possibleWords.Any(x => IsSegmentAWord(x));
         }
-        else
-        {
-            return IsSegmentAWord(segment, countStringsWithSpacesAsWords);
-        }
+
+        return IsSegmentAWord(segment, countSegmentsWithSpacesAsWords);
     }
 }

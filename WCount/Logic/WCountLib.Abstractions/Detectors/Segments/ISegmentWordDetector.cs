@@ -25,11 +25,11 @@ public interface ISegmentWordDetector
     bool IsSegmentAWord(StringSegment segment, bool countSegmentsWithSpacesAsWords = false);
 
     /// <summary>
-    /// Determines whether a string contains 1 or more words.
+    /// Determines whether a string segment contains one or more words.
     /// </summary>
-    /// <param name="segment"></param>
-    /// <param name="wordSeparator"></param>
-    /// <param name="countStringsWithSpacesAsWords"></param>
-    /// <returns></returns>
-    bool DoesSegmentContainWords(StringSegment segment, char wordSeparator, bool countStringsWithSpacesAsWords = false);
+    /// <param name="segment">The <see cref="StringSegment"/> to look for.</param>
+    /// <param name="wordSeparator">The separator char to look for between words.</param>
+    /// <param name="countSegmentsWithSpacesAsWords">Whether to count StringSegments that contain spaces as words. Set to false by default.</param>
+    /// <returns>True if one or more words was found in the string segment, false otherwise.</returns>
+    bool DoesSegmentContainWords(StringSegment segment, char wordSeparator, bool countSegmentsWithSpacesAsWords = false);
 }
