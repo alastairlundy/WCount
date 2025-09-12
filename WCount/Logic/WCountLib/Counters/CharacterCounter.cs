@@ -16,6 +16,9 @@ using AlastairLundy.WCountLib.Abstractions.Counters;
 
 namespace AlastairLundy.WCountLib.Counters;
 
+/// <summary>
+/// 
+/// </summary>
 public class CharacterCounter : ICharacterCounter
 {
 	/// <summary>
