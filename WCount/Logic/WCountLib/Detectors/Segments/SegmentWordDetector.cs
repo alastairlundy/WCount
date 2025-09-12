@@ -11,7 +11,6 @@ using System.Linq;
 
 using AlastairLundy.DotExtensions.MsExtensions.StringSegments;
 using AlastairLundy.DotExtensions.Strings;
-
 using AlastairLundy.EnhancedLinq.MsExtensions.StringSegments.Deferred;
 using AlastairLundy.EnhancedLinq.MsExtensions.StringSegments.Immediate;
 
@@ -83,8 +82,7 @@ public class SegmentWordDetector : ISegmentWordDetector
         if (StringSegment.IsNullOrEmpty(segment) || segment.All(c => char.IsWhiteSpace(c)))
             return false;
 
-        StringSegment[] possibleWords = segment.Split(wordSeparator)
-            .ToArray();
+        StringSegment[] possibleWords = EnhancedLinqSegmentImmediate.Split(segment, wordSeparator);
         
         bool foundWords = possibleWords.Length > 0;
 
