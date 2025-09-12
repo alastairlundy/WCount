@@ -9,8 +9,6 @@
 
 // ReSharper disable InconsistentNaming
 
-using System.Collections.Generic;
-
 namespace AlastairLundy.WCountLib.Abstractions.Detectors;
 
 /// <summary>

@@ -7,8 +7,6 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-using System.Collections.Generic;
-
 using Microsoft.Extensions.Primitives;
 
 namespace AlastairLundy.WCountLib.Abstractions.Detectors.Segments;
