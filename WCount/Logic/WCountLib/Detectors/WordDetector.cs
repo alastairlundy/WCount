@@ -67,12 +67,12 @@ public class WordDetector : IWordDetector
     }
 
     /// <summary>
-    /// 
+    /// Determines whether a string contains one or more words.
     /// </summary>
-    /// <param name="s"></param>
-    /// <param name="wordSeparator"></param>
-    /// <param name="countStringsWithSpacesAsWords"></param>
-    /// <returns></returns>
+    /// <param name="s">The string to be searched for a word.</param>
+    /// <param name="wordSeparator">The separator char to look for between words.</param>
+    /// <param name="countStringsWithSpacesAsWords">Whether to count strings with spaces in them as words.</param>
+    /// <returns>True if one or more words was found, false otherwise.</returns>
     public bool DoesStringContainWords(string s, char wordSeparator, bool countStringsWithSpacesAsWords = false)
     {
         if (string.IsNullOrEmpty(s) || s.All(c => char.IsWhiteSpace(c)))
@@ -85,9 +85,7 @@ public class WordDetector : IWordDetector
         {
            return possibleWords.Any(x => IsStringAWord(x));
         }
-        else
-        {
-            return IsStringAWord(s, countStringsWithSpacesAsWords);
-        }
+
+        return IsStringAWord(s, countStringsWithSpacesAsWords);
     }
 }
