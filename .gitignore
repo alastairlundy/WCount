@@ -408,3 +408,4 @@ WCountLogic/WCountAPI/appsettings.Development.json
 /WCountUI/.idea
 /WCountUI.XPlatApp/.idea
 /WCountApi/.idea
+/WCountLib/.idea
