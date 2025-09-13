@@ -41,6 +41,7 @@
         <PackageReference Include="AlastairLundy.DotExtensions" Version="8.3.0" />
         <PackageReference Include="AlastairLundy.DotExtensions.MsExtensions" Version="8.3.1" />
         <PackageReference Include="AlastairLundy.EnhancedLinq.MsExtensions" Version="0.4.0" />
+        <PackageReference Include="AlastairLundy.WCountLib.Abstractions" Version="4.0.0" />
         <PackageReference Include="Microsoft.Extensions.Primitives" Version="9.0.9" />
 	</ItemGroup>
 
@@ -58,10 +59,6 @@
         <AutoGen>True</AutoGen>
         <DependentUpon>Resources.resx</DependentUpon>
       </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\WCountLib.Abstractions\WCountLib.Abstractions.csproj" />
     </ItemGroup>
 
 </Project>

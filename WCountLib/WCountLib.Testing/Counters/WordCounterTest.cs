@@ -1,5 +1,4 @@
-﻿using System.IO;
-using AlastairLundy.WCountLib.Counters;
+﻿using AlastairLundy.WCountLib.Counters;
 using AlastairLundy.WCountLib.Detectors;
 
 using WCountLib.Testing.TestData;

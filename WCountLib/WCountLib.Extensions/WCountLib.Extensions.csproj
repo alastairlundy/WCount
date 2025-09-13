@@ -31,11 +31,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\WCountLib.Abstractions\WCountLib.Abstractions.csproj" />
 	  <ProjectReference Include="..\WCountLib\WCountLib.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="AlastairLundy.WCountLib.Abstractions" Version="4.0.0" />
 	  <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.9" />
 	</ItemGroup>
 	
