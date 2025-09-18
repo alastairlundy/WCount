@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <Author>Alastair Lundy</Author>
+	  <Title>AlastairLundy.WCountLib.Extensions</Title>
+	  <AssemblyName>AlastairLundy.WCountLib.Extensions</AssemblyName>
+	  <IncludeSymbols>true</IncludeSymbols>
+	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	  <EmbedUntrackedSources>true</EmbedUntrackedSources>
+	  <PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
+	  <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+	  <RootNamespace>AlastairLundy.WCountLib.Extensions</RootNamespace>
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <Authors>AlastairLundy</Authors>
+	  <Copyright>Copyright (c) Alastair Lundy 2024-2025</Copyright>
+	  <RepositoryUrl>https://github.com/alastairlundy/WCount</RepositoryUrl>
+	  <RepositoryType>git</RepositoryType>
+	  <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
+	  <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+	  <Version>3.2.2</Version>
+	  <Description>Sets up WCountLib for dependency injection using Microsoft.Extensions.DependencyInjection, by adding a ``AddWCount`` extension method.</Description>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<Content Include="README.md">
+			<Link>README.md</Link>
+			<PackagePath>README.md</PackagePath>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\WCountLib\WCountLib.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="AlastairLundy.WCountLib.Abstractions" Version="4.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.9" />
+	</ItemGroup>
+	
+</Project>
