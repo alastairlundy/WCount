@@ -11,4 +11,10 @@
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\WCountLib.Abstractions\WCountLib.Abstractions.csproj" />
+      <ProjectReference Include="..\WCountLib.Extensions\WCountLib.Extensions.csproj" />
+      <ProjectReference Include="..\WCountLib\WCountLib.csproj" />
+    </ItemGroup>
+
 </Project>
