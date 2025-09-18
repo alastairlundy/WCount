@@ -23,19 +23,19 @@ builder.Services.AddRateLimiter(options =>
         config.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
     });
 
-    options.AddPolicy("per-user", context  =>
-    {
-        context.User.FindFirstValue("")
+    // options.AddPolicy("per-user", context  =>
+    // {
+    //     context.User.FindFirstValue("")
         
-        return RateLimitPartition.GetFixedWindowLimiter("anonymous", _ => new FixedWindowRateLimiterOptions
-        {
-            PermitLimit = 10,
-            Window = TimeSpan.FromMinutes(1),
-            AutoReplenishment = true,
-            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
-            QueueLimit = 10,
-        });
-    });
+    //     return RateLimitPartition.GetFixedWindowLimiter("anonymous", _ => new FixedWindowRateLimiterOptions
+    //     {
+    //         PermitLimit = 10,
+    //         Window = TimeSpan.FromMinutes(1),
+    //         AutoReplenishment = true,
+    //         QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+    //         QueueLimit = 10,
+    //     });
+    // });
 
     /*options.AddSlidingWindowLimiter("sliding", limiterOptions =>
     {

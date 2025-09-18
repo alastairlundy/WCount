@@ -3,10 +3,9 @@ using AlastairLundy.WCountLib.Abstractions.Counters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
-using Microsoft.Extensions.Primitives;
 
-namespace WCountApi.Controllers
-{
+namespace WCountApi.Controllers;
+
     [Route("api/[controller]")]
     [ApiController]
     public class CountWordsController : ControllerBase
@@ -19,7 +18,7 @@ namespace WCountApi.Controllers
         }
 
         [HttpPost]
-        [EnableRateLimiting("sliding-free")]
+        [EnableRateLimiting("fixed")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Post([FromBody] string text)
@@ -33,4 +32,3 @@ namespace WCountApi.Controllers
         }
         
     }
-}

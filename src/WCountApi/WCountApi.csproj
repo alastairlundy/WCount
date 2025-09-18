@@ -3,17 +3,12 @@
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
         <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
+        <ImplicitUsings>disable</ImplicitUsings>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.8"/>
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\Logic\WCountLib.Abstractions\WCountLib.Abstractions.csproj" />
-      <ProjectReference Include="..\Logic\WCountLib.Extensions\WCountLib.Extensions.csproj" />
     </ItemGroup>
 
 </Project>
