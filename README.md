@@ -1,14 +1,13 @@
-# WCountAPI
-WCountAPI is a set of word counting, character counting, byte counting, and line counting libraries and API.
+# WCount
 
 ## Projects within this repo
 
 ### WCount API
-WCount API is MPL 2.0 licensed and uses WCountLib.
-
 WCount API provides WCountLib word counting and character counting functionality over a web api.
 
 ### WCount Libraries
+WCountLib is a set of word counting, character counting, byte counting, and line counting libraries.
+
 | Project Name | License | Description | 
 |-|-|-|
 | WCountLib.Abstractions | MPL 2.0 | A library to provide abstractions to enable other implementations of Word Counting etc. |
