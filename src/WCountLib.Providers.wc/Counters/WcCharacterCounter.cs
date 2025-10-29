@@ -7,6 +7,7 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using AlastairLundy.CliInvoke.Core;
@@ -39,6 +40,15 @@ public class WcCharacterCounter : ICharacterCounter
     /// <param name="text">The input text for which the character count is to be computed.</param>
     /// <param name="textEncodingType">The encoding type of the input text.</param>
     /// <returns>The number of characters in the provided text.</returns>
+#if NET8_0_OR_GREATER
+    [UnsupportedOSPlatform("windows")]
+    [SupportedOSPlatform("macos")]
+    [SupportedOSPlatform("linux")]
+    [SupportedOSPlatform("maccatalyst")]
+    [SupportedOSPlatform("freebsd")]
+    [UnsupportedOSPlatform("ios")]
+    [UnsupportedOSPlatform("tvos")]
+#endif
     public int CountCharacters(string text, Encoding textEncodingType)
     {
         return _wcCommandExecutionHelper.RunInt32("-m", text);
@@ -49,6 +59,15 @@ public class WcCharacterCounter : ICharacterCounter
     /// </summary>
     /// <param name="text">The input text for which the character count is to be computed.</param>
     /// <returns>A task representing the asynchronous operation. The task result contains the number of characters in the provided text.</returns>
+#if NET8_0_OR_GREATER
+    [UnsupportedOSPlatform("windows")]
+    [SupportedOSPlatform("macos")]
+    [SupportedOSPlatform("linux")]
+    [SupportedOSPlatform("maccatalyst")]
+    [SupportedOSPlatform("freebsd")]
+    [UnsupportedOSPlatform("ios")]
+    [UnsupportedOSPlatform("tvos")]
+#endif
     public async Task<int> CountCharactersAsync(string text)
     {
         return await _wcCommandExecutionHelper.RunInt32Async("-m", text);

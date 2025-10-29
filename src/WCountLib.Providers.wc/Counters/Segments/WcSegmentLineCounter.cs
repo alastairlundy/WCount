@@ -8,6 +8,7 @@
  */
 
 using System.Collections.Generic;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using AlastairLundy.CliInvoke.Core;
 using AlastairLundy.CliInvoke.Core.Factories;
@@ -42,6 +43,15 @@ public class WcSegmentLineCounter : ISegmentLineCounter
     /// </summary>
     /// <param name="segments">A sequence of StringSegment objects.</param>
     /// <returns>The total number of lines as a signed 32-bit integer.</returns>
+#if NET8_0_OR_GREATER
+    [UnsupportedOSPlatform("windows")]
+    [SupportedOSPlatform("macos")]
+    [SupportedOSPlatform("linux")]
+    [SupportedOSPlatform("maccatalyst")]
+    [SupportedOSPlatform("freebsd")]
+    [UnsupportedOSPlatform("ios")]
+    [UnsupportedOSPlatform("tvos")]
+#endif
     public int CountLines(IEnumerable<StringSegment> segments)
     {
         return _wcCommandExecutionHelper.RunInt32("-l", segments.ToString(' '));
@@ -52,6 +62,15 @@ public class WcSegmentLineCounter : ISegmentLineCounter
     /// </summary>
     /// <param name="segments">A sequence of StringSegment objects.</param>
     /// <returns>The total number of lines as a signed 32-bit integer.</returns>
+#if NET8_0_OR_GREATER
+    [UnsupportedOSPlatform("windows")]
+    [SupportedOSPlatform("macos")]
+    [SupportedOSPlatform("linux")]
+    [SupportedOSPlatform("maccatalyst")]
+    [SupportedOSPlatform("freebsd")]
+    [UnsupportedOSPlatform("ios")]
+    [UnsupportedOSPlatform("tvos")]
+#endif
     public async Task<int> CountLinesAsync(IEnumerable<StringSegment> segments)
     {
         return await _wcCommandExecutionHelper.RunInt32Async("-l", segments.ToString(' '));

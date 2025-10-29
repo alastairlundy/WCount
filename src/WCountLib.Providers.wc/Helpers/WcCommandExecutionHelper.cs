@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -46,6 +47,15 @@ internal class WcCommandExecutionHelper
         _processConfigurationFactory = processConfigurationFactory;
     }
     
+#if NET8_0_OR_GREATER
+    [UnsupportedOSPlatform("windows")]
+    [SupportedOSPlatform("macos")]
+    [SupportedOSPlatform("linux")]
+    [SupportedOSPlatform("maccatalyst")]
+    [SupportedOSPlatform("freebsd")]
+    [UnsupportedOSPlatform("ios")]
+    [UnsupportedOSPlatform("tvos")]
+#endif
     private async Task<BufferedProcessResult> ExecuteAsync(string argument, string tempFileName)
     {
        ProcessConfiguration processConfiguration = _processConfigurationFactory
@@ -60,6 +70,15 @@ internal class WcCommandExecutionHelper
         return result;
     }
     
+#if NET8_0_OR_GREATER
+    [UnsupportedOSPlatform("windows")]
+    [SupportedOSPlatform("macos")]
+    [SupportedOSPlatform("linux")]
+    [SupportedOSPlatform("maccatalyst")]
+    [SupportedOSPlatform("freebsd")]
+    [UnsupportedOSPlatform("ios")]
+    [UnsupportedOSPlatform("tvos")]
+#endif
     internal int RunInt32(string argument, string text)
     {
         if (OperatingSystem.IsWindows())
@@ -80,6 +99,15 @@ internal class WcCommandExecutionHelper
         return int.Parse(resultString);
     }
 
+#if NET8_0_OR_GREATER
+    [UnsupportedOSPlatform("windows")]
+    [SupportedOSPlatform("macos")]
+    [SupportedOSPlatform("linux")]
+    [SupportedOSPlatform("maccatalyst")]
+    [SupportedOSPlatform("freebsd")]
+    [UnsupportedOSPlatform("ios")]
+    [UnsupportedOSPlatform("tvos")]
+#endif
     internal async Task<int> RunInt32Async(string argument, string text)
     {
         if (OperatingSystem.IsWindows())

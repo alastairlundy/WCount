@@ -8,6 +8,7 @@
  */
 
 using System.Collections.Generic;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using AlastairLundy.CliInvoke.Core;
 using AlastairLundy.CliInvoke.Core.Factories;
@@ -41,6 +42,15 @@ public class WcSegmentByteCounter : ISegmentByteCounter
     /// </summary>
     /// <param name="segments">A sequence of StringSegment objects.</param>
     /// <returns>The total number of bytes as a signed 32-bit integer.</returns>
+#if NET8_0_OR_GREATER
+    [UnsupportedOSPlatform("windows")]
+    [SupportedOSPlatform("macos")]
+    [SupportedOSPlatform("linux")]
+    [SupportedOSPlatform("maccatalyst")]
+    [SupportedOSPlatform("freebsd")]
+    [UnsupportedOSPlatform("ios")]
+    [UnsupportedOSPlatform("tvos")]
+#endif
     public int CountBytes(IEnumerable<StringSegment> segments)
     {
         return _wcCommandExecutionHelper.RunInt32("-c", segments.ToString(' '));
@@ -52,6 +62,15 @@ public class WcSegmentByteCounter : ISegmentByteCounter
     /// </summary>
     /// <param name="segments">A sequence of StringSegment objects.</param>
     /// <returns>The total number of bytes.</returns>
+#if NET8_0_OR_GREATER
+    [UnsupportedOSPlatform("windows")]
+    [SupportedOSPlatform("macos")]
+    [SupportedOSPlatform("linux")]
+    [SupportedOSPlatform("maccatalyst")]
+    [SupportedOSPlatform("freebsd")]
+    [UnsupportedOSPlatform("ios")]
+    [UnsupportedOSPlatform("tvos")]
+#endif
     public async Task<int> CountBytesAsync(IEnumerable<StringSegment> segments)
     {
         return await _wcCommandExecutionHelper.RunInt32Async("-c", segments.ToString(' '));

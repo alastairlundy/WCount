@@ -8,6 +8,7 @@
  */
 
 using System.Collections.Generic;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 
 using AlastairLundy.CliInvoke.Core;
@@ -43,6 +44,15 @@ public class WcSegmentCharacterCounter : ISegmentCharacterCounter
     /// </summary>
     /// <param name="segments">A sequence of StringSegment objects.</param>
     /// <returns>The total number of characters as a signed 32-bit integer.</returns>
+#if NET8_0_OR_GREATER
+    [UnsupportedOSPlatform("windows")]
+    [SupportedOSPlatform("macos")]
+    [SupportedOSPlatform("linux")]
+    [SupportedOSPlatform("maccatalyst")]
+    [SupportedOSPlatform("freebsd")]
+    [UnsupportedOSPlatform("ios")]
+    [UnsupportedOSPlatform("tvos")]
+#endif
     public int CountCharacters(IEnumerable<StringSegment> segments)
     {
         return _wcCommandExecutionHelper.RunInt32("-m", segments.ToString(' '));
@@ -53,6 +63,15 @@ public class WcSegmentCharacterCounter : ISegmentCharacterCounter
     /// </summary>
     /// <param name="segments">A sequence of StringSegment objects.</param>
     /// <returns>The total number of characters as a signed 32-bit integer.</returns>
+#if NET8_0_OR_GREATER
+    [UnsupportedOSPlatform("windows")]
+    [SupportedOSPlatform("macos")]
+    [SupportedOSPlatform("linux")]
+    [SupportedOSPlatform("maccatalyst")]
+    [SupportedOSPlatform("freebsd")]
+    [UnsupportedOSPlatform("ios")]
+    [UnsupportedOSPlatform("tvos")]
+#endif
     public async Task<int> CountCharactersAsync(IEnumerable<StringSegment> segments)
     {
         return await _wcCommandExecutionHelper.RunInt32Async("-m", segments.ToString(' '));

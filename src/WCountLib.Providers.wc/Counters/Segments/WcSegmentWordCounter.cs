@@ -8,6 +8,7 @@
  */
 
 using System.Collections.Generic;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 
 using AlastairLundy.CliInvoke.Core;
@@ -45,6 +46,15 @@ public class WcSegmentWordCounter : ISegmentWordCounter
     /// </summary>
     /// <param name="segments">The collection of string segments to be processed for word count.</param>
     /// <returns>The total number of words in the provided sequence of string segments.</returns>
+#if NET8_0_OR_GREATER
+    [UnsupportedOSPlatform("windows")]
+    [SupportedOSPlatform("macos")]
+    [SupportedOSPlatform("linux")]
+    [SupportedOSPlatform("maccatalyst")]
+    [SupportedOSPlatform("freebsd")]
+    [UnsupportedOSPlatform("ios")]
+    [UnsupportedOSPlatform("tvos")]
+#endif
     public int CountWords(IEnumerable<StringSegment> segments)
     {
         return _wcCommandExecutionHelper.RunInt32("-w", segments.ToString(' '));
@@ -55,6 +65,15 @@ public class WcSegmentWordCounter : ISegmentWordCounter
     /// </summary>
     /// <param name="segments">The collection of <see cref="StringSegment"/> to process.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the total count of words.</returns>
+#if NET8_0_OR_GREATER
+    [UnsupportedOSPlatform("windows")]
+    [SupportedOSPlatform("macos")]
+    [SupportedOSPlatform("linux")]
+    [SupportedOSPlatform("maccatalyst")]
+    [SupportedOSPlatform("freebsd")]
+    [UnsupportedOSPlatform("ios")]
+    [UnsupportedOSPlatform("tvos")]
+#endif
     public async Task<int> CountWordsAsync(IEnumerable<StringSegment> segments)
     {
         return await _wcCommandExecutionHelper.RunInt32Async("-w", segments.ToString(' '));

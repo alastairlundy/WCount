@@ -44,6 +44,15 @@ public class WcByteCounter : IByteCounter
     /// <param name="text">The input string whose byte count is to be calculated.</param>
     /// <param name="encoding">The encoding to be used to determine byte representation.</param>
     /// <returns>The number of bytes in the input text based on the specified encoding.</returns>
+#if NET8_0_OR_GREATER
+    [UnsupportedOSPlatform("windows")]
+    [SupportedOSPlatform("macos")]
+    [SupportedOSPlatform("linux")]
+    [SupportedOSPlatform("maccatalyst")]
+    [SupportedOSPlatform("freebsd")]
+    [UnsupportedOSPlatform("ios")]
+    [UnsupportedOSPlatform("tvos")]
+#endif
     public int CountBytes(string text, Encoding encoding)
     {
         return _wcCommandExecutionHelper.RunInt32("-c", text);
@@ -54,6 +63,15 @@ public class WcByteCounter : IByteCounter
     /// </summary>
     /// <param name="text">The input string whose byte count is to be calculated.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the number of bytes in the input text based on the specified encoding.</returns>
+#if NET8_0_OR_GREATER
+    [UnsupportedOSPlatform("windows")]
+    [SupportedOSPlatform("macos")]
+    [SupportedOSPlatform("linux")]
+    [SupportedOSPlatform("maccatalyst")]
+    [SupportedOSPlatform("freebsd")]
+    [UnsupportedOSPlatform("ios")]
+    [UnsupportedOSPlatform("tvos")]
+#endif
     public async Task<int> CountBytesAsync(string text)
     {
         return await _wcCommandExecutionHelper.RunInt32Async("-c", text);

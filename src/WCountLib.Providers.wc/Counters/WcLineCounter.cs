@@ -7,6 +7,7 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using AlastairLundy.CliInvoke.Core;
 using AlastairLundy.CliInvoke.Core.Factories;
@@ -37,6 +38,15 @@ public class WcLineCounter : ILineCounter
     /// </summary>
     /// <param name="text">The input text whose lines are to be counted.</param>
     /// <returns>The number of lines in the input text.</returns>
+#if NET8_0_OR_GREATER
+    [UnsupportedOSPlatform("windows")]
+    [SupportedOSPlatform("macos")]
+    [SupportedOSPlatform("linux")]
+    [SupportedOSPlatform("maccatalyst")]
+    [SupportedOSPlatform("freebsd")]
+    [UnsupportedOSPlatform("ios")]
+    [UnsupportedOSPlatform("tvos")]
+#endif
     public int CountLines(string text)
     {
         return _wcCommandExecutionHelper.RunInt32("-l", text);
@@ -47,6 +57,15 @@ public class WcLineCounter : ILineCounter
     /// </summary>
     /// <param name="text">The input text whose lines are to be counted.</param>
     /// <returns>A task representing the asynchronous operation. The task result contains the number of lines in the input text.</returns>
+#if NET8_0_OR_GREATER
+    [UnsupportedOSPlatform("windows")]
+    [SupportedOSPlatform("macos")]
+    [SupportedOSPlatform("linux")]
+    [SupportedOSPlatform("maccatalyst")]
+    [SupportedOSPlatform("freebsd")]
+    [UnsupportedOSPlatform("ios")]
+    [UnsupportedOSPlatform("tvos")]
+#endif
     public async Task<int> CountLinesAsync(string text)
     {
         return await _wcCommandExecutionHelper.RunInt32Async("-l", text);
