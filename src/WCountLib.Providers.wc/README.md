@@ -1,7 +1,13 @@
 ## WCountLib.Providers.wc Library
 This package provides implementations for WCountLib.Abstractions interfaces that use Posix's and Unix's ``wc`` program to perform the calculations.
 
-The functionality in this package relies on the ``wc`` program which only supports Unix based operating systems.
+The functionality in this package relies on the ``wc`` program which only supports Unix-based operating systems.
+
+### Notes
+Users of this library must configure CliInvoke with Dependency Injection when setting up the application.
+
+For apps using ``Microsoft.Extensions.DependencyInjection`` or ``Microsoft.Extensions.Hosting``, install ``AlastairLundy.CliInvoke.Extensions``
+and call the ``AddCliInvoke`` service collection extension method to set it up.
 
 ### Supported Platforms
 The following table details which target platforms are supported for accessing WCountLib functionality via ``wc`.
@@ -22,4 +28,4 @@ The following table details which target platforms are supported for accessing W
 ### Licensing
 This library is licensed under the MPL 2.0 license.
 
-If you'd like to contribute to the project please visit the [GitHub Repo](https://github.com/alastairlundy/WCount/).
+If you'd like to contribute to the project, please visit the [GitHub Repo](https://github.com/alastairlundy/WCountAPI/).

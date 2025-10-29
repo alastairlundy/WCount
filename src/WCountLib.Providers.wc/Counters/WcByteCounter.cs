@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using System.Runtime.Versioning;
 
 using AlastairLundy.CliInvoke.Core;
-
+using AlastairLundy.CliInvoke.Core.Factories;
 using AlastairLundy.WCountLib.Abstractions.Counters;
 using AlastairLundy.WCountLib.Providers.wc.Helpers;
 
@@ -32,9 +32,9 @@ public class WcByteCounter : IByteCounter
     /// 
     /// </summary>
     /// <param name="processInvoker"></param>
-    public WcByteCounter(IProcessInvoker processInvoker)
+    public WcByteCounter(IProcessInvoker processInvoker, IProcessConfigurationFactory processConfigurationFactory)
     {
-        _wcCommandExecutionHelper = new WcCommandExecutionHelper(processInvoker);
+        _wcCommandExecutionHelper = new WcCommandExecutionHelper(processInvoker, processConfigurationFactory);
     }
 
     /// <summary>

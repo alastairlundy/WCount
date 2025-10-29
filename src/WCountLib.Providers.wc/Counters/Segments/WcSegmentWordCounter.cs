@@ -10,6 +10,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AlastairLundy.CliInvoke.Core;
+using AlastairLundy.CliInvoke.Core.Factories;
 using AlastairLundy.DotExtensions.MsExtensions.StringSegments.Collections;
 using AlastairLundy.WCountLib.Abstractions.Counters.Segments;
 
@@ -30,9 +31,10 @@ public class WcSegmentWordCounter : ISegmentWordCounter
     /// Initializes a new instance of the WcSegmentWordCounter class.
     /// </summary>
     /// <param name="processInvoker">The ICliCommandInvoker to be used to execute the ``wc``program.</param>
-    public WcSegmentWordCounter(IProcessInvoker processInvoker)
+    /// <param name="processConfigurationFactory"></param>
+    public WcSegmentWordCounter(IProcessInvoker processInvoker, IProcessConfigurationFactory processConfigurationFactory)
     {
-        _wcCommandExecutionHelper = new WcCommandExecutionHelper(processInvoker);
+        _wcCommandExecutionHelper = new WcCommandExecutionHelper(processInvoker, processConfigurationFactory);
     }
     
     /// <summary>

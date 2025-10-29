@@ -7,13 +7,9 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-using System;
-using System.IO;
 using System.Threading.Tasks;
 using AlastairLundy.CliInvoke.Core;
-
-using System.Runtime.Versioning;
-using AlastairLundy.CliInvoke.Exceptions;
+using AlastairLundy.CliInvoke.Core.Factories;
 using AlastairLundy.WCountLib.Abstractions.Counters;
 using AlastairLundy.WCountLib.Providers.wc.Helpers;
 
@@ -25,14 +21,15 @@ namespace AlastairLundy.WCountLib.Providers.wc.Counters;
 public class WcLineCounter : ILineCounter
 {
     private readonly WcCommandExecutionHelper _wcCommandExecutionHelper;
-    
+
     /// <summary>
     /// 
     /// </summary>
     /// <param name="processInvoker"></param>
-    public WcLineCounter(IProcessInvoker processInvoker)
+    /// <param name="processConfigurationFactory"></param>
+    public WcLineCounter(IProcessInvoker processInvoker, IProcessConfigurationFactory processConfigurationFactory)
     {
-        _wcCommandExecutionHelper = new WcCommandExecutionHelper(processInvoker);
+        _wcCommandExecutionHelper = new WcCommandExecutionHelper(processInvoker, processConfigurationFactory);
     }
 
     /// <summary>

@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using AlastairLundy.CliInvoke.Core;
 
 using System.Runtime.Versioning;
-
+using AlastairLundy.CliInvoke.Core.Factories;
 using AlastairLundy.WCountLib.Abstractions.Counters;
 using AlastairLundy.WCountLib.Providers.wc.Helpers;
 
@@ -31,9 +31,10 @@ public class WcCharacterCounter : ICharacterCounter
     /// 
     /// </summary>
     /// <param name="processInvoker"></param>
-    public WcCharacterCounter(IProcessInvoker processInvoker)
+    /// <param name="processConfigurationFactory"></param>
+    public WcCharacterCounter(IProcessInvoker processInvoker, IProcessConfigurationFactory processConfigurationFactory)
     {
-        _wcCommandExecutionHelper = new WcCommandExecutionHelper(processInvoker);
+        _wcCommandExecutionHelper = new WcCommandExecutionHelper(processInvoker, processConfigurationFactory);
     }
 
     /// <summary>

@@ -13,16 +13,16 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AlastairLundy.CliInvoke.Builders;
-using AlastairLundy.CliInvoke.Core;
-using AlastairLundy.CliInvoke.Core.Builders;
 
-using AlastairLundy.CliInvoke.Core.Primitives;
+using AlastairLundy.CliInvoke.Core;
+using AlastairLundy.CliInvoke.Core.Factories;
 
 namespace AlastairLundy.WCountLib.Providers.wc.Helpers;
 
 internal class WcCommandExecutionHelper
 {
+    private readonly IProcessConfigurationFactory _processConfigurationFactory;
+    
     private readonly IProcessInvoker _processInvoker;
     
     private string _tempFilePath;
@@ -39,22 +39,21 @@ internal class WcCommandExecutionHelper
         return tempFilePath;
     }
     
-    internal WcCommandExecutionHelper(IProcessInvoker processInvoker)
+    internal WcCommandExecutionHelper(IProcessInvoker processInvoker, IProcessConfigurationFactory processConfigurationFactory)
     {
         _tempFilePath = string.Empty;
         _processInvoker = processInvoker;
+        _processConfigurationFactory = processConfigurationFactory;
     }
     
     private async Task<BufferedProcessResult> ExecuteAsync(string argument, string tempFileName)
     {
-        IProcessConfigurationBuilder processConfigurationBuilder = new ProcessConfigurationBuilder(
-                "/usr/bin/wc")
-            .WithArguments($"{argument}, {tempFileName}");
-        
-        ProcessConfiguration processConfiguration = processConfigurationBuilder.Build();
-        
+       ProcessConfiguration processConfiguration = _processConfigurationFactory
+           .Create("/usr/bin/wc", $"{argument}, {tempFileName}");
+       
         BufferedProcessResult result = await _processInvoker.
-            ExecuteBufferedAsync(processConfiguration, ProcessExitInfo.Default, CancellationToken.None);
+            ExecuteBufferedAsync(processConfiguration, ProcessExitConfiguration.DefaultNoException,
+                true, cancellationToken: CancellationToken.None);
 
         File.Delete(_tempFilePath);
         
