@@ -12,9 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\WCountLib.Abstractions\WCountLib.Abstractions.csproj" />
-      <ProjectReference Include="..\WCountLib.Extensions\WCountLib.Extensions.csproj" />
-      <ProjectReference Include="..\WCountLib\WCountLib.csproj" />
+        <PackageReference Include="AlastairLundy.WCountLib.Abstractions" Version="4.0.0"/>
     </ItemGroup>
 
 </Project>
