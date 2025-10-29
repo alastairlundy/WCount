@@ -9,9 +9,12 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using AlastairLundy.CliInvoke.Core;
 using AlastairLundy.CliInvoke.Core.Factories;
+
 using AlastairLundy.DotExtensions.MsExtensions.StringSegments.Collections;
+
 using AlastairLundy.WCountLib.Abstractions.Counters.Segments;
 
 using AlastairLundy.WCountLib.Providers.wc.Helpers;
@@ -36,22 +39,22 @@ public class WcSegmentWordCounter : ISegmentWordCounter
     {
         _wcCommandExecutionHelper = new WcCommandExecutionHelper(processInvoker, processConfigurationFactory);
     }
-    
+
     /// <summary>
-    /// 
+    /// Counts the number of words in a sequence of string segments.
     /// </summary>
-    /// <param name="segments"></param>
-    /// <returns></returns>
+    /// <param name="segments">The collection of string segments to be processed for word count.</param>
+    /// <returns>The total number of words in the provided sequence of string segments.</returns>
     public int CountWords(IEnumerable<StringSegment> segments)
     {
         return _wcCommandExecutionHelper.RunInt32("-w", segments.ToString(' '));
     }
 
     /// <summary>
-    /// 
+    /// Asynchronously counts the number of words in a sequence of string segments.
     /// </summary>
-    /// <param name="segments"></param>
-    /// <returns></returns>
+    /// <param name="segments">The collection of <see cref="StringSegment"/> to process.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the total count of words.</returns>
     public async Task<int> CountWordsAsync(IEnumerable<StringSegment> segments)
     {
         return await _wcCommandExecutionHelper.RunInt32Async("-w", segments.ToString(' '));

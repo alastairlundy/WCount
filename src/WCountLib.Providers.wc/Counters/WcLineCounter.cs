@@ -16,7 +16,7 @@ using AlastairLundy.WCountLib.Providers.wc.Helpers;
 namespace AlastairLundy.WCountLib.Providers.wc.Counters;
 
 /// <summary>
-/// 
+/// A class that implements the <see cref="ILineCounter"/> interface to count the number of lines in a text using the wc command.
 /// </summary>
 public class WcLineCounter : ILineCounter
 {
@@ -33,20 +33,20 @@ public class WcLineCounter : ILineCounter
     }
 
     /// <summary>
-    /// 
+    /// Counts the number of lines in the provided text.
     /// </summary>
-    /// <param name="text"></param>
-    /// <returns></returns>
+    /// <param name="text">The input text whose lines are to be counted.</param>
+    /// <returns>The number of lines in the input text.</returns>
     public int CountLines(string text)
     {
         return _wcCommandExecutionHelper.RunInt32("-l", text);
     }
 
     /// <summary>
-    /// 
+    /// Asynchronously counts the number of lines in the provided text.
     /// </summary>
-    /// <param name="text"></param>
-    /// <returns></returns>
+    /// <param name="text">The input text whose lines are to be counted.</param>
+    /// <returns>A task representing the asynchronous operation. The task result contains the number of lines in the input text.</returns>
     public async Task<int> CountLinesAsync(string text)
     {
         return await _wcCommandExecutionHelper.RunInt32Async("-l", text);

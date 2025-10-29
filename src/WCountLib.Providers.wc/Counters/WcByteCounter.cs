@@ -32,29 +32,29 @@ public class WcByteCounter : IByteCounter
     /// 
     /// </summary>
     /// <param name="processInvoker"></param>
+    /// <param name="processConfigurationFactory"></param>
     public WcByteCounter(IProcessInvoker processInvoker, IProcessConfigurationFactory processConfigurationFactory)
     {
         _wcCommandExecutionHelper = new WcCommandExecutionHelper(processInvoker, processConfigurationFactory);
     }
 
     /// <summary>
-    /// 
+    /// Counts the number of bytes in the provided text using the specified encoding.
     /// </summary>
-    /// <param name="text"></param>
-    /// <param name="encoding"></param>
-    /// <returns></returns>
+    /// <param name="text">The input string whose byte count is to be calculated.</param>
+    /// <param name="encoding">The encoding to be used to determine byte representation.</param>
+    /// <returns>The number of bytes in the input text based on the specified encoding.</returns>
     public int CountBytes(string text, Encoding encoding)
     {
         return _wcCommandExecutionHelper.RunInt32("-c", text);
     }
-    
+
     /// <summary>
-    /// 
+    /// Asynchronously counts the number of bytes in the provided text using the specified encoding.
     /// </summary>
-    /// <param name="text"></param>
-    /// <param name="encoding"></param>
-    /// <returns></returns>
-    public async Task<int> CountBytesAsync(string text, Encoding encoding)
+    /// <param name="text">The input string whose byte count is to be calculated.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the number of bytes in the input text based on the specified encoding.</returns>
+    public async Task<int> CountBytesAsync(string text)
     {
         return await _wcCommandExecutionHelper.RunInt32Async("-c", text);
     }

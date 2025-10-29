@@ -11,7 +11,6 @@ using System.Text;
 
 using AlastairLundy.WCountLib.Abstractions.Counters;
 
-
 // ReSharper disable RedundantIfElseBlock
 
 namespace AlastairLundy.WCountLib.Counters;

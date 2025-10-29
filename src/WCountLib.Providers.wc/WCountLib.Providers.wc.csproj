@@ -10,8 +10,8 @@
     <Copyright>Copyright (c) Alastair Lundy 2025</Copyright>
     <RepositoryUrl>https://github.com/alastairlundy/WCount</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>* Updated dependencies
-* Updated WCountLib.Abstractions to 3.2.2.1 from 3.2.0</PackageReleaseNotes>
+    <PackageReleaseNotes>* Updated CliInvoke to 2.0.0
+* Updated WCountLib.Abstractions to 4.0.0 from 3.2.2.1</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <Description>This package provides implementations for WCountLib.Abstractions interfaces that use Posix's and Unix's ``wc`` program to perform the calculations.</Description>
@@ -22,7 +22,7 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Version>3.2.2</Version>
+    <Version>4.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

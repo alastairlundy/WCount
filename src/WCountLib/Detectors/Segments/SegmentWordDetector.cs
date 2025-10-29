@@ -13,7 +13,6 @@ using System.Linq;
 using AlastairLundy.DotExtensions.Strings;
 using AlastairLundy.DotExtensions.MsExtensions.StringSegments;
 
-using AlastairLundy.EnhancedLinq.MsExtensions.StringSegments.Deferred;
 using AlastairLundy.EnhancedLinq.MsExtensions.StringSegments.Immediate;
 
 using AlastairLundy.WCountLib.Abstractions.Detectors.Segments;
@@ -51,7 +50,7 @@ public class SegmentWordDetector : ISegmentWordDetector
 
         bool charValidity = false;
 
-        foreach (char c in EnhancedLinqSegmentDeferred.AsEnumerable(segment))
+        foreach (char c in segment.ToCharArray())
         {
             if(char.IsLetterOrDigit(c) || char.IsPunctuation(c) || char.IsAsciiLetter(c) ||
                char.IsSymbol(c))
@@ -81,13 +80,13 @@ public class SegmentWordDetector : ISegmentWordDetector
     /// <param name="segment">The <see cref="StringSegment"/> to look for.</param>
     /// <param name="wordSeparator">The separator char to look for between words.</param>
     /// <param name="countSegmentsWithSpacesAsWords">Whether to count StringSegments that contain spaces as words. Set to false by default.</param>
-    /// <returns>True if one or more words was found in the string segment, false otherwise.</returns>
+    /// <returns>True if one or more words were found in the string segment, false otherwise.</returns>
     public bool DoesSegmentContainWords(StringSegment segment, char wordSeparator, bool countSegmentsWithSpacesAsWords = false)
     {
         if (StringSegment.IsNullOrEmpty(segment) || segment.All(c => char.IsWhiteSpace(c)))
             return false;
 
-        StringSegment[] possibleWords = EnhancedLinqSegmentImmediate.Split(segment, wordSeparator);
+        StringSegment[] possibleWords = segment.Split(wordSeparator);
         
         bool foundWords = possibleWords.Length > 0;
 

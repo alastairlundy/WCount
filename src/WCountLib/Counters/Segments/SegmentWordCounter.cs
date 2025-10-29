@@ -53,7 +53,7 @@ public class SegmentWordCounter : ISegmentWordCounter
         {
             Parallel.ForEach(stringSegments, segment =>
             {
-                if (_segmentWordDetector.IsSegmentAWord(segment, false))
+                if (_segmentWordDetector.IsSegmentAWord(segment))
                 {
                     Interlocked.Increment(ref totalWords);
                 }
@@ -65,7 +65,7 @@ public class SegmentWordCounter : ISegmentWordCounter
                 
             Parallel.ForEach(partitioner, segment =>
             {
-                if (_segmentWordDetector.IsSegmentAWord(segment, false))
+                if (_segmentWordDetector.IsSegmentAWord(segment))
                 {
                     Interlocked.Increment(ref totalWords);
                 }
