@@ -23,7 +23,7 @@
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <Version>3.2.2</Version>
+        <Version>4.0.0-rc.1</Version>
         <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
         <PackageTags>word counter, wc, word count, count</PackageTags>
         <RootNamespace>AlastairLundy.WCountLib</RootNamespace>
