@@ -410,3 +410,4 @@ WCountLogic/WCountAPI/appsettings.Development.json
 /WCountApi/.idea
 /WCountLib/.idea
 /src/.idea
+/api/.idea
