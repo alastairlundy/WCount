@@ -15,4 +15,13 @@
         <PackageReference Include="AlastairLundy.WCountLib.Abstractions" Version="4.0.0"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Reference Include="AlastairLundy.WCountLib">
+        <HintPath>..\..\lib\WCountLib\bin\Debug\net9.0\AlastairLundy.WCountLib.dll</HintPath>
+      </Reference>
+      <Reference Include="AlastairLundy.WCountLib.Extensions">
+        <HintPath>..\..\lib\WCountLib.Extensions\bin\Debug\net9.0\AlastairLundy.WCountLib.Extensions.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>
