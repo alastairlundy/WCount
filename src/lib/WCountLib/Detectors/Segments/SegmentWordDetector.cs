@@ -34,38 +34,39 @@ public class SegmentWordDetector : ISegmentWordDetector
     /// <returns>True if the string segment represents a single word, false otherwise.</returns>
     public bool IsSegmentAWord(StringSegment segment, bool countStringsWithSpacesAsWords = false)
     {
-        if (StringSegment.IsNullOrEmpty(segment) || segment.All(c => char.IsWhiteSpace(c)))
-            return false;
+        ArgumentException.ThrowIfNullOrEmpty(segment);
         
         if (segment.Length == 1)
             return !char.IsSpecialCharacter(segment[0]);
+        
+        int regularChars = 0;
         int separatorCount = 0;
         int specialCharCount = 0;
+        int whiteSpaceCharCount = 0;
 
-        bool charValidity = false;
-
-        foreach (char c in segment.ToCharArray())
+        foreach (char c in segment.AsEnumerable())
         {
-            if(char.IsLetterOrDigit(c) || char.IsPunctuation(c) || char.IsAsciiLetter(c) ||
-               char.IsSymbol(c))
-                charValidity = true;
-
+            if (char.IsLetterOrDigit(c) || char.IsAsciiLetterOrDigit(c))
+                regularChars++;
+           
+            if (char.IsWhiteSpace(c))
+                whiteSpaceCharCount++;
+           
             if (char.IsSeparator(c))
                 separatorCount++;
             
             if(char.IsPunctuation(c))
                 specialCharCount++;
+            
+            if (whiteSpaceCharCount > 0 && !countStringsWithSpacesAsWords ||
+                separatorCount == segment.Length || specialCharCount == segment.Length)
+                return false;
         }
-        
-        if (separatorCount == segment.Length || specialCharCount == segment.Length)
-            return false;
 
-        bool containsSpaceSeparatedSubStrings = segment.Contains(' ') == false;
-
-        if (countStringsWithSpacesAsWords && containsSpaceSeparatedSubStrings && charValidity)
+        if (countStringsWithSpacesAsWords && whiteSpaceCharCount > 0 && regularChars > 0)
             return true;
 
-        return charValidity;
+        return regularChars > 0;
     }
 
     /// <summary>
@@ -75,20 +76,13 @@ public class SegmentWordDetector : ISegmentWordDetector
     /// <param name="wordSeparator">The separator char to look for between words.</param>
     /// <param name="countSegmentsWithSpacesAsWords">Whether to count StringSegments that contain spaces as words. Set to false by default.</param>
     /// <returns>True if one or more words were found in the string segment, false otherwise.</returns>
-    public bool DoesSegmentContainWords(StringSegment segment, char wordSeparator, bool countSegmentsWithSpacesAsWords = false)
+    public bool DoesSegmentContainWords(StringSegment segment, char wordSeparator, 
+        bool countSegmentsWithSpacesAsWords = false)
     {
-        if (StringSegment.IsNullOrEmpty(segment) || segment.All(c => char.IsWhiteSpace(c)))
-            return false;
-
+        ArgumentException.ThrowIfNullOrEmpty(segment);
+        
         StringSegment[] possibleWords = segment.Split(wordSeparator);
         
-        bool foundWords = possibleWords.Length > 0;
-
-        if (foundWords)
-        {
-            return possibleWords.Any(x => IsSegmentAWord(x));
-        }
-
-        return IsSegmentAWord(segment, countSegmentsWithSpacesAsWords);
+        return possibleWords.Any(x => IsSegmentAWord(x, countSegmentsWithSpacesAsWords));
     }
 }
