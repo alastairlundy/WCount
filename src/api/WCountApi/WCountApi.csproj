@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
+        <LangVersion>14</LangVersion>
         <Nullable>enable</Nullable>
         <ImplicitUsings>disable</ImplicitUsings>
     </PropertyGroup>
@@ -12,16 +13,16 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="AlastairLundy.WCountLib.Abstractions" Version="4.0.0"/>
-    </ItemGroup>
-
-    <ItemGroup>
       <Reference Include="AlastairLundy.WCountLib">
         <HintPath>..\..\lib\WCountLib\bin\Debug\net9.0\AlastairLundy.WCountLib.dll</HintPath>
       </Reference>
       <Reference Include="AlastairLundy.WCountLib.Extensions">
         <HintPath>..\..\lib\WCountLib.Extensions\bin\Debug\net9.0\AlastairLundy.WCountLib.Extensions.dll</HintPath>
       </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\lib\WCountLib.Abstractions\WCountLib.Abstractions.csproj" />
     </ItemGroup>
 
 </Project>
