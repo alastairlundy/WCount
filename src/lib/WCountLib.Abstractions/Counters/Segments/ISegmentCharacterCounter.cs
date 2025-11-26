@@ -8,6 +8,7 @@
  */
 
 using System.Collections.Generic;
+using System.Text;
 using Microsoft.Extensions.Primitives;
 
 namespace AlastairLundy.WCountLib.Abstractions.Counters.Segments;
@@ -23,6 +24,7 @@ public interface ISegmentCharacterCounter
     /// <summary>
     /// Returns the total number of characters in all segments. </summary>
     /// <param name="segments">The segments to count characters from.</param>
+    /// <param name="encoding"></param>
     /// <returns>The total number of characters in all segments.</returns>
-    int CountCharacters(IEnumerable<StringSegment> segments);
+    int CountCharacters(IEnumerable<StringSegment> segments, Encoding? encoding = null);
 }

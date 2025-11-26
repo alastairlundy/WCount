@@ -34,40 +34,26 @@ public class WordCounter : IWordCounter
 
     private int CountWordsWorkerSegment(string input)
     {
-        int totalWords = 0;
-            
-        IEnumerable<StringSegment> tokens = new StringTokenizer(input, new[] { ' ' });
+        ArgumentNullException.ThrowIfNull(input);
 
-        StringSegment[] segments = tokens.ToArray();
-        
-        int segmentCount = segments.Length;
-            
-        if (segmentCount < 100)
+        int totalWords = 0;
+
+        IEnumerable<StringSegment> segments = new StringTokenizer(input, new[] { ' ' });
+
+        OrderablePartitioner<StringSegment> partitioner =
+            Partitioner.Create(segments, EnumerablePartitionerOptions.NoBuffering);
+
+        Parallel.ForEach(partitioner, segment =>
         {
-            Parallel.ForEach(segments, segment =>
+            if (_wordDetector.IsStringAWord(segment.Value, false))
             {
-                if (_wordDetector.IsStringAWord(segment.Value, false))
-                {
-                    Interlocked.Increment(ref totalWords);
-                }
-            });
-        }
-        else
-        {
-            OrderablePartitioner<StringSegment> partitioner = Partitioner.Create(segments, EnumerablePartitionerOptions.NoBuffering);
-                
-            Parallel.ForEach(partitioner, segment =>
-            {
-                if (_wordDetector.IsStringAWord(segment.Value, false))
-                {
-                    Interlocked.Increment(ref totalWords);
-                }
-            });
-        }
-            
+                Interlocked.Increment(ref totalWords);
+            }
+        });
+
         return totalWords;
     }
-        
+
     /// <summary>
     /// 
     /// </summary>
@@ -75,6 +61,8 @@ public class WordCounter : IWordCounter
     /// <returns></returns>
     public int CountWords(string text)
     {
+        ArgumentNullException.ThrowIfNull(text);
+
         return CountWordsWorkerSegment(text);
     }
 }

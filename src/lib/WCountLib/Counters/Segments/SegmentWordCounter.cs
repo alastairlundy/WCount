@@ -27,7 +27,7 @@ public class SegmentWordCounter : ISegmentWordCounter
     {
         _segmentWordDetector = segmentWordDetector;
     }
-    
+
     /// <summary>
     /// Counts the number of words in a collection of string segments.
     /// </summary>
@@ -35,35 +35,21 @@ public class SegmentWordCounter : ISegmentWordCounter
     /// <returns>The total number of words in the specified collection.</returns>
     public int CountWords(IEnumerable<StringSegment> segments)
     {
+        ArgumentNullException.ThrowIfNull(segments);
+        
         int totalWords = 0;
+        
+        OrderablePartitioner<StringSegment> partitioner =
+            Partitioner.Create(segments, EnumerablePartitionerOptions.NoBuffering);
 
-        StringSegment[] stringSegments = segments as StringSegment[] ?? segments.ToArray();
-
-        int segmentCount = stringSegments.Length;
-
-        if (segmentCount < 100)
+        Parallel.ForEach(partitioner, segment =>
         {
-            Parallel.ForEach(stringSegments, segment =>
+            if (_segmentWordDetector.IsSegmentAWord(segment))
             {
-                if (_segmentWordDetector.IsSegmentAWord(segment))
-                {
-                    Interlocked.Increment(ref totalWords);
-                }
-            });
-        }
-        else
-        {
-            OrderablePartitioner<StringSegment> partitioner = Partitioner.Create(stringSegments, EnumerablePartitionerOptions.NoBuffering);
-                
-            Parallel.ForEach(partitioner, segment =>
-            {
-                if (_segmentWordDetector.IsSegmentAWord(segment))
-                {
-                    Interlocked.Increment(ref totalWords);
-                }
-            });
-        }
-            
+                Interlocked.Increment(ref totalWords);
+            }
+        });
+
         return totalWords;
     }
 }

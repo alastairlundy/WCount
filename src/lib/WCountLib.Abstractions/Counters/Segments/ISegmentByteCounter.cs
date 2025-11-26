@@ -8,6 +8,7 @@
  */
 
 using System.Collections.Generic;
+using System.Text;
 using Microsoft.Extensions.Primitives;
 
 namespace AlastairLundy.WCountLib.Abstractions.Counters.Segments;
@@ -20,10 +21,10 @@ namespace AlastairLundy.WCountLib.Abstractions.Counters.Segments;
 /// </remarks>
 public interface ISegmentByteCounter
 {
-    
     /// <summary>
     /// Returns the total number of bytes in all segments. </summary>
     /// <param name="segments">The segments to count bytes from.</param>
+    /// <param name="encoding"></param>
     /// <returns>The total number of bytes in all segments.</returns>
-    int CountBytes(IEnumerable<StringSegment> segments);
+    int CountBytes(IEnumerable<StringSegment> segments, Encoding? encoding = null);
 }

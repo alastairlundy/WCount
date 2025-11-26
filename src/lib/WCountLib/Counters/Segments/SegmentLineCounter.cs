@@ -38,6 +38,8 @@ public class SegmentLineCounter : ISegmentLineCounter
     /// <returns>The total number of lines in the specified collection.</returns>
     public int CountLines(IEnumerable<StringSegment> segments)
     {
+        ArgumentNullException.ThrowIfNull(segments);
+
         int lineCount = 0;
         
         Parallel.ForEach(segments, segment =>

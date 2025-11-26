@@ -12,6 +12,8 @@
 
 // ReSharper disable RedundantIfElseBlock
 
+using System.Collections;
+
 namespace AlastairLundy.WCountLib.Counters;
 
 /// <summary>
@@ -26,12 +28,14 @@ public class LineCounter : ILineCounter
 	/// <returns></returns>
 	public int CountLines(string source)
 	{
+		ArgumentNullException.ThrowIfNull(source);
+		
 		int output = 0;
-		StringTokenizer tokenizer = new StringTokenizer(source, [' ']);
+		IEnumerable<StringSegment> segments = new StringTokenizer(source, [' ']);
 
 		StringSegment environmentNewLine = new StringSegment(Environment.NewLine);
 		    
-		foreach (StringSegment segment in tokenizer)
+		foreach (StringSegment segment in segments)
 		{
 			if (segment.Contains(environmentNewLine) || segment.Equals(environmentNewLine))
 			{

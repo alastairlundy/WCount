@@ -27,41 +27,11 @@ public class CharacterCounter : ICharacterCounter
 	/// <returns>The number of characters in the string.</returns>
 	public int CountCharacters(string text, Encoding textEncodingType)
 	{
-		int totalChars = 0;
-
+		ArgumentNullException.ThrowIfNull(text);
+		ArgumentNullException.ThrowIfNull(textEncodingType);
+		
 		byte[] bytes = textEncodingType.GetBytes(text.ToCharArray());
 
-		if (Equals(textEncodingType, Encoding.Unicode))
-		{
-			totalChars = Encoding.Unicode.GetCharCount(bytes);
-		}
-		else if (Equals(textEncodingType, Encoding.UTF32))
-		{
-			totalChars = Encoding.UTF32.GetCharCount(bytes);
-		}
-		else if (Equals(textEncodingType, Encoding.UTF8))
-		{
-			totalChars = Encoding.UTF8.GetCharCount(bytes);
-		}
-		else if (Equals(textEncodingType, Encoding.ASCII))
-		{
-			totalChars = Encoding.ASCII.GetCharCount(bytes);
-		}
-		else if (Equals(textEncodingType, Encoding.BigEndianUnicode))
-		{
-			totalChars = Encoding.BigEndianUnicode.GetCharCount(bytes);
-		}
-#if NET8_0_OR_GREATER
-		else if (Equals(textEncodingType, Encoding.Latin1))
-		{
-			totalChars = Encoding.Latin1.GetCharCount(bytes);
-		}
-#endif
-		else
-		{
-			totalChars = Encoding.Default.GetCharCount(bytes);
-		}
-
-		return totalChars;
+		return textEncodingType.GetCharCount(bytes);
 	}
 }

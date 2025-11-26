@@ -18,26 +18,33 @@ namespace AlastairLundy.WCountLib.Counters.Segments;
 public class SegmentCharacterCounter : ISegmentCharacterCounter
 {
 
-    private int CountCharactersInt32Worker(StringSegment segment)
+    private int CountCharactersInt32Worker(StringSegment segment, Encoding? encoding = null)
     {
-        byte[] bytes = Encoding.Default.GetBytes(segment.ToCharArray());
-
-        return Encoding.Default.GetCharCount(bytes);
+        ArgumentNullException.ThrowIfNull(segment);
+        
+        encoding ??= Encoding.Default;
+        
+        byte[] bytes = encoding.GetBytes(segment.ToCharArray());
+        
+        return encoding.GetCharCount(bytes);
     }
-    
+
     /// <summary>
     /// Returns the total number of characters in all segments. </summary>
     /// <param name="segments">The segments to count characters from.</param>
+    /// <param name="encoding"></param>
     /// <returns>The total number of characters in all segments.</returns>
-    public int CountCharacters(IEnumerable<StringSegment> segments)
+    public int CountCharacters(IEnumerable<StringSegment> segments, Encoding? encoding = null)
     {
-        int charCount = 0;
+        ArgumentNullException.ThrowIfNull(segments);
         
+        int charCount = 0;
+
         Parallel.ForEach(segments, segment =>
         {
-            int bytes = CountCharactersInt32Worker(segment);
+            int localCharCount = CountCharactersInt32Worker(segment, encoding);
 
-            Interlocked.Add(ref bytes, charCount);
+            Interlocked.Add(ref localCharCount, charCount);
         });
 
         return charCount;

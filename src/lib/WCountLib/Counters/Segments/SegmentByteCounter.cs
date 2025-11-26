@@ -18,26 +18,32 @@ public class SegmentByteCounter : ISegmentByteCounter
     /// 
     /// </summary>
     /// <param name="segment"></param>
+    /// <param name="encoding"></param>
     /// <returns></returns>
-    private int CountBytesInt32Worker(StringSegment segment)
+    private int CountBytesInt32Worker(StringSegment segment, Encoding? encoding = null)
     {
-        int byteCount = Encoding.Default.GetByteCount(segment.AsSpan());
-
-        return byteCount;
+        ArgumentNullException.ThrowIfNull(segment);
+        encoding ??= Encoding.Default;
+        
+        return encoding.GetByteCount(segment.AsSpan());
     }
-    
+
     /// <summary>
     /// Returns the total number of 32-bit integers that can be represented by the bytes in all segments.
     /// </summary>
     /// <param name="segments">The segments to count bytes from.</param>
+    /// <param name="encoding"></param>
     /// <returns>The total number of 32-bit integers that can be represented by the bytes in all segments.</returns>
-    public int CountBytes(IEnumerable<StringSegment> segments)
+    public int CountBytes(IEnumerable<StringSegment> segments, Encoding? encoding = null)
     {
+        ArgumentNullException.ThrowIfNull(segments);
+        encoding ??= Encoding.Default;
+        
         int byteCount = 0;
         
         Parallel.ForEach(segments, segment =>
         {
-            int bytes = CountBytesInt32Worker(segment);
+            int bytes = CountBytesInt32Worker(segment, encoding);
 
             Interlocked.Add(ref bytes, byteCount);
         });

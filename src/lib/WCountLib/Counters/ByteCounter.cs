@@ -26,39 +26,11 @@ public class ByteCounter : IByteCounter
     /// <returns>the number of bytes in the string.</returns>
     public int CountBytes(string text, Encoding encoding)
     {
-        int byteCount;
-
-        if (Equals(encoding, Encoding.Unicode))
-        {
-            byteCount = Encoding.Unicode.GetByteCount(text);
-        }
-        else if (Equals(encoding, Encoding.UTF32))
-        {
-            byteCount = Encoding.UTF32.GetByteCount(text);
-        }
-        else if (Equals(encoding, Encoding.UTF8))
-        {
-            byteCount = Encoding.UTF8.GetByteCount(text);
-        }
-        else if (Equals(encoding, Encoding.ASCII))
-        {
-            byteCount = Encoding.ASCII.GetByteCount(text);
-        }
-        else if (Equals(encoding, Encoding.BigEndianUnicode))
-        {
-            byteCount = Encoding.BigEndianUnicode.GetByteCount(text);
-        }
-#if NET8_0_OR_GREATER
-        else if (Equals(encoding, Encoding.Latin1))
-        {
-            byteCount = Encoding.Latin1.GetByteCount(text);
-        }
-#endif
-        else
-        {
-            byteCount = Encoding.Default.GetByteCount(text);
-        }
-
+        ArgumentNullException.ThrowIfNull(text);
+        ArgumentNullException.ThrowIfNull(encoding);
+        
+        int byteCount = encoding.GetByteCount(text);
+        
         return byteCount;
     }
 }
