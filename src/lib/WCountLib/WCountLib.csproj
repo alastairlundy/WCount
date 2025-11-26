@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <ImplicitUsings>disable</ImplicitUsings>
-		<LangVersion>13</LangVersion>
+		<LangVersion>14</LangVersion>
         <Nullable>enable</Nullable>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
@@ -38,11 +38,10 @@
     </ItemGroup>
     
     <ItemGroup>
-        <PackageReference Include="AlastairLundy.DotExtensions" Version="9.0.0-preview.2" />
-        <PackageReference Include="AlastairLundy.DotExtensions.MsExtensions" Version="9.0.0-preview.2" />
-        <PackageReference Include="AlastairLundy.EnhancedLinq.MsExtensions" Version="0.10.0" />
-        <PackageReference Include="AlastairLundy.WCountLib.Abstractions" Version="4.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Primitives" Version="10.0.0-rc.2.25502.107" />
+        <PackageReference Include="AlastairLundy.DotExtensions" Version="9.1.0-preview.2" />
+        <PackageReference Include="AlastairLundy.DotExtensions.MsExtensions" Version="9.1.0-preview.2" />
+        <PackageReference Include="AlastairLundy.EnhancedLinq.MsExtensions" Version="0.13.0" />
+        <PackageReference Include="Microsoft.Extensions.Primitives" Version="10.0.0" />
 	</ItemGroup>
 
 
@@ -59,6 +58,10 @@
         <AutoGen>True</AutoGen>
         <DependentUpon>Resources.resx</DependentUpon>
       </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\WCountLib.Abstractions\WCountLib.Abstractions.csproj" />
     </ItemGroup>
 
 </Project>

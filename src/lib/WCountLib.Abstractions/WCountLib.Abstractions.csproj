@@ -25,6 +25,7 @@
 	  <PackageReleaseNotes>* Significantly cleaned up and reduced API surface to focus on strings and stringsegments
 * Updated Microsoft.Extensions.Primitives to 9.0.9 from 9.0.6
 * Removed .NET Standard 2.0 and 2.1 support</PackageReleaseNotes>
+	  <Nullable>enable</Nullable>
   </PropertyGroup>
 
 	<ItemGroup>
@@ -36,6 +37,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.Extensions.Primitives" Version="9.0.10" />
+	  <PackageReference Include="Microsoft.Extensions.Primitives" Version="10.0.0" />
 	</ItemGroup>
 </Project>
