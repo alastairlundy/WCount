@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using AlastairLundy.WCountLib.Abstractions.Counters;
-
+using AlastairLundy.WCountLib.Abstractions.Counters.Segments;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.Extensions.Primitives;
 
 namespace WCountApi.Controllers;
 
@@ -10,9 +12,9 @@ namespace WCountApi.Controllers;
     [ApiController]
     public class CountWordsController : ControllerBase
     {
-        private readonly IWordCounter _wordCounter;
+        private readonly ISegmentWordCounter _wordCounter;
 
-        public CountWordsController(IWordCounter wordCounter)
+        public CountWordsController(ISegmentWordCounter wordCounter)
         {
            _wordCounter = wordCounter;
         }
@@ -25,8 +27,10 @@ namespace WCountApi.Controllers;
         {
             if (string.IsNullOrWhiteSpace(text) || text.Length == 0)
                 return BadRequest("Text string was empty or null.");
+
+            IEnumerable<StringSegment> segments =  new StringTokenizer(text, [' ']);
             
-            int result = _wordCounter.CountWords(text);
+            int result = _wordCounter.CountWords(segments);
 
             return Ok(result);
         }
