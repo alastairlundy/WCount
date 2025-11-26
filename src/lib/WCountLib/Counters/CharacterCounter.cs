@@ -7,9 +7,7 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-using System.Text;
 
-using AlastairLundy.WCountLib.Abstractions.Counters;
 
 // ReSharper disable RedundantIfElseBlock
 
@@ -20,6 +18,7 @@ namespace AlastairLundy.WCountLib.Counters;
 /// </summary>
 public class CharacterCounter : ICharacterCounter
 {
+	
 	/// <summary>
 	/// Get the number of characters in a string.
 	/// </summary>

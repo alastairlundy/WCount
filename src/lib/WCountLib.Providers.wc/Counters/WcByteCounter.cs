@@ -7,18 +7,6 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-using System;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
-
-using System.Runtime.Versioning;
-
-using AlastairLundy.CliInvoke.Core;
-using AlastairLundy.CliInvoke.Core.Factories;
-using AlastairLundy.WCountLib.Abstractions.Counters;
-using AlastairLundy.WCountLib.Providers.wc.Helpers;
-
 namespace AlastairLundy.WCountLib.Providers.wc.Counters;
 
 /// <summary>

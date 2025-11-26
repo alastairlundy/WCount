@@ -7,17 +7,7 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-using System.Collections.Generic;
-using System.Runtime.Versioning;
-using System.Threading.Tasks;
-
-using AlastairLundy.CliInvoke.Core;
-using AlastairLundy.CliInvoke.Core.Factories;
 using AlastairLundy.DotExtensions.MsExtensions.StringSegments.Collections;
-using AlastairLundy.WCountLib.Abstractions.Counters.Segments;
-
-using AlastairLundy.WCountLib.Providers.wc.Helpers;
-
 using Microsoft.Extensions.Primitives;
 
 namespace AlastairLundy.WCountLib.Providers.wc.Counters.Segments;
@@ -38,11 +28,12 @@ public class WcSegmentCharacterCounter : ISegmentCharacterCounter
     {
         _wcCommandExecutionHelper = new WcCommandExecutionHelper(processInvoker, processConfigurationFactory);
     }
-        
+
     /// <summary>
     /// Counts the total number of characters in a sequence of string segments.
     /// </summary>
     /// <param name="segments">A sequence of StringSegment objects.</param>
+    /// <param name="encoding"></param>
     /// <returns>The total number of characters as a signed 32-bit integer.</returns>
 #if NET8_0_OR_GREATER
     [UnsupportedOSPlatform("windows")]
@@ -53,7 +44,7 @@ public class WcSegmentCharacterCounter : ISegmentCharacterCounter
     [UnsupportedOSPlatform("ios")]
     [UnsupportedOSPlatform("tvos")]
 #endif
-    public int CountCharacters(IEnumerable<StringSegment> segments)
+    public int CountCharacters(IEnumerable<StringSegment> segments, Encoding encoding)
     {
         return _wcCommandExecutionHelper.RunInt32("-m", segments.ToString(' '));
     }

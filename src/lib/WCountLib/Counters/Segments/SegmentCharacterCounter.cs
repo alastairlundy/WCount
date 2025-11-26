@@ -7,16 +7,8 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-using AlastairLundy.DotExtensions.MsExtensions.StringSegments;
-
-using AlastairLundy.WCountLib.Abstractions.Counters.Segments;
-
-using Microsoft.Extensions.Primitives;
+using AlastairLundy.DotExtensions.MsExtensions.Exceptions;
+using AlastairLundy.EnhancedLinq.MsExtensions.StringSegments.Deferred;
 
 namespace AlastairLundy.WCountLib.Counters.Segments;
 

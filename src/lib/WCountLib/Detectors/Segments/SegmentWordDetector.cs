@@ -8,16 +8,13 @@
  */
 
 using System.Linq;
-
-
+using AlastairLundy.DotExtensions.MsExtensions.Exceptions;
 using AlastairLundy.DotExtensions.Strings;
-using AlastairLundy.DotExtensions.MsExtensions.StringSegments;
-
+using AlastairLundy.EnhancedLinq.MsExtensions.StringSegments.Deferred;
 using AlastairLundy.EnhancedLinq.MsExtensions.StringSegments.Immediate;
 
 using AlastairLundy.WCountLib.Abstractions.Detectors.Segments;
 
-using Microsoft.Extensions.Primitives;
 // ReSharper disable RedundantBoolCompare
 // ReSharper disable ConvertClosureToMethodGroup
 
@@ -41,10 +38,7 @@ public class SegmentWordDetector : ISegmentWordDetector
             return false;
         
         if (segment.Length == 1)
-        {
-            return segment[0].IsSpecialCharacter() == false;
-        }
-
+            return !char.IsSpecialCharacter(segment[0]);
         int separatorCount = 0;
         int specialCharCount = 0;
 

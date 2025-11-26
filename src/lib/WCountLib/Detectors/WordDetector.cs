@@ -31,13 +31,10 @@ public class WordDetector : IWordDetector
     /// <returns>true if the string is not a special character and doesn't contain a space character if spaces are excluded; false otherwise.</returns>
     public bool IsStringAWord(string input, bool countStringsWithSpacesAsWords = false)
     {
-        if (string.IsNullOrEmpty(input) || input.All(c => char.IsWhiteSpace(c)))
-            return false;
+        ArgumentException.ThrowIfNullOrEmpty(input);
         
         if (input.Length == 1)
-        {
-            return input[0].IsSpecialCharacter() == false;
-        }
+            return !char.IsSpecialCharacter(input[0]);
 
         int separatorCount = 0;
         int specialCharCount = 0;
@@ -72,20 +69,14 @@ public class WordDetector : IWordDetector
     /// <param name="s">The string to be searched for a word.</param>
     /// <param name="wordSeparator">The separator char to look for between words.</param>
     /// <param name="countStringsWithSpacesAsWords">Whether to count strings with spaces in them as words.</param>
-    /// <returns>True if one or more words was found, false otherwise.</returns>
+    /// <returns>True if one or more words were found, false otherwise.</returns>
     public bool DoesStringContainWords(string s, char wordSeparator, bool countStringsWithSpacesAsWords = false)
     {
         if (string.IsNullOrEmpty(s) || s.All(c => char.IsWhiteSpace(c)))
             return false;
 
         string[] possibleWords = s.Split(wordSeparator);
-        bool foundWords = possibleWords.Length > 0;
 
-        if (foundWords)
-        {
-           return possibleWords.Any(x => IsStringAWord(x));
-        }
-
-        return IsStringAWord(s, countStringsWithSpacesAsWords);
+        return possibleWords.Any(x => IsStringAWord(x, countStringsWithSpacesAsWords));
     }
 }

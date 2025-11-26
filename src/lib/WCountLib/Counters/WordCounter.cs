@@ -8,15 +8,8 @@
  */
 
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
-using AlastairLundy.WCountLib.Abstractions.Counters;
 using AlastairLundy.WCountLib.Abstractions.Detectors;
 
-using Microsoft.Extensions.Primitives;
 // ReSharper disable UseCollectionExpression
 // ReSharper disable RedundantArgumentDefaultValue
 
@@ -29,7 +22,7 @@ namespace AlastairLundy.WCountLib.Counters;
 public class WordCounter : IWordCounter
 {
     private readonly IWordDetector _wordDetector;
-        
+
     /// <summary>
     /// 
     /// </summary>

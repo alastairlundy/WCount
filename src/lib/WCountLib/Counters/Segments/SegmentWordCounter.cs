@@ -8,15 +8,7 @@
  */
 
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
-using AlastairLundy.WCountLib.Abstractions.Counters.Segments;
 using AlastairLundy.WCountLib.Abstractions.Detectors.Segments;
-
-using Microsoft.Extensions.Primitives;
 
 namespace AlastairLundy.WCountLib.Counters.Segments;
 

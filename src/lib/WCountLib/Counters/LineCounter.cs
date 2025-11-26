@@ -7,13 +7,7 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-using System;
 
-using AlastairLundy.DotExtensions.MsExtensions.StringSegments;
-
-using AlastairLundy.WCountLib.Abstractions.Counters;
-
-using Microsoft.Extensions.Primitives;
 
 
 // ReSharper disable RedundantIfElseBlock
