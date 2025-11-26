@@ -12,8 +12,6 @@
 
 // ReSharper disable RedundantIfElseBlock
 
-using System.Collections;
-
 namespace AlastairLundy.WCountLib.Counters;
 
 /// <summary>

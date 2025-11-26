@@ -7,9 +7,6 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-using AlastairLundy.DotExtensions.MsExtensions.Exceptions;
-using AlastairLundy.EnhancedLinq.MsExtensions.StringSegments.Deferred;
-
 namespace AlastairLundy.WCountLib.Counters.Segments;
 
 /// <summary>

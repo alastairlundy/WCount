@@ -1,10 +1,6 @@
-using AlastairLundy.WCountLib.Abstractions.Counters;
 using AlastairLundy.WCountLib.Abstractions.Counters.Segments;
-using AlastairLundy.WCountLib.Abstractions.Detectors;
 using AlastairLundy.WCountLib.Abstractions.Detectors.Segments;
-using AlastairLundy.WCountLib.Counters;
 using AlastairLundy.WCountLib.Counters.Segments;
-using AlastairLundy.WCountLib.Detectors;
 using AlastairLundy.WCountLib.Detectors.Segments;
 using Microsoft.Extensions.DependencyInjection;
 

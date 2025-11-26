@@ -7,9 +7,6 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-using AlastairLundy.DotExtensions.MsExtensions.StringSegments.Collections;
-using Microsoft.Extensions.Primitives;
-
 namespace AlastairLundy.WCountLib.Providers.wc.Counters.Segments;
 
 /// <summary>
@@ -47,7 +44,6 @@ public class WcSegmentByteCounter : ISegmentByteCounter
     public int CountBytes(IEnumerable<StringSegment> segments, Encoding? encoding = null)
     {
         return _wcCommandExecutionHelper.RunInt32("-c", segments.ToString(' '));
-
     }
 
     /// <summary>

@@ -62,6 +62,5 @@ public class WcLineCounter : ILineCounter
     public async Task<int> CountLinesAsync(string text)
     {
         return await _wcCommandExecutionHelper.RunInt32Async("-l", text);
-
     }
 }

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
-using AlastairLundy.WCountLib.Abstractions.Counters;
 using AlastairLundy.WCountLib.Abstractions.Counters.Segments;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.RateLimiting;
