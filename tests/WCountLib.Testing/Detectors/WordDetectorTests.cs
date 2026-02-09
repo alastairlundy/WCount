@@ -3,8 +3,6 @@
 public class WordDetectorTests
 {
     private readonly WordDetector _detector = new();
-    private readonly Lorem lorem = new Lorem();
-    private Randomizer _randomizer = new();
     
     /*[Theory]
     [ClassData(typeof(FakeWordsTestData))]
