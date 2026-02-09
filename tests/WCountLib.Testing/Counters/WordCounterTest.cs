@@ -1,7 +1,4 @@
-﻿using AlastairLundy.WCountLib.Counters;
-using AlastairLundy.WCountLib.Detectors;
-
-using WCountLib.Testing.TestData;
+﻿using WCountLib.Counters;
 
 namespace WCountLib.Testing.Counters;
 

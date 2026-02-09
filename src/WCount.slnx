@@ -7,4 +7,7 @@
     <Project Path="lib/WCountLib.Providers.wc/WCountLib.Providers.wc.csproj" />
     <Project Path="lib/WCountLib/WCountLib.csproj" />
   </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="../tests/WCountLib.Testing/WCountLib.Testing.csproj" />
+  </Folder>
 </Solution>

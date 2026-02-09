@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-using AlastairLundy.DotExtensions.Strings;
+﻿using DotExtensions.Strings;
 
 namespace WCountLib.Testing.TestData;
 

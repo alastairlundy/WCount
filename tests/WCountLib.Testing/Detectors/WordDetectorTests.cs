@@ -1,14 +1,4 @@
-﻿using System;
-using System.Linq;
-using AlastairLundy.DotExtensions.Strings;
-
-using AlastairLundy.WCountLib.Detectors;
-using Bogus;
-using Bogus.DataSets;
-
-using WCountLib.Testing.TestData;
-
-namespace WCountLib.Testing.Detectors;
+﻿namespace WCountLib.Testing.Detectors;
 
 public class WordDetectorTests
 {

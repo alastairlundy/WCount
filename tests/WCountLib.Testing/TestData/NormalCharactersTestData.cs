@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-using Bogus;
-
-namespace WCountLib.Testing.TestData;
+﻿namespace WCountLib.Testing.TestData;
 
 public class NormalCharactersTestData : IEnumerable<object[]>
 {
