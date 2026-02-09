@@ -8,8 +8,6 @@
  */
 
 using System.Collections.Concurrent;
-using WCountLib.Abstractions.Counters.Segments;
-using WCountLib.Abstractions.Detectors.Segments;
 
 namespace WCountLib.Counters.Segments;
 

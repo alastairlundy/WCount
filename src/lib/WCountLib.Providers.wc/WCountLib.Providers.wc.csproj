@@ -25,8 +25,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-      <PackageReference Include="AlastairLundy.DotExtensions.MsExtensions" Version="9.0.0" />
-      <PackageReference Include="CliInvoke.Core" Version="2.1.1" />
+      <PackageReference Include="CliInvoke.Core" Version="2.3.1" />
+      <PackageReference Include="DotExtensions.MsExtensions" Version="9.6.0" />
   </ItemGroup>
   
   <ItemGroup>

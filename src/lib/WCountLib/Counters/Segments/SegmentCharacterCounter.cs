@@ -7,7 +7,7 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-using WCountLib.Abstractions.Counters.Segments;
+using DotExtensions.MsExtensions.StringSegments;
 
 namespace WCountLib.Counters.Segments;
 
@@ -16,13 +16,10 @@ namespace WCountLib.Counters.Segments;
 /// </summary>
 public class SegmentCharacterCounter : ISegmentCharacterCounter
 {
-
     private int CountCharactersInt32Worker(StringSegment segment, Encoding? encoding = null)
     {
-        ArgumentNullException.ThrowIfNull(segment);
-        
         encoding ??= Encoding.Default;
-        
+
         byte[] bytes = encoding.GetBytes(segment.ToCharArray());
         
         return encoding.GetCharCount(bytes);

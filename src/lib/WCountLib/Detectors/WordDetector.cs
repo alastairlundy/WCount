@@ -8,11 +8,7 @@
  */
 
 using System.Linq;
-using AlastairLundy.DotExtensions.Strings;
 using WCountLib.Abstractions.Detectors;
-
-// ReSharper disable ConvertClosureToMethodGroup
-// ReSharper disable SimplifyConditionalTernaryExpression
 
 namespace WCountLib.Detectors;
 
@@ -56,7 +52,7 @@ public class WordDetector : IWordDetector
         if (separatorCount == input.Length || specialCharCount == input.Length)
             return false;
 
-        if (countStringsWithSpacesAsWords && input.ContainsSpaceSeparatedSubStrings() && charValidity)
+        if (countStringsWithSpacesAsWords && input.ContainsDelimitedSubstrings(' ') && charValidity)
             return true;
 
         return charValidity;
@@ -73,7 +69,7 @@ public class WordDetector : IWordDetector
     {
         if (string.IsNullOrEmpty(s) || s.All(c => char.IsWhiteSpace(c)))
             return false;
-
+        
         string[] possibleWords = s.Split(wordSeparator);
 
         return possibleWords.Any(x => IsStringAWord(x, countStringsWithSpacesAsWords));

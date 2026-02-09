@@ -7,12 +7,6 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-
-
-// ReSharper disable RedundantIfElseBlock
-
-using WCountLib.Abstractions.Counters;
-
 namespace WCountLib.Counters;
 
 /// <summary>

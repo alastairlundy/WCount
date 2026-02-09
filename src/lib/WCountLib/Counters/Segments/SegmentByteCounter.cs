@@ -7,8 +7,6 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-using WCountLib.Abstractions.Counters.Segments;
-
 namespace WCountLib.Counters.Segments;
 
 /// <summary>
@@ -24,7 +22,6 @@ public class SegmentByteCounter : ISegmentByteCounter
     /// <returns></returns>
     private int CountBytesInt32Worker(StringSegment segment, Encoding? encoding = null)
     {
-        ArgumentNullException.ThrowIfNull(segment);
         encoding ??= Encoding.Default;
         
         return encoding.GetByteCount(segment.AsSpan());

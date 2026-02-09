@@ -37,10 +37,10 @@
     </ItemGroup>
     
     <ItemGroup>
-        <PackageReference Include="AlastairLundy.DotExtensions" Version="9.1.0-preview.2" />
-        <PackageReference Include="AlastairLundy.DotExtensions.MsExtensions" Version="9.1.0-preview.2" />
-        <PackageReference Include="AlastairLundy.EnhancedLinq.MsExtensions" Version="0.13.0" />
-        <PackageReference Include="Microsoft.Extensions.Primitives" Version="10.0.0" />
+        <PackageReference Include="DotExtensions" Version="9.6.0" />
+        <PackageReference Include="DotExtensions.MsExtensions" Version="9.6.0" />
+        <PackageReference Include="EnhancedLinq" Version="1.0.0-alpha.6" />
+        <PackageReference Include="Microsoft.Extensions.Primitives" Version="10.0.2" />
 	</ItemGroup>
 
 

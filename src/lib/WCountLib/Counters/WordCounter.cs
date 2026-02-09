@@ -8,12 +8,7 @@
  */
 
 using System.Collections.Concurrent;
-using WCountLib.Abstractions.Counters;
 using WCountLib.Abstractions.Detectors;
-
-// ReSharper disable UseCollectionExpression
-// ReSharper disable RedundantArgumentDefaultValue
-
 
 namespace WCountLib.Counters;
 
@@ -39,14 +34,14 @@ public class WordCounter : IWordCounter
 
         int totalWords = 0;
 
-        IEnumerable<StringSegment> segments = new StringTokenizer(input, new[] { ' ' });
+        string[] strings = input.Split(' ');
 
-        OrderablePartitioner<StringSegment> partitioner =
-            Partitioner.Create(segments, EnumerablePartitionerOptions.NoBuffering);
+        OrderablePartitioner<string> partitioner =
+            Partitioner.Create(strings, EnumerablePartitionerOptions.NoBuffering);
 
-        Parallel.ForEach(partitioner, segment =>
+        Parallel.ForEach(partitioner, str =>
         {
-            if (_wordDetector.IsStringAWord(segment.Value, false))
+            if (_wordDetector.IsStringAWord(str))
             {
                 Interlocked.Increment(ref totalWords);
             }

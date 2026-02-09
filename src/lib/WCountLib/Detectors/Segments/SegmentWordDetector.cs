@@ -8,14 +8,8 @@
  */
 
 using System.Linq;
-using AlastairLundy.DotExtensions.MsExtensions.Exceptions;
-using AlastairLundy.DotExtensions.Strings;
-using AlastairLundy.EnhancedLinq.MsExtensions.StringSegments.Deferred;
-using AlastairLundy.EnhancedLinq.MsExtensions.StringSegments.Immediate;
-using WCountLib.Abstractions.Detectors.Segments;
-
-// ReSharper disable RedundantBoolCompare
-// ReSharper disable ConvertClosureToMethodGroup
+using DotExtensions.MsExtensions.Exceptions;
+using EnhancedLinq.MsExtensions.Deferred;
 
 namespace WCountLib.Detectors.Segments;
 
@@ -24,7 +18,6 @@ namespace WCountLib.Detectors.Segments;
 /// </summary>
 public class SegmentWordDetector : ISegmentWordDetector
 {
-    
     /// <summary>
     /// Checks if a string segment represents a single word.
     /// </summary>
@@ -57,7 +50,7 @@ public class SegmentWordDetector : ISegmentWordDetector
             if(char.IsPunctuation(c))
                 specialCharCount++;
             
-            if (whiteSpaceCharCount > 0 && !countStringsWithSpacesAsWords ||
+            if ((whiteSpaceCharCount > 0 && !countStringsWithSpacesAsWords) ||
                 separatorCount == segment.Length || specialCharCount == segment.Length)
                 return false;
         }
@@ -80,7 +73,7 @@ public class SegmentWordDetector : ISegmentWordDetector
     {
         ArgumentException.ThrowIfNullOrEmpty(segment);
         
-        StringSegment[] possibleWords = segment.Split(wordSeparator);
+        IEnumerable<StringSegment> possibleWords = segment.SplitBy(wordSeparator);
         
         return possibleWords.Any(x => IsSegmentAWord(x, countSegmentsWithSpacesAsWords));
     }

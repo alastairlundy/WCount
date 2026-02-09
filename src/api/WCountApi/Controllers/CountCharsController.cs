@@ -1,8 +1,13 @@
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.RateLimiting;
+/*
+    WCountLib
+    Copyright (C) 2024-2026 Alastair Lundy
 
+    This Source Code Form is subject to the terms of the Mozilla Public
+    License, v. 2.0. If a copy of the MPL was not distributed with this
+    file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace WCountApi.Controllers;
 
@@ -16,8 +21,7 @@ public class CountCharsControllers : ControllerBase
     {
         _characterCounter = characterCounter;
     }
-
-
+    
     [HttpPost]
     [EnableRateLimiting("fixed")]
     [ProducesResponseType(StatusCodes.Status200OK)]
