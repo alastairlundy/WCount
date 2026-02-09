@@ -10,7 +10,7 @@
 using System.Linq;
 using System.Threading;
 
-namespace AlastairLundy.WCountLib.Providers.wc.Helpers;
+namespace WCountLib.Providers.wc.Helpers;
 
 internal class WcCommandExecutionHelper
 {

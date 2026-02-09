@@ -23,6 +23,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\lib\WCountLib.Abstractions\WCountLib.Abstractions.csproj" />
+      <ProjectReference Include="..\..\lib\WCountLib\WCountLib.csproj" />
     </ItemGroup>
 
 </Project>

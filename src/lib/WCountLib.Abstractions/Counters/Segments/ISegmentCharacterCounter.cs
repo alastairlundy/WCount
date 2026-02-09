@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.Primitives;
 
-namespace AlastairLundy.WCountLib.Abstractions.Counters.Segments;
+namespace WCountLib.Abstractions.Counters.Segments;
 
 /// <summary>
 /// An interface for a service that counts the number of characters in <see cref="StringSegment"/>s.

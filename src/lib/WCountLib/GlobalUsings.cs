@@ -6,6 +6,4 @@ global using System.Text;
 global using System.Threading;
 global using System.Threading.Tasks;
 global using AlastairLundy.DotExtensions.MsExtensions.StringSegments;
-global using AlastairLundy.WCountLib.Abstractions.Counters;
-global using AlastairLundy.WCountLib.Abstractions.Counters.Segments;
 global using Microsoft.Extensions.Primitives;

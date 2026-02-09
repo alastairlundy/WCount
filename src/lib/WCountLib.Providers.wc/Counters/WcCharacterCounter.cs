@@ -7,7 +7,10 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-namespace AlastairLundy.WCountLib.Providers.wc.Counters;
+using WCountLib.Abstractions.Counters;
+using WCountLib.Providers.wc.Helpers;
+
+namespace WCountLib.Providers.wc.Counters;
 
 /// <summary>
 /// A character counting implementation that utilizes the Unix <c>wc</c> command for processing.

@@ -9,7 +9,7 @@
 
 using System.Text;
 
-namespace AlastairLundy.WCountLib.Abstractions.Counters;
+namespace WCountLib.Abstractions.Counters;
 
 /// <summary>
 /// An interface for a service that counts the number of bytes in strings.

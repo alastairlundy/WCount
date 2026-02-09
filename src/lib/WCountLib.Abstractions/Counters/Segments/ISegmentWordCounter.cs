@@ -11,7 +11,7 @@
 using System.Collections.Generic;
 using Microsoft.Extensions.Primitives;
 
-namespace AlastairLundy.WCountLib.Abstractions.Counters.Segments;
+namespace WCountLib.Abstractions.Counters.Segments;
 
 /// <summary>
 /// An interface for a service that counts the number of words in <see cref="StringSegment"/>s.

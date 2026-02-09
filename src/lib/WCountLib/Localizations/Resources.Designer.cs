@@ -8,10 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AlastairLundy.WCountLib.Localizations {
-    using System;
-    
-    
+namespace WCountLib.Localizations {
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>

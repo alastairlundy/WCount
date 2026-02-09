@@ -11,7 +11,9 @@
 
 // ReSharper disable RedundantIfElseBlock
 
-namespace AlastairLundy.WCountLib.Counters;
+using WCountLib.Abstractions.Counters;
+
+namespace WCountLib.Counters;
 
 /// <summary>
 /// 

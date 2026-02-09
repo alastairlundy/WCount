@@ -4,7 +4,7 @@
     <LangVersion>14</LangVersion>
     <PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageId>AlastairLundy.WCountLib.Providers.wc</PackageId>
+    <PackageId>WCountLib.Providers.wc</PackageId>
     <Title>WCountLib.Providers.wc</Title>
     <Authors>AlastairLundy</Authors>
     <Copyright>Copyright (c) Alastair Lundy 2025</Copyright>
@@ -16,8 +16,6 @@
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <Description>This package provides implementations for WCountLib.Abstractions interfaces that use Posix's and Unix's ``wc`` program to perform the calculations.</Description>
     <PackageTags>wordcount, word-count, word count,  wc, charcount, bytecount, linecount,</PackageTags>
-    <AssemblyName>AlastairLundy.WCountLib.Providers.wc</AssemblyName>
-    <RootNamespace>AlastairLundy.WCountLib.Providers.wc</RootNamespace>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>

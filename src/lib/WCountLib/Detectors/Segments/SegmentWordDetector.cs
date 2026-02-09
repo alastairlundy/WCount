@@ -12,13 +12,12 @@ using AlastairLundy.DotExtensions.MsExtensions.Exceptions;
 using AlastairLundy.DotExtensions.Strings;
 using AlastairLundy.EnhancedLinq.MsExtensions.StringSegments.Deferred;
 using AlastairLundy.EnhancedLinq.MsExtensions.StringSegments.Immediate;
-
-using AlastairLundy.WCountLib.Abstractions.Detectors.Segments;
+using WCountLib.Abstractions.Detectors.Segments;
 
 // ReSharper disable RedundantBoolCompare
 // ReSharper disable ConvertClosureToMethodGroup
 
-namespace AlastairLundy.WCountLib.Detectors.Segments;
+namespace WCountLib.Detectors.Segments;
 
 /// <summary>
 /// 

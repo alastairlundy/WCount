@@ -9,7 +9,7 @@
 
 // ReSharper disable InconsistentNaming
 
-namespace AlastairLundy.WCountLib.Abstractions.Detectors;
+namespace WCountLib.Abstractions.Detectors;
 
 /// <summary>
 /// An interface for a word detecting service.

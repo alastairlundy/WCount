@@ -8,13 +8,14 @@
  */
 
 using System.Collections.Concurrent;
-using AlastairLundy.WCountLib.Abstractions.Detectors;
+using WCountLib.Abstractions.Counters;
+using WCountLib.Abstractions.Detectors;
 
 // ReSharper disable UseCollectionExpression
 // ReSharper disable RedundantArgumentDefaultValue
 
 
-namespace AlastairLundy.WCountLib.Counters;
+namespace WCountLib.Counters;
 
 /// <summary>
 /// 

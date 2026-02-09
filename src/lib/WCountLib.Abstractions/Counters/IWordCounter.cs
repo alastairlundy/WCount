@@ -7,7 +7,7 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-namespace AlastairLundy.WCountLib.Abstractions.Counters;
+namespace WCountLib.Abstractions.Counters;
 
 /// <summary>
 /// An interface for a service that counts the number of words in strings.

@@ -7,7 +7,10 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-namespace AlastairLundy.WCountLib.Providers.wc.Counters.Segments;
+using WCountLib.Abstractions.Counters.Segments;
+using WCountLib.Providers.wc.Helpers;
+
+namespace WCountLib.Providers.wc.Counters.Segments;
 
 /// <summary>
 /// Uses Unix's ``wc`` program for implementing Character counting in sequences of string segments.

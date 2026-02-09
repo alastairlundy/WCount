@@ -8,14 +8,13 @@
  */
 
 using System.Linq;
-
 using AlastairLundy.DotExtensions.Strings;
+using WCountLib.Abstractions.Detectors;
 
-using AlastairLundy.WCountLib.Abstractions.Detectors;
 // ReSharper disable ConvertClosureToMethodGroup
 // ReSharper disable SimplifyConditionalTernaryExpression
 
-namespace AlastairLundy.WCountLib.Detectors;
+namespace WCountLib.Detectors;
 
 /// <summary>
 /// A class to detect if strings that look like words are words.

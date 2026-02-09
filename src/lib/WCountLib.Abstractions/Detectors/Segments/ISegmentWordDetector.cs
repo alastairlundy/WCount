@@ -9,7 +9,7 @@
 
 using Microsoft.Extensions.Primitives;
 
-namespace AlastairLundy.WCountLib.Abstractions.Detectors.Segments;
+namespace WCountLib.Abstractions.Detectors.Segments;
 
 /// <summary>
 /// An interface for a word detecting service that uses <see cref="StringSegment"/> instead of <see cref="string"/> for potentially better performance.

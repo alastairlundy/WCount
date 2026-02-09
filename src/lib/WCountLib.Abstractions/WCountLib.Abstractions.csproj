@@ -2,8 +2,6 @@
 
   <PropertyGroup>
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
-    <AssemblyName>AlastairLundy.WCountLib.Abstractions</AssemblyName>
-    <RootNamespace>AlastairLundy.WCountLib.Abstractions</RootNamespace>
 	  <Authors>AlastairLundy</Authors>
 	  <PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -26,6 +24,7 @@
 * Updated Microsoft.Extensions.Primitives to 9.0.9 from 9.0.6
 * Removed .NET Standard 2.0 and 2.1 support</PackageReleaseNotes>
 	  <Nullable>enable</Nullable>
+	  <PackageId>WCountLib.Abstractions</PackageId>
   </PropertyGroup>
 
 	<ItemGroup>

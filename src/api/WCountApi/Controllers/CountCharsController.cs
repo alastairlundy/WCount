@@ -1,10 +1,7 @@
 using System.Collections.Generic;
-using System.Text;
 using Microsoft.AspNetCore.Mvc;
-using AlastairLundy.WCountLib.Abstractions.Counters.Segments;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.RateLimiting;
-using Microsoft.Extensions.Primitives;
 
 
 namespace WCountApi.Controllers;

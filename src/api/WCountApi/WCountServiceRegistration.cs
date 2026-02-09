@@ -1,7 +1,3 @@
-using AlastairLundy.WCountLib.Abstractions.Counters.Segments;
-using AlastairLundy.WCountLib.Abstractions.Detectors.Segments;
-using AlastairLundy.WCountLib.Counters.Segments;
-using AlastairLundy.WCountLib.Detectors.Segments;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace WCountApi;

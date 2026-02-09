@@ -8,9 +8,10 @@
  */
 
 using System.Collections.Concurrent;
-using AlastairLundy.WCountLib.Abstractions.Detectors.Segments;
+using WCountLib.Abstractions.Counters.Segments;
+using WCountLib.Abstractions.Detectors.Segments;
 
-namespace AlastairLundy.WCountLib.Counters.Segments;
+namespace WCountLib.Counters.Segments;
 
 /// <summary>
 /// 
