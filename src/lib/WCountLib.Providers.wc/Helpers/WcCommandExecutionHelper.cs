@@ -39,24 +39,18 @@ internal class WcCommandExecutionHelper
         _processConfigurationFactory = processConfigurationFactory;
     }
     
-#if NET8_0_OR_GREATER
     [UnsupportedOSPlatform("windows")]
-    [SupportedOSPlatform("macos")]
-    [SupportedOSPlatform("linux")]
-    [SupportedOSPlatform("maccatalyst")]
-    [SupportedOSPlatform("freebsd")]
     [UnsupportedOSPlatform("ios")]
     [UnsupportedOSPlatform("tvos")]
-#endif
     private async Task<BufferedProcessResult> ExecuteAsync(string argument, string tempFileName)
     {
-       ProcessConfiguration processConfiguration = _processConfigurationFactory
-           .Create("/usr/bin/wc", $"{argument}, {tempFileName}");
+        ProcessConfiguration processConfiguration = _processConfigurationFactory
+            .Create("/usr/bin/wc", $"{argument}, {tempFileName}");
        
         BufferedProcessResult result = await _processInvoker.
             ExecuteBufferedAsync(processConfiguration, ProcessExitConfiguration.DefaultNoException,
                 true, cancellationToken: CancellationToken.None);
-
+        
         File.Delete(_tempFilePath);
         
         return result;

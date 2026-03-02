@@ -30,6 +30,6 @@ public interface IWordDetector
     /// <param name="s">The string to be searched for a word.</param>
     /// <param name="wordSeparator">The separator char to look for between words.</param>
     /// <param name="countStringsWithSpacesAsWords">Whether to count strings with spaces in them as words.</param>
-    /// <returns>True if one or more words was found, false otherwise.</returns>
+    /// <returns>True if one or more words were found, false otherwise.</returns>
     bool DoesStringContainWords(string s, char wordSeparator, bool countStringsWithSpacesAsWords = false);
 }

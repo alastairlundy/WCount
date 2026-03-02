@@ -20,7 +20,7 @@ namespace WCountLib.Abstractions.Counters;
 public interface ICharacterCounter
 {
     /// <summary>
-    /// Synchronously reads from the provided string and counts total the number of characters in the specified Encoding.
+    /// Synchronously reads from the provided string and counts the total number of characters in the specified Encoding.
     /// </summary>
     /// <param name="source">The string from which to count characters.</param>
     /// <param name="textEncodingType">The Encoding type of the characters to count.</param>

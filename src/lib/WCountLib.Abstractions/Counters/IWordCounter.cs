@@ -17,7 +17,6 @@ namespace WCountLib.Abstractions.Counters;
 /// </remarks>
 public interface IWordCounter
 {
-	
 	/// <summary>
 	/// Synchronously reads from the provided string and counts total the number of words.
 	/// </summary>

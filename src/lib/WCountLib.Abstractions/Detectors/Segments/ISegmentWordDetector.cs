@@ -30,6 +30,6 @@ public interface ISegmentWordDetector
     /// <param name="segment">The <see cref="StringSegment"/> to look for.</param>
     /// <param name="wordSeparator">The separator char to look for between words.</param>
     /// <param name="countSegmentsWithSpacesAsWords">Whether to count StringSegments that contain spaces as words. Set to false by default.</param>
-    /// <returns>True if one or more words was found in the string segment, false otherwise.</returns>
+    /// <returns>True if one or more words were found in the string segment, false otherwise.</returns>
     bool DoesSegmentContainWords(StringSegment segment, char wordSeparator, bool countSegmentsWithSpacesAsWords = false);
 }

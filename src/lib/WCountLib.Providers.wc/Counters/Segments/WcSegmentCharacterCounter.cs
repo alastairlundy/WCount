@@ -67,5 +67,4 @@ public class WcSegmentCharacterCounter : ISegmentCharacterCounter
     {
         return await _wcCommandExecutionHelper.RunInt32Async("-m", segments.ToString(' '));
     }
-        
 }

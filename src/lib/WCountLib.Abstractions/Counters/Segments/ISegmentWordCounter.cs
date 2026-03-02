@@ -27,5 +27,4 @@ public interface ISegmentWordCounter
     /// <param name="segments">The sequence of string segments to count words from.</param>
     /// <returns>The total number of words found in the input segments.</returns>
     int CountWords(IEnumerable<StringSegment> segments);
-
 }

@@ -7,7 +7,7 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-using DotExtensions.MsExtensions.StringSegments;
+using DotExtensions.MsExtensions.Primitives;
 
 namespace WCountLib.Counters.Segments;
 
