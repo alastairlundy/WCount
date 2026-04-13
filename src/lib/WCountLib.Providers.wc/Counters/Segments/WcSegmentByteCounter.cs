@@ -13,7 +13,7 @@ using WCountLib.Providers.wc.Helpers;
 namespace WCountLib.Providers.wc.Counters.Segments;
 
 /// <summary>
-/// Uses Unix's ``wc`` program for implementing Byte counting in sequences of string segments.
+/// Uses Unix's 'wc' program for implementing Byte counting in sequences of string segments.
 /// </summary>
 public class WcSegmentByteCounter : ISegmentByteCounter
 {

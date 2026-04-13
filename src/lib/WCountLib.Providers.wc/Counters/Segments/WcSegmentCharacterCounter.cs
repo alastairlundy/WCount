@@ -13,7 +13,7 @@ using WCountLib.Providers.wc.Helpers;
 namespace WCountLib.Providers.wc.Counters.Segments;
 
 /// <summary>
-/// Uses Unix's ``wc`` program for implementing Character counting in sequences of string segments.
+/// Uses Unix's 'wc' program for implementing Character counting in sequences of string segments.
 /// </summary>
 public class WcSegmentCharacterCounter : ISegmentCharacterCounter
 {
