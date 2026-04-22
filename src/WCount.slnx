@@ -1,7 +1,4 @@
 <Solution>
-  <Folder Name="/APIs/">
-    <Project Path="api/WCountApi/WCountApi.csproj" />
-  </Folder>
   <Folder Name="/Libraries/">
     <Project Path="lib/WCountLib.Abstractions/WCountLib.Abstractions.csproj" />
     <Project Path="lib/WCountLib.Providers.wc/WCountLib.Providers.wc.csproj" />
@@ -10,4 +7,5 @@
   <Folder Name="/Tests/">
     <Project Path="../tests/WCountLib.Testing/WCountLib.Testing.csproj" />
   </Folder>
+  <Project Path="WCountCli/WCountCli.csproj" />
 </Solution>
