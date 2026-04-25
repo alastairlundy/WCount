@@ -22,7 +22,7 @@ public class WcWordCounter : IWordCounter
 
 	/// <summary>
 	/// Provides functionality to count the number of words in a text string
-	/// by utilizing the underlying `wc` command through command-line invocation.
+	/// by utilising the underlying `wc` command through command-line invocation.
 	/// </summary>
 	public WcWordCounter(IProcessInvoker processInvoker, IProcessConfigurationFactory processConfigurationFactory)
 	{
