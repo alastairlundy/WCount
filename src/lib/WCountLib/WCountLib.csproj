@@ -10,7 +10,7 @@
         <Title>WCountLib</Title>
         <Authors>Alastair Lundy</Authors>
         <Description>Count the number of lines, words, characters, and/or bytes in specified files, strings, or IEnumerables of strings.</Description>
-        <Copyright>Copyright (c) Alastair Lundy 2024-2025</Copyright>
+        <Copyright>Copyright (c) Alastair Lundy 2024-2026</Copyright>
         <RepositoryUrl>https://github.com/alastairlundy/WCount</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
