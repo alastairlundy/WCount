@@ -7,7 +7,7 @@
     <PackageId>WCountLib.Providers.wc</PackageId>
     <Title>WCountLib.Providers.wc</Title>
     <Authors>AlastairLundy</Authors>
-    <Copyright>Copyright (c) Alastair Lundy 2025</Copyright>
+    <Copyright>Copyright (c) Alastair Lundy 2026</Copyright>
     <RepositoryUrl>https://github.com/alastairlundy/WCount</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>* Updated CliInvoke to 2.0.0
