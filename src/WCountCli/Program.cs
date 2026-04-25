@@ -1,159 +1,140 @@
-﻿using System.Collections.Concurrent;
-using System.CommandLine;
-using System.CommandLine.Parsing;
-using System.Reflection;
+﻿/*
+    WCount
+    Copyright (C) 2024-2026 Alastair Lundy
+
+    This Source Code Form is subject to the terms of the Mozilla Public
+    License, v. 2.0. If a copy of the MPL was not distributed with this
+    file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 using System.Text;
-using DotExtensions.Versions;
 using Microsoft.Extensions.DependencyInjection;
-using WCountLib.Abstractions.Counters.Segments;
-using WCountLib.Abstractions.Detectors.Segments;
-using WCountLib.Counters.Segments;
-using WCountLib.Detectors.Segments;
-using XenoAtom.Terminal;
+using WCountCli.Localizations;
+using WCountLib.Abstractions.Counters;
+using WCountLib.Abstractions.Detectors;
+using WCountLib.Counters;
+using WCountLib.Detectors;
+using XenoAtom.CommandLine;
 
 IServiceCollection services = new ServiceCollection();
 
-services.AddSingleton<ISegmentWordDetector, SegmentWordDetector>();
-services.AddSingleton<ISegmentWordCounter, SegmentWordCounter>();
-services.AddSingleton<ISegmentCharacterCounter, SegmentCharacterCounter>();
-services.AddSingleton<ISegmentByteCounter, SegmentByteCounter>();
+services.AddSingleton<IWordDetector, WordDetector>();
+services.AddSingleton<IWordCounter, WordCounter>();
+services.AddSingleton<ICharacterCounter, CharacterCounter>();
+services.AddSingleton<IByteCounter, ByteCounter>();
 
 IServiceProvider serviceProvider = services.BuildServiceProvider();
 
-RootCommand rootCommand = new("A cross-platform word counting program and wc alternative.");
+List<string> files = new();
 
-Argument<string> filePathArgument = new("filepath")
+bool showCharacterCount = false;
+bool showWordCount = false;
+bool showLineCount = false;
+bool showByteCount = false;
+
+CommandApp app = new("WCount")
 {
-    Description = "The file path of the file to be read.",
-    DefaultValueFactory = result => "",
-    Arity =  ArgumentArity.ZeroOrMore
+    "Arguments:",
+    {"<files>+", Resources.Arguments_FilePaths_Description, input =>
+        {
+            if (File.Exists(Path.GetFullPath(input)))
+            {
+                files.Add(input);
+            }
+        },
+        Validate.FileExists(),
+        false
+    },
+    {"m", Resources.Arguments_CharacterCount_Description, (bool v) => showCharacterCount = v },
+    {"l", Resources.Arguments_LineCount_Description, (bool v) => showLineCount = v},
+    {"c", Resources.Arguments_ByteCount_Description, (bool v) => showByteCount = v},
+    {"w", Resources.Arguments_WordCount_Description, (bool v) => showWordCount = v},
+    (ctx, _) => DefaultCommand(ctx)
 };
 
-Option<bool> printWordCount = new("-w")
+return await app.RunAsync(args);
+
+async ValueTask<int> DefaultCommand(CommandRunContext ctx, CancellationToken cancellationToken = default)
 {
-    Description = "Count the number of words in a file or string.",
-    DefaultValueFactory =  result => false
-};
-
-Option<bool> printCharacterCount = new("-m")
-{
-    Description = "Count the number of characters in a file or string.",
-    DefaultValueFactory =  result => false
-};
-
-Option<bool> printLineCount = new("-l")
-{
-    Description = "Count the number of lines in a file or string.",
-    DefaultValueFactory =  result => false
-};
-
-Option<bool> printByteCount = new("-c")
-{
-    Description = "Count the number of bytes in a file or string.",
-    DefaultValueFactory =  result => false
-};
-
-Command versionCommand = new("--version", "Prints the version of WCount CLI to the console.")
-{
-    Aliases = { "-v" }
-};
-
-rootCommand.Add(versionCommand);
-rootCommand.Add(filePathArgument);
-rootCommand.Add(printWordCount);
-rootCommand.Add(printCharacterCount);
-rootCommand.Add(printLineCount);
-rootCommand.Add(printByteCount);
-
-ParseResult parseResult = rootCommand.Parse(args);
-
-if (parseResult.Errors.Count > 0)
-{
-    Terminal.Error.WriteLine("Error(s) found:");
+    bool configuredArgs = new[] { showCharacterCount, showWordCount, showLineCount, showByteCount }.Any(x => x);
     
-    foreach (ParseError error in parseResult.Errors)
+    if (files.Count == 0)
     {
-        Terminal.Error.WriteLine(error.Message);
+        
     }
 
-    return 1;
+    if (!configuredArgs)
+    {
+        try
+        {
+            int totalWords = 0;
+            int totalLines = 0;
+            int totalChars = 0;
+            
+            foreach (string file in files.Select(f => Path.GetFullPath(f)))
+            {
+                string fileContents = await File.ReadAllTextAsync(file, cancellationToken);
+
+                string[] contentsLines =  fileContents.Split(Environment.NewLine);
+
+                IWordCounter wordCounter =  serviceProvider.GetRequiredService<IWordCounter>();
+                ICharacterCounter characterCounter = serviceProvider.GetRequiredService<ICharacterCounter>();
+
+                int wordCount = wordCounter.CountWords(fileContents);
+                int charCount = characterCounter.CountCharacters(fileContents, Encoding.Default);
+              
+                await PrintDefaultResult(file, contentsLines.Length, wordCount, charCount);
+
+                totalChars += charCount;
+                totalWords += wordCount;
+                totalLines += contentsLines.Length;
+            }
+
+            await PrintDefaultResult(Resources.Output_Labels_Total, totalLines, totalWords, totalChars);
+
+            return 0;
+        }
+        catch(Exception exception)
+        {
+            await Console.Error.WriteLineAsync("Ran into issues whilst  ");
+        }
+    }
+    
 }
 
-string text;
 
-string? filePath = parseResult.GetValue(filePathArgument);
-
-if (filePath is null || (filePath.Length == 0))
+async Task PrintDefaultResult(string file, int lineCount, int wordCount, int characterCount)
 {
-    Terminal.Open();
-
     StringBuilder stringBuilder = new();
-    
-    await foreach(TerminalEvent terminalEvent in Terminal.ReadEventsAsync())
-    {
-        string str = terminalEvent.ToString();
 
-        if (!string.IsNullOrEmpty(str))
-        {
-            stringBuilder.Append(str);
-        }
+    stringBuilder.Append(lineCount);
+
+    int requiredSpacing = CalculateRequiredSpacing();
+    for (int i = 0; i < requiredSpacing; i++)
+    {
+        stringBuilder.Append(' ');
+    }
+
+    stringBuilder.Append(wordCount);
+    
+    for (int i = 0; i < requiredSpacing; i++)
+    {
+        stringBuilder.Append(' ');
+    }
+
+    stringBuilder.Append(characterCount);
+    
+    for (int i = 0; i < requiredSpacing; i++)
+    {
+        stringBuilder.Append(' ');
     }
     
-    Terminal.Close();
-    
-    text = stringBuilder.ToString();
-}
-else
-{
-    try
-    {
-        filePath = Path.GetFullPath(filePath);
+    stringBuilder.Append(file);
 
-        if (!File.Exists(filePath))
-        {
-            Terminal.Error.WriteLine($"File not found: '{filePath}'");
-            return 1;
-        }
-
-        text = await File.ReadAllTextAsync(filePath);
-    }
-    catch (Exception exception)
-    {
-        Terminal.Error.WriteLine(exception.Message);
-        return 1;
-    }
+    await Console.Out.WriteLineAsync(stringBuilder.ToString());
 }
 
-int exitCode;
-
-switch (parseResult.CommandResult.Command.Name.ToLower())
-{
-    case "--version":
-        // Use DotExtensions for Graceful parsing and a user-friendly version string
-        string version = Version.GracefulParse(ThisAssembly.Info.Version).ToReadableString();
-        
-        Terminal.Out.WriteLine($"WCount CLI v{version}");
-        exitCode = 0;
-        break;
-    default:
-
-        IList<Option> options = parseResult.CommandResult.Command.Options;
-        
-        
-        if()
-        
-        break;
-}
-
-
-return exitCode;
-
-int DefaultCommand()
-{
-    
-}
-
-int CustomCommand()
+int CalculateRequiredSpacing()
 {
     
 }
