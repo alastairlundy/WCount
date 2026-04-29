@@ -25,6 +25,15 @@ public interface IWordDetector
     bool IsStringAWord(string s, bool countStringsWithSpacesAsWords = false);
     
     /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="source"></param>
+    /// <param name="countStringsWithSpacesAsWords"></param>
+    /// <returns></returns>
+    bool IsStringAWord(char[] source, bool countStringsWithSpacesAsWords = false);
+
+    
+    /// <summary>
     /// Determines whether a string contains one or more words.
     /// </summary>
     /// <param name="s">The string to be searched for a word.</param>

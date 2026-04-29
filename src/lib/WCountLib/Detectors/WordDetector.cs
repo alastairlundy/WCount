@@ -58,6 +58,47 @@ public class WordDetector : IWordDetector
     }
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="source"></param>
+    /// <param name="countStringsWithSpacesAsWords"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException"></exception>
+    public bool IsStringAWord(char[] source, bool countStringsWithSpacesAsWords = false)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        
+        if (source.Length == 1)
+            return !char.IsSpecialCharacter(source[0]);
+
+        int separatorCount = 0;
+        int specialCharCount = 0;
+
+        bool charValidity = false;
+        
+        foreach (char c in source)
+        {
+            if(char.IsLetterOrDigit(c) || char.IsPunctuation(c) || char.IsAsciiLetter(c) ||
+               char.IsSymbol(c))
+                charValidity = true;
+
+            if (char.IsSeparator(c))
+                separatorCount++;
+            
+            if(char.IsPunctuation(c))
+                specialCharCount++;
+        }
+        
+        if (separatorCount == source.Length || specialCharCount == source.Length)
+            return false;
+
+        if (countStringsWithSpacesAsWords && source.Any(c => c == ' ') && charValidity)
+            return true;
+
+        return charValidity;
+    }
+
+    /// <summary>
     /// Determines whether a string contains one or more words.
     /// </summary>
     /// <param name="s">The string to be searched for a word.</param>
