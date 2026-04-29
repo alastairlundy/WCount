@@ -19,7 +19,7 @@ public class SegmentWordCounter : ISegmentWordCounter
     private readonly ISegmentWordDetector _segmentWordDetector;
 
     /// <summary>
-    /// Initializes a new instance of the SegmentWordCounter class using the provided segment word detector.
+    /// Initialises a new instance of the SegmentWordCounter class using the provided segment word detector.
     /// </summary>
     /// <param name="segmentWordDetector">The segment word detector to use for counting words.</param>
     public SegmentWordCounter(ISegmentWordDetector segmentWordDetector)
