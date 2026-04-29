@@ -9,4 +9,5 @@ global using DotExtensions.Strings;
 global using Microsoft.Extensions.Primitives;
 global using WCountLib.Abstractions.Counters;
 global using WCountLib.Abstractions.Counters.Segments;
+global using WCountLib.Abstractions.Detectors;
 global using WCountLib.Abstractions.Detectors.Segments;
