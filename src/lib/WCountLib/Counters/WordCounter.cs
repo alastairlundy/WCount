@@ -8,7 +8,6 @@
  */
 
 using System.Collections.Concurrent;
-using WCountLib.Abstractions.Detectors;
 
 namespace WCountLib.Counters;
 
