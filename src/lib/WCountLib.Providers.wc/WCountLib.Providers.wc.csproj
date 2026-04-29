@@ -26,7 +26,7 @@
 
   <ItemGroup>
       <PackageReference Include="CliInvoke.Core" Version="2.5.3" />
-      <PackageReference Include="DotExtensions" Version="10.1.1" />
+      <PackageReference Include="DotExtensions" Version="10.3.0" />
   </ItemGroup>
   
   <ItemGroup>
