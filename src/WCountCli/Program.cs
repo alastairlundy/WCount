@@ -77,9 +77,9 @@ async ValueTask<int> InteractiveCommand(CommandRunContext ctx, bool configuredAr
 
     using TextReader reader = Terminal.In;
     
-    long? totalWords = showWordCount ? 0 : null;
-    long? totalLines = showLineCount ? 0 : null;
-    long? totalChars = showCharacterCount ? 0 : null;
+    long? totalWords = showWordCount || !configuredArgs? 0 : null;
+    long? totalLines = showLineCount || !configuredArgs ? 0 : null;
+    long? totalChars = showCharacterCount || !configuredArgs ? 0 : null;
     long? totalBytes = showByteCount ? 0 : null;
 
     char[] buffer = new char[8192];
@@ -105,8 +105,17 @@ async ValueTask<int> InteractiveCommand(CommandRunContext ctx, bool configuredAr
                 totalChars += Convert.ToInt64(characterCounter.CountCharacters(new string(buffer), Encoding.Default));
         }
 
-        await ResultPrintingHelper.PrintCustomResultLine("", totalLines, totalWords,
-            totalChars, totalBytes);
+        if(configuredArgs)
+            await ResultPrintingHelper.PrintCustomResultLine("", totalLines, totalWords,
+                totalChars, totalBytes);
+        else
+        {
+            if (totalChars is not null && totalLines is not null && totalWords is not null)
+            {
+                await ResultPrintingHelper.PrintDefaultResultLine("", totalLines.Value, totalWords.Value,
+                    totalChars.Value);
+            }
+        }
 
         return 0;
     }
