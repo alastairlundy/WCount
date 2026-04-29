@@ -44,7 +44,7 @@ public class SegmentByteCounter : ISegmentByteCounter
         {
             int bytes = CountBytesInt32Worker(segment, encoding);
 
-            Interlocked.Add(ref bytes, byteCount);
+            Interlocked.Add(ref byteCount, bytes);
         });
 
         return byteCount;

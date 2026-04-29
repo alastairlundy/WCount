@@ -40,7 +40,7 @@ public class SegmentCharacterCounter : ISegmentCharacterCounter
         {
             int localCharCount = CountCharactersInt32Worker(segment, encoding);
 
-            Interlocked.Add(ref localCharCount, charCount);
+            Interlocked.Add(ref charCount, localCharCount);
         });
 
         return charCount;
