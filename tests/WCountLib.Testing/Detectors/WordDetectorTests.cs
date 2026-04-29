@@ -1,4 +1,6 @@
-﻿namespace WCountLib.Testing.Detectors;
+﻿using System.Threading.Tasks;
+
+namespace WCountLib.Testing.Detectors;
 
 public class WordDetectorTests
 {
@@ -13,12 +15,12 @@ public class WordDetectorTests
         Assert.False(actual);
     }*/
     
-    [Theory]
-    [ClassData(typeof(NormalCharactersTestData))]
-    private void TestRealWord(string realWord)
+    [Test]
+    [ClassDataSource(typeof(NormalCharactersTestData))]
+    public async Task TestRealWord(string realWord)
     {
         bool actual = _detector.IsStringAWord(realWord);
         
-        Assert.True(actual);
+        await Assert.That(actual).IsTrue();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using WCountLib.Counters;
+using System.Threading.Tasks;
 
 namespace WCountLib.Testing.Counters;
 
@@ -6,13 +7,13 @@ public class WordCounterTest
 {
     private readonly WordCounter _counter = new(new WordDetector());
 
-    [Theory]
-    [ClassData(typeof(RealWordsTestData))]
-    public void CountWords(string words, int expected)
+    [Test]
+    [ClassDataSource(typeof(RealWordsTestData))]
+    public async Task CountWords(string words, int expected)
     {
         int actual = _counter.CountWords(words);
         
-        Assert.Equal(expected, actual);
+        await Assert.That(actual).IsEqualTo(expected);
     }
 
     /*[Theory]

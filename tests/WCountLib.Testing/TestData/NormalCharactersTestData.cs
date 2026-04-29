@@ -1,22 +1,22 @@
 ﻿namespace WCountLib.Testing.TestData;
 
-public class NormalCharactersTestData : IEnumerable<object[]>
+public class NormalCharactersTestData : IEnumerable<char[]>
 {
-    public IEnumerator<object[]> GetEnumerator()
+    public IEnumerator<char[]> GetEnumerator()
     {
         foreach (char c in Chars.UpperCase)
         {
-            yield return new object[] { c };
+            yield return [c];
         }
 
         foreach (char c in Chars.LowerCase)
         {
-            yield return new object[] { c };
+            yield return [c];
         }
 
         foreach (char c in Chars.Numbers)
         {
-            yield return new object[] { c };
+            yield return [c];
         }
     }
 
