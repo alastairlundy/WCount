@@ -16,7 +16,7 @@ namespace WCountLib.Counters.Segments;
 /// </summary>
 public class SegmentCharacterCounter : ISegmentCharacterCounter
 {
-    private int CountCharactersInt32Worker(StringSegment segment, Encoding? encoding = null)
+    private static int CountCharactersInt32Worker(StringSegment segment, Encoding? encoding = null)
     {
         encoding ??= Encoding.Default;
 
