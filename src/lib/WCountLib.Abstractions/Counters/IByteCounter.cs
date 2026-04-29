@@ -26,4 +26,12 @@ public interface IByteCounter
     /// <param name="encoding">The Encoding type of the bytes to count.</param>
     /// <returns>The total number of bytes counted.</returns>
     int CountBytes(string source, Encoding encoding);
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="source"></param>
+    /// <param name="encoding"></param>
+    /// <returns></returns>
+    int CountBytes(char[] source, Encoding encoding);
 }

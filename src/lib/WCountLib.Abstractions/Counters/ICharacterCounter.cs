@@ -26,4 +26,12 @@ public interface ICharacterCounter
     /// <param name="textEncodingType">The Encoding type of the characters to count.</param>
     /// <returns>The total number of characters counted.</returns>
     int CountCharacters(string source, Encoding textEncodingType);
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="source"></param>
+    /// <param name="textEncodingType"></param>
+    /// <returns></returns>
+    int CountCharacters(char[] source, Encoding textEncodingType);
 }

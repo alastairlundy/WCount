@@ -29,4 +29,21 @@ public class ByteCounter : IByteCounter
         
         return byteCount;
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="source"></param>
+    /// <param name="encoding"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException"></exception>
+    public int CountBytes(char[] source, Encoding encoding)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(encoding);
+        
+        int byteCount = encoding.GetByteCount(source);
+        
+        return byteCount;
+    }
 }

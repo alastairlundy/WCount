@@ -29,4 +29,21 @@ public class CharacterCounter : ICharacterCounter
 
 		return textEncodingType.GetCharCount(bytes);
 	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="source"></param>
+	/// <param name="textEncodingType"></param>
+	/// <returns></returns>
+	/// <exception cref="ArgumentNullException"></exception>
+	public int CountCharacters(char[] source, Encoding textEncodingType)
+	{
+		ArgumentNullException.ThrowIfNull(source);
+		ArgumentNullException.ThrowIfNull(textEncodingType);
+		
+		byte[] bytes = textEncodingType.GetBytes(source);
+
+		return textEncodingType.GetCharCount(bytes);
+	}
 }
