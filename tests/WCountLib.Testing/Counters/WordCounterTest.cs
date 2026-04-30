@@ -1,4 +1,5 @@
 ﻿using WCountLib.Counters;
+using Xunit;
 
 namespace WCountLib.Testing.Counters;
 
