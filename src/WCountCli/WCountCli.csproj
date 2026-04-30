@@ -14,7 +14,7 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
       <PackageReference Include="XenoAtom.CommandLine" Version="2.0.3" />
-      <PackageReference Include="XenoAtom.Terminal" Version="2.0.1" />
+      <PackageReference Include="XenoAtom.Terminal" Version="2.1.0" />
     </ItemGroup>
 
     <ItemGroup>
