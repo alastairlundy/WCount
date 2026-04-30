@@ -1,6 +1,6 @@
 ﻿/*
     WCountLib
-    Copyright (C) 2024-2025 Alastair Lundy
+    Copyright (C) 2024-2026 Alastair Lundy
 
     This Source Code Form is subject to the terms of the Mozilla Public
     License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -52,6 +52,62 @@ public class WordDetector : IWordDetector
             return false;
 
         if (countStringsWithSpacesAsWords && input.ContainsDelimitedSubstrings(' ') && charValidity)
+            return true;
+
+        return charValidity;
+    }
+
+    public bool IsStringAWord(IEnumerable<char> source, bool countStringsWithSpacesAsWords = false)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+
+        if (source is IList<char> list)
+        {
+            if (list.Count == 1)
+                return !char.IsSpecialCharacter(list[0]);
+        }
+        
+        int separatorCount = 0;
+        int specialCharCount = 0;
+
+        char firstChar = ' ';
+        
+        bool charValidity = false;
+        bool containsSpace = false;
+
+        int count = 0;
+        
+        foreach (char c in source)
+        {
+            if (count == 0)
+            {
+                firstChar = c;
+            }
+            
+            if(c == ' ')
+                containsSpace = true;
+            
+            if(char.IsLetterOrDigit(c) || char.IsPunctuation(c) || char.IsAsciiLetter(c) ||
+               char.IsSymbol(c))
+                charValidity = true;
+
+            if (char.IsSeparator(c))
+                separatorCount++;
+            
+            if(char.IsPunctuation(c))
+                specialCharCount++;
+
+            count++;
+        }
+        
+        if (count == 1)
+            return !char.IsSpecialCharacter(firstChar);
+
+        
+        if (separatorCount == count || specialCharCount == count)
+            return false;
+
+        if (countStringsWithSpacesAsWords && containsSpace && charValidity)
             return true;
 
         return charValidity;
