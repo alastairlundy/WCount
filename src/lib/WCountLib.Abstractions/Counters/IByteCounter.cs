@@ -1,6 +1,6 @@
 ﻿/*
     WCountLib.Abstraction
-    Copyright (C) 2024-2025 Alastair Lundy
+    Copyright (C) 2024-2026 Alastair Lundy
 
     This Source Code Form is subject to the terms of the Mozilla Public
     License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,7 +20,7 @@ namespace WCountLib.Abstractions.Counters;
 public interface IByteCounter
 {
     /// <summary>
-    /// Synchronously reads from the provided string and counts total the number of bytes in the specified Encoding.
+    /// Synchronously reads from the provided string and counts the total number of bytes in the specified Encoding.
     /// </summary>
     /// <param name="source">The string from which to count bytes.</param>
     /// <param name="encoding">The Encoding type of the bytes to count.</param>

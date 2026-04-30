@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Commands.Version.Description" xml:space="preserve">
+        <value>Prints the version of WCount CLI to the console.</value>
+    </data>
+    <data name="App.Description" xml:space="preserve">
+        <value>A cross-platform word counting program and wc alternative.</value>
+    </data>
+    <data name="Arguments.WordCount.Description" xml:space="preserve">
+        <value>Count the number of words in a file or string.</value>
+    </data>
+    <data name="Arguments.CharacterCount.Description" xml:space="preserve">
+        <value>Count the number of characters in a file or string.</value>
+    </data>
+    <data name="Arguments.LineCount.Description" xml:space="preserve">
+        <value>Count the number of lines in a file or string.</value>
+    </data>
+    <data name="Arguments.ByteCount.Description" xml:space="preserve">
+        <value>Count the number of bytes in a file or string.</value>
+    </data>
+    <data name="Arguments.FilePaths.Description" xml:space="preserve">
+        <value>The file path(s) of the file to be read.</value>
+    </data>
+    <data name="Output.Labels.Total" xml:space="preserve">
+        <value>Total</value>
+    </data>
+</root>

@@ -1,6 +1,6 @@
 ﻿/*
     WCountLib.Abstractions
-    Copyright (C) 2024-2025 Alastair Lundy
+    Copyright (C) 2024-2026 Alastair Lundy
 
     This Source Code Form is subject to the terms of the Mozilla Public
     License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -9,6 +9,8 @@
 
 // ReSharper disable InconsistentNaming
 
+using System.Collections.Generic;
+
 namespace WCountLib.Abstractions.Detectors;
 
 /// <summary>
@@ -16,6 +18,14 @@ namespace WCountLib.Abstractions.Detectors;
 /// </summary>
 public interface IWordDetector
 {
+    /// <summary>
+    /// Determines whether a sequence of characters is a word or not.
+    /// </summary>
+    /// <param name="source">The sequence of characters to evaluate as a potential word.</param>
+    /// <param name="countStringsWithSpacesAsWords">Whether strings that contain spaces are considered words.</param>
+    /// <returns>True if the evaluated sequence represents a valid word; false otherwise.</returns>
+    bool IsStringAWord(IEnumerable<char> source, bool countStringsWithSpacesAsWords = false);
+
     /// <summary>
     /// Determines whether a string is a word or not.
     /// </summary>
