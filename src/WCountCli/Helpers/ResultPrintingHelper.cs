@@ -8,13 +8,13 @@
  */
 
 using System.Globalization;
-using XenoAtom.Terminal;
+using XenoAtom.CommandLine;
 
 namespace WCountCli.Helpers;
 
 public static class ResultPrintingHelper
 {
-    public static async Task PrintCustomResultLine(string file, long? lineCount = null, long? wordCount = null,
+    public static async Task PrintCustomResultLine(string file, CommandRunContext ctx, long? lineCount = null, long? wordCount = null,
         long? characterCount = null, long? byteCount = null)
     {
         StringBuilder stringBuilder = new();
@@ -52,11 +52,12 @@ public static class ResultPrintingHelper
         stringBuilder.Append(' ');
         stringBuilder.Append(file);
 
-        await Terminal.Out.WriteLineAsync(stringBuilder.ToString());
+        await ctx.Out.WriteLineAsync(stringBuilder.ToString());
     }
 
 
-    public static async Task PrintDefaultResultLine(string file, long lineCount, long wordCount, long characterCount)
+    public static async Task PrintDefaultResultLine(string file, CommandRunContext ctx,
+        long lineCount, long wordCount, long characterCount)
     {
         StringBuilder stringBuilder = new();
 
@@ -74,6 +75,6 @@ public static class ResultPrintingHelper
         stringBuilder.Append(' ');
         stringBuilder.Append(file);
 
-        await Terminal.Out.WriteLineAsync(stringBuilder.ToString());
+        await ctx.Out.WriteLineAsync(stringBuilder.ToString());
     }
 }
