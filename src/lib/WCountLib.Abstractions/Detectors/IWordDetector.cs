@@ -18,8 +18,14 @@ namespace WCountLib.Abstractions.Detectors;
 /// </summary>
 public interface IWordDetector
 {
+    /// <summary>
+    /// Determines whether a sequence of characters is a word or not.
+    /// </summary>
+    /// <param name="source">The sequence of characters to evaluate as a potential word.</param>
+    /// <param name="countStringsWithSpacesAsWords">Whether strings that contain spaces are considered words.</param>
+    /// <returns>True if the evaluated sequence represents a valid word; false otherwise.</returns>
     bool IsStringAWord(IEnumerable<char> source, bool countStringsWithSpacesAsWords = false);
-    
+
     /// <summary>
     /// Determines whether a string is a word or not.
     /// </summary>
