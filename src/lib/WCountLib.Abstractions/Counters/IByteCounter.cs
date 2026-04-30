@@ -20,7 +20,7 @@ namespace WCountLib.Abstractions.Counters;
 public interface IByteCounter
 {
     /// <summary>
-    /// Synchronously reads from the provided string and counts total the number of bytes in the specified Encoding.
+    /// Synchronously reads from the provided string and counts the total number of bytes in the specified Encoding.
     /// </summary>
     /// <param name="source">The string from which to count bytes.</param>
     /// <param name="encoding">The Encoding type of the bytes to count.</param>
