@@ -23,4 +23,11 @@ public interface IWordCounter
 	/// <param name="source">The string from which to count words.</param>
 	/// <returns>The total number of words counted.</returns>
 	int CountWords(string source);
+	
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="source"></param>
+	/// <returns></returns>
+	int CountWords(char[] source);
 }

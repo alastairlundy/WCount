@@ -9,6 +9,8 @@
 
 // ReSharper disable InconsistentNaming
 
+using System.Collections.Generic;
+
 namespace WCountLib.Abstractions.Detectors;
 
 /// <summary>
@@ -16,6 +18,8 @@ namespace WCountLib.Abstractions.Detectors;
 /// </summary>
 public interface IWordDetector
 {
+    bool IsStringAWord(IEnumerable<char> source, bool countStringsWithSpacesAsWords = false);
+    
     /// <summary>
     /// Determines whether a string is a word or not.
     /// </summary>

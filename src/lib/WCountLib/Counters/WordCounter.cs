@@ -7,6 +7,8 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+using EnhancedLinq.Deferred;
+
 namespace WCountLib.Counters;
 
 /// <summary>
@@ -46,6 +48,28 @@ public class WordCounter : IWordCounter
 
         return totalWords;
     }
+    
+    private int CountWordsWorkerSegment(char[] input)
+    {
+        ArgumentNullException.ThrowIfNull(input);
+
+        int totalWords = 0;
+
+        IEnumerable<IEnumerable<char>> strings = input.SplitBy(c => c == ' ');
+
+        OrderablePartitioner<IEnumerable<char>> partitioner =
+            Partitioner.Create(strings, EnumerablePartitionerOptions.NoBuffering);
+
+        Parallel.ForEach(partitioner, str =>
+        {
+            if (_wordDetector.IsStringAWord(str))
+            {
+                Interlocked.Increment(ref totalWords);
+            }
+        });
+
+        return totalWords;
+    }
 
     /// <summary>
     /// 
@@ -57,5 +81,18 @@ public class WordCounter : IWordCounter
         ArgumentNullException.ThrowIfNull(text);
 
         return CountWordsWorkerSegment(text);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="source"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException"></exception>
+    public int CountWords(char[] source)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+
+        return CountWordsWorkerSegment(source);
     }
 }

@@ -58,27 +58,36 @@ public class WordDetector : IWordDetector
         return charValidity;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="source"></param>
-    /// <param name="countStringsWithSpacesAsWords"></param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentNullException"></exception>
-    public bool IsStringAWord(char[] source, bool countStringsWithSpacesAsWords = false)
+    public bool IsStringAWord(IEnumerable<char> source, bool countStringsWithSpacesAsWords = false)
     {
         ArgumentNullException.ThrowIfNull(source);
-        
-        if (source.Length == 1)
-            return !char.IsSpecialCharacter(source[0]);
 
+        if (source is IList<char> list)
+        {
+            if (list.Count == 1)
+                return !char.IsSpecialCharacter(list[0]);
+        }
+        
         int separatorCount = 0;
         int specialCharCount = 0;
 
+        char firstChar = ' ';
+        
         bool charValidity = false;
+        bool containsSpace = false;
+
+        int count = 0;
         
         foreach (char c in source)
         {
+            if (count == 0)
+            {
+                firstChar = c;
+            }
+            
+            if(c == ' ')
+                containsSpace = true;
+            
             if(char.IsLetterOrDigit(c) || char.IsPunctuation(c) || char.IsAsciiLetter(c) ||
                char.IsSymbol(c))
                 charValidity = true;
@@ -88,12 +97,18 @@ public class WordDetector : IWordDetector
             
             if(char.IsPunctuation(c))
                 specialCharCount++;
+
+            count++;
         }
         
-        if (separatorCount == source.Length || specialCharCount == source.Length)
+        if (count == 1)
+            return !char.IsSpecialCharacter(firstChar);
+
+        
+        if (separatorCount == count || specialCharCount == count)
             return false;
 
-        if (countStringsWithSpacesAsWords && source.Any(c => c == ' ') && charValidity)
+        if (countStringsWithSpacesAsWords && containsSpace && charValidity)
             return true;
 
         return charValidity;
