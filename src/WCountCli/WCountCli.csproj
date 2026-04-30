@@ -5,6 +5,16 @@
         <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <AssemblyName>wcount</AssemblyName>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageId>WCount</PackageId>
+        <Title>WCount</Title>
+        <Authors>Alastair Lundy</Authors>
+        <IsTrimmable>true</IsTrimmable>
+        <IsAoTCompatible>true</IsAoTCompatible>
+        <PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <Version>1.0.0-preview.1</Version>
     </PropertyGroup>
 
     <ItemGroup>
