@@ -8,12 +8,13 @@
  */
 
 using Microsoft.Extensions.DependencyInjection;
+using WCountCli.Logic;
+using WCountCli.Models;
 using WCountLib.Abstractions.Counters;
 using WCountLib.Abstractions.Detectors;
 using WCountLib.Counters;
 using WCountLib.Detectors;
 using XenoAtom.CommandLine;
-using XenoAtom.Terminal;
 
 IServiceCollection services = new ServiceCollection();
 
@@ -21,6 +22,7 @@ services.AddSingleton<IWordDetector, WordDetector>();
 services.AddSingleton<IWordCounter, WordCounter>();
 services.AddSingleton<ICharacterCounter, CharacterCounter>();
 services.AddSingleton<IByteCounter, ByteCounter>();
+services.AddSingleton<ITextReaderLogic, TextReaderLogic>();
 
 IServiceProvider serviceProvider = services.BuildServiceProvider();
 
@@ -57,83 +59,58 @@ CommandApp app = new("WCount")
 
 return await app.RunAsync(args);
 
-async ValueTask<int> CommandRouter(CommandRunContext ctx, CancellationToken cancellationToken = default)
+async ValueTask<int> CommandRouter(CommandRunContext ctx)
 {
     bool configuredArgs = new[] { showCharacterCount, showWordCount, showLineCount, showByteCount }.Any(x => x);
     
     if (files.Count == 0)
-        return await InteractiveCommand(ctx, configuredArgs, cancellationToken);
+        return await InteractiveCommand(ctx, configuredArgs);
 
     if (!configuredArgs)
-        return await DefaultCommand(ctx, cancellationToken);
+        return await DefaultCommand(ctx);
     
-    return await ConfiguredCommand(ctx, cancellationToken);
+    return await ConfiguredCommand(ctx);
 }
 
-async ValueTask<int> InteractiveCommand(CommandRunContext ctx, bool configuredArgs, CancellationToken cancellationToken = default)
+async ValueTask<int> InteractiveCommand(CommandRunContext ctx, bool configuredArgs)
 {
-    IWordCounter wordCounter =  serviceProvider.GetRequiredService<IWordCounter>();
-    ICharacterCounter characterCounter = serviceProvider.GetRequiredService<ICharacterCounter>();
-
-    using TextReader reader = Terminal.In;
+    ITextReaderLogic textReaderLogic = serviceProvider.GetRequiredService<ITextReaderLogic>();
     
-    long? totalWords = showWordCount || !configuredArgs? 0 : null;
-    long? totalLines = showLineCount || !configuredArgs ? 0 : null;
-    long? totalChars = showCharacterCount || !configuredArgs ? 0 : null;
-    long? totalBytes = showByteCount ? 0 : null;
-
-    char[] buffer = new char[8192];
-
     try
     {
-        while (await reader.ReadAsync(buffer, 0, buffer.Length) > 0)
+        WCountInfo info = await textReaderLogic.ReadStandardInputAsync(showWordCount, showLineCount, showCharacterCount,
+            showByteCount, configuredArgs);
+
+        if (configuredArgs && info.WordCount is not null && info.LineCount is not null && info.CharCount is not null)
         {
-            for (int i = 0; i < buffer.Length; i++)
-            {
-                if (buffer[i].ToString() == Environment.NewLine)
-                {
-                    totalLines += 1;
-                }
-
-                totalBytes += 1;
-            }
-
-            if (totalWords is not null)
-                totalWords += Convert.ToInt64(wordCounter.CountWords(new string(buffer)));
-
-            if (totalChars is not null)
-                totalChars += Convert.ToInt64(characterCounter.CountCharacters(new string(buffer), Encoding.Default));
+            await ResultPrintingHelper.PrintDefaultResultLine("", ctx, info.LineCount.Value, info.WordCount.Value,
+                info.CharCount.Value);
         }
-
-        if(configuredArgs)
-            await ResultPrintingHelper.PrintCustomResultLine("", totalLines, totalWords,
-                totalChars, totalBytes);
         else
         {
-            if (totalChars is not null && totalLines is not null && totalWords is not null)
-            {
-                await ResultPrintingHelper.PrintDefaultResultLine("", totalLines.Value, totalWords.Value,
-                    totalChars.Value);
-            }
+            await ResultPrintingHelper.PrintCustomResultLine("", ctx, info.LineCount, info.WordCount, info.CharCount,
+                info.ByteCount);
         }
 
         return 0;
     }
     catch (Exception exception)
     {
-        await Terminal.Error.WriteLineAsync("Ran into issues whilst reading standard in.");
+        await ctx.Error.WriteLineAsync("Ran into issues whilst reading standard input.");
 
         if (verbose)
         {
-            await Terminal.Error.WriteLineAsync($"Exception Details: {exception.Message}");
+            await ctx.Error.WriteLineAsync($"Exception Details: {exception.Message}");
         }
 
         return 1;
     }
 }
 
-async ValueTask<int> ConfiguredCommand(CommandRunContext ctx, CancellationToken cancellationToken = default)
+async ValueTask<int> ConfiguredCommand(CommandRunContext ctx)
 {
+    ITextReaderLogic textReaderLogic = serviceProvider.GetRequiredService<ITextReaderLogic>();
+    
     try
     {
         long? totalWords = showWordCount ? 0 : null;
@@ -143,68 +120,65 @@ async ValueTask<int> ConfiguredCommand(CommandRunContext ctx, CancellationToken 
             
         foreach (string file in files.Select(f => Path.GetFullPath(f)))
         {
-            int? currentWords = showWordCount ? 0 : null;
-            int? currentLines = showLineCount ? 0 : null;
-            int? currentChars = showCharacterCount ? 0 : null;
-            int? currentBytes = showByteCount ? 0 : null;
+            long? currentWords = showWordCount ? 0 : null;
+            long? currentLines = showLineCount ? 0 : null;
+            long? currentChars = showCharacterCount ? 0 : null;
+            long? currentBytes = showByteCount ? 0 : null;
             
-            string fileContents = await File.ReadAllTextAsync(file, cancellationToken);
-
-            string[] contentsLines =  fileContents.Split(Environment.NewLine);
-
-            IWordCounter wordCounter =  serviceProvider.GetRequiredService<IWordCounter>();
-            ICharacterCounter characterCounter = serviceProvider.GetRequiredService<ICharacterCounter>();
-            IByteCounter byteCounter =  serviceProvider.GetRequiredService<IByteCounter>();
-
-            if (showByteCount && totalBytes is not null)
+            WCountInfo info = await textReaderLogic.ReadFileAsync(file, showWordCount, showLineCount,
+                showCharacterCount, showByteCount, true);
+            
+            if (showByteCount && totalBytes is not null && info.ByteCount is not null)
             {
-                currentBytes = byteCounter.CountBytes(fileContents, Encoding.Default);
+                currentBytes = info.ByteCount;
                 totalBytes += currentBytes;
             }
 
-            if (showWordCount && totalWords is not null)
+            if (showWordCount && totalWords is not null && info.WordCount is not null)
             {
-                currentWords =  wordCounter.CountWords(fileContents);
+                currentWords = info.WordCount;
                 totalWords += currentWords;
             }
 
-            if (showCharacterCount && totalChars is not null)
+            if (showCharacterCount && totalChars is not null && info.CharCount is not null)
             {
-                currentChars = characterCounter.CountCharacters(fileContents, Encoding.Default);
+                currentChars = info.CharCount;
                 totalChars += currentChars;
             }
 
-            if (showLineCount && totalLines is not null)
+            if (showLineCount && totalLines is not null && info.LineCount is not null)
             {
-                currentLines = contentsLines.Length;
+                currentLines = info.LineCount;
                 totalLines += currentLines;
             }
             
-            await ResultPrintingHelper.PrintCustomResultLine(file, currentLines, currentWords, currentChars,
-                currentBytes);
+            await ResultPrintingHelper.PrintCustomResultLine(file, ctx, currentLines, currentWords,
+                currentChars, currentBytes);
         }
 
         if(files.Count > 1)
-            await ResultPrintingHelper.PrintCustomResultLine(Resources.Output_Labels_Total, totalLines, totalWords, 
-                totalChars, totalBytes);
+            await ResultPrintingHelper.PrintCustomResultLine(Resources.Output_Labels_Total, ctx, totalLines,
+                totalWords, totalChars, totalBytes);
 
         return 0;
     }
     catch(Exception exception)
     {
-        await Terminal.Error.WriteLineAsync("Ran into issues whilst reading standard in.");
+        await ctx.Error.WriteLineAsync("Ran into issues whilst reading standard in.");
         
         if (verbose)
         {
-            await Terminal.Error.WriteLineAsync($"Exception Details: {exception.Message}");
+            await ctx.Error.WriteLineAsync($"Exception Details: {exception.Message}");
         }
         
         return 1;
     }
 }
 
-async ValueTask<int> DefaultCommand(CommandRunContext ctx, CancellationToken cancellationToken = default)
+async ValueTask<int> DefaultCommand(CommandRunContext ctx)
 {
+    ITextReaderLogic textReaderLogic = serviceProvider.GetRequiredService<ITextReaderLogic>();
+    
     try
     {
         long totalWords = 0;
@@ -213,31 +187,38 @@ async ValueTask<int> DefaultCommand(CommandRunContext ctx, CancellationToken can
             
         foreach (string file in files.Select(f => Path.GetFullPath(f)))
         {
-            string fileContents = await File.ReadAllTextAsync(file, cancellationToken);
-
-            string[] contentsLines =  fileContents.Split(Environment.NewLine);
-
-            IWordCounter wordCounter =  serviceProvider.GetRequiredService<IWordCounter>();
-            ICharacterCounter characterCounter = serviceProvider.GetRequiredService<ICharacterCounter>();
-
-            int wordCount = wordCounter.CountWords(fileContents);
-            int charCount = characterCounter.CountCharacters(fileContents, Encoding.Default);
+            WCountInfo info = await textReaderLogic.ReadFileAsync(file, true, true,
+                true, false, false);
               
-            await ResultPrintingHelper.PrintDefaultResultLine(file, contentsLines.Length, wordCount, charCount);
+            if(info.LineCount is not null && info.WordCount is not null && info.CharCount is not null)
+                await ResultPrintingHelper.PrintDefaultResultLine(file, ctx, info.LineCount.Value, 
+                    info.WordCount.Value, info.CharCount.Value);
 
-            totalChars += charCount;
-            totalWords += wordCount;
-            totalLines += contentsLines.Length;
+            if(info.CharCount is not null)
+                totalChars += info.CharCount.Value;
+            
+            if(info.WordCount is not null) 
+                totalWords += info.WordCount.Value;
+            
+            if(info.LineCount is not null)
+                totalLines += info.LineCount.Value;
         }
 
         if(files.Count > 1)
-            await ResultPrintingHelper.PrintDefaultResultLine(Resources.Output_Labels_Total, totalLines, totalWords, totalChars);
+            await ResultPrintingHelper.PrintDefaultResultLine(Resources.Output_Labels_Total, ctx, totalLines, 
+                totalWords, totalChars);
 
         return 0;
     }
     catch(Exception exception)
     {
-        await Terminal.Error.WriteLineAsync("Ran into issues whilst  ");
+        await ctx.Error.WriteLineAsync("Ran into issues whilst reading a file.");
+        
+        if (verbose)
+        {
+            await ctx.Error.WriteLineAsync($"Exception Details: {exception.Message}");
+        }
+        
         return 1;
     }
 }
