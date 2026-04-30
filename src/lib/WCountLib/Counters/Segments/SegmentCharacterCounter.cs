@@ -14,7 +14,7 @@ namespace WCountLib.Counters.Segments;
 /// </summary>
 public class SegmentCharacterCounter : ISegmentCharacterCounter
 {
-    private int CountCharactersInt32Worker(StringSegment segment, Encoding? encoding = null)
+    private static int CountCharactersInt32Worker(StringSegment segment, Encoding? encoding = null)
     {
         encoding ??= Encoding.Default;
 
@@ -38,7 +38,7 @@ public class SegmentCharacterCounter : ISegmentCharacterCounter
         {
             int localCharCount = CountCharactersInt32Worker(segment, encoding);
 
-            Interlocked.Add(ref localCharCount, charCount);
+            Interlocked.Add(ref charCount, localCharCount);
         });
 
         return charCount;

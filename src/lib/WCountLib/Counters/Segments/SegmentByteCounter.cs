@@ -20,7 +20,7 @@ public class SegmentByteCounter : ISegmentByteCounter
     /// <param name="segment"></param>
     /// <param name="encoding"></param>
     /// <returns></returns>
-    private int CountBytesInt32Worker(StringSegment segment, Encoding? encoding = null)
+    private static int CountBytesInt32Worker(StringSegment segment, Encoding? encoding = null)
     {
         encoding ??= Encoding.Default;
         
@@ -44,7 +44,7 @@ public class SegmentByteCounter : ISegmentByteCounter
         {
             int bytes = CountBytesInt32Worker(segment, encoding);
 
-            Interlocked.Add(ref bytes, byteCount);
+            Interlocked.Add(ref byteCount, bytes);
         });
 
         return byteCount;
