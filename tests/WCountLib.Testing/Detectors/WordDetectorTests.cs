@@ -2,7 +2,7 @@
 
 public class WordDetectorTests
 {
-    private readonly WordDetector _detector = new();
+    //private readonly WordDetector _detector = new();
     
     /*[Theory]
     [ClassData(typeof(FakeWordsTestData))]
