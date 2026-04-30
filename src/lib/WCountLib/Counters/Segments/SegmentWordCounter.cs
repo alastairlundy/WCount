@@ -7,8 +7,6 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-using System.Collections.Concurrent;
-
 namespace WCountLib.Counters.Segments;
 
 /// <summary>

@@ -1,7 +1,4 @@
-﻿using System.Threading.Tasks;
-using Xunit;
-
-namespace WCountLib.Testing.Detectors;
+﻿namespace WCountLib.Testing.Detectors;
 
 public class WordDetectorTests
 {

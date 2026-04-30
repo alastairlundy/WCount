@@ -8,7 +8,6 @@
  */
 
 using System.Linq;
-using WCountLib.Abstractions.Detectors;
 
 namespace WCountLib.Detectors;
 
