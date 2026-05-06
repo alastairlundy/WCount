@@ -29,6 +29,9 @@ public static class ResultPrintingHelper
         if (characterCount is not null)
             stats.Add(characterCount.Value);
 
+        if (byteCount is not null)
+            stats.Add(byteCount.Value);
+
         int requiredSpacing = FormattingHelpers.CalculateRequiredSpacing(stats.ToArray());
 
         if (lineCount is not null)
