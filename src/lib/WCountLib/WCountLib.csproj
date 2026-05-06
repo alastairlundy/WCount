@@ -38,7 +38,7 @@
     </ItemGroup>
     
     <ItemGroup>
-        <PackageReference Include="Polyfill" />
+        <PackageReference Include="Polyfill" PrivateAssets="all"/>
         <PackageReference Include="DotExtensions" />
        <PackageReference Include="EnhancedLinq" />
         <PackageReference Include="Microsoft.Extensions.Primitives" />
