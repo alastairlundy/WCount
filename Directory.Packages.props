@@ -5,7 +5,7 @@
   <ItemGroup>
     <PackageVersion Include="Bogus" Version="35.6.5" />
     <PackageVersion Include="DotExtensions" Version="10.3.0" />
-    <PackageVersion Include="EnhancedLinq" Version="1.0.0-beta.4" />
+    <PackageVersion Include="EnhancedLinq" Version="1.0.0-rc.1" />
     <PackageVersion Include="Microsoft.Extensions.Primitives" Version="10.0.7" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.5.1" />
     <PackageVersion Include="Polyfill" Version="10.3.0" />
