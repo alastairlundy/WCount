@@ -202,7 +202,7 @@ async ValueTask<int> DefaultCommand(CommandRunContext ctx)
                 totalLines += info.LineCount.Value;
         }
 
-        if(files.Count > 1)
+        if(files.Count >= 1)
             await ResultPrintingHelper.PrintDefaultResultLine(Resources.Output_Labels_Total, ctx, totalLines, 
                 totalWords, totalChars);
 
