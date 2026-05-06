@@ -1,6 +1,4 @@
-﻿using WCountCli.Models;
-
-namespace WCountCli.Logic;
+﻿namespace WCountCli.Logic;
 
 public interface ITextReaderLogic
 {

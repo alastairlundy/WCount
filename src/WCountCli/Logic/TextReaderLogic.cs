@@ -1,6 +1,4 @@
-﻿using WCountCli.Models;
-using WCountLib.Abstractions.Counters;
-using XenoAtom.Terminal;
+﻿using XenoAtom.Terminal;
 
 namespace WCountCli.Logic;
 

@@ -9,8 +9,6 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using WCountCli.Logic;
-using WCountCli.Models;
-using WCountLib.Abstractions.Counters;
 using WCountLib.Abstractions.Detectors;
 using WCountLib.Counters;
 using WCountLib.Detectors;
@@ -214,10 +212,12 @@ async ValueTask<int> DefaultCommand(CommandRunContext ctx)
     {
         await ctx.Error.WriteLineAsync("Ran into issues whilst reading a file.");
         
-        if (verbose)
+        /*if (verbose)
         {
             await ctx.Error.WriteLineAsync($"Exception Details: {exception.Message}");
-        }
+        }*/
+        
+        Console.WriteLine(exception);
         
         return 1;
     }
