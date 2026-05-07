@@ -31,44 +31,19 @@ public class WordCounter : IWordCounter
     {
         ArgumentNullException.ThrowIfNull(input);
 
-        int totalWords = 0;
 
-        string[] strings = input.Split(' ');
+        string[] strings = input.Split((char[])null, StringSplitOptions.RemoveEmptyEntries);
 
-        OrderablePartitioner<string> partitioner =
-            Partitioner.Create(strings, EnumerablePartitionerOptions.NoBuffering);
-
-        Parallel.ForEach(partitioner, str =>
-        {
-            if (_wordDetector.IsStringAWord(str))
-            {
-                Interlocked.Increment(ref totalWords);
-            }
-        });
-
-        return totalWords;
+        // Count whitespace-separated tokens - match classic wc behaviour.
+        return strings.Length;
     }
     
     private int CountWordsWorkerSegment(char[] input)
     {
         ArgumentNullException.ThrowIfNull(input);
 
-        int totalWords = 0;
-
-        IEnumerable<IEnumerable<char>> strings = input.SplitBy(c => c == ' ');
-
-        OrderablePartitioner<IEnumerable<char>> partitioner =
-            Partitioner.Create(strings, EnumerablePartitionerOptions.NoBuffering);
-
-        Parallel.ForEach(partitioner, str =>
-        {
-            if (_wordDetector.IsStringAWord(str))
-            {
-                Interlocked.Increment(ref totalWords);
-            }
-        });
-
-        return totalWords;
+        // Fall back to the string-based worker for correctness; avoids relying on SplitBy semantics here.
+        return CountWordsWorkerSegment(new string(input));
     }
 
     /// <summary>
