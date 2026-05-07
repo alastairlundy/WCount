@@ -41,12 +41,16 @@
         # run tests (if a tests/ folder exists next to src/ or project-specific tests)
         dotnet test
         dotnet test .\tests\MyProject.Tests\MyProject.Tests.csproj
+
+        # test CLI using files from the test-files directory
+        dotnet run --project .\WCountCli -- -w -l ..\test-files\<filename>.txt
         ```
 
         Notes:
         - Projects are organized as separate subfolders under `src/` (e.g., `WCountCli`, `lib\WCountLib`). If this repository also contains a `tests/` folder, tests are typically separated from `src/` and reference the projects under `src/`.
+        - Test assets: The `test-files/` folder contains text files that should be used for testing WCount CLI and functionality.
         - If tests pass before you change code, your change must preserve that behavior. Do not modify test code to make behavior match; instead adjust implementation or add regressions-free tests.
-
+        
         ## Conventions & gotchas
         - Central package management: `Directory.Packages.props` pins NuGet versions. Update versions there for cross-project consistency.
         - Global usings: `GlobalUsings.cs` files provide common imports for each project — add new global usings there rather than per-file.
@@ -58,12 +62,12 @@
         ## When you edit code — recommended checklist for agents
         1. Run `dotnet build` at `src/` and fix compilation issues.
         2. Run `dotnet test` (if tests exist). If tests fail and they passed before, investigate the implementation change; do not change tests to make them pass.
-        3. Run the CLI on representative inputs (small files and stdin) to verify output formatting and totals. Example:
+        3. Run the CLI on various files in `..\test-files\` (e.g. for edge cases like empty files, different line endings, or large words) to verify output formatting and totals. Example:
 
         ```powershell
-        dotnet run --project .\WCountCli -- -w -l sample.txt
+        dotnet run --project .\WCountCli -- -w -l ..\test-files\<filename>.txt
         ```
-
+        
         4. If you change public API surfaces (abstractions), update dependent projects and consider package versioning.
 
         ## Key files to inspect first
