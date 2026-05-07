@@ -7,6 +7,8 @@
         - CLI: `WCountCli` — a small command-line front-end that parses arguments, resolves services via DI and delegates file/stdin processing to `TextReaderLogic`.
         - Libraries: `WCountLib.Abstractions` (interfaces) and `WCountLib` (implementations). Libraries are packaged separately and intended to be reusable.
 
+        Dependency Graph: `WCountCli` $\rightarrow$ `WCountLib` $\rightarrow$ `WCountLib.Abstractions`.
+        
         Typical data flow (concrete example): `Program.cs` (CLI) parses flags and files → resolves `ITextReaderLogic` → `TextReaderLogic.ReadTextReaderAsync` reads input in 8KB buffers (`char[8192]`) → for each chunk it calls counters (`IWordCounter`, `ICharacterCounter`, `IByteCounter`) → results aggregated into `WCountInfo` and printed by `ResultPrintingHelper`.
 
         ## CLI (WCountCli) – what agents must know
@@ -58,7 +60,10 @@
         - Encoding & bytes: byte counting uses `Encoding.Default` (system encoding) by design; changing this alters byte counts on different machines.
         - Parallel patterns: `WordCounter` increments a shared counter using `Interlocked` after partitioned work. When editing, preserve thread-safety.
         - Line ending logic: `ReadTextChunk` tracks a `hasCharWasCR` flag to detect CRLF sequences on Windows — be careful when refactoring this logic.
-
+        - External Libraries: 
+          - In `WCountCli`, external libraries (e.g. `XenoAtom.CommandLine`) are necessary and acceptable.
+          - In `WCountLib`, external libraries should provide significant, non-trivial utility. If a dependency provides zero or negligible utility, agents should suggest its removal to the user.
+        
         ## When you edit code — recommended checklist for agents
         1. Run `dotnet build` at `src/` and fix compilation issues.
         2. Run `dotnet test` (if tests exist). If tests fail and they passed before, investigate the implementation change; do not change tests to make them pass.
