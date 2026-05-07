@@ -1,4 +1,4 @@
-﻿/*
+/*
     WCount Cli
     Copyright (C) 2026 Alastair Lundy
 
@@ -7,32 +7,36 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+using System.Text;
+using System.Globalization;
+
 namespace WCountCli.Helpers;
 
 public static class FormattingHelpers
 {
     public static string FormatOutput(string str, int requiredSpacing)
     {
-        StringBuilder stringBuilder = new();
-        stringBuilder.Append(' ');
-        
-        int spacesToAdd = Math.Abs(str.Length - requiredSpacing);
-    
-        for (long i = 0; i < spacesToAdd; i++)
-        {
-            stringBuilder.Append(' ');
-        }
-    
-        return stringBuilder.ToString();
+        // Format a single column: a leading separator space, optional padding, then the value.
+        StringBuilder sb = new();
+        sb.Append(' ');
+
+        int padding = requiredSpacing - str.Length;
+        if (padding > 0)
+            sb.Append(' ', padding);
+
+        sb.Append(str);
+        return sb.ToString();
     }
 
     public static int CalculateRequiredSpacing(long[] stats)
     {
         int maximum = 0;
-    
-        foreach (int stat in stats)
+
+        foreach (long stat in stats)
         {
-            maximum = int.Max(maximum, stat);
+            int len = stat.ToString(CultureInfo.CurrentCulture).Length;
+            if (len > maximum)
+                maximum = len;
         }
 
         return maximum;

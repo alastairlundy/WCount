@@ -1,4 +1,4 @@
-﻿/*
+/*
     WCount Cli
     Copyright (C) 2026 Alastair Lundy
 
@@ -7,6 +7,11 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+using System;
+using System.Text;
+using System.Globalization;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using XenoAtom.CommandLine;
 
 namespace WCountCli.Helpers;
@@ -18,7 +23,7 @@ public static class ResultPrintingHelper
     {
         StringBuilder stringBuilder = new();
 
-        List<long> stats = [];
+        List<long> stats = new();
 
         if (lineCount is not null)
             stats.Add(lineCount.Value);
@@ -32,7 +37,7 @@ public static class ResultPrintingHelper
         if (byteCount is not null)
             stats.Add(byteCount.Value);
 
-        int requiredSpacing = FormattingHelpers.CalculateRequiredSpacing(stats.ToArray());
+        int requiredSpacing = stats.Count > 0 ? FormattingHelpers.CalculateRequiredSpacing(stats.ToArray()) : 0;
 
         if (lineCount is not null)
             stringBuilder.Append(FormattingHelpers
@@ -63,7 +68,7 @@ public static class ResultPrintingHelper
     {
         StringBuilder stringBuilder = new();
 
-        int requiredSpacing = FormattingHelpers.CalculateRequiredSpacing([lineCount, wordCount, characterCount]);
+        int requiredSpacing = FormattingHelpers.CalculateRequiredSpacing(new long[] { lineCount, wordCount, characterCount });
 
         stringBuilder.Append(FormattingHelpers
             .FormatOutput(lineCount.ToString(CultureInfo.CurrentCulture), requiredSpacing).TrimStart(' '));
