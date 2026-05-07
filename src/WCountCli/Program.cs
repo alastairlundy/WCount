@@ -47,10 +47,10 @@ CommandApp app = new("WCount")
         Validate.FileExists(),
         false
     },
-    {"m", Resources.Arguments_CharacterCount_Description, (bool v) => showCharacterCount = v },
-    {"l", Resources.Arguments_LineCount_Description, (bool v) => showLineCount = v},
-    {"c", Resources.Arguments_ByteCount_Description, (bool v) => showByteCount = v},
-    {"w", Resources.Arguments_WordCount_Description, (bool v) => showWordCount = v},
+    {"m", Resources.Arguments_CharacterCount_Description, v => showCharacterCount = v is not null },
+    {"l", Resources.Arguments_LineCount_Description, v => showLineCount = v is not null },
+    {"c", Resources.Arguments_ByteCount_Description, v => showByteCount = v is not null },
+    {"w", Resources.Arguments_WordCount_Description, v => showWordCount = v is not null },
     new HelpOption(),
     (ctx, _) => CommandRouter(ctx)
 };
