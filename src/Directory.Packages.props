@@ -3,7 +3,7 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="DotExtensions" Version="10.3.0" />
+    <PackageVersion Include="DotExtensions" Version="10.3.1" />
     <PackageVersion Include="EnhancedLinq" Version="1.0.0-rc.1" />
     <PackageVersion Include="Microsoft.Extensions.Primitives" Version="10.0.7" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.7"/>
