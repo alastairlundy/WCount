@@ -130,7 +130,7 @@ public class TextReaderLogic : ITextReaderLogic
 
         int charsRead;
         bool hasCharWasCR = false;
-        // Initialize chunk state used across ReadTextChunk calls
+        // Initialise chunk state used across ReadTextChunk calls
         _isInWord = false;
         _hasPendingNonNewline = false;
         _currentEncoding = (reader is StreamReader sr) ? sr.CurrentEncoding : (Console.InputEncoding ?? Encoding.UTF8);
