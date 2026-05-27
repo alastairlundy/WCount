@@ -10,7 +10,7 @@
     <PackageVersion Include="ThisAssembly.AssemblyInfo" Version="2.1.2"/>
     <PackageVersion Include="XenoAtom.CommandLine" Version="2.0.3" />
     <PackageVersion Include="XenoAtom.Terminal" Version="2.2.0" />
-    <PackageVersion Include="Polyfill" Version="10.6.0" />
+    <PackageVersion Include="Polyfill" Version="10.7.0" />
     
   </ItemGroup>
 </Project>
