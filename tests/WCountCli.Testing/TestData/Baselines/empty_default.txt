@@ -1,0 +1,2 @@
+0 0 0 C:\Users\alast\Documents\GitHub\WCount\test-files\EMPTY.txt
+0 0 0 Total

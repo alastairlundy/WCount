@@ -4,7 +4,6 @@ using System.Text;
 using System.Threading.Tasks;
 using WCountCli.Models;
 using WCountLib.Abstractions.Counters;
-using XenoAtom.Terminal;
 
 namespace WCountCli.Logic;
 
@@ -27,11 +26,11 @@ public class TextReaderLogic : ITextReaderLogic
 
     protected WCountInfo ReadTextChunk(int chunkSize, char[] buffer, bool showWordCount,
     bool showLineCount,
-    bool showCharacterCount, bool showByteCount, bool configuredArgs, ref bool hasCharWasCR)
+    bool showCharacterCount, bool showByteCount, ref bool hasCharWasCR)
 {
-    long? totalWords = (showWordCount || !configuredArgs) ? 0L : null;
-    long? totalLines = (showLineCount || !configuredArgs) ? 0L : null;
-    long? totalChars = (showCharacterCount || !configuredArgs) ? 0L : null;
+    long? totalWords = showWordCount ? 0L : null;
+    long? totalLines = showLineCount ? 0L : null;
+    long? totalChars = showCharacterCount ? 0L : null;
     long? totalBytes = showByteCount ? 0L : null;
 
     // Scan only the valid portion of the buffer
@@ -119,13 +118,13 @@ public class TextReaderLogic : ITextReaderLogic
 }
     protected async Task<WCountInfo> ReadTextReaderAsync(TextReader reader, bool showWordCount,
         bool showLineCount,
-        bool showCharacterCount, bool showByteCount, bool configuredArgs)
+        bool showCharacterCount, bool showByteCount, CancellationToken ct = default)
     {
         char[] buffer = new char[8192];
 
-        long? totalWords = (showWordCount || !configuredArgs) ? 0L : null;
-        long? totalLines = (showLineCount || !configuredArgs) ? 0L : null;
-        long? totalChars = (showCharacterCount || !configuredArgs) ? 0L : null;
+        long? totalWords = showWordCount ? 0L : null;
+        long? totalLines = showLineCount ? 0L : null;
+        long? totalChars = showCharacterCount ? 0L : null;
         long? totalBytes = showByteCount ? 0L : null;
 
         int charsRead;
@@ -135,10 +134,10 @@ public class TextReaderLogic : ITextReaderLogic
         _hasPendingNonNewline = false;
         _currentEncoding = (reader is StreamReader sr) ? sr.CurrentEncoding : (Console.InputEncoding ?? Encoding.UTF8);
 
-        while ((charsRead = await reader.ReadAsync(buffer, 0, buffer.Length)) > 0)
+        while ((charsRead = await reader.ReadAsync(buffer.AsMemory(0, buffer.Length), ct)) > 0)
         {
             WCountInfo result = ReadTextChunk(charsRead, buffer, showWordCount, showLineCount,
-                showCharacterCount, showByteCount, configuredArgs, ref hasCharWasCR);
+                showCharacterCount, showByteCount, ref hasCharWasCR);
 
 
             if (totalBytes is not null)
@@ -154,7 +153,7 @@ public class TextReaderLogic : ITextReaderLogic
                 totalLines += result.LineCount ?? 0;
         }
 
-        // If file ended with an unresolved CR, count it as a line
+        // If file ended with an unresolved CR or pending non-newline, count it as a line
         if (hasCharWasCR && totalLines is not null)
             totalLines += 1;
         else if (_hasPendingNonNewline && totalLines is not null)
@@ -172,20 +171,18 @@ public class TextReaderLogic : ITextReaderLogic
         };
     }
 
-    public async Task<WCountInfo> ReadStandardInputAsync(bool showWordCount, bool showLineCount,
-        bool showCharacterCount, bool showByteCount, bool configuredArgs)
+    public async Task<WCountInfo> ReadStandardInputAsync(TextReader reader, bool showWordCount, bool showLineCount,
+        bool showCharacterCount, bool showByteCount, CancellationToken ct = default)
     {
-        using TextReader reader = Terminal.In;
-
         return await ReadTextReaderAsync(reader, showWordCount, showLineCount, 
-            showCharacterCount, showByteCount, configuredArgs);
+            showCharacterCount, showByteCount, ct);
     }
 
     public async Task<WCountInfo> ReadFileAsync(string file, bool showWordCount, bool showLineCount,
-        bool showCharacterCount, bool showByteCount, bool configuredArgs)
+        bool showCharacterCount, bool showByteCount, CancellationToken ct = default)
     {
         using StreamReader reader = File.OpenText(file);
 
-        return await ReadTextReaderAsync(reader, showWordCount, showLineCount, showCharacterCount, showByteCount, configuredArgs);
+        return await ReadTextReaderAsync(reader, showWordCount, showLineCount, showCharacterCount, showByteCount, ct);
     }
 }

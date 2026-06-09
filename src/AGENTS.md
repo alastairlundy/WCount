@@ -13,7 +13,7 @@
 
         ## CLI (WCountCli) – what agents must know
         - Entry point: `WCountCli/Program.cs`. DI registrations live here (singletons: `IWordDetector`, `IWordCounter`, `ICharacterCounter`, `IByteCounter`, `ITextReaderLogic`). Prefer resolving interfaces, not concrete types.
-        - Arguments: uses `XenoAtom.CommandLine`. Examples from `Program.cs`: `-w` (words), `-l` (lines), `-m` (chars), `-c` (bytes), `-v` (verbose). When running manually forward CLI args after `--` when using `dotnet run`.
+        - Arguments: uses `System.CommandLine`. Examples from `Program.cs`: `-w` (words), `-l` (lines), `-m` (chars), `-c` (bytes), `-v` (verbose). When running manually forward CLI args after `--` when using `dotnet run`.
         - Text I/O: `TextReaderLogic` reads stdin via `Terminal.In` and files via `File.OpenText(...)`. Breakpoints for debugging: `TextReaderLogic.ReadTextReaderAsync` and `ReadTextChunk`.
         - Output formatting: `WCountCli/Helpers/ResultPrintingHelper.cs` and `FormattingHelpers.cs` control human-readable output and localization strings (`Localizations/Resources.resx`).
 
@@ -61,7 +61,7 @@
         - Parallel patterns: `WordCounter` increments a shared counter using `Interlocked` after partitioned work. When editing, preserve thread-safety.
         - Line ending logic: `ReadTextChunk` tracks a `hasCharWasCR` flag to detect CRLF sequences on Windows — be careful when refactoring this logic.
         - External Libraries: 
-          - In `WCountCli`, external libraries (e.g. `XenoAtom.CommandLine`) are necessary and acceptable.
+          - In `WCountCli`, external libraries (e.g. `System.CommandLine`) are necessary and acceptable.
           - In `WCountLib`, external libraries should provide significant, non-trivial utility. If a dependency provides zero or negligible utility, agents should suggest its removal to the user.
         
         ## When you edit code — recommended checklist for agents

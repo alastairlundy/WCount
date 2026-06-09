@@ -1,0 +1,2 @@
+21  197 1297 C:\Users\alast\Documents\GitHub\WCount\test-files\NATURE.txt
+21  197 1297 Total

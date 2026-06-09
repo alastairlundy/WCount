@@ -2,9 +2,9 @@
 
 public interface ITextReaderLogic
 {
-    Task<WCountInfo> ReadStandardInputAsync(bool showWordCount, bool showLineCount,
-        bool showCharacterCount, bool showByteCount, bool configuredArgs);
+    Task<WCountInfo> ReadStandardInputAsync(TextReader reader, bool showWordCount, bool showLineCount,
+        bool showCharacterCount, bool showByteCount, CancellationToken ct = default);
 
     Task<WCountInfo> ReadFileAsync(string file, bool showWordCount, bool showLineCount,
-        bool showCharacterCount, bool showByteCount, bool configuredArgs);
+        bool showCharacterCount, bool showByteCount, CancellationToken ct = default);
 }

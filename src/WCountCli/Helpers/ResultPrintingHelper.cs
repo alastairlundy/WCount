@@ -12,13 +12,13 @@ using System.Text;
 using System.Globalization;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using XenoAtom.CommandLine;
+using System.IO;
 
 namespace WCountCli.Helpers;
 
 public static class ResultPrintingHelper
 {
-    public static async Task PrintCustomResultLine(string file, CommandRunContext ctx, long? lineCount = null, long? wordCount = null,
+    public static async Task PrintCustomResultLine(string file, TextWriter output, long? lineCount = null, long? wordCount = null,
         long? characterCount = null, long? byteCount = null)
     {
         StringBuilder stringBuilder = new();
@@ -59,11 +59,11 @@ public static class ResultPrintingHelper
         stringBuilder.Append(' ');
         stringBuilder.Append(file);
 
-        await ctx.Out.WriteLineAsync(stringBuilder.ToString());
+        await output.WriteLineAsync(stringBuilder.ToString());
     }
 
 
-    public static async Task PrintDefaultResultLine(string file, CommandRunContext ctx,
+    public static async Task PrintDefaultResultLine(string file, TextWriter output,
         long lineCount, long wordCount, long characterCount)
     {
         StringBuilder stringBuilder = new();
@@ -82,6 +82,6 @@ public static class ResultPrintingHelper
         stringBuilder.Append(' ');
         stringBuilder.Append(file);
 
-        await ctx.Out.WriteLineAsync(stringBuilder.ToString());
+        await output.WriteLineAsync(stringBuilder.ToString());
     }
 }

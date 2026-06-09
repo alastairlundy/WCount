@@ -5,6 +5,7 @@
   </Folder>
   <Folder Name="/Tests/">
     <Project Path="../tests/WCountLib.Testing/WCountLib.Testing.csproj" />
+    <Project Path="../tests/WCountCli.Testing/WCountCli.Testing.csproj" />
   </Folder>
   <Project Path="WCountCli/WCountCli.csproj" />
 </Solution>

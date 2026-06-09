@@ -14,7 +14,7 @@
         <IsAoTCompatible>true</IsAoTCompatible>
         <PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-        <Version>1.0.0-preview.1</Version>
+        <Version>1.0.0-preview.2</Version>
     </PropertyGroup>
 
     <ItemGroup>
@@ -23,8 +23,7 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
-      <PackageReference Include="XenoAtom.CommandLine"/>
-      <PackageReference Include="XenoAtom.Terminal"/>
+      <PackageReference Include="System.CommandLine"/>
     </ItemGroup>
 
     <ItemGroup>

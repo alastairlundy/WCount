@@ -1,0 +1,9 @@
+Usage: WCount [options] <files>+
+      --v\, --verbose        Enable verbose output
+Arguments:
+  <files>+                   The file path(s) of the file to be read.
+  -m                         Count the number of characters in a file or string.
+  -l                         Count the number of lines in a file or string.
+  -c                         Count the number of bytes in a file or string.
+  -w                         Count the number of words in a file or string.
+  -h, -?, --help             Show this message and exit
