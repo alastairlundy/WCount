@@ -14,8 +14,7 @@
         <RepositoryUrl>https://github.com/alastairlundy/WCount</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <PackageReleaseNotes>*Updated DotExtensions dependency from 6.3.0 to 7.2.0
-* Updated Polyfill to 8.0.1 from 7.24.0 and mark as an internal dependency with private assets
+        <PackageReleaseNotes>* Updated Polyfill to 8.0.1 from 7.24.0 and mark as an internal dependency with private assets
 * Updated Microsoft.Extensions.Primitives to 9.0.6
 * Updated WCountLib.Abstractions to 3.2.2.1</PackageReleaseNotes>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -39,7 +38,6 @@
     
     <ItemGroup>
         <PackageReference Include="Polyfill" PrivateAssets="all"/>
-        <PackageReference Include="DotExtensions" />
        <PackageReference Include="EnhancedLinq" />
         <PackageReference Include="Microsoft.Extensions.Primitives" />
 	</ItemGroup>
