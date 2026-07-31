@@ -51,7 +51,7 @@ public class WordDetector : IWordDetector
         if (separatorCount == input.Length || specialCharCount == input.Length)
             return false;
 
-        if (countStringsWithSpacesAsWords && input.ContainsDelimitedSubstrings(' ') && charValidity)
+        if (countStringsWithSpacesAsWords && input.Contains(' ') && charValidity)
             return true;
 
         return charValidity;
