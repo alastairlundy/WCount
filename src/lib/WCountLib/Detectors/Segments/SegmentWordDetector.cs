@@ -8,7 +8,6 @@
  */
 
 using System.Linq;
-using DotExtensions.MsExtensions.Exceptions;
 using EnhancedLinq.MsExtensions.Deferred;
 
 namespace WCountLib.Detectors.Segments;
@@ -26,10 +25,10 @@ public class SegmentWordDetector : ISegmentWordDetector
     /// <returns>True if the string segment represents a single word, false otherwise.</returns>
     public bool IsSegmentAWord(StringSegment segment, bool countStringsWithSpacesAsWords = false)
     {
-        ArgumentException.ThrowIfNullOrEmpty(segment);
+        ArgumentException.ThrowIfNullOrEmpty(segment.Value);
         
         if (segment.Length == 1)
-            return !char.IsSpecialCharacter(segment[0]);
+            return !segment[0].IsSpecialCharacter();
         
         int regularChars = 0;
         int separatorCount = 0;
@@ -71,7 +70,7 @@ public class SegmentWordDetector : ISegmentWordDetector
     public bool DoesSegmentContainWords(StringSegment segment, char wordSeparator, 
         bool countSegmentsWithSpacesAsWords = false)
     {
-        ArgumentException.ThrowIfNullOrEmpty(segment);
+        ArgumentException.ThrowIfNullOrEmpty(segment.Value);
         
         IEnumerable<StringSegment> possibleWords = segment.SplitBy(wordSeparator);
         

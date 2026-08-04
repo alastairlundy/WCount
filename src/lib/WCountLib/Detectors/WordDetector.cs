@@ -12,6 +12,18 @@ using System.Linq;
 namespace WCountLib.Detectors;
 
 /// <summary>
+/// Checks whether a character is a special (non-alphanumeric, non-whitespace) character.
+/// </summary>
+internal static class CharExtensions
+{
+    /// <summary>
+    /// Returns true if the character is a special character (punctuation or symbol).
+    /// </summary>
+    internal static bool IsSpecialCharacter(this char c) =>
+        char.IsPunctuation(c) || char.IsSymbol(c);
+}
+
+/// <summary>
 /// A class to detect if strings that look like words are words.
 /// </summary>
 public class WordDetector : IWordDetector
@@ -28,7 +40,7 @@ public class WordDetector : IWordDetector
         ArgumentException.ThrowIfNullOrEmpty(input);
         
         if (input.Length == 1)
-            return !char.IsSpecialCharacter(input[0]);
+            return !input[0].IsSpecialCharacter();
 
         int separatorCount = 0;
         int specialCharCount = 0;
@@ -64,7 +76,7 @@ public class WordDetector : IWordDetector
         if (source is IList<char> list)
         {
             if (list.Count == 1)
-                return !char.IsSpecialCharacter(list[0]);
+                return !list[0].IsSpecialCharacter();
         }
         
         int separatorCount = 0;
@@ -101,7 +113,7 @@ public class WordDetector : IWordDetector
         }
         
         if (count == 1)
-            return !char.IsSpecialCharacter(firstChar);
+            return !firstChar.IsSpecialCharacter();
 
         
         if (separatorCount == count || specialCharCount == count)
@@ -125,7 +137,7 @@ public class WordDetector : IWordDetector
         ArgumentNullException.ThrowIfNull(source);
         
         if (source.Length == 1)
-            return !char.IsSpecialCharacter(source[0]);
+            return !source[0].IsSpecialCharacter();
 
         int separatorCount = 0;
         int specialCharCount = 0;
