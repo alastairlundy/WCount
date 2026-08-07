@@ -25,8 +25,10 @@ services.AddSingleton<ITextReaderLogic, TextReaderLogic>();
 
 IServiceProvider serviceProvider = services.BuildServiceProvider();
 
-Option<bool> wordOption = new("-w");
-wordOption.Description = Resources.Arguments_WordCount_Description;
+Option<bool> wordOption = new("-w")
+{
+    Description = Resources.Arguments_WordCount_Description
+};
 
 Option<bool> lineOption = new("-l");
 lineOption.Description = Resources.Arguments_LineCount_Description;
