@@ -2,9 +2,6 @@
 
 ## Projects within this repo
 
-### WCount API
-WCount API provides WCountLib word counting and character counting functionality over a web api.
-
 ### WCount Libraries
 WCountLib is a set of word counting, character counting, byte counting, and line counting libraries.
 
