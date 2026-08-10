@@ -7,81 +7,83 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-using System;
-using System.Text;
-using System.Globalization;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.IO;
-
 namespace WCountCli.Helpers;
 
 public static class ResultPrintingHelper
 {
-    public static async Task PrintCustomResultLine(string file, TextWriter output, long? lineCount = null, long? wordCount = null,
-        long? characterCount = null, long? byteCount = null)
+    /// <summary>
+    /// Builds a <see cref="CountSelection"/> bitmask from the four CLI boolean flags.
+    /// </summary>
+    public static CountSelection ToSelection(bool line, bool word, bool character, bool @byte)
     {
-        StringBuilder stringBuilder = new();
-
-        List<long> stats = new();
-
-        if (lineCount is not null)
-            stats.Add(lineCount.Value);
-
-        if (wordCount is not null)
-            stats.Add(wordCount.Value);
-
-        if (characterCount is not null)
-            stats.Add(characterCount.Value);
-
-        if (byteCount is not null)
-            stats.Add(byteCount.Value);
-
-        int requiredSpacing = stats.Count > 0 ? FormattingHelpers.CalculateRequiredSpacing(stats.ToArray()) : 0;
-
-        if (lineCount is not null)
-            stringBuilder.Append(FormattingHelpers
-                .FormatOutput(lineCount.Value.ToString(CultureInfo.CurrentCulture), requiredSpacing).TrimStart(' '));
-
-        if (wordCount is not null)
-            stringBuilder.Append(FormattingHelpers.FormatOutput(wordCount.Value.ToString(CultureInfo.CurrentCulture),
-                requiredSpacing));
-
-        if (byteCount is not null)
-            stringBuilder.Append(FormattingHelpers.FormatOutput(byteCount.Value.ToString(CultureInfo.CurrentCulture),
-                requiredSpacing));
-
-        if (characterCount is not null)
-            stringBuilder.Append(
-                FormattingHelpers.FormatOutput(characterCount.Value.ToString(CultureInfo.CurrentCulture),
-                    requiredSpacing));
-
-        stringBuilder.Append(' ');
-        stringBuilder.Append(file);
-
-        await output.WriteLineAsync(stringBuilder.ToString());
+        CountSelection selection = CountSelection.None;
+        if (line) selection |= CountSelection.Lines;
+        if (word) selection |= CountSelection.Words;
+        if (character) selection |= CountSelection.Characters;
+        if (@byte) selection |= CountSelection.Bytes;
+        return selection;
     }
 
-
-    public static async Task PrintDefaultResultLine(string file, TextWriter output,
-        long lineCount, long wordCount, long characterCount)
+    /// <summary>
+    /// Prints a single wc-style result row.
+    /// Columns are emitted left-to-right in the order: lines, words, bytes, characters.
+    /// </summary>
+    public static async Task PrintRow(string file, TextWriter output, CountSelection selection,
+        long? lineCount, long? wordCount, long? characterCount, long? byteCount)
     {
-        StringBuilder stringBuilder = new();
+        List<long> values = new();
 
-        int requiredSpacing = FormattingHelpers.CalculateRequiredSpacing(new long[] { lineCount, wordCount, characterCount });
+        if ((selection & CountSelection.Lines) != 0)
+            values.Add(lineCount ?? 0);
+        if ((selection & CountSelection.Words) != 0)
+            values.Add(wordCount ?? 0);
+        if ((selection & CountSelection.Bytes) != 0)
+            values.Add(byteCount ?? 0);
+        if ((selection & CountSelection.Characters) != 0)
+            values.Add(characterCount ?? 0);
 
-        stringBuilder.Append(FormattingHelpers
-            .FormatOutput(lineCount.ToString(CultureInfo.CurrentCulture), requiredSpacing).TrimStart(' '));
+        int spacing = values.Count > 0 ? CalculateRequiredSpacing(values.ToArray()) : 0;
+        StringBuilder sb = new();
 
-        stringBuilder.Append(FormattingHelpers.FormatOutput(wordCount.ToString(CultureInfo.CurrentCulture),
-            requiredSpacing));
+        if ((selection & CountSelection.Lines) != 0)
+            sb.Append(FormatOutput((lineCount ?? 0).ToString(CultureInfo.CurrentCulture), spacing).TrimStart(' '));
+        if ((selection & CountSelection.Words) != 0)
+            sb.Append(FormatOutput((wordCount ?? 0).ToString(CultureInfo.CurrentCulture), spacing));
+        if ((selection & CountSelection.Bytes) != 0)
+            sb.Append(FormatOutput((byteCount ?? 0).ToString(CultureInfo.CurrentCulture), spacing));
+        if ((selection & CountSelection.Characters) != 0)
+            sb.Append(FormatOutput((characterCount ?? 0).ToString(CultureInfo.CurrentCulture), spacing));
 
-        stringBuilder.Append(FormattingHelpers.FormatOutput(characterCount.ToString(CultureInfo.CurrentCulture),
-            requiredSpacing));
+        sb.Append(' ');
+        sb.Append(file);
 
-        stringBuilder.Append(' ');
-        stringBuilder.Append(file);
+        await output.WriteLineAsync(sb.ToString());
+    }
 
-        await output.WriteLineAsync(stringBuilder.ToString());
+    private static string FormatOutput(string str, int requiredSpacing)
+    {
+        StringBuilder sb = new();
+        sb.Append(' ');
+
+        int padding = requiredSpacing - str.Length;
+        if (padding > 0)
+            sb.Append(' ', padding);
+
+        sb.Append(str);
+        return sb.ToString();
+    }
+
+    private static int CalculateRequiredSpacing(long[] stats)
+    {
+        int maximum = 0;
+
+        foreach (long stat in stats)
+        {
+            int len = stat.ToString(CultureInfo.CurrentCulture).Length;
+            if (len > maximum)
+                maximum = len;
+        }
+
+        return maximum;
     }
 }

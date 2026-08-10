@@ -24,6 +24,22 @@ public class TextReaderLogic : ITextReaderLogic
         _characterCounter = characterCounter ?? throw new ArgumentNullException(nameof(characterCounter));
     }
 
+    private static Encoding ResolveDefaultEncoding()
+    {
+        try
+        {
+            return Encoding.Default;
+        }
+        catch (NotSupportedException)
+        {
+            return Encoding.UTF8;
+        }
+        catch (ArgumentException)
+        {
+            return Encoding.UTF8;
+        }
+    }
+
     protected WCountInfo ReadTextChunk(int chunkSize, char[] buffer, bool showWordCount,
     bool showLineCount,
     bool showCharacterCount, bool showByteCount, ref bool hasCharWasCR)
@@ -103,10 +119,10 @@ public class TextReaderLogic : ITextReaderLogic
     }
 
     if (totalChars is not null)
-        totalChars += Convert.ToInt64(_characterCounter.CountCharacters(segment, _currentEncoding ?? Encoding.UTF8));
+        totalChars += Convert.ToInt64(_characterCounter.CountCharacters(segment, _currentEncoding ?? ResolveDefaultEncoding()));
 
     if (totalBytes is not null)
-        totalBytes += _byteCounter.CountBytes(segment, _currentEncoding ?? Encoding.UTF8);
+        totalBytes += _byteCounter.CountBytes(segment, _currentEncoding ?? ResolveDefaultEncoding());
 
     return new WCountInfo
     {
@@ -132,7 +148,7 @@ public class TextReaderLogic : ITextReaderLogic
         // Initialise chunk state used across ReadTextChunk calls
         _isInWord = false;
         _hasPendingNonNewline = false;
-        _currentEncoding = (reader is StreamReader sr) ? sr.CurrentEncoding : (Console.InputEncoding ?? Encoding.UTF8);
+        _currentEncoding = (reader is StreamReader sr) ? sr.CurrentEncoding : ResolveDefaultEncoding();
 
         while ((charsRead = await reader.ReadAsync(buffer.AsMemory(0, buffer.Length), ct)) > 0)
         {
