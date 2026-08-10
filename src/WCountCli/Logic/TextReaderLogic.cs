@@ -154,9 +154,7 @@ public class TextReaderLogic : ITextReaderLogic
         bool hasPendingNonNewline = false;
         bool hasCharWasCR = false;
         // Initialise chunk state used across ReadTextChunk calls
-        _isInWord = false;
-        _hasPendingNonNewline = false;
-        _currentEncoding = (reader is StreamReader sr) ? sr.CurrentEncoding : ResolveDefaultEncoding();
+        Encoding? currentEncoding = (reader is StreamReader sr) ? sr.CurrentEncoding : ResolveDefaultEncoding();
 
         while ((charsRead = await reader.ReadAsync(buffer.AsMemory(0, buffer.Length), ct)) > 0)
         {
@@ -164,7 +162,7 @@ public class TextReaderLogic : ITextReaderLogic
             {
                 IsInWord = isInWord,
                 HasPendingNonNewline = hasPendingNonNewline,
-                CurrentEncoding = _currentEncoding,
+                CurrentEncoding = currentEncoding,
                 HasCharWasCR = hasCharWasCR
             };
 

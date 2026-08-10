@@ -2,5 +2,8 @@
 
 global using System.Collections;
 global using System.Collections.Generic;
+global using System.Threading.Tasks;
+global using TUnit;
+global using TUnit.Assertions;
 global using WCountLib.Detectors;
 global using WCountLib.Testing.TestData;
