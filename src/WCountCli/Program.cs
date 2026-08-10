@@ -10,7 +10,8 @@
 using System.CommandLine;
 using System.CommandLine.Parsing;
 using Microsoft.Extensions.DependencyInjection;
-using WCountCli.Logic;
+using WCountLib.Abstractions.Logic;
+using WCountLib.Logic;
 using WCountLib.Abstractions.Detectors;
 using WCountLib.Counters;
 using WCountLib.Detectors;
@@ -80,8 +81,8 @@ rootCommand.SetAction(async (ParseResult parseResult, CancellationToken ct) =>
         try
         {
             TextReader reader = Console.In;
-            WCountInfo info = await textReaderLogic.ReadStandardInputAsync(reader, showWordCount, showLineCount,
-                showCharacterCount, showByteCount, ct);
+            WCountInfo info = await textReaderLogic.ReadTextReaderAsync(reader, showWordCount, showLineCount,
+                showCharacterCount, showByteCount, Console.InputEncoding, ct);
 
             if (configuredArgs && info.WordCount is not null && info.LineCount is not null && info.CharCount is not null)
             {
@@ -128,7 +129,7 @@ rootCommand.SetAction(async (ParseResult parseResult, CancellationToken ct) =>
                 long? currentBytes = showByteCount ? 0 : null;
 
                 WCountInfo info = await textReaderLogic.ReadFileAsync(file, showWordCount, showLineCount,
-                    showCharacterCount, showByteCount, ct);
+                    showCharacterCount, showByteCount, null, ct);
 
                 if (showByteCount && totalBytes is not null && info.ByteCount is not null)
                 {
@@ -190,7 +191,7 @@ rootCommand.SetAction(async (ParseResult parseResult, CancellationToken ct) =>
             foreach (string file in files.Select(f => Path.GetFullPath(f)))
             {
                 WCountInfo info = await textReaderLogic.ReadFileAsync(file, true, true,
-                    true, false, ct);
+                    true, false, null, ct);
 
                 if (info.LineCount is not null && info.WordCount is not null && info.CharCount is not null)
                     await ResultPrintingHelper.PrintDefaultResultLine(file, Console.Out, info.LineCount.Value,

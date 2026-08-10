@@ -9,5 +9,8 @@ global using System.Threading.Tasks;
 global using Microsoft.Extensions.Primitives;
 global using WCountLib.Abstractions.Counters;
 global using WCountLib.Abstractions.Counters.Segments;
+global using System.IO;
 global using WCountLib.Abstractions.Detectors;
 global using WCountLib.Abstractions.Detectors.Segments;
+global using WCountLib.Abstractions.Logic;
+global using WCountLib.Abstractions.Models;

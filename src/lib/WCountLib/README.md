@@ -6,6 +6,8 @@ This library provides implementations for WCountLib.Abstractions
 ## How to Use the Project
 Add the nuget package to your project through your IDE or download [WCountLib](https://nuget.org/packages/wcountlib) through Nuget.
 
+The library provides `TextReaderLogic` / `ITextReaderLogic` (in `WCountLib.Logic` / `WCountLib.Abstractions.Logic`) for stream-level counting, allowing consumers to count files and `TextReader` streams without the CLI.
+
 ### Compatibility
 This project should work with any .NET Standard 2.0, .NET Standard 2.1, .NET 8, or newer .NET projects but support for edge cases or niche use cases is not guaranteed.
 
