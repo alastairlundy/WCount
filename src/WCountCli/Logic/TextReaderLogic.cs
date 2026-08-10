@@ -12,9 +12,14 @@ public class TextReaderLogic : ITextReaderLogic
     private readonly IWordCounter _wordCounter;
     private readonly IByteCounter _byteCounter;
     private readonly ICharacterCounter _characterCounter;
-    private bool _isInWord;
-    private bool _hasPendingNonNewline;
-    private Encoding? _currentEncoding;
+
+    protected ref struct ChunkState
+    {
+        public bool IsInWord;
+        public bool HasPendingNonNewline;
+        public Encoding? CurrentEncoding;
+        public bool HasCharWasCR;
+    }
 
     public TextReaderLogic(IWordCounter wordCounter,
         IByteCounter byteCounter, ICharacterCounter characterCounter)
@@ -26,7 +31,7 @@ public class TextReaderLogic : ITextReaderLogic
 
     protected WCountInfo ReadTextChunk(int chunkSize, char[] buffer, bool showWordCount,
     bool showLineCount,
-    bool showCharacterCount, bool showByteCount, ref bool hasCharWasCR)
+    bool showCharacterCount, bool showByteCount, ref ChunkState chunkState)
 {
     long? totalWords = showWordCount ? 0L : null;
     long? totalLines = showLineCount ? 0L : null;
@@ -40,41 +45,41 @@ public class TextReaderLogic : ITextReaderLogic
 
         if (c == '\n')
         {
-            if (hasCharWasCR)
+            if (chunkState.HasCharWasCR)
             {
                 if (totalLines is not null) totalLines += 1;
-                hasCharWasCR = false;
+                chunkState.HasCharWasCR = false;
             }
             else
             {
                 if (totalLines is not null) totalLines += 1;
             }
-            _hasPendingNonNewline = false;
+            chunkState.HasPendingNonNewline = false;
         }
         else if (c == '\r')
         {
             // If next char in the same chunk is '\n', defer counting until the '\n' is processed.
             if (i + 1 < chunkSize && buffer[i + 1] == '\n')
             {
-                hasCharWasCR = true;
+                chunkState.HasCharWasCR = true;
             }
             else if (i + 1 == chunkSize)
             {
                 // trailing CR at end of chunk; let the caller preserve the flag so next chunk can complete the pair
-                hasCharWasCR = true;
+                chunkState.HasCharWasCR = true;
             }
             else
             {
                 // CR not followed by LF -> count as a line terminator now
                 if (totalLines is not null) totalLines += 1;
-                hasCharWasCR = false;
+                chunkState.HasCharWasCR = false;
             }
-            _hasPendingNonNewline = false;
+            chunkState.HasPendingNonNewline = false;
         }
         else
         {
-            hasCharWasCR = false;
-            _hasPendingNonNewline = true;
+            chunkState.HasCharWasCR = false;
+            chunkState.HasPendingNonNewline = true;
         }
     }
 
@@ -90,23 +95,23 @@ public class TextReaderLogic : ITextReaderLogic
 
         // If previous chunk ended inside a word and this segment begins with a non-whitespace,
         // the word counter will have counted the continuation as a new word; subtract one.
-        if (_isInWord && segment.Length > 0 && !char.IsWhiteSpace(segment[0]) && words > 0)
+        if (chunkState.IsInWord && segment.Length > 0 && !char.IsWhiteSpace(segment[0]) && words > 0)
         {
             words -= 1;
         }
 
         // Update in-word state for next chunk (true if last char is non-whitespace)
-        _isInWord = (segment.Length > 0) && !char.IsWhiteSpace(segment[segment.Length - 1]);
+        chunkState.IsInWord = (segment.Length > 0) && !char.IsWhiteSpace(segment[segment.Length - 1]);
 
 
         totalWords += words;
     }
 
     if (totalChars is not null)
-        totalChars += Convert.ToInt64(_characterCounter.CountCharacters(segment, _currentEncoding ?? Encoding.UTF8));
+        totalChars += Convert.ToInt64(_characterCounter.CountCharacters(segment, chunkState.CurrentEncoding ?? Encoding.UTF8));
 
     if (totalBytes is not null)
-        totalBytes += _byteCounter.CountBytes(segment, _currentEncoding ?? Encoding.UTF8);
+        totalBytes += _byteCounter.CountBytes(segment, chunkState.CurrentEncoding ?? Encoding.UTF8);
 
     return new WCountInfo
     {
@@ -128,17 +133,28 @@ public class TextReaderLogic : ITextReaderLogic
         long? totalBytes = showByteCount ? 0L : null;
 
         int charsRead;
+        // Per-chunk state kept in plain locals (ref struct can't cross await)
+        bool isInWord = false;
+        bool hasPendingNonNewline = false;
         bool hasCharWasCR = false;
-        // Initialise chunk state used across ReadTextChunk calls
-        _isInWord = false;
-        _hasPendingNonNewline = false;
-        _currentEncoding = (reader is StreamReader sr) ? sr.CurrentEncoding : (Console.InputEncoding ?? Encoding.UTF8);
+        Encoding? currentEncoding = (reader is StreamReader sr) ? sr.CurrentEncoding : (Console.InputEncoding ?? Encoding.UTF8);
 
         while ((charsRead = await reader.ReadAsync(buffer.AsMemory(0, buffer.Length), ct)) > 0)
         {
-            WCountInfo result = ReadTextChunk(charsRead, buffer, showWordCount, showLineCount,
-                showCharacterCount, showByteCount, ref hasCharWasCR);
+            ChunkState chunkState = new ChunkState
+            {
+                IsInWord = isInWord,
+                HasPendingNonNewline = hasPendingNonNewline,
+                CurrentEncoding = currentEncoding,
+                HasCharWasCR = hasCharWasCR
+            };
 
+            WCountInfo result = ReadTextChunk(charsRead, buffer, showWordCount, showLineCount,
+                showCharacterCount, showByteCount, ref chunkState);
+
+            isInWord = chunkState.IsInWord;
+            hasCharWasCR = chunkState.HasCharWasCR;
+            hasPendingNonNewline = chunkState.HasPendingNonNewline;
 
             if (totalBytes is not null)
                 totalBytes += result.ByteCount ?? 0;
@@ -156,11 +172,8 @@ public class TextReaderLogic : ITextReaderLogic
         // If file ended with an unresolved CR or pending non-newline, count it as a line
         if (hasCharWasCR && totalLines is not null)
             totalLines += 1;
-        else if (_hasPendingNonNewline && totalLines is not null)
+        else if (hasPendingNonNewline && totalLines is not null)
             totalLines += 1;
-
-        // Reset encoding cache
-        _currentEncoding = null;
 
         return new WCountInfo
         {
