@@ -145,6 +145,8 @@ public class TextReaderLogic : ITextReaderLogic
         bool showCharacterCount, bool showByteCount, Encoding? encoding = null,
         CancellationToken ct = default)
     {
+        ArgumentNullException.ThrowIfNull(reader);
+
         char[] buffer = new char[8192];
 
         long? totalWords = showWordCount ? 0L : null;
