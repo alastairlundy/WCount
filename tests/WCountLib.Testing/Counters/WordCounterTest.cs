@@ -1,5 +1,5 @@
 ﻿using WCountLib.Counters;
-using Xunit;
+using WCountLib.Testing.TestData;
 
 namespace WCountLib.Testing.Counters;
 
@@ -7,21 +7,12 @@ public class WordCounterTest
 {
     private readonly WordCounter _counter = new(new WordDetector());
 
-    [Theory]
-    [ClassData(typeof(RealWordsTestData))]
-    public void CountWords(string words, int expected)
+    [Test]
+    [MethodDataSource<RealWordsTestData>(nameof(RealWordsTestData.GetAllData))]
+    public async Task CountWords(string words, int expected)
     {
         int actual = _counter.CountWords(words);
         
-        Assert.Equal(expected, actual);
+        await Assert.That(actual).IsEqualTo(expected);
     }
-
-    /*[Theory]
-    [ClassData(typeof(FakeWordsTestData))]
-    public void DontCountFakeWords(string words)
-    {
-        int actual = _counter.CountWords(words);
-        
-        Assert.Equal(0, actual);
-    }  */ 
 }

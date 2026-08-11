@@ -5,14 +5,14 @@ public sealed class CliIntegrationTests
     private static readonly string BaselinesDir = CliTestRunner.BaselinesDir;
     private static readonly string TestFilesDir = CliTestRunner.TestFilesDir;
 
-    [Theory]
-    [InlineData("-w", "NATURE.txt", "nature_word_count.txt")]
-    [InlineData("-l", "NATURE.txt", "nature_line_count.txt")]
-    [InlineData("-m", "NATURE.txt", "nature_char_count.txt")]
-    [InlineData("-c", "NATURE.txt", "nature_byte_count.txt")]
-    [InlineData("-w -l", "NATURE.txt", "nature_word_line_count.txt")]
-    [InlineData("-w -l -m -c", "NATURE.txt", "nature_all_counts.txt")]
-    [InlineData("", "NATURE.txt", "nature_default.txt")]
+    [Test]
+    [Arguments("-w", "NATURE.txt", "nature_word_count.txt")]
+    [Arguments("-l", "NATURE.txt", "nature_line_count.txt")]
+    [Arguments("-m", "NATURE.txt", "nature_char_count.txt")]
+    [Arguments("-c", "NATURE.txt", "nature_byte_count.txt")]
+    [Arguments("-w -l", "NATURE.txt", "nature_word_line_count.txt")]
+    [Arguments("-w -l -m -c", "NATURE.txt", "nature_all_counts.txt")]
+    [Arguments("", "NATURE.txt", "nature_default.txt")]
     public async Task SingleFile_WithFlags_MatchesBaseline(string flags, string file, string baselineFile)
     {
         var filePath = Path.Combine(TestFilesDir, file);
@@ -21,16 +21,16 @@ public sealed class CliIntegrationTests
         var result = await CliTestRunner.RunAsync(args);
         var expected = await File.ReadAllTextAsync(Path.Combine(BaselinesDir, baselineFile));
 
-        Assert.Equal(0, result.ExitCode);
-        Assert.Equal(expected, result.Stdout);
-        Assert.Empty(result.Stderr);
+        await Assert.That(result.ExitCode).IsEqualTo(0);
+        await Assert.That(result.Stdout).IsEqualTo(expected);
+        await Assert.That(result.Stderr).IsEmpty();
     }
 
-    [Theory]
-    [InlineData("-l", "CRLF.txt", "crlf_line_count.txt")]
-    [InlineData("", "EMPTY.txt", "empty_default.txt")]
-    [InlineData("-w", "LARGE_WORD.txt", "large_word_count.txt")]
-    [InlineData("-w -l", "WHITESPACE_ONLY.txt", "whitespace_word_line.txt")]
+    [Test]
+    [Arguments("-l", "CRLF.txt", "crlf_line_count.txt")]
+    [Arguments("", "EMPTY.txt", "empty_default.txt")]
+    [Arguments("-w", "LARGE_WORD.txt", "large_word_count.txt")]
+    [Arguments("-w -l", "WHITESPACE_ONLY.txt", "whitespace_word_line.txt")]
     public async Task EdgeCaseFiles_MatchesBaseline(string flags, string file, string baselineFile)
     {
         var filePath = Path.Combine(TestFilesDir, file);
@@ -39,12 +39,12 @@ public sealed class CliIntegrationTests
         var result = await CliTestRunner.RunAsync(args);
         var expected = await File.ReadAllTextAsync(Path.Combine(BaselinesDir, baselineFile));
 
-        Assert.Equal(0, result.ExitCode);
-        Assert.Equal(expected, result.Stdout);
-        Assert.Empty(result.Stderr);
+        await Assert.That(result.ExitCode).IsEqualTo(0);
+        await Assert.That(result.Stdout).IsEqualTo(expected);
+        await Assert.That(result.Stderr).IsEmpty();
     }
 
-    [Fact]
+    [Test]
     public async Task MultiFile_Total_MatchesBaseline()
     {
         var file1 = Path.Combine(TestFilesDir, "NATURE.txt");
@@ -55,12 +55,12 @@ public sealed class CliIntegrationTests
         var expected = await File.ReadAllTextAsync(
             Path.Combine(BaselinesDir, "multi_file_total.txt"));
 
-        Assert.Equal(0, result.ExitCode);
-        Assert.Equal(expected, result.Stdout);
-        Assert.Empty(result.Stderr);
+        await Assert.That(result.ExitCode).IsEqualTo(0);
+        await Assert.That(result.Stdout).IsEqualTo(expected);
+        await Assert.That(result.Stderr).IsEmpty();
     }
 
-    [Fact]
+    [Test]
     public async Task Help_ReturnsUsage()
     {
         var args = "-?";
@@ -69,18 +69,18 @@ public sealed class CliIntegrationTests
         var expected = await File.ReadAllTextAsync(
             Path.Combine(BaselinesDir, "help_output.txt"));
 
-        Assert.Equal(0, result.ExitCode);
-        Assert.Equal(expected, result.Stdout);
-        Assert.Empty(result.Stderr);
+        await Assert.That(result.ExitCode).IsEqualTo(0);
+        await Assert.That(result.Stdout).IsEqualTo(expected);
+        await Assert.That(result.Stderr).IsEmpty();
     }
 
-    [Fact]
+    [Test]
     public async Task NonexistentFile_ReturnsError()
     {
         var result = await CliTestRunner.RunAsync("nonexistent_file_xyz.txt");
 
-        Assert.Equal(1, result.ExitCode);
-        Assert.Contains("does not exist", result.Stderr);
-        Assert.Empty(result.Stdout);
+        await Assert.That(result.ExitCode).IsEqualTo(1);
+        await Assert.That(result.Stderr).Contains("does not exist");
+        await Assert.That(result.Stdout).IsEmpty();
     }
 }

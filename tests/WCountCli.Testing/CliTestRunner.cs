@@ -61,7 +61,9 @@ public static class CliTestRunner
         {
             try
             {
-                if (Directory.Exists(Path.Combine(dir.FullName, ".git")))
+                // .git may be a directory (normal repo) or a file (git worktree)
+                var gitPath = Path.Combine(dir.FullName, ".git");
+                if (Directory.Exists(gitPath) || File.Exists(gitPath))
                     return dir.FullName;
             }
             catch
