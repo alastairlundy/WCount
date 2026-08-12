@@ -19,10 +19,6 @@
 
     <ItemGroup>
       <PackageReference Include="Microsoft.Extensions.DependencyInjection"/>
-      <PackageReference Include="ThisAssembly.AssemblyInfo">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
       <PackageReference Include="System.CommandLine"/>
     </ItemGroup>
 

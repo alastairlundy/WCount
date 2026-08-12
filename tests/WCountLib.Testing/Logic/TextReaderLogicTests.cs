@@ -7,7 +7,6 @@ using WCountLib.Abstractions.Models;
 using WCountLib.Counters;
 using WCountLib.Detectors;
 using WCountLib.Logic;
-using Xunit;
 
 namespace WCountLib.Testing.Logic;
 
@@ -22,39 +21,39 @@ public class TextReaderLogicTests
         _logic = new TextReaderLogic(new WordCounter(new WordDetector()), new ByteCounter(), new CharacterCounter());
     }
 
-    private static CancellationToken Ct => TestContext.Current.CancellationToken;
+    private static CancellationToken Ct => CancellationToken.None;
 
-    [Fact]
+    [Test]
     public async Task EmptyInput_ReturnsZeros()
     {
         using StringReader reader = new("");
         WCountInfo info = await _logic.ReadTextReaderAsync(reader, true, true, true, true, null, Ct);
 
-        Assert.Equal(0L, info.WordCount);
-        Assert.Equal(0L, info.LineCount);
-        Assert.Equal(0L, info.CharCount);
-        Assert.Equal(0L, info.ByteCount);
+        await Assert.That(info.WordCount).IsEqualTo(0L);
+        await Assert.That(info.LineCount).IsEqualTo(0L);
+        await Assert.That(info.CharCount).IsEqualTo(0L);
+        await Assert.That(info.ByteCount).IsEqualTo(0L);
     }
 
-    [Fact]
+    [Test]
     public async Task LfOnly_LineCount()
     {
         using StringReader reader = new("line1\nline2\nline3\n");
         WCountInfo info = await _logic.ReadTextReaderAsync(reader, false, true, false, false, null, Ct);
 
-        Assert.Equal(3L, info.LineCount);
+        await Assert.That(info.LineCount).IsEqualTo(3L);
     }
 
-    [Fact]
+    [Test]
     public async Task CrlfOnly_LineCount()
     {
         using StringReader reader = new("line1\r\nline2\r\nline3\r\n");
         WCountInfo info = await _logic.ReadTextReaderAsync(reader, false, true, false, false, null, Ct);
 
-        Assert.Equal(3L, info.LineCount);
+        await Assert.That(info.LineCount).IsEqualTo(3L);
     }
 
-    [Fact]
+    [Test]
     public async Task CrlfStraddlingChunkBoundary_CountsAsOneLine()
     {
         // The '\r' lands on the last char of chunk one and the '\n' on the first char of chunk two,
@@ -63,10 +62,10 @@ public class TextReaderLogicTests
         using StringReader reader = new(input);
         WCountInfo info = await _logic.ReadTextReaderAsync(reader, false, true, false, false, null, Ct);
 
-        Assert.Equal(1L, info.LineCount);
+        await Assert.That(info.LineCount).IsEqualTo(1L);
     }
 
-    [Fact]
+    [Test]
     public async Task WordStraddlingChunkBoundary_CountsAsOneWord()
     {
         // A single unbroken word longer than one chunk. The word counter sees a word in each chunk,
@@ -75,10 +74,10 @@ public class TextReaderLogicTests
         using StringReader reader = new(input);
         WCountInfo info = await _logic.ReadTextReaderAsync(reader, true, false, false, false, null, Ct);
 
-        Assert.Equal(1L, info.WordCount);
+        await Assert.That(info.WordCount).IsEqualTo(1L);
     }
 
-    [Fact]
+    [Test]
     public async Task WordsAroundChunkBoundary_CountedIndependently()
     {
         // "alpha" ends before the boundary, the padding word straddles it, "omega" starts after.
@@ -86,31 +85,31 @@ public class TextReaderLogicTests
         using StringReader reader = new(input);
         WCountInfo info = await _logic.ReadTextReaderAsync(reader, true, false, false, false, null, Ct);
 
-        Assert.Equal(3L, info.WordCount);
+        await Assert.That(info.WordCount).IsEqualTo(3L);
     }
 
-    [Fact]
+    [Test]
     public async Task NoTrailingNewline_CountsFinalLine()
     {
         using StringReader reader = new("hello world");
         WCountInfo info = await _logic.ReadTextReaderAsync(reader, false, true, false, false, null, Ct);
 
-        Assert.Equal(1L, info.LineCount);
+        await Assert.That(info.LineCount).IsEqualTo(1L);
     }
 
-    [Fact]
+    [Test]
     public async Task SelectiveFlags_WordOnly_LeavesOtherCountsNull()
     {
         using StringReader reader = new("hello world");
         WCountInfo info = await _logic.ReadTextReaderAsync(reader, true, false, false, false, null, Ct);
 
-        Assert.Equal(2L, info.WordCount);
-        Assert.Null(info.LineCount);
-        Assert.Null(info.CharCount);
-        Assert.Null(info.ByteCount);
+        await Assert.That(info.WordCount).IsEqualTo(2L);
+        await Assert.That(info.LineCount).IsNull();
+        await Assert.That(info.CharCount).IsNull();
+        await Assert.That(info.ByteCount).IsNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExplicitNonUtf8Encoding_ChangesByteCount()
     {
         const string input = "hello";
@@ -122,11 +121,11 @@ public class TextReaderLogicTests
         WCountInfo unicodeInfo = await _logic.ReadTextReaderAsync(unicodeReader, false, false, false, true,
             Encoding.Unicode, Ct);
 
-        Assert.Equal(5L, utf8Info.ByteCount);
-        Assert.Equal(10L, unicodeInfo.ByteCount);
+        await Assert.That(utf8Info.ByteCount).IsEqualTo(5L);
+        await Assert.That(unicodeInfo.ByteCount).IsEqualTo(10L);
     }
 
-    [Fact]
+    [Test]
     public async Task SameInstance_ReusedSequentially_DoesNotLeakStateBetweenReads()
     {
         // TextReaderLogic is registered as a DI singleton, so per-read state must not persist.
@@ -138,13 +137,13 @@ public class TextReaderLogicTests
         using StringReader second = new("trailing");
         WCountInfo secondInfo = await _logic.ReadTextReaderAsync(second, true, true, false, false, null, Ct);
 
-        Assert.Equal(firstInfo.WordCount, secondInfo.WordCount);
-        Assert.Equal(firstInfo.LineCount, secondInfo.LineCount);
-        Assert.Equal(1L, secondInfo.WordCount);
-        Assert.Equal(1L, secondInfo.LineCount);
+        await Assert.That(secondInfo.WordCount).IsEqualTo(firstInfo.WordCount);
+        await Assert.That(secondInfo.LineCount).IsEqualTo(firstInfo.LineCount);
+        await Assert.That(secondInfo.WordCount).IsEqualTo(1L);
+        await Assert.That(secondInfo.LineCount).IsEqualTo(1L);
     }
 
-    [Fact]
+    [Test]
     public async Task SameInstance_ConcurrentReads_ProduceIndependentResults()
     {
         const string text = "one two three\nfour five six\n";
@@ -160,10 +159,10 @@ public class TextReaderLogicTests
 
         WCountInfo[] results = await Task.WhenAll(reads);
 
-        Assert.All(results, result =>
+        foreach (WCountInfo result in results)
         {
-            Assert.Equal(6L, result.WordCount);
-            Assert.Equal(2L, result.LineCount);
-        });
+            await Assert.That(result.WordCount).IsEqualTo(6L);
+            await Assert.That(result.LineCount).IsEqualTo(2L);
+        }
     }
 }

@@ -74,6 +74,9 @@ rootCommand.SetAction(async (ParseResult parseResult, CancellationToken ct) =>
 
     bool configuredArgs = new[] { showCharacterCount, showWordCount, showLineCount, showByteCount }.Any(x => x);
 
+    CountSelection selection = ResultPrintingHelper.ToSelection(
+        showLineCount, showWordCount, showCharacterCount, showByteCount);
+
     async Task<int> InteractiveCommand()
     {
         ITextReaderLogic textReaderLogic = serviceProvider.GetRequiredService<ITextReaderLogic>();
@@ -84,16 +87,8 @@ rootCommand.SetAction(async (ParseResult parseResult, CancellationToken ct) =>
             WCountInfo info = await textReaderLogic.ReadTextReaderAsync(reader, showWordCount, showLineCount,
                 showCharacterCount, showByteCount, Console.InputEncoding, ct);
 
-            if (configuredArgs && info.WordCount is not null && info.LineCount is not null && info.CharCount is not null)
-            {
-                await ResultPrintingHelper.PrintDefaultResultLine("", Console.Out, info.LineCount.Value, info.WordCount.Value,
-                    info.CharCount.Value);
-            }
-            else
-            {
-                await ResultPrintingHelper.PrintCustomResultLine("", Console.Out, info.LineCount, info.WordCount, info.CharCount,
-                    info.ByteCount);
-            }
+            await ResultPrintingHelper.PrintRow("", Console.Out, selection,
+                info.LineCount, info.WordCount, info.CharCount, info.ByteCount);
 
             return 0;
         }
@@ -123,45 +118,25 @@ rootCommand.SetAction(async (ParseResult parseResult, CancellationToken ct) =>
 
             foreach (string file in files.Select(f => Path.GetFullPath(f)))
             {
-                long? currentWords = showWordCount ? 0 : null;
-                long? currentLines = showLineCount ? 0 : null;
-                long? currentChars = showCharacterCount ? 0 : null;
-                long? currentBytes = showByteCount ? 0 : null;
-
                 WCountInfo info = await textReaderLogic.ReadFileAsync(file, showWordCount, showLineCount,
                     showCharacterCount, showByteCount, null, ct);
 
                 if (showByteCount && totalBytes is not null && info.ByteCount is not null)
-                {
-                    currentBytes = info.ByteCount;
-                    totalBytes += currentBytes;
-                }
-
+                    totalBytes += info.ByteCount;
                 if (showWordCount && totalWords is not null && info.WordCount is not null)
-                {
-                    currentWords = info.WordCount;
-                    totalWords += currentWords;
-                }
-
+                    totalWords += info.WordCount;
                 if (showCharacterCount && totalChars is not null && info.CharCount is not null)
-                {
-                    currentChars = info.CharCount;
-                    totalChars += currentChars;
-                }
-
+                    totalChars += info.CharCount;
                 if (showLineCount && totalLines is not null && info.LineCount is not null)
-                {
-                    currentLines = info.LineCount;
-                    totalLines += currentLines;
-                }
+                    totalLines += info.LineCount;
 
-                await ResultPrintingHelper.PrintCustomResultLine(file, Console.Out, currentLines, currentWords,
-                    currentChars, currentBytes);
+                await ResultPrintingHelper.PrintRow(file, Console.Out, selection,
+                    info.LineCount, info.WordCount, info.CharCount, info.ByteCount);
             }
 
             if (files.Length > 1)
-                await ResultPrintingHelper.PrintCustomResultLine(Resources.Output_Labels_Total, Console.Out, totalLines,
-                    totalWords, totalChars, totalBytes);
+                await ResultPrintingHelper.PrintRow(Resources.Output_Labels_Total, Console.Out, selection,
+                    totalLines, totalWords, totalChars, totalBytes);
 
             return 0;
         }
@@ -184,6 +159,7 @@ rootCommand.SetAction(async (ParseResult parseResult, CancellationToken ct) =>
 
         try
         {
+            CountSelection defaultSelection = ResultPrintingHelper.ToSelection(true, true, true, false);
             long totalWords = 0;
             long totalLines = 0;
             long totalChars = 0;
@@ -193,23 +169,20 @@ rootCommand.SetAction(async (ParseResult parseResult, CancellationToken ct) =>
                 WCountInfo info = await textReaderLogic.ReadFileAsync(file, true, true,
                     true, false, null, ct);
 
-                if (info.LineCount is not null && info.WordCount is not null && info.CharCount is not null)
-                    await ResultPrintingHelper.PrintDefaultResultLine(file, Console.Out, info.LineCount.Value,
-                        info.WordCount.Value, info.CharCount.Value);
-
                 if (info.CharCount is not null)
                     totalChars += info.CharCount.Value;
-
                 if (info.WordCount is not null)
                     totalWords += info.WordCount.Value;
-
                 if (info.LineCount is not null)
                     totalLines += info.LineCount.Value;
+
+                await ResultPrintingHelper.PrintRow(file, Console.Out, defaultSelection,
+                    info.LineCount, info.WordCount, info.CharCount, info.ByteCount);
             }
 
             if (files.Length >= 1)
-                await ResultPrintingHelper.PrintDefaultResultLine(Resources.Output_Labels_Total, Console.Out, totalLines,
-                    totalWords, totalChars);
+                await ResultPrintingHelper.PrintRow(Resources.Output_Labels_Total, Console.Out, defaultSelection,
+                    totalLines, totalWords, totalChars, null);
 
             return 0;
         }

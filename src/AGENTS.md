@@ -20,7 +20,7 @@
         ## Libraries (WCountLib and WCountLib.Abstractions)
         - Abstractions: `WCountLib.Abstractions` contains interfaces (e.g., `IWordCounter`, `ICharacterCounter`, `IByteCounter`, `IWordDetector`) — implementations must remain compatible with the contracts.
         - Implementation notes:
-          - `WordCounter` uses `EnhancedLinq.SplitBy` and `Partitioner.Create` + `Parallel.ForEach` to count segments concurrently. See `WCountLib/Counters/WordCounter.cs` for the pattern.
+          - `WordCounter` counts whitespace-separated tokens via `string.Split(null, StringSplitOptions.RemoveEmptyEntries)` to match classic `wc` behaviour. It does not use parallelism or `EnhancedLinq` directly (`EnhancedLinq` is still used by `SegmentWordDetector`). See `WCountLib/Counters/WordCounter.cs`.
           - `WordDetector` encapsulates what counts as a word; it has multiple overloads (`string`, `char[]`, `IEnumerable<char>`). If you change word detection, check both counters and tests.
           - `TextReaderLogic` (in `WCountLib/Logic/`) performs chunked counting and handles platform line endings (CRLF vs LF) in `ReadTextChunk` — changes here affect cross-platform behavior. `WCountInfo` (in `WCountLib.Abstractions/Models/`) holds the counting results.
 
@@ -57,7 +57,7 @@
         - Central package management: `Directory.Packages.props` pins NuGet versions. Update versions there for cross-project consistency.
         - Global usings: `GlobalUsings.cs` files provide common imports for each project — add new global usings there rather than per-file.
         - Nullable/reference semantics: projects enable nullable (`<Nullable>enable</Nullable>`). Many aggregates use `long?` for optional counts (see `WCountInfo`).
-        - Encoding & bytes: byte counting uses `Encoding.Default` (system encoding) by design; changing this alters byte counts on different machines.
+        - Encoding & bytes: byte counting uses `Encoding.Default` (system encoding) by design; falling back to `UTF8` only if `Encoding.Default` throws (`NotSupportedException` / `ArgumentException`). `TextReaderLogic.ResolveDefaultEncoding` centralises this policy.
         - Parallel patterns: `WordCounter` increments a shared counter using `Interlocked` after partitioned work. When editing, preserve thread-safety.
         - Line ending logic: `ReadTextChunk` tracks a `hasCharWasCR` flag to detect CRLF sequences on Windows — be careful when refactoring this logic.
         - External Libraries: 

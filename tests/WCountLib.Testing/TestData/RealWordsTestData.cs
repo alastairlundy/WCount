@@ -2,7 +2,7 @@
 
 namespace WCountLib.Testing.TestData;
 
-public class RealWordsTestData : IEnumerable<object[]>
+public class RealWordsTestData
 {
     private static readonly string[] WordPool =
     [
@@ -19,7 +19,7 @@ public class RealWordsTestData : IEnumerable<object[]>
         "deserunt", "mollit", "anim", "id", "est", "laborum"
     ];
 
-    public IEnumerator<object[]> GetEnumerator()
+    public static IEnumerable<(string Words, int Expected)> GetAllData()
     {
         for (int i = 0; i < 10; i++)
         {
@@ -29,12 +29,7 @@ public class RealWordsTestData : IEnumerable<object[]>
                 picked[j] = WordPool[Random.Shared.Next(WordPool.Length)];
 
             string words = string.Join(' ', picked);
-            yield return new object[] { words, count };
+            yield return (words, count);
         }
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
     }
 }
