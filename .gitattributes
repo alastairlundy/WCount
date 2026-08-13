@@ -1,0 +1,13 @@
+# Default: let git normalise line endings for source and docs.
+* text=auto
+
+# WCount counts bytes, characters and lines, so its test fixtures are binary
+# input: their exact bytes are the thing under test. Never translate line
+# endings in them, or byte and character counts change per platform and
+# CRLF.txt stops containing CRLF at all.
+test-files/** -text
+
+# CLI baselines are expected output captured byte-for-byte. Pin them so they
+# do not drift between checkouts; the test runner normalises newlines when it
+# compares, so a single LF copy serves every platform.
+tests/WCountCli.Testing/TestData/Baselines/** -text

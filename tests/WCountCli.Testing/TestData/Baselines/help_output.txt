@@ -1,9 +1,18 @@
-Usage: WCount [options] <files>+
-      --v\, --verbose        Enable verbose output
+Description:
+  A cross-platform word counting program and wc alternative.
+
+Usage:
+  wcount [<files>...] [options]
+
 Arguments:
-  <files>+                   The file path(s) of the file to be read.
-  -m                         Count the number of characters in a file or string.
-  -l                         Count the number of lines in a file or string.
-  -c                         Count the number of bytes in a file or string.
-  -w                         Count the number of words in a file or string.
-  -h, -?, --help             Show this message and exit
+  <files>  The file path(s) of the file to be read.
+
+Options:
+  -w              Count the number of words in a file or string.
+  -l              Count the number of lines in a file or string.
+  -m              Count the number of characters in a file or string.
+  -c              Count the number of bytes in a file or string.
+  -v              Enable verbose output
+  -?, -h, --help  Show help and usage information
+  --version       Show version information
+
