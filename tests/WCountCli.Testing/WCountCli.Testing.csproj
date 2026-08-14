@@ -17,4 +17,12 @@
       <ProjectReference Include="..\..\src\WCountCli\WCountCli.csproj" />
     </ItemGroup>
 
+    <!-- Copied next to the test assembly so the runner resolves fixtures and
+         baselines from AppContext.BaseDirectory instead of searching for the
+         repository root, which fails in a git worktree. -->
+    <ItemGroup>
+      <Content Include="..\..\test-files\**\*" LinkBase="test-files" CopyToOutputDirectory="PreserveNewest" />
+      <Content Include="TestData\Baselines\**\*" CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
+
 </Project>

@@ -4,14 +4,14 @@ public sealed record CliResult(int ExitCode, string Stdout, string Stderr);
 
 public static class CliTestRunner
 {
-    private static readonly string CliDllPath;
+    /// <summary>
+    /// Stands in for the fixture directory in baselines, so they do not embed
+    /// an absolute path from whichever checkout captured them.
+    /// </summary>
+    public const string TestFilesToken = "{TESTFILES}";
 
-    static CliTestRunner()
-    {
-        var repoRoot = FindRepoRoot();
-        var config = DetectConfiguration();
-        CliDllPath = Path.Combine(repoRoot, "src", "WCountCli", "bin", config, "net10.0", "wcount.dll");
-    }
+    private static readonly string CliDllPath =
+        Path.Combine(AppContext.BaseDirectory, "wcount.dll");
 
     public static async Task<CliResult> RunAsync(string arguments, string? stdin = null)
     {
@@ -48,37 +48,31 @@ public static class CliTestRunner
     }
 
     public static string BaselinesDir => Path.Combine(
-        FindRepoRoot(), "tests", "WCountCli.Testing", "TestData", "Baselines");
+        AppContext.BaseDirectory, "TestData", "Baselines");
 
     public static string TestFilesDir => Path.Combine(
-        FindRepoRoot(), "test-files");
+        AppContext.BaseDirectory, "test-files");
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Detection logic")]
-    private static string FindRepoRoot()
+    public static string FixturePath(string fileName) => Path.Combine(TestFilesDir, fileName);
+
+    public static async Task<string> ReadBaselineAsync(string baselineFile, CancellationToken ct = default) =>
+        NormaliseNewlines(await File.ReadAllTextAsync(Path.Combine(BaselinesDir, baselineFile), ct));
+
+    /// <summary>
+    /// Reduces CLI output to a form that is stable across checkouts and operating
+    /// systems: the fixture directory becomes a token, and newlines are unified so
+    /// a single baseline copy works on both CRLF and LF platforms.
+    /// </summary>
+    public static string Normalise(string output)
     {
-        var dir = new DirectoryInfo(AppContext.BaseDirectory);
-        while (dir is not null)
-        {
-            try
-            {
-                // .git may be a directory (normal repo) or a file (git worktree)
-                var gitPath = Path.Combine(dir.FullName, ".git");
-                if (Directory.Exists(gitPath) || File.Exists(gitPath))
-                    return dir.FullName;
-            }
-            catch
-            {
-            }
-            dir = dir.Parent;
-        }
-        throw new InvalidOperationException("Repository root not found.");
+        string normalised = output
+            .Replace(TestFilesDir + Path.DirectorySeparatorChar, TestFilesToken, StringComparison.Ordinal)
+            .Replace(TestFilesDir, TestFilesToken, StringComparison.Ordinal);
+
+        return NormaliseNewlines(normalised);
     }
 
-    private static string DetectConfiguration()
-    {
-        var dir = new DirectoryInfo(AppContext.BaseDirectory);
-        if (dir.Parent?.Parent?.Name == "bin")
-            return dir.Parent!.Name;
-        return "Debug";
-    }
+    private static string NormaliseNewlines(string text) =>
+        text.Replace("\r\n", "\n", StringComparison.Ordinal)
+            .Replace("\r", "\n", StringComparison.Ordinal);
 }

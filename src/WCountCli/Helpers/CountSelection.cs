@@ -16,5 +16,7 @@ public enum CountSelection
     Lines = 1,
     Words = 2,
     Characters = 4,
-    Bytes = 8
+    Bytes = 8,
+
+    Default = Lines | Words | Characters
 }
