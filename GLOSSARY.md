@@ -9,7 +9,10 @@ The abstraction layer responsible for parsing command-line arguments, routing to
 One of three routing paths determined by the presence or absence of arguments: Interactive (stdin input, no files provided), Default (file input, no flags provided, counts words/lines/chars), or Configured (file input with specific flags, counts only what was requested). Not: command or verb (WCount has no subcommands).
 
 ## Counting Engine
-The pure logic layer that counts exactly what it is told to count — words, lines, characters, or bytes — based solely on boolean flags. The primary implementation is `TextReaderLogic` (with its `ITextReaderLogic` interface) in `WCountLib.Logic`. `WCountInfo` (in `WCountLib.Abstractions.Models`) holds the counting results. It has no knowledge of CLI parsing, routing, or I/O sources. Not: CLI layer or I/O handler.
+The pure logic layer that produces exactly what its Count Request asks for — words, lines, characters, or bytes. It accepts no per-count booleans and no encoding parameter at its interface; encoding comes from the input source. It has no knowledge of CLI parsing, routing, or output formatting. Not: CLI layer or presentation code.
+
+## Count Request
+The single value naming which counts (lines, words, characters, bytes) a counting operation was asked to produce. The CLI Framework builds one per run; the Counting Engine fulfills it. Not: the CLI flags themselves, and not the counting results.
 
 ## CLI Contract
 The exact user-facing behavior of the CLI: the set of recognized flags (-w, -l, -m, -c, -v), the output format (column-aligned numbers, dynamic spacing, filename at end, "Total" row for multi-file), exit codes (0 for success, 1 for error), and stdin piping support. Any change to the CLI Contract is a breaking change.
