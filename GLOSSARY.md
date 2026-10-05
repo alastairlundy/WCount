@@ -3,7 +3,7 @@
 The domain vocabulary for WCount. Each term states what it is and, where it matters, what it is not.
 
 ## CLI Framework
-The abstraction layer responsible for parsing command-line arguments, routing to execution logic, and providing help/version output. The current CLI Framework is System.CommandLine 2.0.8. Not: XenoAtom.CommandLine (deprecated).
+The abstraction layer responsible for parsing command-line arguments, routing to execution logic, and providing help/version output. The current CLI Framework is System.CommandLine. Not: XenoAtom.CommandLine.
 
 ## Execution Mode
 One of three routing paths determined by the presence or absence of arguments: Interactive (stdin input, no files provided), Default (file input, no flags provided, counts words/lines/chars), or Configured (file input with specific flags, counts only what was requested). Not: command or verb (WCount has no subcommands).
