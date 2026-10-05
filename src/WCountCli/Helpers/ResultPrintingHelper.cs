@@ -31,7 +31,7 @@ public static class ResultPrintingHelper
     public static async Task PrintRow(string file, TextWriter output, CountSelection selection,
         long? lineCount, long? wordCount, long? characterCount, long? byteCount)
     {
-        List<long> values = new();
+        List<long> values = [];
 
         if ((selection & CountSelection.Lines) != 0)
             values.Add(lineCount ?? 0);
