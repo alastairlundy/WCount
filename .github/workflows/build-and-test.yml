@@ -7,6 +7,11 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+# The workflow only builds and tests; it never writes back to the repository,
+# so the GITHUB_TOKEN only needs read access.
+permissions:
+  contents: read
+
 jobs:
   build-and-test:
     name: ${{ matrix.os }}
