@@ -14,7 +14,7 @@ WCount is a Unix-`wc`-style counting tool for .NET. The shipped product is the `
 ## Projects & direction
 
 - Dependency graph: `WCountCli` → `WCountLib`. WCountCli is the shipped product (assembly `wcount`, NuGet package `WCount`); adding public library surface is a cost, not a default (`docs/agents/domain.md`).
-- A CLI-first simplification is recorded in `docs/decisions/DECISIONS-WCount-cli-simplification.md`: fold Abstractions into WCountLib, replace `CountSelection` with a `CountRequest` record struct, one engine entry `CountAsync(TextReader, CountRequest, CancellationToken)`, retire `ITextReaderLogic` and the engine's DI registration. Check that ledger before touching those seams.
+- The CLI-first simplification folded `WCountLib.Abstractions` into `WCountLib`: `CountRequest` and `CountResult` replace `CountSelection` and `WCountInfo`, the engine exposes one entry `CountAsync(Stream, CountRequest, CancellationToken)`, and `ITextReaderLogic` plus the counter Dependency Injection registrations are gone.
 
 ## Package versions (CPM)
 

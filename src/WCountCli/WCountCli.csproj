@@ -15,30 +15,30 @@
         <PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 
-        <!-- First-ever gallery release: 1.0.0 (T008). The csproj is the single
+        <!-- First-ever gallery release: 1.0.0. The csproj is the single
              source of truth for the published version; no workflow takes a
-             version input (T013). -->
+             version input. -->
         <Version>1.0.0</Version>
 
-        <!-- Installable with `dotnet tool install WCount` (T009); one
+        <!-- Installable with `dotnet tool install WCount`; one
              framework-dependent build configuration is shared with the WinGet
-             artifact (T015). -->
+             artifact. -->
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>wcount</ToolCommandName>
 
         <!-- Roll forward within the declared runtime major only; newer majors
-             arrive side-by-side through the WinGet runtime dependency (T017). -->
+             arrive side-by-side through the WinGet runtime dependency. -->
         <RollForward>LatestMinor</RollForward>
 
-        <!-- Published binaries ship ReadyToRun images (T016). Trimming applies
-             where the deployment mode allows it: the linker rejects
-             framework-dependent publishing (NETSDK1102), so the shared
-             framework-dependent configuration keeps the trim analyzer on with
-             linker warnings as errors instead — a dirty trim fails the build. -->
-        <PublishReadyToRun>true</PublishReadyToRun>
-        <PublishTrimmed Condition="'$(SelfContained)' == 'true'">true</PublishTrimmed>
+        <!-- Trimming is not used for either ship channel: the NuGet tool
+             package ships as plain IL, and the WinGet publish is
+             framework-dependent (the linker rejects that mode anyway,
+             NETSDK1102). Trim warnings are kept instead: IsTrimmable leaves
+             the trim analyzer running so IL warnings surface on every build,
+             and continuous integration builds with -warnaserror so a dirty
+             trim fails. ReadyToRun is likewise not set here — it is applied
+             only by the WinGet publish step, never by the NuGet package. -->
         <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
-        <WarningsAsErrors>$(WarningsAsErrors);IL2026;IL2104;IL2070;IL2067;IL2065;IL2062;IL2072;IL2075;IL2080;IL2087;IL2090;IL2092</WarningsAsErrors>
     </PropertyGroup>
 
     <ItemGroup>

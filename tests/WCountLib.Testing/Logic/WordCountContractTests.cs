@@ -3,7 +3,7 @@ namespace WCountLib.Testing.Logic;
 /// <summary>
 /// Pins wc-token word semantics through the engine entry: word counting is token
 /// counting (whitespace-separated runs) with no pluggable word-definition seam,
-/// per ADR-0001 and the counter fold-in (T018).
+/// per ADR-0001.
 /// </summary>
 public class WordCountContractTests
 {

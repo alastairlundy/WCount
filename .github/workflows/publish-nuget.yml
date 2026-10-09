@@ -31,7 +31,8 @@ jobs:
         run: dotnet restore src/WCount.slnx
 
       # This is the release build: warnings are errors, so a dirty trim (any
-      # IL linker/analyzer warning) fails before a package can be pushed.
+      # IL warning surfaced by the IsTrimmable trim analyzer) fails before a
+      # package can be pushed.
       - name: Build
         run: dotnet build src/WCount.slnx -c Release --no-restore -warnaserror
 

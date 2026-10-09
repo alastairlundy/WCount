@@ -11,8 +11,8 @@ on:
         required: true
         type: string
 
-# The job attaches the framework-dependent artifact to the release that hosts
-# it (contents: write) and opens the winget-pkgs pull request with komac.
+# The job attaches the framework-dependent artifacts to the release that hosts
+# them (contents: write) and opens the winget-pkgs pull request with komac.
 permissions:
   contents: write
 
@@ -32,43 +32,53 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
-      # One shared framework-dependent build configuration (T015): the csproj
-      # supplies ReadyToRun, LatestMinor roll-forward, and the trim analyzer.
-      # The framework stays external, so the .NET runtime dependency declared
-      # below is what winget installs on runtime-less machines.
-      - name: Publish the framework-dependent artifact
-        run: dotnet publish src/WCountCli/WCountCli.csproj -c Release -r win-x64 --self-contained false -o publish
+      # One shared framework-dependent build configuration: the csproj
+      # supplies the target framework and the LatestMinor roll-forward, and
+      # neither channel trims. ReadyToRun is applied only here — the WinGet
+      # artifact is R2R; the NuGet tool package ships without it.
+      - name: Publish the framework-dependent x64 artifact
+        run: dotnet publish src/WCountCli/WCountCli.csproj -c Release -r win-x64 --self-contained false -p:PublishReadyToRun=true -o publish-x64
 
-      - name: Package the artifact
+      - name: Publish the framework-dependent arm64 artifact
+        run: dotnet publish src/WCountCli/WCountCli.csproj -c Release -r win-arm64 --self-contained false -p:PublishReadyToRun=true -o publish-arm64
+
+      - name: Package the artifacts
         shell: pwsh
-        run: Compress-Archive -Path publish\* -DestinationPath "wcount-$env:VERSION-windows-x64.zip" -Force
+        run: |
+          Compress-Archive -Path publish-x64\* -DestinationPath "wcount-$env:VERSION-windows-x64.zip" -Force
+          Compress-Archive -Path publish-arm64\* -DestinationPath "wcount-$env:VERSION-windows-arm64.zip" -Force
 
-      - name: Hash the artifact
+      - name: Hash the artifacts
         id: hash
         shell: pwsh
         run: |
-          $sha = (Get-FileHash "wcount-$env:VERSION-windows-x64.zip" -Algorithm SHA256).Hash
-          "sha256=$sha" >> $env:GITHUB_OUTPUT
+          foreach ($arch in 'x64', 'arm64') {
+            $sha = (Get-FileHash "wcount-$env:VERSION-windows-$arch.zip" -Algorithm SHA256).Hash
+            "sha256_$arch=$sha" >> $env:GITHUB_OUTPUT
+          }
 
-      # The winget manifest points at this release asset, so the artifact needs
-      # a stable public URL: create the release for the version if it is not
-      # there yet and (re)attach the zip.
-      - name: Attach the artifact to the release
+      # The winget manifest points at these release assets, so the artifacts
+      # need stable public URLs: create the release for the version if it is
+      # not there yet and (re)attach both zips.
+      - name: Attach the artifacts to the release
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           $tag = "v$env:VERSION"
-          $asset = "wcount-$env:VERSION-windows-x64.zip"
           gh release view $tag --repo $env:GITHUB_REPOSITORY *> $null
           if ($LASTEXITCODE -ne 0) {
             gh release create $tag --repo $env:GITHUB_REPOSITORY --title "WCount $env:VERSION" --notes "WCount $env:VERSION"
           }
-          gh release upload $tag $asset --repo $env:GITHUB_REPOSITORY --clobber
+          foreach ($arch in 'x64', 'arm64') {
+            gh release upload $tag "wcount-$env:VERSION-windows-$arch.zip" --repo $env:GITHUB_REPOSITORY --clobber
+          }
 
       # The three winget manifests are written from this template. The
-      # installer manifest declares the .NET runtime as a dependency so winget
-      # installs it automatically for the framework-dependent artifact (T015).
+      # installer manifest carries one installer per architecture (x64, arm64)
+      # and declares the .NET runtime as a dependency so winget installs it
+      # automatically for these framework-dependent artifacts —
+      # Microsoft.DotNet.Runtime.10 ships x64 and arm64 installers.
       # The winget package identifier is dotted (Publisher.App) because winget
       # requires at least two parts — it is independent of the NuGet package id.
       - name: Write the WinGet manifests
@@ -76,8 +86,9 @@ jobs:
         run: |
           $id = 'AlastairLundy.WCount'
           $version = $env:VERSION
-          $url = "https://github.com/$env:GITHUB_REPOSITORY/releases/download/v$version/wcount-$version-windows-x64.zip"
-          $sha = '${{ steps.hash.outputs.sha256 }}'
+          $releaseUrl = "https://github.com/$env:GITHUB_REPOSITORY/releases/download/v$version"
+          $shaX64 = '${{ steps.hash.outputs.sha256_x64 }}'
+          $shaArm64 = '${{ steps.hash.outputs.sha256_arm64 }}'
           $manifestVersion = '1.12.0'
           $dir = "manifests/$id/$version"
           New-Item -ItemType Directory -Force -Path $dir | Out-Null
@@ -94,12 +105,15 @@ jobs:
             '    PortableCommandAlias: wcount'
             'Dependencies:'
             '  PackageDependencies:'
-            '    - PackageIdentifier: Microsoft.DotNet.Runtime.10_0'
+            '    - PackageIdentifier: Microsoft.DotNet.Runtime.10'
             'UpgradeBehavior: install'
             'Installers:'
             '  - Architecture: x64'
-            "    InstallerUrl: $url"
-            "    InstallerSha256: $sha"
+            "    InstallerUrl: $releaseUrl/wcount-$version-windows-x64.zip"
+            "    InstallerSha256: $shaX64"
+            '  - Architecture: arm64'
+            "    InstallerUrl: $releaseUrl/wcount-$version-windows-arm64.zip"
+            "    InstallerSha256: $shaArm64"
             'ManifestType: installer'
             "ManifestVersion: $manifestVersion"
           )
@@ -143,7 +157,7 @@ jobs:
       # existing one.
       #
       # Manifest-shape failures (winget-pkgs validation rejecting a field, the
-      # dependency block, or the artifact) are retried by re-dispatching this
+      # dependency block, or an artifact) are retried by re-dispatching this
       # workflow for the same version: fix the manifest template above, close
       # any failed pull request and delete its branch if one is still open, then
       # dispatch again. --skip-duplicate on the NuGet side and --clobber on the
