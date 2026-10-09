@@ -1,0 +1,60 @@
+name: Publish NuGet
+
+# Manual dispatch only. Deliberately there is no version input: the pack below
+# reads the version declared in src/WCountCli/WCountCli.csproj, which is the
+# single source of truth for the published package (1.0.0 for the first release).
+on:
+  workflow_dispatch:
+
+# The job builds, tests, and pushes to nuget.org over OpenID Connect; it never
+# writes back to the repository, so the repository token only needs read access.
+# id-token: write is what allows GitHub to issue the OIDC token that
+# NuGet/login exchanges for a short-lived NuGet API key.
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    name: Pack and push WCount
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore
+        run: dotnet restore src/WCount.slnx
+
+      # This is the release build: warnings are errors, so a dirty trim (any
+      # IL linker/analyzer warning) fails before a package can be pushed.
+      - name: Build
+        run: dotnet build src/WCount.slnx -c Release --no-restore -warnaserror
+
+      - name: Test
+        run: dotnet test src/WCount.slnx -c Release --no-build
+
+      - name: Pack at the csproj-declared version
+        run: dotnet pack src/WCountCli/WCountCli.csproj -c Release --no-build --no-restore -o artifacts
+
+      # Prerequisite: the gallery-side trusted-publisher identity must exist
+      # before the first run. On nuget.org open the account's Trusted Publishing
+      # settings and add a publisher for this repository pointing at this
+      # workflow file (.github/workflows/publish-nuget.yml). Without that trust
+      # policy the OIDC exchange below fails with "No matching trust policy".
+      - name: NuGet login (OIDC to short-lived API key)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
+      - name: Push
+        run: >
+          dotnet nuget push 'artifacts/*.nupkg'
+          --api-key "${{ steps.login.outputs.NUGET_API_KEY }}"
+          --source https://api.nuget.org/v3/index.json
+          --skip-duplicate

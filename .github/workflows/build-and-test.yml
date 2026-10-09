@@ -35,8 +35,11 @@ jobs:
       - name: Restore
         run: dotnet restore src/WCount.slnx
 
+      # Warnings are errors so a dirty trim (any IL linker/analyzer warning the
+      # csproj does not already escalate) fails continuous integration, keeping
+      # trim warnings clean (T016).
       - name: Build
-        run: dotnet build src/WCount.slnx -c Release --no-restore
+        run: dotnet build src/WCount.slnx -c Release --no-restore -warnaserror
 
       - name: Test
         run: dotnet test src/WCount.slnx -c Release --no-build --verbosity normal
