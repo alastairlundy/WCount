@@ -15,31 +15,31 @@ public static class ResultPrintingHelper
     /// Prints a single wc-style result row.
     /// Columns are emitted left-to-right in the order: lines, words, bytes, characters.
     /// </summary>
-    public static async Task PrintRow(string file, TextWriter output, CountSelection selection,
-        long? lineCount, long? wordCount, long? characterCount, long? byteCount)
+    public static async Task PrintRow(string file, TextWriter output, CountRequest request,
+        long lineCount, long wordCount, long characterCount, long byteCount)
     {
         List<long> values = [];
 
-        if ((selection & CountSelection.Lines) != 0)
-            values.Add(lineCount ?? 0);
-        if ((selection & CountSelection.Words) != 0)
-            values.Add(wordCount ?? 0);
-        if ((selection & CountSelection.Bytes) != 0)
-            values.Add(byteCount ?? 0);
-        if ((selection & CountSelection.Characters) != 0)
-            values.Add(characterCount ?? 0);
+        if (request.Lines)
+            values.Add(lineCount);
+        if (request.Words)
+            values.Add(wordCount);
+        if (request.Bytes)
+            values.Add(byteCount);
+        if (request.Characters)
+            values.Add(characterCount);
 
         int spacing = values.Count > 0 ? CalculateRequiredSpacing(values.ToArray()) : 0;
         StringBuilder sb = new();
 
-        if ((selection & CountSelection.Lines) != 0)
-            sb.Append(FormatOutput((lineCount ?? 0).ToString(CultureInfo.CurrentCulture), spacing).TrimStart(' '));
-        if ((selection & CountSelection.Words) != 0)
-            sb.Append(FormatOutput((wordCount ?? 0).ToString(CultureInfo.CurrentCulture), spacing));
-        if ((selection & CountSelection.Bytes) != 0)
-            sb.Append(FormatOutput((byteCount ?? 0).ToString(CultureInfo.CurrentCulture), spacing));
-        if ((selection & CountSelection.Characters) != 0)
-            sb.Append(FormatOutput((characterCount ?? 0).ToString(CultureInfo.CurrentCulture), spacing));
+        if (request.Lines)
+            sb.Append(FormatOutput(lineCount.ToString(CultureInfo.CurrentCulture), spacing).TrimStart(' '));
+        if (request.Words)
+            sb.Append(FormatOutput(wordCount.ToString(CultureInfo.CurrentCulture), spacing));
+        if (request.Bytes)
+            sb.Append(FormatOutput(byteCount.ToString(CultureInfo.CurrentCulture), spacing));
+        if (request.Characters)
+            sb.Append(FormatOutput(characterCount.ToString(CultureInfo.CurrentCulture), spacing));
 
         sb.Append(' ');
         sb.Append(file);

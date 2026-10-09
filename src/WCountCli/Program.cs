@@ -9,19 +9,7 @@
 
 using System.CommandLine;
 using System.CommandLine.Parsing;
-using Microsoft.Extensions.DependencyInjection;
 using WCountCli.Logic;
-using WCountLib.Logic;
-using WCountLib.Counters;
-
-IServiceCollection services = new ServiceCollection();
-
-    services.AddSingleton<IWordCounter, WordCounter>();
-services.AddSingleton<ICharacterCounter, CharacterCounter>();
-services.AddSingleton<IByteCounter, ByteCounter>();
-services.AddSingleton<ITextReaderLogic, TextReaderLogic>();
-
-IServiceProvider serviceProvider = services.BuildServiceProvider();
 
 Option<bool> wordOption = new("-w")
 {
@@ -61,22 +49,21 @@ rootCommand.Add(filesArgument);
 
 rootCommand.SetAction(async (ParseResult parseResult, CancellationToken ct) =>
 {
-    CountSelection selection = CountSelection.None;
-
-    if (parseResult.GetValue(lineOption)) selection |= CountSelection.Lines;
-    if (parseResult.GetValue(wordOption)) selection |= CountSelection.Words;
-    if (parseResult.GetValue(charOption)) selection |= CountSelection.Characters;
-    if (parseResult.GetValue(byteOption)) selection |= CountSelection.Bytes;
-
-    if (selection == CountSelection.None)
-        selection = CountSelection.Default;
-
+    bool words = parseResult.GetValue(wordOption);
+    bool lines = parseResult.GetValue(lineOption);
+    bool characters = parseResult.GetValue(charOption);
+    bool bytes = parseResult.GetValue(byteOption);
     bool verbose = parseResult.GetValue(verboseOption);
     string[] files = parseResult.GetValue(filesArgument) ?? [];
 
-    ITextReaderLogic textReaderLogic = serviceProvider.GetRequiredService<ITextReaderLogic>();
+    // One Count Request per run. A flagless run asks for words, lines, and bytes.
+    CountRequest request = words || lines || characters || bytes
+        ? new CountRequest(Words: words, Lines: lines, Bytes: bytes, Characters: characters)
+        : new CountRequest(Words: true, Lines: true, Bytes: true, Characters: false);
 
-    return await CountRunner.RunAsync(textReaderLogic, selection, files, Console.In,
+    CountingEngine engine = new();
+
+    return await CountRunner.RunAsync(engine, request, files, Console.OpenStandardInput(),
         Console.Out, Console.Error, verbose, ct);
 });
 

@@ -7,37 +7,26 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-using System.Text;
-using WCountLib.Logic;
-using WCountLib.Models;
-
 namespace WCountCli.Logic;
 
 public static class CountRunner
 {
-    private static long? Add(long? total, long? value) => total is null ? null : total + (value ?? 0);
-
     public static async Task<int> RunAsync(
-        ITextReaderLogic textReaderLogic,
-        CountSelection selection,
+        CountingEngine engine,
+        CountRequest request,
         IReadOnlyList<string> files,
-        TextReader standardInput,
+        Stream standardInput,
         TextWriter output,
         TextWriter error,
         bool verbose,
         CancellationToken ct = default)
     {
-        bool showLineCount = selection.HasFlag(CountSelection.Lines);
-        bool showWordCount = selection.HasFlag(CountSelection.Words);
-        bool showCharacterCount = selection.HasFlag(CountSelection.Characters);
-        bool showByteCount = selection.HasFlag(CountSelection.Bytes);
-
         try
         {
-            long? totalLines = showLineCount ? 0L : null;
-            long? totalWords = showWordCount ? 0L : null;
-            long? totalChars = showCharacterCount ? 0L : null;
-            long? totalBytes = showByteCount ? 0L : null;
+            long totalLines = 0;
+            long totalWords = 0;
+            long totalChars = 0;
+            long totalBytes = 0;
 
             bool readFromStandardInput = files.Count == 0;
 
@@ -45,30 +34,26 @@ public static class CountRunner
                 ? [string.Empty]
                 : files.Select(Path.GetFullPath);
 
-            Encoding? encoding = readFromStandardInput
-                ? standardInput is StreamReader sr ? sr.CurrentEncoding : Console.InputEncoding
-                : null;
-
             foreach (string source in sources)
             {
-                WCountInfo info = readFromStandardInput
-                    ? await textReaderLogic.ReadTextReaderAsync(standardInput, showWordCount, showLineCount,
-                        showCharacterCount, showByteCount, encoding, ct)
-                    : await textReaderLogic.ReadFileAsync(source, showWordCount, showLineCount,
-                        showCharacterCount, showByteCount, encoding, ct);
+                CountResult result = readFromStandardInput
+                    ? await engine.CountAsync(standardInput, request, ct)
+                    : await CountFileAsync(engine, source, request, ct);
 
-                await ResultPrintingHelper.PrintRow(source, output, selection,
-                    info.LineCount, info.WordCount, info.CharCount, info.ByteCount);
+                await ResultPrintingHelper.PrintRow(source, output, request,
+                    result.Lines, result.Words, result.Characters, result.Bytes);
 
-                totalLines = Add(totalLines, info.LineCount);
-                totalWords = Add(totalWords, info.WordCount);
-                totalChars = Add(totalChars, info.CharCount);
-                totalBytes = Add(totalBytes, info.ByteCount);
+                if (request.Lines) totalLines += result.Lines;
+                if (request.Words) totalWords += result.Words;
+                if (request.Characters) totalChars += result.Characters;
+                if (request.Bytes) totalBytes += result.Bytes;
             }
 
-            if (files.Count > 1 || (files.Count == 1 && selection == CountSelection.Default))
-                await ResultPrintingHelper.PrintRow(Resources.Output_Labels_Total, output, selection,
+            if (files.Count > 1)
+            {
+                await ResultPrintingHelper.PrintRow(Resources.Output_Labels_Total, output, request,
                     totalLines, totalWords, totalChars, totalBytes);
+            }
 
             return 0;
         }
@@ -84,5 +69,12 @@ public static class CountRunner
 
             return 1;
         }
+    }
+
+    private static async Task<CountResult> CountFileAsync(
+        CountingEngine engine, string path, CountRequest request, CancellationToken ct)
+    {
+        await using FileStream stream = File.OpenRead(path);
+        return await engine.CountAsync(stream, request, ct);
     }
 }
