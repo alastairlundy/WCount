@@ -6,7 +6,7 @@ The domain vocabulary for WCount. Each term states what it is and, where it matt
 The abstraction layer responsible for parsing command-line arguments, routing to execution logic, and providing help/version output. The current CLI Framework is System.CommandLine. Not: XenoAtom.CommandLine.
 
 ## Execution Mode
-One of three routing paths determined by the presence or absence of arguments: Interactive (stdin input, no files provided), Default (file input, no flags provided, counts words/lines/chars), or Configured (file input with specific flags, counts only what was requested). Not: command or verb (WCount has no subcommands).
+One of three routing paths determined by the presence or absence of arguments: Interactive (stdin input, no files provided), Default (file input, no flags provided, counts words/lines/bytes), or Configured (file input with specific flags, counts only what was requested). Not: command or verb (WCount has no subcommands).
 
 ## Counting Engine
 The pure logic layer that produces exactly what its Count Request asks for — words, lines, characters, or bytes. It accepts no per-count booleans and no encoding parameter at its interface; encoding comes from the input source. It has no knowledge of CLI parsing, routing, or output formatting. Not: CLI layer or presentation code.
