@@ -88,10 +88,9 @@ rootCommand.SetAction(async (ParseResult parseResult, CancellationToken ct) =>
         _ => TotalMode.Auto
     };
 
-    // One Count Request per run. A flagless run asks for words, lines, and bytes.
-    CountRequest request = words || lines || characters || bytes || maxLineLength
-        ? new CountRequest(Words: words, Lines: lines, Bytes: bytes, Characters: characters, MaximumLineLength: maxLineLength)
-        : new CountRequest(Words: true, Lines: true, Bytes: true, Characters: false);
+    // One Count Request per run, mapped from the flags: a flagless run asks for
+    // words, lines, and bytes.
+    CountRequest request = CountRequestMapper.ToRequest(words, lines, characters, bytes, maxLineLength);
 
     IReadOnlyList<string> names;
     if (filesFrom is null)
