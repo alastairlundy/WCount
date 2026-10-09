@@ -38,6 +38,7 @@ public class CountingEngineTests
         await Assert.That(result.Lines).IsEqualTo(-1L);
         await Assert.That(result.Bytes).IsEqualTo(-1L);
         await Assert.That(result.Characters).IsEqualTo(-1L);
+        await Assert.That(result.MaximumLineLength).IsEqualTo(-1L);
     }
 
     [Test]

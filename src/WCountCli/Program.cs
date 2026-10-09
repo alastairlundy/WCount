@@ -25,6 +25,9 @@ charOption.Description = Resources.Arguments_CharacterCount_Description;
 Option<bool> byteOption = new("-c");
 byteOption.Description = Resources.Arguments_ByteCount_Description;
 
+Option<bool> maxLengthOption = new("-L");
+maxLengthOption.Description = Resources.Arguments_MaxLineLength_Description;
+
 Option<bool> verboseOption = new("-v");
 verboseOption.Description = "Enable verbose output";
 
@@ -44,6 +47,7 @@ rootCommand.Add(wordOption);
 rootCommand.Add(lineOption);
 rootCommand.Add(charOption);
 rootCommand.Add(byteOption);
+rootCommand.Add(maxLengthOption);
 rootCommand.Add(verboseOption);
 rootCommand.Add(filesArgument);
 
@@ -53,12 +57,13 @@ rootCommand.SetAction(async (ParseResult parseResult, CancellationToken ct) =>
     bool lines = parseResult.GetValue(lineOption);
     bool characters = parseResult.GetValue(charOption);
     bool bytes = parseResult.GetValue(byteOption);
+    bool maxLineLength = parseResult.GetValue(maxLengthOption);
     bool verbose = parseResult.GetValue(verboseOption);
     string[] files = parseResult.GetValue(filesArgument) ?? [];
 
     // One Count Request per run. A flagless run asks for words, lines, and bytes.
-    CountRequest request = words || lines || characters || bytes
-        ? new CountRequest(Words: words, Lines: lines, Bytes: bytes, Characters: characters)
+    CountRequest request = words || lines || characters || bytes || maxLineLength
+        ? new CountRequest(Words: words, Lines: lines, Bytes: bytes, Characters: characters, MaximumLineLength: maxLineLength)
         : new CountRequest(Words: true, Lines: true, Bytes: true, Characters: false);
 
     CountingEngine engine = new();

@@ -27,6 +27,7 @@ public static class CountRunner
             long totalWords = 0;
             long totalChars = 0;
             long totalBytes = 0;
+            long totalMaxLineLength = 0;
 
             bool readFromStandardInput = files.Count == 0;
 
@@ -41,18 +42,20 @@ public static class CountRunner
                     : await CountFileAsync(engine, source, request, ct);
 
                 await ResultPrintingHelper.PrintRow(source, output, request,
-                    result.Lines, result.Words, result.Characters, result.Bytes);
+                    result.Lines, result.Words, result.Characters, result.Bytes, result.MaximumLineLength);
 
                 if (request.Lines) totalLines += result.Lines;
                 if (request.Words) totalWords += result.Words;
                 if (request.Characters) totalChars += result.Characters;
                 if (request.Bytes) totalBytes += result.Bytes;
+                // GNU's total for -L is the maximum across files, not the sum.
+                if (request.MaximumLineLength) totalMaxLineLength = Math.Max(totalMaxLineLength, result.MaximumLineLength);
             }
 
             if (files.Count > 1)
             {
                 await ResultPrintingHelper.PrintRow(Resources.Output_Labels_Total, output, request,
-                    totalLines, totalWords, totalChars, totalBytes);
+                    totalLines, totalWords, totalChars, totalBytes, totalMaxLineLength);
             }
 
             return 0;

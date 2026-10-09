@@ -91,6 +91,8 @@ public sealed class CliIntegrationTests
     [Arguments("-w", " 5 \n")]
     [Arguments("-w -l", "2 5 \n")]
     [Arguments("-w -l -m -c", "2  5 29 29 \n")]
+    [Arguments("-L", " 16 \n")]
+    [Arguments("-l -L", "2 16 \n")]
     public async Task StandardInput_HonoursRequestedCounts(string flags, string expected)
     {
         CliResult result = await CliTestRunner.RunAsync(flags, stdin: "hello world\nsecond line here\n");

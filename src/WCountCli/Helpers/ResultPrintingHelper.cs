@@ -13,10 +13,10 @@ public static class ResultPrintingHelper
 {
     /// <summary>
     /// Prints a single wc-style result row.
-    /// Columns are emitted left-to-right in the order: lines, words, bytes, characters.
+    /// Columns are emitted left-to-right in the order: lines, words, bytes, characters, maximum line length.
     /// </summary>
     public static async Task PrintRow(string file, TextWriter output, CountRequest request,
-        long lineCount, long wordCount, long characterCount, long byteCount)
+        long lineCount, long wordCount, long characterCount, long byteCount, long maxLineLength)
     {
         List<long> values = [];
 
@@ -28,6 +28,8 @@ public static class ResultPrintingHelper
             values.Add(byteCount);
         if (request.Characters)
             values.Add(characterCount);
+        if (request.MaximumLineLength)
+            values.Add(maxLineLength);
 
         int spacing = values.Count > 0 ? CalculateRequiredSpacing(values.ToArray()) : 0;
         StringBuilder sb = new();
@@ -40,6 +42,8 @@ public static class ResultPrintingHelper
             sb.Append(FormatOutput(byteCount.ToString(CultureInfo.CurrentCulture), spacing));
         if (request.Characters)
             sb.Append(FormatOutput(characterCount.ToString(CultureInfo.CurrentCulture), spacing));
+        if (request.MaximumLineLength)
+            sb.Append(FormatOutput(maxLineLength.ToString(CultureInfo.CurrentCulture), spacing));
 
         sb.Append(' ');
         sb.Append(file);

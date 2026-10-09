@@ -12,6 +12,7 @@ Options:
   -l              Count the number of lines in a file or string.
   -m              Count the number of characters in a file or string.
   -c              Count the number of bytes in a file or string.
+  -L              Print the maximum display width.
   -v              Enable verbose output
   -?, -h, --help  Show help and usage information
   --version       Show version information

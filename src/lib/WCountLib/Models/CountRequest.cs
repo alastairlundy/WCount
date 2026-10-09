@@ -15,5 +15,6 @@ namespace WCountLib.Models;
 /// <remarks>
 /// One request is built per run. The Counting Engine computes only the counts whose
 /// flag is <c>true</c>; the flagless CLI run maps to words, lines, and bytes.
+/// The maximum-line-length count (<c>-L</c>) is opt-in and off by default.
 /// </remarks>
-public readonly record struct CountRequest(bool Words, bool Lines, bool Bytes, bool Characters);
+public readonly record struct CountRequest(bool Words, bool Lines, bool Bytes, bool Characters, bool MaximumLineLength = false);

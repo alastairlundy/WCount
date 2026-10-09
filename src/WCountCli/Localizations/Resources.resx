@@ -36,6 +36,9 @@
     <data name="Arguments.ByteCount.Description" xml:space="preserve">
         <value>Count the number of bytes in a file or string.</value>
     </data>
+    <data name="Arguments.MaxLineLength.Description" xml:space="preserve">
+        <value>Print the maximum display width.</value>
+    </data>
     <data name="Arguments.FilePaths.Description" xml:space="preserve">
         <value>The file path(s) of the file to be read.</value>
     </data>

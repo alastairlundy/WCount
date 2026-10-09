@@ -28,6 +28,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Wcwidth" />
+    </ItemGroup>
+
+    <ItemGroup>
         <Content Include="README.md">
             <Link>README.md</Link>
             <PackagePath>README.md</PackagePath>

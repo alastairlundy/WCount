@@ -105,6 +105,15 @@ namespace WCountCli.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Print the maximum display width..
+        /// </summary>
+        internal static string Arguments_MaxLineLength_Description {
+            get {
+                return ResourceManager.GetString("Arguments.MaxLineLength.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Count the number of words in a file or string..
         /// </summary>
         internal static string Arguments_WordCount_Description {

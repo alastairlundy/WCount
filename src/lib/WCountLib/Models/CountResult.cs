@@ -17,4 +17,4 @@ namespace WCountLib.Models;
 /// to zero. Unrequested counts carry <c>-1</c>; consumers treat <c>-1</c> as
 /// not-requested and consult the <see cref="CountRequest"/> as the primary validity rule.
 /// </remarks>
-public sealed record CountResult(long Words, long Lines, long Bytes, long Characters);
+public sealed record CountResult(long Words, long Lines, long Bytes, long Characters, long MaximumLineLength);

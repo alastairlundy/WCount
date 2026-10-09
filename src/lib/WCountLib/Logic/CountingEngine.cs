@@ -18,7 +18,11 @@ namespace WCountLib.Logic;
 /// entry takes no encoding parameter. Raw bytes are counted straight from the stream
 /// with the byte-order mark included and are never re-encoded. Lines follow the GNU
 /// definition: a newline character only — no final-unterminated line and no lone
-/// carriage return.
+/// carriage return. The maximum-line-length count (<c>-L</c>) computes the GNU wc
+/// maximum display width: a tab advances to the next multiple of 8, East Asian
+/// wide/fullwidth characters and common emoji count 2, combining marks and
+/// non-printables count 0, and <c>\r</c>/<c>\f</c> end the length line just like
+/// <c>\n</c>. Rune widths come from the Wcwidth package's Unicode 16 tables.
 /// </remarks>
 public sealed class CountingEngine
 {
@@ -42,10 +46,10 @@ public sealed class CountingEngine
     {
         ArgumentNullException.ThrowIfNull(stream);
 
-        if (!request.Words && !request.Lines && !request.Bytes && !request.Characters)
+        if (!request.Words && !request.Lines && !request.Bytes && !request.Characters && !request.MaximumLineLength)
         {
             // Nothing was asked for: nothing is read and nothing is computed.
-            return new CountResult(-1, -1, -1, -1);
+            return new CountResult(-1, -1, -1, -1, -1);
         }
 
         byte[] byteBuffer = new byte[BufferSize];
@@ -57,7 +61,12 @@ public sealed class CountingEngine
         long characterCount = 0;
         bool inWord = false;
 
-        bool needsText = request.Words || request.Lines || request.Characters;
+        // Display-width state for the maximum-line-length count, carried across
+        // decoded chunks so a line longer than one chunk accumulates correctly.
+        long currentLineLength = 0;
+        long maximumLineLength = 0;
+
+        bool needsText = request.Words || request.Lines || request.Characters || request.MaximumLineLength;
 
         // Read a small prelude first so a trickling stream still exposes its whole
         // byte-order mark before decoding starts.
@@ -103,13 +112,18 @@ public sealed class CountingEngine
         {
             // Flush any trailing decoder state so the final bytes contribute their characters.
             CountDecoded(decoder!, ReadOnlySpan<byte>.Empty, flush: true);
+
+            // An unterminated final line still has a display length.
+            if (request.MaximumLineLength)
+                CloseLine();
         }
 
         return new CountResult(
             request.Words ? wordCount : -1,
             request.Lines ? lineCount : -1,
             request.Bytes ? byteCount : -1,
-            request.Characters ? characterCount : -1);
+            request.Characters ? characterCount : -1,
+            request.MaximumLineLength ? maximumLineLength : -1);
 
         // Decodes a chunk of raw bytes and runs the requested counts over the text it produces.
         void CountDecoded(Decoder activeDecoder, ReadOnlySpan<byte> bytes, bool flush)
@@ -129,7 +143,79 @@ public sealed class CountingEngine
 
             if (request.Words)
                 wordCount += CountWordsChunk(text, ref inWord);
+
+            if (request.MaximumLineLength)
+                AccumulateLineWidths(text);
         }
+
+        // Runs the GNU display-width rules over a decoded chunk, carrying the current
+        // line's length across chunk boundaries.
+        void AccumulateLineWidths(ReadOnlySpan<char> text)
+        {
+            for (int i = 0; i < text.Length; i++)
+            {
+                char c = text[i];
+
+                switch (c)
+                {
+                    // '\r' and '\f' end the length line just like '\n' does.
+                    case '\n':
+                    case '\r':
+                    case '\f':
+                        CloseLine();
+                        break;
+                    case '\t':
+                        // Tab advances to the next multiple of 8.
+                        currentLineLength += 8 - (currentLineLength % 8);
+                        break;
+                    case ' ':
+                        currentLineLength++;
+                        break;
+                    case '\v':
+                        // Vertical tab is a separator of display width 0.
+                        break;
+                    default:
+                        if (char.IsHighSurrogate(c) && i + 1 < text.Length && char.IsLowSurrogate(text[i + 1]))
+                        {
+                            currentLineLength += RuneWidth(new Rune(c, text[i + 1]));
+                            i++;
+                        }
+                        else if (char.IsSurrogate(c))
+                        {
+                            // A lone surrogate has no display width.
+                        }
+                        else
+                        {
+                            currentLineLength += RuneWidth(new Rune(c));
+                        }
+
+                        break;
+                }
+            }
+        }
+
+        // Ends the current length line: its width wins if it is the largest so far.
+        void CloseLine()
+        {
+            if (currentLineLength > maximumLineLength)
+                maximumLineLength = currentLineLength;
+
+            currentLineLength = 0;
+        }
+    }
+
+    /// <summary>
+    /// The display width of a single rune under the GNU wc rules, delegated to the
+    /// Wcwidth package's Unicode 16 East Asian Width tables. Wcwidth returns -1 for
+    /// control characters (other than NUL, which it returns as 0); those add no
+    /// display width, so they clamp to 0 here. Combining marks and other zero-width
+    /// characters return 0, wide/fullwidth characters and emoji return 2, and
+    /// everything else returns 1.
+    /// </summary>
+    private static int RuneWidth(Rune rune)
+    {
+        int width = UnicodeCalculator.GetWidth(rune);
+        return width < 0 ? 0 : width;
     }
 
     /// <summary>
