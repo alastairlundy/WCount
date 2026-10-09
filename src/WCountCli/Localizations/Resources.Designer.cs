@@ -96,6 +96,15 @@ namespace WCountCli.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Read the list of input files from F, a file of NUL-separated names; use - to read the list from standard input..
+        /// </summary>
+        internal static string Arguments_Files0From_Description {
+            get {
+                return ResourceManager.GetString("Arguments.Files0From.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Count the number of lines in a file or string..
         /// </summary>
         internal static string Arguments_LineCount_Description {
@@ -110,6 +119,15 @@ namespace WCountCli.Localizations {
         internal static string Arguments_MaxLineLength_Description {
             get {
                 return ResourceManager.GetString("Arguments.MaxLineLength.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When to print a total line; WHEN can be: auto, always, only, never..
+        /// </summary>
+        internal static string Arguments_Total_Description {
+            get {
+                return ResourceManager.GetString("Arguments.Total.Description", resourceCulture);
             }
         }
         

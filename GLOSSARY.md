@@ -15,7 +15,7 @@ The pure logic layer that produces exactly what its Count Request asks for — w
 The single value naming which counts (lines, words, characters, bytes, maximum line length) a counting operation was asked to produce. The CLI Framework builds one per run; the Counting Engine fulfills it. Not: the CLI flags themselves, and not the counting results.
 
 ## CLI Contract
-The exact user-facing behavior of the CLI: the set of recognized flags (-w, -l, -m, -c, -L, -v), the output format (column-aligned numbers, dynamic spacing, filename at end, "Total" row for multi-file), exit codes (0 for success, 1 for error), and stdin piping support. Any change to the CLI Contract is a breaking change.
+The exact user-facing behavior of the CLI: the set of recognized flags (-w, -l, -m, -c, -L, -v, --files0-from, --total), the output format (column-aligned numbers sized once per column across the table, dynamic spacing, filename at end, "Total" row for multi-file runs, no label for standard input), exit codes (0 for success, 1 for error, with per-file errors printed and the remaining inputs still counted), and stdin piping support. Any change to the CLI Contract is a breaking change.
 
 ## Baseline
 A byte-for-byte snapshot of CLI output captured from a known-good version, used as the expected value in regression tests. Baselines are generated before a migration and must not be modified unless the CLI Contract is intentionally changed.

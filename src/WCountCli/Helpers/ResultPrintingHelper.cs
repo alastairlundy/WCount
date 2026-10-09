@@ -9,72 +9,101 @@
 
 namespace WCountCli.Helpers;
 
+/// <summary>
+/// Builds and prints the wc-style output table.
+/// </summary>
 public static class ResultPrintingHelper
 {
     /// <summary>
-    /// Prints a single wc-style result row.
-    /// Columns are emitted left-to-right in the order: lines, words, bytes, characters, maximum line length.
+    /// Prints the whole table at once: every row is built before anything is
+    /// written, so each count column is sized once across the table — the Total
+    /// row included — and the columns line up on every row.
     /// </summary>
-    public static async Task PrintRow(string file, TextWriter output, CountRequest request,
-        long lineCount, long wordCount, long characterCount, long byteCount, long maxLineLength)
+    /// <remarks>
+    /// Columns are emitted left-to-right in the order lines, words, characters,
+    /// bytes, maximum line length, each right-aligned within its own column
+    /// width. A row's label follows one space after its last count; a row with
+    /// no label — standard input, and the Total row under <c>--total=only</c> —
+    /// ends with its counts.
+    /// </remarks>
+    public static async Task PrintTableAsync(
+        TextWriter output, CountRequest request, IReadOnlyList<ResultRow> rows)
     {
-        List<long> values = [];
+        bool[] columns = SelectedColumns(request);
+        int[] widths = ColumnWidths(columns, rows);
 
-        if (request.Lines)
-            values.Add(lineCount);
-        if (request.Words)
-            values.Add(wordCount);
-        if (request.Bytes)
-            values.Add(byteCount);
-        if (request.Characters)
-            values.Add(characterCount);
-        if (request.MaximumLineLength)
-            values.Add(maxLineLength);
-
-        int spacing = values.Count > 0 ? CalculateRequiredSpacing(values.ToArray()) : 0;
-        StringBuilder sb = new();
-
-        if (request.Lines)
-            sb.Append(FormatOutput(lineCount.ToString(CultureInfo.CurrentCulture), spacing).TrimStart(' '));
-        if (request.Words)
-            sb.Append(FormatOutput(wordCount.ToString(CultureInfo.CurrentCulture), spacing));
-        if (request.Bytes)
-            sb.Append(FormatOutput(byteCount.ToString(CultureInfo.CurrentCulture), spacing));
-        if (request.Characters)
-            sb.Append(FormatOutput(characterCount.ToString(CultureInfo.CurrentCulture), spacing));
-        if (request.MaximumLineLength)
-            sb.Append(FormatOutput(maxLineLength.ToString(CultureInfo.CurrentCulture), spacing));
-
-        sb.Append(' ');
-        sb.Append(file);
-
-        await output.WriteLineAsync(sb.ToString());
-    }
-
-    private static string FormatOutput(string str, int requiredSpacing)
-    {
-        StringBuilder sb = new();
-        sb.Append(' ');
-
-        int padding = requiredSpacing - str.Length;
-        if (padding > 0)
-            sb.Append(' ', padding);
-
-        sb.Append(str);
-        return sb.ToString();
-    }
-
-    private static int CalculateRequiredSpacing(long[] stats)
-    {
-        int maximum = 0;
-
-        foreach (long stat in stats)
+        List<string> table = [];
+        foreach (ResultRow row in rows)
         {
-            int len = stat.ToString(CultureInfo.CurrentCulture).Length;
-            if (len > maximum)
-                maximum = len;
+            table.Add(FormatRow(columns, widths, row));
         }
 
-        return maximum;
+        foreach (string line in table)
+        {
+            await output.WriteLineAsync(line);
+        }
+    }
+
+    /// <summary>
+    /// One slot per count column, in print order.
+    /// </summary>
+    private static bool[] SelectedColumns(CountRequest request) =>
+        [request.Lines, request.Words, request.Characters, request.Bytes, request.MaximumLineLength];
+
+    private static long[] CountValues(CountResult result) =>
+        [result.Lines, result.Words, result.Characters, result.Bytes, result.MaximumLineLength];
+
+    /// <summary>
+    /// Sizes every column once, from the widest count in that column across the
+    /// whole table. Unselected columns stay at zero and are never printed.
+    /// </summary>
+    private static int[] ColumnWidths(bool[] columns, IReadOnlyList<ResultRow> rows)
+    {
+        int[] widths = new int[columns.Length];
+
+        foreach (ResultRow row in rows)
+        {
+            long[] values = CountValues(row.Result);
+
+            for (int i = 0; i < columns.Length; i++)
+            {
+                if (!columns[i])
+                    continue;
+
+                int length = values[i].ToString(CultureInfo.CurrentCulture).Length;
+                if (length > widths[i])
+                    widths[i] = length;
+            }
+        }
+
+        return widths;
+    }
+
+    private static string FormatRow(bool[] columns, int[] widths, ResultRow row)
+    {
+        StringBuilder builder = new();
+        long[] values = CountValues(row.Result);
+
+        for (int i = 0; i < columns.Length; i++)
+        {
+            if (!columns[i])
+                continue;
+
+            if (builder.Length > 0)
+                builder.Append(' ');
+
+            // Right-align within the column. The first column carries no
+            // separator of its own, so a single-column selection prints with no
+            // leading space unless a wider row in the same table demands one.
+            builder.Append(values[i].ToString(CultureInfo.CurrentCulture).PadLeft(widths[i]));
+        }
+
+        if (row.Label.Length > 0)
+        {
+            builder.Append(' ');
+            builder.Append(row.Label);
+        }
+
+        return builder.ToString();
     }
 }

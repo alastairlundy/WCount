@@ -72,8 +72,7 @@ public sealed class CliIntegrationTests
         CliResult result = await CliTestRunner.RunAsync("nonexistent_file_xyz.txt");
 
         await Assert.That(result.ExitCode).IsEqualTo(1);
-        await Assert.That(result.Stderr).Contains("One or more files do not exist.");
-        await Assert.That(result.Stdout).Contains("Usage:");
+        await Assert.That(result.Stderr).Contains("nonexistent_file_xyz.txt");
     }
 
     [Test]
@@ -86,13 +85,13 @@ public sealed class CliIntegrationTests
     }
 
     [Test]
-    [Arguments("", "2  5 29 \n")]
-    [Arguments("-l", "2 \n")]
-    [Arguments("-w", " 5 \n")]
-    [Arguments("-w -l", "2 5 \n")]
-    [Arguments("-w -l -m -c", "2  5 29 29 \n")]
-    [Arguments("-L", " 16 \n")]
-    [Arguments("-l -L", "2 16 \n")]
+    [Arguments("", "2 5 29\n")]
+    [Arguments("-l", "2\n")]
+    [Arguments("-w", "5\n")]
+    [Arguments("-w -l", "2 5\n")]
+    [Arguments("-w -l -m -c", "2 5 29 29\n")]
+    [Arguments("-L", "16\n")]
+    [Arguments("-l -L", "2 16\n")]
     public async Task StandardInput_HonoursRequestedCounts(string flags, string expected)
     {
         CliResult result = await CliTestRunner.RunAsync(flags, stdin: "hello world\nsecond line here\n");
@@ -100,5 +99,127 @@ public sealed class CliIntegrationTests
         await Assert.That(result.ExitCode).IsEqualTo(0);
         await Assert.That(CliTestRunner.Normalise(result.Stdout)).IsEqualTo(expected);
         await Assert.That(result.Stderr).IsEmpty();
+    }
+
+    [Test]
+    public async Task Total_Always_PrintsTotalForSingleFile()
+    {
+        string file = CliTestRunner.FixturePath("NATURE.txt");
+
+        CliResult result = await CliTestRunner.RunAsync($"--total=always -w -l {file}");
+
+        await Assert.That(result.ExitCode).IsEqualTo(0);
+        await Assert.That(CliTestRunner.Normalise(result.Stdout)).IsEqualTo(
+            $"21 197 {CliTestRunner.TestFilesToken}NATURE.txt\n21 197 Total\n");
+        await Assert.That(result.Stderr).IsEmpty();
+    }
+
+    [Test]
+    public async Task Total_Never_OmitsTotalForMultipleFiles()
+    {
+        string file1 = CliTestRunner.FixturePath("NATURE.txt");
+        string file2 = CliTestRunner.FixturePath("CRLF.txt");
+
+        CliResult result = await CliTestRunner.RunAsync($"--total=never -w -l {file1} {file2}");
+
+        await Assert.That(result.ExitCode).IsEqualTo(0);
+        await Assert.That(CliTestRunner.Normalise(result.Stdout)).IsEqualTo(
+            $"21 197 {CliTestRunner.TestFilesToken}NATURE.txt\n 3  24 {CliTestRunner.TestFilesToken}CRLF.txt\n");
+        await Assert.That(result.Stderr).IsEmpty();
+    }
+
+    [Test]
+    public async Task Total_Only_PrintsTheTotalRowUnlabelled()
+    {
+        string file1 = CliTestRunner.FixturePath("NATURE.txt");
+        string file2 = CliTestRunner.FixturePath("CRLF.txt");
+
+        CliResult result = await CliTestRunner.RunAsync($"--total=only -w -l {file1} {file2}");
+
+        await Assert.That(result.ExitCode).IsEqualTo(0);
+        await Assert.That(CliTestRunner.Normalise(result.Stdout)).IsEqualTo("24 221\n");
+        await Assert.That(result.Stderr).IsEmpty();
+    }
+
+    [Test]
+    public async Task Total_InvalidWhen_ReturnsError()
+    {
+        string file = CliTestRunner.FixturePath("NATURE.txt");
+
+        CliResult result = await CliTestRunner.RunAsync($"--total=sometimes {file}");
+
+        await Assert.That(result.ExitCode).IsEqualTo(1);
+        await Assert.That(result.Stderr).Contains("'--total'");
+    }
+
+    [Test]
+    public async Task Files0From_ReadsNulSeparatedNames()
+    {
+        string listPath = Path.Combine(Path.GetTempPath(), $"wcount-files0-{Guid.NewGuid():N}.bin");
+
+        try
+        {
+            string file1 = CliTestRunner.FixturePath("NATURE.txt");
+            string file2 = CliTestRunner.FixturePath("CRLF.txt");
+            await File.WriteAllTextAsync(listPath, $"{file1}\0{file2}\0");
+
+            CliResult result = await CliTestRunner.RunAsync($"-w -l --files0-from={listPath}");
+            string expected = await CliTestRunner.ReadBaselineAsync("multi_file_total.txt");
+
+            await Assert.That(result.ExitCode).IsEqualTo(0);
+            await Assert.That(CliTestRunner.Normalise(result.Stdout)).IsEqualTo(expected);
+            await Assert.That(result.Stderr).IsEmpty();
+        }
+        finally
+        {
+            File.Delete(listPath);
+        }
+    }
+
+    [Test]
+    public async Task Files0From_MissingList_ReturnsError()
+    {
+        CliResult result = await CliTestRunner.RunAsync("--files0-from=nonexistent_list_xyz.bin");
+
+        await Assert.That(result.ExitCode).IsEqualTo(1);
+        await Assert.That(result.Stderr).Contains("nonexistent_list_xyz.bin");
+    }
+
+    [Test]
+    public async Task Files0From_CombinedWithFileOperands_ReturnsError()
+    {
+        string listPath = Path.Combine(Path.GetTempPath(), $"wcount-files0-{Guid.NewGuid():N}.bin");
+
+        try
+        {
+            await File.WriteAllTextAsync(listPath, string.Empty);
+
+            CliResult result = await CliTestRunner.RunAsync(
+                $"--files0-from={listPath} {CliTestRunner.FixturePath("NATURE.txt")}");
+
+            await Assert.That(result.ExitCode).IsEqualTo(1);
+            await Assert.That(result.Stderr).Contains("cannot be combined");
+        }
+        finally
+        {
+            File.Delete(listPath);
+        }
+    }
+
+    [Test]
+    public async Task MissingFile_PrintsPerFileError_AndContinues()
+    {
+        string nature = CliTestRunner.FixturePath("NATURE.txt");
+        string missing = CliTestRunner.FixturePath("nonexistent_file_xyz.txt");
+        string crlf = CliTestRunner.FixturePath("CRLF.txt");
+
+        CliResult result = await CliTestRunner.RunAsync($"-w -l {nature} {missing} {crlf}");
+
+        await Assert.That(result.ExitCode).IsEqualTo(1);
+        await Assert.That(result.Stderr).Contains("nonexistent_file_xyz.txt");
+        await Assert.That(CliTestRunner.Normalise(result.Stdout)).IsEqualTo(
+            $"21 197 {CliTestRunner.TestFilesToken}NATURE.txt\n" +
+            $" 3  24 {CliTestRunner.TestFilesToken}CRLF.txt\n" +
+            "24 221 Total\n");
     }
 }

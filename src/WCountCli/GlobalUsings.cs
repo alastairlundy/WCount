@@ -4,5 +4,6 @@ global using System.Globalization;
 global using System.Text;
 global using WCountCli.Helpers;
 global using WCountCli.Localizations;
+global using WCountCli.Logic;
 global using WCountLib.Logic;
 global using WCountLib.Models;

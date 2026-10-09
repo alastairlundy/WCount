@@ -42,6 +42,12 @@
     <data name="Arguments.FilePaths.Description" xml:space="preserve">
         <value>The file path(s) of the file to be read.</value>
     </data>
+    <data name="Arguments.Files0From.Description" xml:space="preserve">
+        <value>Read the list of input files from F, a file of NUL-separated names; use - to read the list from standard input.</value>
+    </data>
+    <data name="Arguments.Total.Description" xml:space="preserve">
+        <value>When to print a total line; WHEN can be: auto, always, only, never.</value>
+    </data>
     <data name="Output.Labels.Total" xml:space="preserve">
         <value>Total</value>
     </data>
