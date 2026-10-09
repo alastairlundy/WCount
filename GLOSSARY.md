@@ -21,4 +21,4 @@ The exact user-facing behavior of the CLI: the set of recognized flags (-w, -l, 
 A byte-for-byte snapshot of CLI output captured from a known-good version, used as the expected value in regression tests. Baselines are generated before a migration and must not be modified unless the CLI Contract is intentionally changed.
 
 ## Composition Root
-The single entry point (Program.cs) where CLI Framework types are constructed and where parsed values are translated into plain BCL types (TextReader, TextWriter, CancellationToken) before being passed to the Counting Engine and output helpers. No CLI Framework type may leak past the Composition Root.
+The single entry point (Program.cs) where CLI Framework types are constructed and where parsed values are translated into plain BCL types (Stream, CountRequest, TotalMode, TextWriter, CancellationToken) before being passed to the Counting Engine and output helpers. No CLI Framework type may leak past the Composition Root.

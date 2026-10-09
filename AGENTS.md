@@ -1,6 +1,6 @@
 # WCount agent notes
 
-WCount is a Unix-`wc`-style counting tool for .NET. The shipped product is the `wcount` CLI: it counts lines, words, characters, and bytes in files or piped stdin using `wc`-compatible semantics (flags `-w` words, `-l` lines, `-m` chars, `-c` bytes, `-v` verbose; no subcommands). The `WCountLib` project under `src/lib/` implements the counting engine the CLI calls into.
+WCount is a Unix-`wc`-style counting tool for .NET. The shipped product is the `wcount` CLI: it counts lines, words, characters, bytes, and maximum line length in files or piped stdin using `wc`-compatible semantics (flags `-w` words, `-l` lines, `-m` chars, `-c` bytes, `-L` max line length, `-v` verbose, `--files0-from` NUL-separated file list, `--total` WHEN; no subcommands). The `WCountLib` project under `src/lib/` implements the counting engine the CLI calls into.
 
 ## Solution & commands
 
@@ -29,9 +29,9 @@ WCount is a Unix-`wc`-style counting tool for .NET. The shipped product is the `
 ## Architecture rules
 
 - Read `GLOSSARY.md` first and use its vocabulary (CLI Contract, Count Request, Counting Engine, Composition Root, Baseline); check `docs/adr/` for decisions in your area, and surface conflicts with ADRs explicitly instead of silently overriding (`docs/agents/domain.md`).
-- The CLI Contract (flags `-w -l -m -c -v`, column-aligned output, Total row only for multi-file runs, exit codes 0/1, stdin when no files) is the breaking-change boundary — any change to it is breaking and needs a named decision.
+- The CLI Contract (flags `-w -l -m -c -L -v`, `--files0-from`, `--total`, column-aligned output, Total row only for multi-file runs, exit codes 0/1, stdin when no files) is the breaking-change boundary — any change to it is breaking and needs a named decision.
 - No CLI-framework (System.CommandLine) types may leak past `Program.cs` (the Composition Root); parsed values become plain BCL types before reaching the Counting Engine.
-- Don't reintroduce a word-detection seam: ADR-0001 deleted `IWordDetector`/`WordDetector`; word counting is wc-token counting (`string.Split`) inside `WordCounter`.
+- Don't reintroduce a word-detection seam: ADR-0001 deleted `IWordDetector`/`WordDetector`; word counting is wc-token counting (`string.Split`) inside the Counting Engine (`CountingEngine`).
 
 ## Code conventions
 
