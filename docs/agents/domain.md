@@ -23,8 +23,7 @@ If any of these files don't exist, **proceed silently**. Don't flag their absenc
 │   ├── WCount.slnx
 │   ├── WCountCli/              ← the CLI app; the primary deliverable
 │   └── lib/
-│       ├── WCountLib/          ← implementations
-│       └── WCountLib.Abstractions/
+│       └── WCountLib/          ← the one supporting library
 ├── tests/
 ├── test-files/                 ← CLI test assets and regression baselines
 └── docs/
@@ -34,9 +33,9 @@ If any of these files don't exist, **proceed silently**. Don't flag their absenc
 
 ### Project dependency graph
 
-`WCountCli` → `WCountLib` → `WCountLib.Abstractions`.
+`WCountCli` → `WCountLib`.
 
-The CLI app is the priority. The libraries are packaged separately and intended to be reusable, but no consumer in this repo requires that surface — treat additions to it as a cost, not a default.
+The CLI app is the priority. WCountLib is an internal supporting library with no separate package track; treat additions to its public surface as a cost, not a default.
 
 ## Use the glossary's vocabulary
 

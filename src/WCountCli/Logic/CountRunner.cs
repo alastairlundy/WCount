@@ -8,16 +8,14 @@
  */
 
 using System.Text;
-using WCountLib.Abstractions.Logic;
-using WCountLib.Abstractions.Models;
+using WCountLib.Logic;
+using WCountLib.Models;
 
 namespace WCountCli.Logic;
 
 public static class CountRunner
 {
     private static long? Add(long? total, long? value) => total is null ? null : total + (value ?? 0);
-
-    private static long? Selected(bool show, long? value) => show ? value ?? 0L : null;
 
     public static async Task<int> RunAsync(
         ITextReaderLogic textReaderLogic,

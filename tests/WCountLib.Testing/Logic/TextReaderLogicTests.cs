@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using WCountLib.Abstractions.Models;
+using WCountLib.Models;
 using WCountLib.Counters;
 using WCountLib.Logic;
 

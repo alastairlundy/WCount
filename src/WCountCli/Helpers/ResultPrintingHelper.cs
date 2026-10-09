@@ -12,19 +12,6 @@ namespace WCountCli.Helpers;
 public static class ResultPrintingHelper
 {
     /// <summary>
-    /// Builds a <see cref="CountSelection"/> bitmask from the four CLI boolean flags.
-    /// </summary>
-    public static CountSelection ToSelection(bool line, bool word, bool character, bool @byte)
-    {
-        CountSelection selection = CountSelection.None;
-        if (line) selection |= CountSelection.Lines;
-        if (word) selection |= CountSelection.Words;
-        if (character) selection |= CountSelection.Characters;
-        if (@byte) selection |= CountSelection.Bytes;
-        return selection;
-    }
-
-    /// <summary>
     /// Prints a single wc-style result row.
     /// Columns are emitted left-to-right in the order: lines, words, bytes, characters.
     /// </summary>

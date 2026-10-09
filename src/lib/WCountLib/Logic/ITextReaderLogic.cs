@@ -1,5 +1,5 @@
 /*
-    WCountLib.Abstraction
+    WCountLib
     Copyright (C) 2024-2026 Alastair Lundy
 
     This Source Code Form is subject to the terms of the Mozilla Public
@@ -11,9 +11,9 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using WCountLib.Abstractions.Models;
+using WCountLib.Models;
 
-namespace WCountLib.Abstractions.Logic;
+namespace WCountLib.Logic;
 
 /// <summary>
 /// Provides chunked counting over <see cref="TextReader"/> and file streams.

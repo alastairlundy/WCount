@@ -11,7 +11,6 @@ using System.CommandLine;
 using System.CommandLine.Parsing;
 using Microsoft.Extensions.DependencyInjection;
 using WCountCli.Logic;
-using WCountLib.Abstractions.Logic;
 using WCountLib.Logic;
 using WCountLib.Counters;
 

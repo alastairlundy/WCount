@@ -11,8 +11,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using WCountLib.Abstractions.Logic;
-using WCountLib.Abstractions.Models;
+using WCountLib.Models;
 
 namespace WCountLib.Logic;
 

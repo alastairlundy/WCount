@@ -1,5 +1,5 @@
-﻿/*
-    WCountLib.Abstraction
+/*
+    WCountLib
     Copyright (C) 2024-2026 Alastair Lundy
 
     This Source Code Form is subject to the terms of the Mozilla Public
@@ -9,7 +9,7 @@
 
 using System.Text;
 
-namespace WCountLib.Abstractions.Counters;
+namespace WCountLib.Counters;
 
 /// <summary>
 /// An interface for a service that counts the number of characters in strings.

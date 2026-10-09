@@ -3,9 +3,8 @@
 ## Projects within this repo
 
 ### WCount Libraries
-WCountLib is a set of word counting, character counting, byte counting, and line counting libraries.
+WCountLib is the word counting, character counting, byte counting, and line counting library behind the `wcount` CLI.
 
 | Project Name | License | Description | 
 |-|-|-|
-| WCountLib.Abstractions | MPL 2.0 | A library to provide abstractions to enable other implementations of Word Counting etc. |
 | WCountLib              | MPL 2.0 | A library to enable counting the number of lines, words, characters, and/or bytes in specified files, strings, or IEnumerables of strings. |

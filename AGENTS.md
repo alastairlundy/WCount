@@ -1,6 +1,6 @@
 # WCount agent notes
 
-WCount is a Unix-`wc`-style counting tool for .NET. The shipped product is the `wcount` CLI: it counts lines, words, characters, and bytes in files or piped stdin using `wc`-compatible semantics (flags `-w` words, `-l` lines, `-m` chars, `-c` bytes, `-v` verbose; no subcommands). The WCountLib projects under `src/lib/` implement the counting engine the CLI calls into.
+WCount is a Unix-`wc`-style counting tool for .NET. The shipped product is the `wcount` CLI: it counts lines, words, characters, and bytes in files or piped stdin using `wc`-compatible semantics (flags `-w` words, `-l` lines, `-m` chars, `-c` bytes, `-v` verbose; no subcommands). The `WCountLib` project under `src/lib/` implements the counting engine the CLI calls into.
 
 ## Solution & commands
 
@@ -13,12 +13,12 @@ WCount is a Unix-`wc`-style counting tool for .NET. The shipped product is the `
 
 ## Projects & direction
 
-- Dependency graph: `WCountCli` → `WCountLib` → `WCountLib.Abstractions`. WCountCli is the shipped product (assembly `wcount`, NuGet package `WCount`); adding public library surface is a cost, not a default (`docs/agents/domain.md`).
+- Dependency graph: `WCountCli` → `WCountLib`. WCountCli is the shipped product (assembly `wcount`, NuGet package `WCount`); adding public library surface is a cost, not a default (`docs/agents/domain.md`).
 - A CLI-first simplification is recorded in `docs/decisions/DECISIONS-WCount-cli-simplification.md`: fold Abstractions into WCountLib, replace `CountSelection` with a `CountRequest` record struct, one engine entry `CountAsync(TextReader, CountRequest, CancellationToken)`, retire `ITextReaderLogic` and the engine's DI registration. Check that ledger before touching those seams.
 
 ## Package versions (CPM)
 
-- Central Package Management with **two independent** `Directory.Packages.props` — one under `src/`, one under `tests/` — and versions are not shared (e.g. Polyfill 11.4.1 vs 10.4.0). Add or bump a `PackageVersion` in the file governing that project's tree, then reference the package with no version.
+- Central Package Management with **two independent** `Directory.Packages.props` — one under `src/`, one under `tests/` — and versions are not shared (e.g. src pins `System.CommandLine`, tests pins `TUnit`). Add or bump a `PackageVersion` in the file governing that project's tree, then reference the package with no version.
 
 ## Fixtures & baselines
 
@@ -37,7 +37,7 @@ WCount is a Unix-`wc`-style counting tool for .NET. The shipped product is the `
 
 - Source files under `src/` carry the MPL-2.0 header comment (copy from `src/WCountCli/Program.cs`); test files don't.
 - `ImplicitUsings` is disabled in WCountLib and both test projects; shared usings live in each project's `GlobalUsings.cs` — add new ones there, not per-file.
-- `LangVersion` is pinned per project (13 in WCountLib.Abstractions, 14 in WCountLib); don't use newer language features in those projects.
+- `LangVersion` is pinned per project (14 in WCountLib); don't use newer language features in that project.
 
 ## Agent skills
 

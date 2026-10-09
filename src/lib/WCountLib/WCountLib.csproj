@@ -4,7 +4,10 @@
         <ImplicitUsings>disable</ImplicitUsings>
 		<LangVersion>14</LangVersion>
         <Nullable>enable</Nullable>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <!-- The CLI is the single shipped product; the WCountLib package line is
+             frozen at its last shipped version (3.0.0) and gets no new releases. -->
+        <IsPackable>false</IsPackable>
+        <Version>3.0.0</Version>
         <PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <Title>WCountLib</Title>
@@ -14,17 +17,13 @@
         <RepositoryUrl>https://github.com/alastairlundy/WCount</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <PackageReleaseNotes>* Updated Polyfill to 8.0.1 from 7.24.0 and mark as an internal dependency with private assets
-* Updated Microsoft.Extensions.Primitives to 9.0.6
-* Updated WCountLib.Abstractions to 3.2.2.1</PackageReleaseNotes>
+        <PackageReleaseNotes>* Package line frozen at last shipped version 3.0.0 — no new WCountLib versions will be published; the wcount CLI (WCount package) is the single shipped product.
+* Folded WCountLib.Abstractions into this project; removed the unused Polyfill and Microsoft.Extensions.Primitives dependencies.</PackageReleaseNotes>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-        <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <Version>4.0.0</Version>
         <PackageTags>word counter, wc, word count, count</PackageTags>
         <PackageId>WCountLib</PackageId>
-        <PolyArgumentExceptions>true</PolyArgumentExceptions>
         <TargetFramework>net10.0</TargetFramework>
     </PropertyGroup>
 
@@ -34,31 +33,6 @@
             <PackagePath>README.md</PackagePath>
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-    </ItemGroup>
-    
-    <ItemGroup>
-        <PackageReference Include="Polyfill" PrivateAssets="all"/>
-        <PackageReference Include="Microsoft.Extensions.Primitives" />
-	</ItemGroup>
-
-
-    <ItemGroup>
-      <EmbeddedResource Update="localizations\Resources.resx">
-        <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Update="localizations\Resources.Designer.cs">
-        <DesignTime>True</DesignTime>
-        <AutoGen>True</AutoGen>
-        <DependentUpon>Resources.resx</DependentUpon>
-      </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\WCountLib.Abstractions\WCountLib.Abstractions.csproj" />
     </ItemGroup>
 
 </Project>
