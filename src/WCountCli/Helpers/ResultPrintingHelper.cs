@@ -70,7 +70,7 @@ public static class ResultPrintingHelper
                 if (!columns[i])
                     continue;
 
-                int length = values[i].ToString(CultureInfo.CurrentCulture).Length;
+                int length = values[i].ToString(CultureInfo.InvariantCulture).Length;
                 if (length > widths[i])
                     widths[i] = length;
             }
@@ -95,7 +95,7 @@ public static class ResultPrintingHelper
             // Right-align within the column. The first column carries no
             // separator of its own, so a single-column selection prints with no
             // leading space unless a wider row in the same table demands one.
-            builder.Append(values[i].ToString(CultureInfo.CurrentCulture).PadLeft(widths[i]));
+            builder.Append(values[i].ToString(CultureInfo.InvariantCulture).PadLeft(widths[i]));
         }
 
         if (row.Label.Length > 0)

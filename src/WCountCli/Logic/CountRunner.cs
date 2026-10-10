@@ -110,6 +110,10 @@ public static class CountRunner
                 // GNU's total for -L is the maximum across inputs, not the sum.
                 if (request.MaximumLineLength) totalMaxLineLength = Math.Max(totalMaxLineLength, result.MaximumLineLength);
             }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
             catch (Exception exception)
             {
                 await error.WriteLineAsync(CountErrorLine(input.Label, exception));
@@ -139,7 +143,12 @@ public static class CountRunner
         {
             printedRows.Add(new ResultRow(
                 totalMode == TotalMode.Only ? string.Empty : Resources.Output_Labels_Total,
-                new CountResult(totalWords, totalLines, totalBytes, totalChars, totalMaxLineLength)));
+                new CountResult(
+                    request.Words ? totalWords : -1,
+                    request.Lines ? totalLines : -1,
+                    request.Bytes ? totalBytes : -1,
+                    request.Characters ? totalChars : -1,
+                    request.MaximumLineLength ? totalMaxLineLength : -1)));
         }
 
         await ResultPrintingHelper.PrintTableAsync(output, request, printedRows);

@@ -60,11 +60,14 @@ public sealed class CountingEngine
         long wordCount = 0;
         long characterCount = 0;
         bool inWord = false;
+        bool pendingCharHighSurrogate = false;
 
         // Display-width state for the maximum-line-length count, carried across
         // decoded chunks so a line longer than one chunk accumulates correctly.
         long currentLineLength = 0;
         long maximumLineLength = 0;
+        char pendingWidthHighSurrogate = '\0';
+        bool hasPendingWidthHighSurrogate = false;
 
         bool needsText = request.Words || request.Lines || request.Characters || request.MaximumLineLength;
 
@@ -113,7 +116,12 @@ public sealed class CountingEngine
             // Flush any trailing decoder state so the final bytes contribute their characters.
             CountDecoded(decoder!, ReadOnlySpan<byte>.Empty, flush: true);
 
+            // A trailing high surrogate with no low half is a lone character.
+            if (request.Characters && pendingCharHighSurrogate)
+                characterCount += 1;
+
             // An unterminated final line still has a display length.
+            // (A pending width high surrogate is lone and adds no width.)
             if (request.MaximumLineLength)
                 CloseLine();
         }
@@ -134,9 +142,10 @@ public sealed class CountingEngine
 
             ReadOnlySpan<char> text = charBuffer.AsSpan(0, charsProduced);
 
-            // Characters are the decoded text length.
+            // Characters are Unicode scalar values: a surrogate pair counts once,
+            // a lone surrogate counts once.
             if (request.Characters)
-                characterCount += text.Length;
+                characterCount += CountCharactersChunk(text, ref pendingCharHighSurrogate);
 
             if (request.Lines)
                 lineCount += CountLinesChunk(text);
@@ -149,10 +158,25 @@ public sealed class CountingEngine
         }
 
         // Runs the GNU display-width rules over a decoded chunk, carrying the current
-        // line's length across chunk boundaries.
+        // line's length across chunk boundaries. A high surrogate split across two
+        // chunks is reunited with its low half before its width is measured.
         void AccumulateLineWidths(ReadOnlySpan<char> text)
         {
-            for (int i = 0; i < text.Length; i++)
+            int i = 0;
+
+            if (hasPendingWidthHighSurrogate)
+            {
+                hasPendingWidthHighSurrogate = false;
+
+                if (!text.IsEmpty && char.IsLowSurrogate(text[0]))
+                {
+                    currentLineLength += RuneWidth(new Rune(pendingWidthHighSurrogate, text[0]));
+                    i = 1;
+                }
+                // Else the stashed high was lone and adds no width.
+            }
+
+            for (; i < text.Length; i++)
             {
                 char c = text[i];
 
@@ -175,10 +199,21 @@ public sealed class CountingEngine
                         // Vertical tab is a separator of display width 0.
                         break;
                     default:
-                        if (char.IsHighSurrogate(c) && i + 1 < text.Length && char.IsLowSurrogate(text[i + 1]))
+                        if (char.IsHighSurrogate(c))
                         {
-                            currentLineLength += RuneWidth(new Rune(c, text[i + 1]));
-                            i++;
+                            if (i + 1 < text.Length && char.IsLowSurrogate(text[i + 1]))
+                            {
+                                currentLineLength += RuneWidth(new Rune(c, text[i + 1]));
+                                i++;
+                            }
+                            else if (i + 1 == text.Length)
+                            {
+                                // Possible split pair: defer until the next chunk
+                                // decides pair versus lone surrogate.
+                                pendingWidthHighSurrogate = c;
+                                hasPendingWidthHighSurrogate = true;
+                            }
+                            // Else a lone high surrogate: no display width.
                         }
                         else if (char.IsSurrogate(c))
                         {
@@ -237,23 +272,91 @@ public sealed class CountingEngine
     }
 
     /// <summary>
-    /// Counts whitespace-separated tokens in a decoded chunk, carrying word state across
-    /// chunk boundaries so a word straddling two chunks is counted once.
+    /// Counts Unicode scalar values in a decoded chunk: a high/low surrogate pair
+    /// counts once, a lone surrogate counts once. A trailing high surrogate is
+    /// deferred via <paramref name="pendingHighSurrogate"/> until the next chunk
+    /// reveals whether it pairs or stands alone.
     /// </summary>
-    private static long CountWordsChunk(ReadOnlySpan<char> text, ref bool inWord)
+    private static long CountCharactersChunk(ReadOnlySpan<char> text, ref bool pendingHighSurrogate)
     {
         if (text.IsEmpty)
             return 0;
 
-        string[] tokens = text.ToString().Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries);
-        long words = tokens.Length;
+        long count = 0;
+        int i = 0;
 
-        // When the previous chunk ended inside a word, this chunk's leading token is
-        // that word's continuation rather than a new word.
-        if (inWord && !char.IsWhiteSpace(text[0]) && words > 0)
-            words -= 1;
+        if (pendingHighSurrogate)
+        {
+            pendingHighSurrogate = false;
 
-        inWord = !char.IsWhiteSpace(text[^1]);
+            if (char.IsLowSurrogate(text[0]))
+            {
+                // Pair split across chunks: one character total.
+                count += 1;
+                i = 1;
+            }
+            else
+            {
+                // The deferred high was lone: one character.
+                count += 1;
+            }
+        }
+
+        while (i < text.Length)
+        {
+            char c = text[i];
+
+            if (char.IsHighSurrogate(c))
+            {
+                if (i + 1 < text.Length)
+                {
+                    // In-chunk pair counts once; a high followed by a
+                    // non-low is a lone surrogate and counts once.
+                    count += 1;
+                    i += char.IsLowSurrogate(text[i + 1]) ? 2 : 1;
+                }
+                else
+                {
+                    // Possible split pair: wait for the next chunk.
+                    pendingHighSurrogate = true;
+                    i += 1;
+                }
+            }
+            else
+            {
+                // BMP character or lone low surrogate: one character.
+                count += 1;
+                i += 1;
+            }
+        }
+
+        return count;
+    }
+
+    /// <summary>
+    /// Counts whitespace-separated words in a decoded chunk with a single
+    /// allocation-free scan, carrying word state across chunk boundaries so a
+    /// word straddling two chunks is counted once.
+    /// </summary>
+    private static long CountWordsChunk(ReadOnlySpan<char> text, ref bool inWord)
+    {
+        long words = 0;
+        bool current = inWord;
+
+        foreach (char c in text)
+        {
+            if (char.IsWhiteSpace(c))
+            {
+                current = false;
+            }
+            else if (!current)
+            {
+                words += 1;
+                current = true;
+            }
+        }
+
+        inWord = current;
         return words;
     }
 
